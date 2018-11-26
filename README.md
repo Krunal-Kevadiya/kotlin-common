@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/Krunal-Kevadiya/kotlin-common.svg)](https://jitpack.io/#Krunal-Kevadiya/kotlin-common)
 # Application Documentation
 1. **`Fastlane Installation`**
     Make sure you have the latest version of the **_Xcode_** command line tools installed:
