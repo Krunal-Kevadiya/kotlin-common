@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".CreditCardActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.kotlinlibrary.creditcardview.CardTextInputLayout
+            android:id="@+id/edt_card_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            app:errorEnabled="false"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:passwordToggleEnabled="false"
+            app:passwordToggleTint="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:drawablePadding="@dimen/_5sdp"
+                android:hint="@string/app_name"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/design_default_color_primary"
+                android:textColorHint="@color/black_transparent"
+                android:textSize="@dimen/_16ssp"/>
+
+    </com.kotlinlibrary.creditcardview.CardTextInputLayout>
+
+    <Button
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_submit"
+            android:layout_marginTop="@dimen/_30sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_card_number"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

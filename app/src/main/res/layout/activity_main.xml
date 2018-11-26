@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:text="Button with pogress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_with_progress"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_credit_card"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:text="Credit Card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_credit_card"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_with_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_with_progress"/>
+
+    <Button
+        android:text="Image Picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_image_picker"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_permission"
+        app:layout_constraintTop_toBottomOf="@+id/btn_with_progress"/>
+
+    <Button
+        android:text="Permission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_permission"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_image_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_image_picker"/>
+
+    <Button
+        android:text="Argument"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_argument"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_loadmore"
+        app:layout_constraintTop_toBottomOf="@+id/btn_image_picker"/>
+
+    <Button
+        android:text="LoadMore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_loadmore"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_argument"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_argument"/>
+
+    <Button
+        android:text="Preference"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_preference"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_recycle_adapter"
+        app:layout_constraintTop_toBottomOf="@+id/btn_argument"/>
+
+    <Button
+        android:text="Recycler Adapter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_recycle_adapter"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_preference"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_preference"/>
+
+    <Button
+        android:text="Resource"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_resource"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_snackbar"
+        app:layout_constraintTop_toBottomOf="@+id/btn_preference"/>
+
+    <Button
+        android:text="SnackBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_snackbar"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_resource"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_resource"/>
+
+    <Button
+        android:text="Spanner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_spanner"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_statusbar_alertview"
+        app:layout_constraintTop_toBottomOf="@+id/btn_resource"/>
+
+    <Button
+        android:text="StatusBar AlertView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_statusbar_alertview"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_spanner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_spanner"/>
+
+    <Button
+        android:text="Validation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_validation"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_skeleton"
+        app:layout_constraintTop_toBottomOf="@+id/btn_spanner"/>
+
+    <Button
+        android:text="Skeleton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_skeleton"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/btn_validation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_validation"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'io.fabric'
+apply from: '../settings/codequality/quality.gradle'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+
+    defaultConfig {
+        applicationId readApplicationId()
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        manifestPlaceholders = [crashlyticsKey: readCrashlyticsKey()]
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += 'src/main/generated'
+
+        androidTest.java.srcDirs += 'src/test/kotlin'
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+            storeFile file("$project.rootDir/settings/keystore/debug.keystore")
+        }
+        release {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+            storeFile file("$project.rootDir/settings/keystore/debug.keystore")
+        }
+    }
+
+    flavorDimensions "mode"
+    productFlavors {
+        production {
+            dimension "mode"
+            applicationId readApplicationId()
+            versionCode readVersionCode(flavorFiles.production)
+            versionName readVersionName(flavorFiles.production)
+
+            buildConfigField 'Boolean', "IS_CRASHLYTICS", 'true'
+        }
+        qa {
+            dimension "mode"
+            applicationId readApplicationId()
+            versionCode readVersionCode(flavorFiles.qa)
+            versionName readVersionName(flavorFiles.qa)
+
+            buildConfigField 'Boolean', "IS_CRASHLYTICS", 'true'
+        }
+        development {
+            dimension "mode"
+            applicationId readApplicationId()
+            versionCode readVersionCode(flavorFiles.development)
+            versionName readVersionName(flavorFiles.development)
+
+            buildConfigField 'Boolean', "IS_CRASHLYTICS", 'false'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguard_list.each { pro_guard ->
+                proguardFile pro_guard
+            }
+            //signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            proguard_list.each { pro_guard ->
+                proguardFile pro_guard
+            }
+            //signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.material
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.swipere_freshlayout
+
+    implementation deps.constraint.lib
+
+    implementation deps.kotlin.stdlib
+
+    implementation deps.intuit.sdp
+    implementation deps.intuit.ssp
+
+    implementation deps.thirdParty.gson
+    implementation project(':kotlinlibrary')
+}
+
+def readVersionName(def buildType = "buildVariant") {
+    def version = readVersionFile("app", buildType)
+    return "${version['VERSION_MAJOR']}.${version['VERSION_MINOR']}.${version['VERSION_PATCH']}(${version['VERSION_CODE']})"
+}
+
+def readVersionCode(def buildType = "buildVariant") {
+    def version = readVersionFile("app", buildType)
+    def build = version['VERSION_CODE'] as int
+    return build
+}
+
+def readCrashlyticsKey() {
+    def version = readVersionFile("app", flavorFiles.project)
+    return "${version['FABRIC_API_TOKEN']}"
+}
+
+def readApplicationId() {
+    def version = readVersionFile("app", flavorFiles.project)
+    return "${version['APPLICATION_ID']}"
+}

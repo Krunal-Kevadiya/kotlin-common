@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fbRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/fbContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/warm_grey"
+        android:padding="@dimen/sb_content_padding_all"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.kotlinlibrary.snackbar.view.SbProgress
+                android:id="@+id/fbLeftProgress"
+                style="@style/SbCircularIndeterminateProgressStyle"
+                android:layout_width="@dimen/sb_progress_size"
+                android:layout_height="@dimen/sb_progress_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/sbb_margin_progress"
+                android:layout_marginRight="@dimen/sbb_margin_progress"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/fbIcon"
+                android:layout_width="@dimen/sb_icon_size"
+                android:layout_height="@dimen/sb_icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/sb_margin_right_icon"
+                android:layout_marginRight="@dimen/sb_margin_right_icon"
+                android:src="@drawable/ic_cancel_white"
+                android:tint="@android:color/white"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/fbTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sb_title_message_margin"
+                    android:textAppearance="@style/SbTitleTextStyle"
+                    android:visibility="gone"
+                    tools:text="Title"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/fbMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/sb_title_message_margin"
+                    android:justificationMode="inter_word"
+                    android:textAppearance="@style/SbMessageStyle"
+                    android:visibility="gone"
+                    tools:text="A quick brown fox jumps of the lazy dog."
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <com.kotlinlibrary.snackbar.view.SbButton
+                android:id="@+id/fbPrimaryAction"
+                style="@style/SbButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/SbButtonTextStyle"
+                android:visibility="gone"
+                tools:text="CLICK"
+                tools:visibility="visible" />
+
+            <com.kotlinlibrary.snackbar.view.SbProgress
+                android:id="@+id/fbRightProgress"
+                style="@style/SbCircularIndeterminateProgressStyle"
+                android:layout_width="@dimen/sb_progress_size"
+                android:layout_height="@dimen/sb_progress_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/sbb_margin_progress"
+                android:layout_marginStart="@dimen/sbb_margin_progress"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fbSecondaryActionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sb_margin_secondary_action_container"
+            android:gravity="end"
+            android:visibility="gone">
+
+            <com.kotlinlibrary.snackbar.view.SbButton
+                android:id="@+id/fbPositiveAction"
+                style="@style/SbButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/SbButtonTextStyle"
+                android:visibility="gone"
+                tools:text="OK"
+                tools:visibility="gone" />
+
+            <com.kotlinlibrary.snackbar.view.SbButton
+                android:id="@+id/fbNegativeAction"
+                style="@style/SbButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="@dimen/sb_margin_secondary_action"
+                android:textAppearance="@style/SbButtonTextStyle"
+                android:visibility="gone"
+                tools:text="CANCEL"
+                tools:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

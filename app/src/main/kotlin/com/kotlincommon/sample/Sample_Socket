@@ -1,0 +1,70 @@
+private var socketIoManager: SocketIO? = null
+private var privateChannel: SocketIOPrivateChannel? = null
+
+override fun onResume() {
+    super.onResume()
+    addSocketEvent()
+}
+
+override fun onPause() {
+    super.onPause()
+    removeSocketEvent()
+}
+
+private fun addSocketEvent() {
+    val options = SocketIOOptions(mContext, true)
+    socketIoManager = SocketIO(options)
+    socketIoManager?.connect({ _ ->
+        logDisplay("Waiter -> Connect successfully")
+        afterSocketConnect(mContext)
+    }, {
+        logDisplay("Waiter -> Connect failed")
+    })
+}
+
+private fun removeSocketEvent() {
+    val preferences = LoginUserPreferences(mContext, true)
+    socketIoManager?.leave("${SocketIOOptions.WAITE_CHANNEL}${preferences.id}")
+    socketIoManager?.disconnect()
+}
+
+private fun afterSocketConnect(context: Context) {
+    val preferences = LoginUserPreferences(context, true)
+    privateChannel = socketIoManager?.privateChannel("${SocketIOOptions.WAITE_CHANNEL}${preferences.id}")
+    privateChannel?.listen(SocketIOOptions.EVENT_CHECKIN_DETAIL_UPDATED) { callback ->
+        if (callback.size >= 2) {
+            try {
+                val data: SuccessBean<WaiterTableBean> =
+                    Gson().fromJson(callback[1].toString(), genericType<SuccessBean<WaiterTableBean>>())
+                logDisplay("Waiter -> checkIn detail updated")
+                mViewModel.checkInTable(context, data, false)
+            } catch (e: JsonParseException) {
+                logDisplay(e.toString())
+            }
+        }
+    }
+    privateChannel?.listen(SocketIOOptions.EVENT_CHECKIN_CHECKOUT) { callback ->
+        if (callback.size >= 2) {
+            try {
+                val data: SuccessBean<CheckOutRestaurantBean> =
+                    Gson().fromJson(callback[1].toString(), genericType<SuccessBean<CheckOutRestaurantBean>>())
+                logDisplay("Waiter -> checkIn checkOut")
+                mViewModel.checkOutTable(context, data)
+            } catch (e: JsonParseException) {
+                logDisplay(e.toString())
+            }
+        }
+    }
+    privateChannel?.listen(SocketIOOptions.EVENT_ASKED_FOR_REFUND) { callback ->
+        if (callback.size >= 2) {
+            try {
+                val data: SuccessBean<WaiterTableBean> =
+                    Gson().fromJson(callback[1].toString(), genericType<SuccessBean<WaiterTableBean>>())
+                logDisplay("Waiter -> asked for refund")
+                mViewModel.checkInTable(context, data, true)
+            } catch (e: JsonParseException) {
+                logDisplay(e.toString())
+            }
+        }
+    }
+}

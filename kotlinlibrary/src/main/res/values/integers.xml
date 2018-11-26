@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Snack Bar -->
+    <integer name="sb_default_animation_duration">250</integer>
+</resources>

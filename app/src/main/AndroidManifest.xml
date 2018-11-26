@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kotlincommon">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Fabric -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${crashlyticsKey}" />
+
+        <!-- File -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ButtonViewActivity"/>
+        <activity android:name=".CreditCardActivity"/>
+        <activity android:name=".ImagePickerActivity"/>
+        <activity android:name=".PermissionActivity"/>
+        <activity android:name=".ArgumentActivity"/>
+        <activity android:name=".LoadMoreActivity"/>
+        <activity android:name=".PreferenceActivity"/>
+        <activity android:name=".RecyclerAdapterActivity"/>
+        <activity android:name=".ResourceActivity"/>
+        <activity android:name=".SnackBarActivity"/>
+        <activity android:name=".SpannerActivity"/>
+        <activity android:name=".StatusBarAlertViewActivity"/>
+        <activity android:name=".ValidationActivity"/>
+        <activity android:name=".SkeletonViewActivity"/>
+    </application>
+
+</manifest>

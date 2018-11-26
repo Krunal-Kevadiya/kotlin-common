@@ -1,0 +1,368 @@
+ext.deps = [:]
+ext.versions = [
+        gradle        : "3.2.1",
+        core          : "2.0.0-rc01",
+        lifecycle     : "2.0.0-rc01",
+        paging        : "2.0.0-rc01",
+        persistence   : "2.0.0-rc01",
+        constraint    : "1.1.2",
+        espresso      : "3.1.0",
+        test          : "1.1.0",
+        androidx      : "1.0.0",
+        androidx_ktx_1: "1.0.0",
+        androidx_ktx_2: "2.0.0",
+        retrofit      : "2.4.0",
+        dagger        : "2.16",
+        kotlin        : "1.3.10",
+        glide         : "4.8.0",
+        amazon        : "2.7.5",
+        intuit        : "1.0.6",
+        atsl          : "1.0.1",
+        leakcanary    : "1.6.1",
+        butterknife   : "8.5.1"
+]
+
+def deps = [:]
+deps.code = [
+        lib    : "android.arch.core:core:$versions.core",
+        common : "androidx.arch.core:core-common:$versions.core",
+        testing: "android.arch.core:core-testing:$versions.core",
+        runtime: "android.arch.core:runtime:$versions.core",
+]
+deps.lifecycle = [
+        common          : "androidx.lifecycle:lifecycle-common:$versions.lifecycle",
+        common_java8    : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
+        compiler        : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+        extensions      : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
+        livedata        : "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle",
+        livedata_code   : "androidx.lifecycle:lifecycle-livedata-core:$versions.lifecycle",
+        reactive_streams: "androidx.lifecycle:lifecycle-reactivestreams:$versions.lifecycle",
+        runtime         : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
+        viewmodel       : "androidx.lifecycle:lifecycle-viewmodel:$versions.lifecycle"
+]
+deps.paging = [
+        lib    : "androidx.paging:paging-runtime:$versions.paging",
+        common : "androidx.paging:paging-common:$versions.paging",
+        rxjava2: "androidx.paging:paging-rxjava2:$versions.paging",
+        runtime: "androidx.paging:paging-runtime:$versions.paging"
+]
+deps.persistence = [
+        common          : "androidx.room:room-common:$versions.persistence",
+        compiler        : "androidx.room:room-compiler:$versions.persistence",
+        guava           : "androidx.room:room-guava:$versions.persistence",
+        migration       : "androidx.room:room-migration:$versions.persistence",
+        runtime         : "androidx.room:room-runtime:$versions.persistence",
+        rxjava2         : "androidx.room:room-rxjava2:$versions.persistence",
+        testing         : "androidx.room:room-testing:$versions.persistence",
+        sqlite          : "androidx.sqlite:sqlite:$versions.persistence",
+        sqlite_framework: "androidx.sqlite:sqlite-framework:$versions.persistence"
+]
+deps.constraint = [
+        lib   : "androidx.constraintlayout:constraintlayout:$versions.constraint",
+        solver: "androidx.constraintlayout:constraintlayout-solver:$versions.constraint"
+]
+deps.espresso = [
+        concurrent   : "androidx.test.espresso.idling:idling-concurrent:$versions.espresso",
+        net          : "androidx.test.espresso.idling:idling-net:$versions.espresso",
+        accessibility: "androidx.test.espresso:espresso-accessibility:$versions.espresso",
+        contrib      : "androidx.test.espresso:espresso-contrib:$versions.espresso",
+        core         : "androidx.test.espresso:espresso-core:$versions.espresso",
+        resource     : "androidx.test.espresso:espresso-idling-resource:$versions.espresso",
+        intents      : "androidx.test.espresso:espresso-intents:$versions.espresso",
+        remote       : "androidx.test.espresso:espresso-remote:$versions.espresso",
+        web          : "androidx.test.espresso:espresso-web:$versions.espresso"
+]
+deps.test = [
+        jank_test_helper: "androidx.test.jank:janktesthelper:1.0.1",
+        services        : "androidx.test:test-services:$versions.test",
+        ui_automator    : "androidx.test.uiautomator:uiautomator:2.2.0",
+        monitor         : "androidx.test:monitor:$versions.test",
+        orchestrator    : "androidx.test:orchestrator:$versions.test",
+        rules           : "androidx.test:rules:$versions.test",
+        runner          : "androidx.test:runner:$versions.test"
+]
+deps.androidx = [
+        vector_drawable_animated: "androidx.vectordrawable:vectordrawable-animated:$versions.androidx",
+        appcompat               : "androidx.appcompat:appcompat:$versions.androidx",
+        asyn_clayout_inflater   : "androidx.asynclayoutinflater:asynclayoutinflater:$versions.androidx",
+        car                     : "androidx.car:car:$versions.androidx-alpha5",
+        cardview                : "androidx.cardview:cardview:$versions.androidx",
+        collection              : "androidx.collection:collection:$versions.androidx",
+        coordinator_layout      : "androidx.coordinatorlayout:coordinatorlayout:$versions.androidx",
+        cursor_adapter          : "androidx.cursoradapter:cursoradapter:$versions.androidx",
+        browser                 : "androidx.browser:browser:$versions.androidx",
+        customview              : "androidx.customview:customview:$versions.androidx",
+        material                : "com.google.android.material:material:$versions.androidx-rc01",
+        document_file           : "androidx.documentfile:documentfile:$versions.androidx",
+        drawerlayout            : "androidx.drawerlayout:drawerlayout:$versions.androidx",
+        exif_interface          : "androidx.exifinterface:exifinterface:$versions.androidx",
+        gridlayout              : "androidx.gridlayout:gridlayout:$versions.androidx",
+        heif_writer             : "androidx.heifwriter:heifwriter:$versions.androidx",
+        interpolator            : "androidx.interpolator:interpolator:$versions.androidx",
+        leanback                : "androidx.leanback:leanback:$versions.androidx",
+        loader                  : "androidx.loader:loader:$versions.androidx",
+        local_broadcast_manager : "androidx.localbroadcastmanager:localbroadcastmanager:$versions.androidx",
+        media2                  : "androidx.media2:media2:$versions.androidx-alpha03",
+        media2_exoplayer        : "androidx.media2:media2-exoplayer:$versions.androidx-alpha01",
+        media_router            : "androidx.mediarouter:mediarouter:$versions.androidx",
+        multidex                : "androidx.multidex:multidex:2.0.0",
+        multidex_instrumentation: "androidx.multidex:multidex-instrumentation:2.0.0",
+        palette                 : "androidx.palette:palette:$versions.androidx",
+        percentlayout           : "androidx.percentlayout:percentlayout:$versions.androidx",
+        leanback_preference     : "androidx.leanback:leanback-preference:$versions.androidx",
+        legacy_preference       : "androidx.legacy:legacy-preference-v14:$versions.androidx",
+        preference              : "androidx.preference:preference:$versions.androidx",
+        print                   : "androidx.print:print:$versions.androidx",
+        recommendation          : "androidx.recommendation:recommendation:$versions.androidx",
+        recyclerview_selection  : "androidx.recyclerview:recyclerview-selection:$versions.androidx",
+        recyclerview            : "androidx.recyclerview:recyclerview:$versions.androidx",
+        slice_builders          : "androidx.slice:slice-builders:$versions.androidx",
+        slice_core              : "androidx.slice:slice-core:$versions.androidx",
+        slice_view              : "androidx.slice:slice-view:$versions.androidx",
+        sliding_panelayout      : "androidx.slidingpanelayout:slidingpanelayout:$versions.androidx",
+        annotation              : "androidx.annotation:annotation:$versions.androidx",
+        core                    : "androidx.core:core:$versions.androidx",
+        content_pager           : "androidx.contentpager:contentpager:$versions.androidx",
+        core_ui                 : "androidx.legacy:legacy-support-core-ui:$versions.androidx",
+        core_utils              : "androidx.legacy:legacy-support-core-utils:$versions.androidx",
+        dynamic_animation       : "androidx.dynamicanimation:dynamicanimation:$versions.androidx",
+        emoji                   : "androidx.emoji:emoji:$versions.androidx",
+        emoji_appcompat         : "androidx.emoji:emoji-appcompat:$versions.androidx",
+        emoji_bundled           : "androidx.emoji:emoji-bundled:$versions.androidx",
+        fragment                : "androidx.fragment:fragment:$versions.androidx",
+        media                   : "androidx.media:media:$versions.androidx",
+        tvprovider              : "androidx.tvprovider:tvprovider:$versions.androidx",
+        v13                     : "androidx.legacy:legacy-support-v13:$versions.androidx",
+        v4                      : "androidx.legacy:legacy-support-v4:$versions.androidx",
+        vector_drawable         : "androidx.vectordrawable:vectordrawable:$versions.androidx",
+        swipere_freshlayout     : "androidx.swiperefreshlayout:swiperefreshlayout:$versions.androidx",
+        text_classifier         : "androidx.textclassifier:textclassifier:$versions.androidx",
+        transition              : "androidx.transition:transition:$versions.androidx",
+        versioned_parcelable    : "androidx.versionedparcelable:versionedparcelable:$versions.androidx",
+        viewpager               : "androidx.viewpager:viewpager:$versions.androidx",
+        wear                    : "androidx.wear:wear:$versions.androidx",
+        webkit                  : "androidx.webkit:webkit:$versions.androidx"
+]
+deps.androidx_ktx = [
+        core               : "androidx.core:core-ktx:$versions.androidx_ktx_1",
+        fragment           : "androidx.fragment:fragment-ktx:$versions.androidx_ktx_1",
+        palette            : "androidx.palette:palette-ktx:$versions.androidx_ktx_1",
+        sqlite             : "androidx.sqlite:sqlite-ktx:$versions.androidx_ktx_2",
+        collection         : "androidx.collection:collection-ktx:$versions.androidx_ktx_1",
+        viewmodel          : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.androidx_ktx_2",
+        reactivestreams    : "androidx.lifecycle:lifecycle-reactivestreams-ktx:$versions.androidx_ktx_2",
+        navigation_common  : "android.arch.navigation:navigation-common-ktx:$versions.androidx_ktx_1-alpha06",
+        navigation_fragment: "android.arch.navigation:navigation-fragment-ktx:$versions.androidx_ktx_1-alpha06",
+        navigation_runtime : "android.arch.navigation:navigation-runtime-ktx:$versions.androidx_ktx_1-alpha06",
+        navigation_testing : "android.arch.navigation:navigation-testing-ktx:$versions.androidx_ktx_1-alpha06",
+        navigation_ui      : "android.arch.navigation:navigation-ui-ktx:$versions.androidx_ktx_1-alpha06",
+        work               : "android.arch.work:work-runtime-ktx:$versions.androidx_ktx_1-alpha10"
+]
+deps.retrofit = [
+        lib             : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        adapter_rx2     : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        gson            : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        live_adapter_rx2: 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+]
+deps.dagger = [
+        lib                     : "com.google.dagger:dagger:$versions.dagger",
+        android                 : "com.google.dagger:dagger-android:$versions.dagger",
+        compiler                : "com.google.dagger:dagger-compiler:$versions.dagger",
+        android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
+        android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger"
+]
+deps.kotlin = [
+        stdlib             : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
+        extensions         : "org.jetbrains.kotlin:kotlin-android-extensions:$versions.kotlin",
+        testing            : "org.jetbrains.kotlin:kotlin-test:$versions.kotlin",
+        test_junit         : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin",
+        plugin             : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        reflect            : "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin",
+        allopen            : "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin",
+        runtime            : "org.jetbrains.kotlin:kotlin-runtime:$versions.kotlin",
+        compiler           : "org.jetbrains.kotlin:kotlin-compiler:$versions.kotlin",
+        annotations        : "org.jetbrains.kotlin:kotlin-jdk-annotations:$versions.kotlin",
+        annotations_android: "org.jetbrains.kotlin:kotlin-annotations-android:$versions.kotlin",
+        coroutines_android : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1",
+        coroutines_core    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
+]
+deps.google = [
+        services : "com.google.gms:google-services:4.1.0",
+        auth     : "com.google.android.gms:play-services-auth:16.0.1",
+        ads      : "com.google.android.gms:play-services-ads:16.0.0",
+        identity : "com.google.android.gms:play-services-identity:16.0.0",
+        location : "com.google.android.gms:play-services-location:16.0.0",
+        base     : "com.google.android.gms:play-services-base:16.0.1",
+        analytics: "com.google.android.gms:play-services-analytics:16.0.4",
+        gcm      : "com.google.android.gms:play-services-gcm:16.0.0",
+        maps     : "com.google.android.gms:play-services-maps:16.0.0",
+        vision   : "com.google.android.gms:play-services-vision:16.2.0"
+]
+deps.firebase = [
+        core     : "com.google.firebase:firebase-core:16.0.4",
+        auth     : "com.google.firebase:firebase-auth:16.0.4",
+        database : "com.google.firebase:firebase-database:16.0.3",
+        firestore: "com.google.firebase:firebase-firestore:17.1.1",
+        storage  : "com.google.firebase:firebase-storage:16.0.3",
+        messaging: "com.google.firebase:firebase-messaging:17.3.3",
+        invites  : "com.google.firebase:firebase-invites:116.0.4"
+]
+deps.picasso = [
+        lib       : "com.squareup.picasso:picasso:2.71828",
+        downloader: "com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0"
+]
+deps.glide = [
+        lib            : "com.github.bumptech.glide:glide:$versions.glide",
+        compiler       : "com.github.bumptech.glide:compiler:$versions.glide",
+        annotations    : "com.github.bumptech.glide:annotations:$versions.glide",
+        downloader     : "com.github.bumptech.glide:okhttp3-integration:$versions.glide",
+        transformations: "jp.wasabeef:glide-transformations:3.1.0"
+]
+deps.okhttp = [
+        lib    : "com.squareup.okhttp3:okhttp:3.11.0",
+        logging: "com.squareup.okhttp3:logging-interceptor:3.11.0"
+]
+deps.javaxAndRx = [
+        android2    : "io.reactivex.rxjava2:rxandroid:2.1.0",
+        java2       : "io.reactivex.rxjava2:rxjava:2.2.2",
+        annotation  : "javax.annotation:javax.annotation-api:1.2",
+        rxkotlin    : "io.reactivex.rxjava2:rxkotlin:2.3.0",
+        rxMath      : "io.reactivex:rxjava-math:1.0.0",
+        rxPermission: "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar",
+        rxBinding   : "com.jakewharton.rxbinding:rxbinding:0.4.0"
+]
+deps.fabric = [
+        plugin: "io.fabric.tools:gradle:1.+",
+        lib   : "com.crashlytics.sdk.android:crashlytics:2.9.5@aar"
+]
+deps.amazon = [
+        s3     : "com.amazonaws:aws-android-sdk-s3:$versions.amazon",
+        core   : "com.amazonaws:aws-android-sdk-core:$versions.amazon",
+        cognito: "com.amazonaws:aws-android-sdk-cognito:$versions.amazon",
+]
+deps.intuit = [
+        sdp: "com.intuit.sdp:sdp-android:$versions.intuit",
+        ssp: "com.intuit.ssp:ssp-android:$versions.intuit",
+]
+deps.leakcanary = [
+        android         : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
+        android_no_op   : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+        support_fragment: "com.squareup.leakcanary:leakcanary-support-fragment:$versions.leakcanary"
+]
+deps.staticTools = [
+        jacoco   : "com.dicedmelon.gradle:jacoco-android:0.1.2",
+        sonarqube: "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
+]
+deps.atsl = [
+        testing: "com.android.support.test:runner:$versions.atsl",
+        rule   : "com.android.support.test:rules:$versions.atsl"
+]
+deps.mockito = [
+        core: "org.mockito:mockito-core:$versions.mockito",
+        all : "org.mockito:mockito-all:$versions.mockitoAll"
+]
+deps.robolectric = [
+        plugin : "org.robolectric:robolectric-gradle-plugin:1.1.0",
+        testing: "org.robolectric:robolectric:3.5.1"
+]
+deps.social = [
+        facebook    : 'com.facebook.android:facebook-login:[4,5)',
+        facebook_sdk: "com.facebook.android:facebook-android-sdk:4.22.0",
+        twitter     : "com.twitter.sdk.android:twitter:2.3.2@aar"
+]
+deps.payment = [
+        stripe   : 'com.stripe:stripe-android:8.0.0',
+        braintree: "com.braintreepayments.api:braintree:2.7.3"
+]
+deps.butterKnife = [
+        lib     : "com.jakewharton:butterknife:$versions.butterknife",
+        compiler: "com.jakewharton:butterknife-compiler:$versions.butterknife"
+]
+deps.thirdParty = [
+        eventbus       : 'org.greenrobot:eventbus:3.1.1',
+        gson           : "com.google.code.gson:gson:2.8.5",
+        timeago        : "com.github.marlonlom:timeago:3.0.1",
+
+        socket_io      : 'io.socket:socket.io-client:1.0.0',
+        commons_logging: 'commons-logging:commons-logging:1.2',
+
+        android_plugin : "com.android.tools.build:gradle:$versions.gradle",
+        binding        : "com.android.databinding:compiler:$versions.gradle",
+
+        dexmaker       : "com.linkedin.dexmaker:dexmaker-mockito:2.2.0",
+        timber         : "com.jakewharton.timber:timber:4.5.1",
+        junit          : "junit:junit:4.12",
+        mock_web_server: "com.squareup.okhttp3:mockwebserver:3.8.1",
+        hamcrest       : "org.hamcrest:hamcrest-all:1.3"
+
+]
+ext.deps = deps
+
+ext.build_versions = [
+        min_sdk    : 21,
+        target_sdk : 28,
+        build_tools: "28.0.2"
+]
+ext.proguard_list = [
+        "$project.rootDir/settings/proguard/proguard-architecture-components.pro",
+        "$project.rootDir/settings/proguard/proguard-crashlytics-2.pro",
+        "$project.rootDir/settings/proguard/proguard-gson.pro",
+        "$project.rootDir/settings/proguard/proguard-project.pro",
+        "$project.rootDir/settings/proguard/proguard-rxjava-rxandroid.pro",
+        "$project.rootDir/settings/proguard/proguard-square-okhttp3.pro",
+        "$project.rootDir/settings/proguard/proguard-square-retrofit.pro",
+        "$project.rootDir/settings/proguard/proguard-support-design.pro",
+        "$project.rootDir/settings/proguard/proguard-support-v4.pro",
+        "$project.rootDir/settings/proguard/proguard-picasso.pro"
+]
+
+def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    handler.maven { url 'http://dl.bintray.com/piasy/maven' }
+    handler.maven { url 'https://maven.google.com' }
+    handler.maven { url 'https://www.jitpack.io' }
+    handler.maven { url 'https://maven.fabric.io/public' }
+    handler.maven { url 'https://plugins.gradle.org/m2' }
+}
+
+ext.addRepos = this.&addRepos
+
+ext.flavorFiles = [
+        production : "production",
+        qa         : "qa",
+        development: "development",
+        project    : "project"
+]
+
+def addProjectSetting() {
+    ext.path = "$project.rootDir/settings/versions"
+
+    ext.readVersionFile = {
+        String appType = "appType",
+        String buildType = "buildVariant" ->
+            def versionPropsFile
+            if (buildType == flavorFiles.production)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.production}.properties")
+            else if (buildType == flavorFiles.qa)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.qa}.properties")
+            else if (buildType == flavorFiles.development)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.development}.properties")
+            else if (buildType == flavorFiles.project)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.project}.properties")
+            else
+                throw new FileNotFoundException("Unknown app variant type")
+
+            if (versionPropsFile.canRead()) {
+                Properties versionProps = new Properties()
+                versionProps.load(new FileInputStream(versionPropsFile))
+                return versionProps
+            } else {
+                throw new GradleException("Could not read properties! - readVersionFile")
+            }
+    }
+}
+
+ext.addProjectSetting = this.&addProjectSetting

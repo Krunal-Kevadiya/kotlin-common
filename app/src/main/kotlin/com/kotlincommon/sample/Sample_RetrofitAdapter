@@ -1,0 +1,39 @@
+//Check internet
+if (context.hasConnection) {
+    //Connected
+} else {
+    //Not Connected
+}
+
+//Using Sealed Factory
+return Retrofit.Builder()
+            .addCallAdapterFactory(RxSealedCallAdapterFactory())
+            .build()
+
+
+@GET("api/logout")
+fun logout(@HeaderMap header: HashMap<String, Any>):
+    Single<SealedApiResult<YourResponseClass>>
+
+
+
+//Using LiveData Factory
+return Retrofit.Builder()
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .build()
+
+
+@GET("api/logout")
+fun logout(@HeaderMap header: HashMap<String, Any>):
+    LiveData<LiveDataApiResult<YourResponseClass>>
+
+
+//Used RxErrorHandling
+return Retrofit.Builder()
+            .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create(context))
+            .build()
+
+
+@GET("api/logout")
+fun logout(@HeaderMap header: HashMap<String, Any>):
+    Observable<YourResponseClass>

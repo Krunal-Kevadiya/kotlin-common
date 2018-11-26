@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Snack Bar -->
+    <style name="SbTitleTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sb_title_text_size</item>
+    </style>
+
+    <style name="SbMessageStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/sb_message_text_size</item>
+    </style>
+
+    <style name="SbButtonTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sb_button_text_size</item>
+    </style>
+
+    <style name="SbButtonStyle">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:background">@drawable/sb_btn_bg_selector</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SbCircularIndeterminateProgressStyle">
+        <item name="sbp_barColor">@android:color/white</item>
+        <item name="sbp_barWidth">2dp</item>
+        <item name="sbp_progressIndeterminate">true</item>
+    </style>
+
+    <!-- Dialog -->
+    <style name="ThemeDialog_AppTheme">
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+</resources>

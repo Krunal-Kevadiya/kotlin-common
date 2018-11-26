@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Snack Bar -->
+    <color name="color_type_info">#007bff</color>
+    <color name="color_type_help">#607D8B</color>
+    <color name="color_type_wrong">#e54646</color>
+    <color name="color_type_warning">#ffc107</color>
+    <color name="color_type_success">#28a745</color>
+    <color name="color_type_default">#343a40</color>
+    <color name="modal">#80272727</color>
+    <color name="warm_grey">#8e8e8e</color>
+
+    <color name="black_transparent">#22000000</color>
+    <color name="shadow_color">#94444444</color>
+
+    <!-- Skeleton Layout -->
+    <color name="skeleton_mask">#E0E0E0</color>
+    <color name="skeleton_shimmer">#d5d5d5</color>
+
+    <!-- Credit Card -->
+    <color name="img_payment_amex">#0072CE</color>
+
+    <color name="img_payment_dinersclub_1">#1A1919</color>
+    <color name="img_payment_dinersclub_2">#0069AA</color>
+    <color name="img_payment_dinersclub_3">#FFFFFE</color>
+
+    <color name="img_payment_discover_1">#E6772F</color>
+
+    <color name="img_payment_generic_1">#ABABB3</color>
+
+    <color name="img_payment_jcb_1">#54B230</color>
+    <color name="img_payment_jcb_2">#006CB9</color>
+
+    <color name="img_payment_maestro_1">#CC0000</color>
+    <color name="img_payment_maestro_2">#0066CC</color>
+    <color name="img_payment_maestro_3">#000066</color>
+
+    <color name="img_payment_master_card_1">#FF9900</color>
+
+    <color name="img_payment_unionpay_1">#01798A</color>
+    <color name="img_payment_unionpay_2">#024381</color>
+    <color name="img_payment_unionpay_3">#DD0228</color>
+    <color name="img_payment_unionpay_4">#E02F41</color>
+    <color name="img_payment_unionpay_5">#2E4F7D</color>
+
+    <color name="img_payment_verve_1">#EE312A</color>
+    <color name="img_payment_verve_2">#00425F</color>
+
+    <color name="img_payment_visa_1">#26337A</color>
+    <color name="img_payment_visa_2">#EC982D</color>
+</resources>

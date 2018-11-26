@@ -1,0 +1,42 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="60dp"
+    android:viewportWidth="100"
+    android:viewportHeight="60">
+    <path
+        android:fillColor="@android:color/white"
+        android:fillType="nonZero"
+        android:pathData="M4,0L96,0A4,4 0,0 1,100 4L100,56A4,4 0,0 1,96 60L4,60A4,4 0,0 1,0 56L0,4A4,4 0,0 1,4 0z"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+    <path
+        android:fillColor="@color/img_payment_visa_1"
+        android:fillType="nonZero"
+        android:pathData="M41.49,39.547l3.075,-19.074l4.915,0l-3.074,19.074l-4.915,0"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+    <path
+        android:fillColor="@color/img_payment_visa_1"
+        android:fillType="nonZero"
+        android:pathData="M64.233,20.941C63.261,20.558 61.733,20.141 59.829,20.141C54.97,20.141 51.549,22.729 51.521,26.435C51.49,29.177 53.962,30.706 55.825,31.617C57.74,32.552 58.384,33.149 58.376,33.985C58.363,35.262 56.847,35.847 55.434,35.847C53.467,35.847 52.421,35.559 50.805,34.847L50.173,34.543L49.485,38.813C50.631,39.344 52.756,39.805 54.961,39.83C60.125,39.83 63.481,37.272 63.52,33.314C63.538,31.14 62.228,29.492 59.392,28.132C57.674,27.247 56.62,26.661 56.632,25.766C56.633,24.974 57.523,24.125 59.448,24.125C61.055,24.099 62.219,24.47 63.126,24.858L63.567,25.076L64.233,20.941"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+    <path
+        android:fillColor="@color/img_payment_visa_1"
+        android:fillType="nonZero"
+        android:pathData="M70.777,32.784C71.185,31.688 72.735,27.453 72.735,27.453C72.707,27.503 73.14,26.348 73.388,25.633L73.72,27.278C73.72,27.278 74.663,31.831 74.858,32.784L70.777,32.784ZM76.841,20.492L73.042,20.492C71.864,20.492 70.983,20.83 70.466,22.073L63.167,39.554L68.33,39.554C68.33,39.554 69.172,37.202 69.363,36.686C69.926,36.686 74.942,36.696 75.658,36.696C75.805,37.361 76.257,39.554 76.257,39.554L80.818,39.554L76.841,20.492Z"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+    <path
+        android:fillColor="@color/img_payment_visa_1"
+        android:fillType="nonZero"
+        android:pathData="M37.367,20.489L32.556,33.493L32.041,30.849C31.144,27.804 28.354,24.503 25.233,22.848L29.634,39.53L34.835,39.527L42.575,20.489L37.367,20.489"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+    <path
+        android:fillColor="@color/img_payment_visa_2"
+        android:fillType="nonZero"
+        android:pathData="M28.091,20.476L20.165,20.476L20.1,20.871C26.267,22.451 30.347,26.265 32.041,30.849L30.319,22.085C30.021,20.876 29.158,20.518 28.091,20.476"
+        android:strokeWidth="1"
+        android:strokeColor="@android:color/transparent" />
+</vector>

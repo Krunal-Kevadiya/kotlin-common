@@ -1,0 +1,97 @@
+# Customize this file, documentation can be found here:
+# https://docs.fastlane.tools/actions/
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.107.0"
+
+default_platform :android
+
+platform :android do
+    # Fabric detail for Simform Solutions organization
+      FABRIC_API_TOKEN = "96c68e9c0138cb4916e862697ecd5746657596e6"
+      FABRIC_BUILD_SECRET = "26c18e9bb11b79d4fbf2b036d87c05bdbfef408cb7e58a4f496f2fa1451a1d1f"
+
+    # Fabric detail for Client organization
+    # FABRIC_API_TOKEN = "b7353e549e0f0d809cf77962a39ebbb551cc185f"
+    # FABRIC_BUILD_SECRET = "a16bf773020f43aeb3f24bbe2707516d9c5a1a3089d82fb25790cd52d472dd11"
+
+      APP_TYPE = "app"
+      MODULES = "App"
+      TESTER_EMAIL = ['rcbrcb13@gmail.com', 'terrydan710@gmail.com']
+      CLIENT_EMAIL = ['rcbrcb13@gmail.com', 'terrydan710@gmail.com']
+
+    #----------------------------------------------------------------------------------------------------------------------------------
+        desc "Release for development"
+        lane :devVariant do |options|
+            sh "bash ../settings/keystore/fastlane_script.sh " + "development " + options[:versionChange] + " " + APP_TYPE + " " + FABRIC_API_TOKEN + " " + FABRIC_BUILD_SECRET
+            gradle(
+              task: MODULES+":assemble",
+              flavor: "Development",
+              build_type: "Debug"
+            )
+
+            apkpath = APP_TYPE + "/build/outputs/apk/development/debug/" + MODULES + "-development-debug.apk"
+            crashlytics(
+                emails: TESTER_EMAIL,
+                api_token: FABRIC_API_TOKEN,
+                build_secret: FABRIC_BUILD_SECRET,
+                apk_path: apkpath,
+                notifications: true
+            )
+        end
+    #----------------------------------------------------------------------------------------------------------------------------------
+        desc "Release for qa"
+        lane :qaVariant do |options|
+            sh "bash ../settings/keystore/fastlane_script.sh " + "qa " + options[:versionChange] + " " + APP_TYPE + " " + FABRIC_API_TOKEN + " " + FABRIC_BUILD_SECRET
+            gradle(
+              task: MODULES+":assemble",
+              flavor: "Qa",
+              build_type: "Debug"
+            )
+
+            apkpath = APP_TYPE + "/build/outputs/apk/qa/debug/" + MODULES + "-qa-debug.apk"
+            crashlytics(
+                emails: TESTER_EMAIL,
+                api_token: FABRIC_API_TOKEN,
+                build_secret: FABRIC_BUILD_SECRET,
+                apk_path: apkpath,
+                notifications: true
+            )
+        end
+    #----------------------------------------------------------------------------------------------------------------------------------
+        desc "Release for production"
+        lane :productionVariant do |options|
+            sh "bash ../settings/keystore/fastlane_script.sh " + "production " + options[:versionChange] + " " + APP_TYPE + " " + FABRIC_API_TOKEN + " " + FABRIC_BUILD_SECRET
+            gradle(
+              task: MODULES+":assemble",
+              flavor: "Production",
+              build_type: "Release"
+            )
+
+            apkpath = APP_TYPE + "/build/outputs/apk/production/release/" + MODULES + "-production-release.apk"
+            crashlytics(
+                emails: TESTER_EMAIL,
+                api_token: FABRIC_API_TOKEN,
+                build_secret: FABRIC_BUILD_SECRET,
+                apk_path: apkpath,
+                notifications: true
+            )
+            #upload_to_play_store(track: 'beta')
+            #slack(message: 'Successfully distributed a new beta build')
+        end
+end
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded.
+# Learn more at https://docs.fastlane.tools/#metrics

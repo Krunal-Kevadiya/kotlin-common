@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Snack Bar -->
+    <declare-styleable name="SbProgress">
+        <attr name="sbp_progressIndeterminate" format="boolean" />
+        <attr name="sbp_barColor" format="color" />
+        <attr name="sbp_rimColor" format="color" />
+        <attr name="sbp_rimWidth" format="dimension" />
+        <attr name="sbp_spinSpeed" format="float" />
+        <attr name="sbp_barSpinCycleTime" format="integer" />
+        <attr name="sbp_circleRadius" format="dimension" />
+        <attr name="sbp_fillRadius" format="boolean" />
+        <attr name="sbp_barWidth" format="dimension" />
+        <attr name="sbp_linearProgress" format="boolean" />
+    </declare-styleable>
+
+    <!-- Rounded Button with ProgressBar -->
+    <declare-styleable name="RoundButton">
+        <attr name="rb_animation_duration" format="integer" />
+        <attr name="rb_animation_corner_radius" format="dimension" />
+        <attr name="rb_animation_alpha" format="boolean" />
+        <attr name="rb_animation_progress_color" format="color" />
+        <attr name="rb_animation_progress_padding" format="dimension" />
+        <attr name="rb_animation_progress_width" format="dimension" />
+        <attr name="rb_animation_progress_style" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="dots" value="1" />
+            <enum name="custom" value="2" />
+        </attr>
+        <attr name="rb_animation_custom_resource" format="reference" />
+        <attr name="rb_animation_inner_resource" format="reference" />
+        <attr name="rb_animation_inner_resource_color" format="color" />
+
+        <attr name="rb_drawable_color" format="color" />
+        <attr name="rb_drawable_resource" format="reference" />
+        <attr name="rb_success_color" format="color" />
+        <attr name="rb_success_resource" format="reference" />
+        <attr name="rb_failure_color" format="color" />
+        <attr name="rb_failure_resource" format="reference" />
+
+        <attr name="rb_corner_radius" format="dimension" />
+        <attr name="rb_corner_width" format="dimension" />
+        <attr name="rb_corner_color" format="color" />
+        <attr name="rb_corner_color_pressed" format="color" />
+        <attr name="rb_corner_color_disabled" format="color" />
+        <attr name="rb_background_color" format="color" />
+        <attr name="rb_background_color_pressed" format="color" />
+        <attr name="rb_background_color_disabled" format="color" />
+        <attr name="rb_text_color" format="color" />
+        <attr name="rb_text_color_pressed" format="color" />
+        <attr name="rb_text_color_disabled" format="color" />
+    </declare-styleable>
+
+    <!-- Skeleton Layout -->
+    <declare-styleable name="SkeletonLayout">
+        <attr name="maskColor" format="color"/>
+        <attr name="maskCornerRadius" format="dimension"/>
+        <attr name="showShimmer" format="boolean"/>
+        <attr name="shimmerColor" format="color"/>
+        <attr name="shimmerDurationInMillis" format="integer"/>
+    </declare-styleable>
+</resources>

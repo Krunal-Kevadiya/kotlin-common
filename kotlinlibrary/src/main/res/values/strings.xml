@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">KotlinLibrary</string>
+    <string name="msg_no_internet_available">Please check your internet.</string>
+
+    <!-- Location -->
+    <string name="error_get_location">Fail to get Location. Please open google map app &amp; tap current location then try again later.</string>
+    <string name="error_setting_location">Location settings are inadequate, and cannot be fixed here. Fix in Settings.</string>
+
+    <!-- Image Pick -->
+    <string name="btn_proceed">Proceed</string>
+    <string name="btn_setting">Setting</string>
+    <string name="permission_title_photo">Allow read camera and storage access</string>
+    <string name="permission_desc_rational_photo">Without camera and storage permission we are unable to get photo. Go ahead and grant permission.</string>
+    <string name="permission_desc_setting_photo">Without camera and storage permission we are unable to get photo. Go Setting and grant permission.</string>
+    <string name="disable_photo">camera and storage permission is disable, so please enable it.</string>
+
+</resources>
