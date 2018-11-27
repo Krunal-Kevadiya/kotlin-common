@@ -3,29 +3,34 @@ package com.kotlincommon
 import android.Manifest
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlinlibrary.permission.KotlinPermissions
 import com.kotlinlibrary.permission.PermissionAkt
 import com.kotlinlibrary.permission.bindPermission
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
 
 class PermissionActivity : AppCompatActivity() {
+
+    private val textView: TextView by lazy {
+        findViewById<TextView>(R.id.textView)
+    }
 
     private val permissionCore: KotlinPermissions.PermissionCore by
     bindPermission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
         when (it) {
             PermissionAkt.ACCEPTED -> {
-                logs("Granted", LogType.ERROR)
+                textView.text = "Permission -> Granted"
+
             }
             PermissionAkt.DENIED -> {
-                logs("Denied", LogType.ERROR)
+                textView.text = "Permission -> Denied"
                 permissionCore.ask()
             }
             PermissionAkt.FOREVER_DENIED -> {
-                logs("Forever denied", LogType.ERROR)
+                textView.text = "Permission -> Forever denied"
             }
             else -> {
+                textView.text = "Permission -> Else"
             }
         }
     }

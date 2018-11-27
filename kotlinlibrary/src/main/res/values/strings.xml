@@ -14,4 +14,7 @@
     <string name="permission_desc_setting_photo">Without camera and storage permission we are unable to get photo. Go Setting and grant permission.</string>
     <string name="disable_photo">camera and storage permission is disable, so please enable it.</string>
 
+    <!-- AWS Image Upload -->
+    <string name="error_unknown">Something went wrong! Please try again later.</string>
+    <string name="error_file_size">Your selected file content length zero! Please select other file.</string>
 </resources>

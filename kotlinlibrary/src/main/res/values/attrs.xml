@@ -59,4 +59,9 @@
         <attr name="shimmerColor" format="color"/>
         <attr name="shimmerDurationInMillis" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="AspectRatioLayout">
+        <attr name="width_ratio" format="integer" />
+        <attr name="height_ratio" format="integer" />
+    </declare-styleable>
 </resources>

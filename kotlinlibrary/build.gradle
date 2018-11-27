@@ -67,7 +67,10 @@ dependencies {
     // Kotlin
     compileOnly deps.kotlin.stdlib
     compileOnly deps.kotlin.coroutines_core
-    //compileOnly deps.kotlin.reflect
+
+    // S3 Bucket
+    compileOnly deps.amazon.s3
+    compileOnly deps.thirdParty.commons_logging
 
     // Location
     compileOnly deps.google.location

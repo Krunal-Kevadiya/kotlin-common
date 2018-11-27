@@ -1,66 +1,66 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="100dp"
-    android:height="60dp"
-    android:viewportWidth="100"
-    android:viewportHeight="60">
+        android:width="50dp"
+        android:height="30dp"
+        android:viewportWidth="100"
+        android:viewportHeight="60">
     <path
-        android:fillColor="@android:color/white"
-        android:fillType="evenOdd"
-        android:pathData="M4,0L96,0A4,4 0,0 1,100 4L100,56A4,4 0,0 1,96 60L4,60A4,4 0,0 1,0 56L0,4A4,4 0,0 1,4 0z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M4,0L96,0A4,4 0,0 1,100 4L100,56A4,4 0,0 1,96 60L4,60A4,4 0,0 1,0 56L0,4A4,4 0,0 1,4 0z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_discover_1"
-        android:fillType="evenOdd"
-        android:pathData="M24.115,60L96,60C98.209,60 100,58.213 100,56.005L100,33.698C100,33.698 73.2,51.868 24.115,60Z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_discover_1"
+            android:fillType="evenOdd"
+            android:pathData="M24.115,60L96,60C98.209,60 100,58.213 100,56.005L100,33.698C100,33.698 73.2,51.868 24.115,60Z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M18.289,29.822C17.538,30.464 16.582,30.745 15.054,30.745L14.42,30.745L14.42,23.085L15.054,23.085C16.582,23.085 17.501,23.346 18.289,24.02C19.101,24.717 19.59,25.791 19.59,26.902C19.59,28.018 19.101,29.131 18.289,29.822L18.289,29.822ZM15.527,21.122L12.058,21.122L12.058,32.708L15.506,32.708C17.341,32.708 18.666,32.29 19.827,31.368C21.206,30.275 22.025,28.626 22.025,26.918C22.025,23.498 19.355,21.122 15.527,21.122L15.527,21.122Z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M18.289,29.822C17.538,30.464 16.582,30.745 15.054,30.745L14.42,30.745L14.42,23.085L15.054,23.085C16.582,23.085 17.501,23.346 18.289,24.02C19.101,24.717 19.59,25.791 19.59,26.902C19.59,28.018 19.101,29.131 18.289,29.822L18.289,29.822ZM15.527,21.122L12.058,21.122L12.058,32.708L15.506,32.708C17.341,32.708 18.666,32.29 19.827,31.368C21.206,30.275 22.025,28.626 22.025,26.918C22.025,23.498 19.355,21.122 15.527,21.122L15.527,21.122Z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M23.114,21.122l2.353,0l0,11.585l-2.353,0z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M23.114,21.122l2.353,0l0,11.585l-2.353,0z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M31.244,25.563C29.824,25.064 29.409,24.732 29.409,24.106C29.409,23.378 30.151,22.826 31.171,22.826C31.878,22.826 32.46,23.097 33.081,23.759L34.309,22.217C33.294,21.362 32.08,20.93 30.756,20.93C28.613,20.93 26.98,22.356 26.98,24.242C26.98,25.843 27.739,26.656 29.954,27.427C30.881,27.735 31.351,27.946 31.589,28.088C32.061,28.38 32.296,28.799 32.296,29.282C32.296,30.225 31.516,30.917 30.461,30.917C29.338,30.917 28.43,30.379 27.886,29.369L26.364,30.78C27.452,32.305 28.756,32.987 30.553,32.987C33.004,32.987 34.731,31.417 34.731,29.181C34.731,27.338 33.93,26.502 31.244,25.563"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M31.244,25.563C29.824,25.064 29.409,24.732 29.409,24.106C29.409,23.378 30.151,22.826 31.171,22.826C31.878,22.826 32.46,23.097 33.081,23.759L34.309,22.217C33.294,21.362 32.08,20.93 30.756,20.93C28.613,20.93 26.98,22.356 26.98,24.242C26.98,25.843 27.739,26.656 29.954,27.427C30.881,27.735 31.351,27.946 31.589,28.088C32.061,28.38 32.296,28.799 32.296,29.282C32.296,30.225 31.516,30.917 30.461,30.917C29.338,30.917 28.43,30.379 27.886,29.369L26.364,30.78C27.452,32.305 28.756,32.987 30.553,32.987C33.004,32.987 34.731,31.417 34.731,29.181C34.731,27.338 33.93,26.502 31.244,25.563"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M35.473,26.918C35.473,30.325 38.268,32.965 41.865,32.965C42.88,32.965 43.749,32.773 44.82,32.29L44.82,29.627C43.874,30.537 43.043,30.896 41.969,30.896C39.592,30.896 37.908,29.25 37.908,26.902C37.908,24.683 39.646,22.925 41.865,22.925C42.985,22.925 43.841,23.305 44.82,24.228L44.82,21.569C43.786,21.068 42.937,20.861 41.914,20.861C38.337,20.861 35.473,23.552 35.473,26.918"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M35.473,26.918C35.473,30.325 38.268,32.965 41.865,32.965C42.88,32.965 43.749,32.773 44.82,32.29L44.82,29.627C43.874,30.537 43.043,30.896 41.969,30.896C39.592,30.896 37.908,29.25 37.908,26.902C37.908,24.683 39.646,22.925 41.865,22.925C42.985,22.925 43.841,23.305 44.82,24.228L44.82,21.569C43.786,21.068 42.937,20.861 41.914,20.861C38.337,20.861 35.473,23.552 35.473,26.918"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M63.949,28.9l-3.228,-7.778l-2.574,0l5.132,11.878l1.266,0l5.232,-11.878l-2.554,0l-3.274,7.778"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M63.949,28.9l-3.228,-7.778l-2.574,0l5.132,11.878l1.266,0l5.232,-11.878l-2.554,0l-3.274,7.778"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M70.847,32.708l6.695,0l0,-1.963l-4.333,0l0,-3.127l4.169,0l0,-1.963l-4.169,0l0,-2.57l4.333,0l0,-1.962l-6.695,0l0,11.585"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M70.847,32.708l6.695,0l0,-1.963l-4.333,0l0,-3.127l4.169,0l0,-1.963l-4.169,0l0,-2.57l4.333,0l0,-1.962l-6.695,0l0,11.585"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_dinersclub_1"
-        android:fillType="evenOdd"
-        android:pathData="M82.154,26.45L81.469,26.45L81.469,22.946L82.193,22.946C83.668,22.946 84.458,23.538 84.458,24.667C84.458,25.826 83.668,26.45 82.154,26.45L82.154,26.45ZM86.889,24.541C86.889,22.371 85.334,21.122 82.608,21.122L79.102,21.122L79.102,32.708L81.469,32.708L81.469,28.05L81.776,28.05L85.038,32.708L87.942,32.708L84.133,27.825C85.913,27.477 86.889,26.313 86.889,24.541L86.889,24.541Z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_dinersclub_1"
+            android:fillType="evenOdd"
+            android:pathData="M82.154,26.45L81.469,26.45L81.469,22.946L82.193,22.946C83.668,22.946 84.458,23.538 84.458,24.667C84.458,25.826 83.668,26.45 82.154,26.45L82.154,26.45ZM86.889,24.541C86.889,22.371 85.334,21.122 82.608,21.122L79.102,21.122L79.102,32.708L81.469,32.708L81.469,28.05L81.776,28.05L85.038,32.708L87.942,32.708L84.133,27.825C85.913,27.477 86.889,26.313 86.889,24.541L86.889,24.541Z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_discover_1"
-        android:fillType="evenOdd"
-        android:pathData="M58.479,26.945C58.479,30.28 55.655,32.984 52.168,32.984C48.681,32.984 45.857,30.28 45.857,26.945C45.857,23.609 48.681,20.905 52.168,20.905C55.655,20.905 58.479,23.609 58.479,26.945"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_discover_1"
+            android:fillType="evenOdd"
+            android:pathData="M58.479,26.945C58.479,30.28 55.655,32.984 52.168,32.984C48.681,32.984 45.857,30.28 45.857,26.945C45.857,23.609 48.681,20.905 52.168,20.905C55.655,20.905 58.479,23.609 58.479,26.945"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
 </vector>

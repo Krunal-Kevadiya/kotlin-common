@@ -1,42 +1,42 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="100dp"
-    android:height="60dp"
-    android:viewportWidth="100"
-    android:viewportHeight="60">
+        android:width="50dp"
+        android:height="30dp"
+        android:viewportWidth="100"
+        android:viewportHeight="60">
     <path
-        android:fillColor="@android:color/white"
-        android:fillType="evenOdd"
-        android:pathData="M4,0L96,0A4,4 0,0 1,100 4L100,56A4,4 0,0 1,96 60L4,60A4,4 0,0 1,0 56L0,4A4,4 0,0 1,4 0z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M4,0L96,0A4,4 0,0 1,100 4L100,56A4,4 0,0 1,96 60L4,60A4,4 0,0 1,0 56L0,4A4,4 0,0 1,4 0z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_generic_1"
-        android:fillType="evenOdd"
-        android:pathData="M10,39L20,39A5,5 0,0 1,25 44L25,44A5,5 0,0 1,20 49L10,49A5,5 0,0 1,5 44L5,44A5,5 0,0 1,10 39z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_generic_1"
+            android:fillType="evenOdd"
+            android:pathData="M10,39L20,39A5,5 0,0 1,25 44L25,44A5,5 0,0 1,20 49L10,49A5,5 0,0 1,5 44L5,44A5,5 0,0 1,10 39z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_generic_1"
-        android:fillType="evenOdd"
-        android:pathData="M33,39L43,39A5,5 0,0 1,48 44L48,44A5,5 0,0 1,43 49L33,49A5,5 0,0 1,28 44L28,44A5,5 0,0 1,33 39z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_generic_1"
+            android:fillType="evenOdd"
+            android:pathData="M33,39L43,39A5,5 0,0 1,48 44L48,44A5,5 0,0 1,43 49L33,49A5,5 0,0 1,28 44L28,44A5,5 0,0 1,33 39z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_generic_1"
-        android:fillType="evenOdd"
-        android:pathData="M57,39L67,39A5,5 0,0 1,72 44L72,44A5,5 0,0 1,67 49L57,49A5,5 0,0 1,52 44L52,44A5,5 0,0 1,57 39z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_generic_1"
+            android:fillType="evenOdd"
+            android:pathData="M57,39L67,39A5,5 0,0 1,72 44L72,44A5,5 0,0 1,67 49L57,49A5,5 0,0 1,52 44L52,44A5,5 0,0 1,57 39z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_generic_1"
-        android:fillType="evenOdd"
-        android:pathData="M80,39L90,39A5,5 0,0 1,95 44L95,44A5,5 0,0 1,90 49L80,49A5,5 0,0 1,75 44L75,44A5,5 0,0 1,80 39z"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_generic_1"
+            android:fillType="evenOdd"
+            android:pathData="M80,39L90,39A5,5 0,0 1,95 44L95,44A5,5 0,0 1,90 49L80,49A5,5 0,0 1,75 44L75,44A5,5 0,0 1,80 39z"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
     <path
-        android:fillColor="@color/img_payment_generic_1"
-        android:fillType="evenOdd"
-        android:pathData="M91.454,30L73.538,29.994C71.584,29.994 70,28.422 70,26.485L70.006,8.505C70.008,6.57 71.592,5 73.546,5L91.462,5.006C93.416,5.006 95,6.578 95,8.515L94.994,26.495C94.992,28.43 93.408,30 91.454,30"
-        android:strokeWidth="1"
-        android:strokeColor="@android:color/transparent" />
+            android:fillColor="@color/img_payment_generic_1"
+            android:fillType="evenOdd"
+            android:pathData="M91.454,30L73.538,29.994C71.584,29.994 70,28.422 70,26.485L70.006,8.505C70.008,6.57 71.592,5 73.546,5L91.462,5.006C93.416,5.006 95,6.578 95,8.515L94.994,26.495C94.992,28.43 93.408,30 91.454,30"
+            android:strokeWidth="1"
+            android:strokeColor="@android:color/transparent"/>
 </vector>

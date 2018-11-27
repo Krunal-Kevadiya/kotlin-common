@@ -31,6 +31,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:padding="@dimen/_5sdp"
+                android:drawableEnd="@drawable/payment_ic_generic"
                 android:textColor="@color/design_default_color_primary"
                 android:textColorHint="@color/black_transparent"
                 android:textSize="@dimen/_16ssp"/>

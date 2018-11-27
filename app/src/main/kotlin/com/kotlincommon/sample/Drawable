@@ -1,0 +1,25 @@
+//Created badge drawable
+imgCart.setImageDrawable(
+   context.buildCounterDrawable(count, R.drawable.ic_cart)
+)
+//Argument
+count: Int,
+@DrawableRes bgImageId: Int = R.drawable.ic_person,
+@ColorRes bgColor: Int = R.color.color_type_warning,
+@DimenRes badgeSize: Int = R.dimen.default_badge_size,
+position: BadgePosition = BadgePosition.TOP_RIGHT,
+@ColorRes textColor: Int = android.R.color.white,
+isBoarder:Boolean = false,
+@ColorRes borderColor: Int = android.R.color.black,
+@DimenRes borderSize: Int = R.dimen.default_badge_border_size,
+maxCounter: Int = 99
+
+
+//Created text drawable
+val bitmap = buildTextDrawable(name)
+
+//Argument
+text: String,
+width: Int = 500,
+height: Int = 500,
+argColor: Int = 0

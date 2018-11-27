@@ -1,14 +1,14 @@
 package com.kotlincommon
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
 import com.kotlinlibrary.utils.preferences.PreferencesAware
 import com.kotlinlibrary.utils.preferences.bindGsonPreference
 import com.kotlinlibrary.utils.preferences.bindOptionalPreference
@@ -33,15 +33,19 @@ class PreferenceActivity : AppCompatActivity() {
 
     var profile by bindGsonPreference(Profile())
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
-        logs("boolean $boolean", LogType.ERROR)
-        logs("float $float", LogType.ERROR)
-        logs("integer $integer", LogType.ERROR)
-        logs("long $long", LogType.ERROR)
-        logs("string $string", LogType.ERROR)
-        logs("profile $profile", LogType.ERROR)
+        findViewById<TextView>(R.id.textView).text =
+                """From Activity
+                boolean -> $boolean
+                float -> $float
+                integer -> $integer
+                long -> $long
+                string -> $string
+                profile -> $profile
+                """.trimIndent()
 
         supportFragmentManager.beginTransaction().add(R.id.frameLayout, PreferencesFragment.newInstance()).commit()
     }
@@ -70,15 +74,19 @@ class PreferencesFragment : Fragment() {
         return inflater.inflate(R.layout.activity_preference, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logs("boolean $boolean", LogType.ERROR)
-        logs("float $float", LogType.ERROR)
-        logs("integer $integer", LogType.ERROR)
-        logs("long $long", LogType.ERROR)
-        logs("string $string", LogType.ERROR)
-        logs("optionalLong $optionalLong", LogType.ERROR)
-        logs("optionalString $optionalString", LogType.ERROR)
+        view.findViewById<TextView>(R.id.textView).text =
+                """From Fragment
+                boolean -> $boolean
+                float -> $float
+                integer -> $integer
+                long -> $long
+                string -> $string
+                optionalLong -> $optionalLong
+                optionalString -> $optionalString
+                """.trimIndent()
     }
 }
 

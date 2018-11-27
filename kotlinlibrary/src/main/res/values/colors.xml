@@ -14,6 +14,9 @@
     <color name="black_transparent">#22000000</color>
     <color name="shadow_color">#94444444</color>
 
+    <!-- Badge Drawable -->
+    <color name="default_badge_color">#ff0000</color>
+
     <!-- Skeleton Layout -->
     <color name="skeleton_mask">#E0E0E0</color>
     <color name="skeleton_shimmer">#d5d5d5</color>

@@ -32,7 +32,7 @@ class ResourcesFragment : Fragment() {
     val boolean by bindResource<Boolean>(R.bool.boolean_resource)
 
     // Color resource binding
-    val color by bindResource<Int>(R.color.color_type_default)
+    val color by bindResource<Int>(R.color.colorAccent)
 
     // Drawable resource binding #1
     val bitmap by bindResource<BitmapDrawable>(R.mipmap.ic_launcher)
@@ -78,7 +78,7 @@ bindResource<Boolean>(R.boolean.boolean_resource)
 bindResource<Int>(R.integer.integer_resource)
 bindResource<Int>(R.color.color_resource)
 bindResource<ColorStateList>(R.color.color_resource)
-bindResource<Drawable>(R.drawable.drawable_resource)
+bindResource<Drawable>(R.Drawable.drawable_resource)
 bindResource<Int>(R.dimen.dimen_resource)
 bindResource<Float>(R.dimen.dimen_resource)
 bindResource<String>(R.string.string_resource)

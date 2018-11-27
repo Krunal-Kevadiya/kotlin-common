@@ -1,0 +1,32 @@
+// start activity
+launchActivity()
+
+//Close current activity
+finishCurrentActivity()
+
+//Close all activity
+finishAllCurrentActivity()
+
+//Add fragment in activity or fragment class
+addFragment()
+
+//Replace fragment in activity or fragment class
+replaceFragment()
+
+//Replace child fragment in activity or fragment class
+replaceChildFragment()
+
+//show dialog fragment in activity or fragment class
+showDialogFragment()
+
+//get fragment manager
+getCurrentFragmentManager()
+
+//get current fragment
+getCurrentActiveFragment()
+
+//clear all fragment
+clearAllFragment()
+
+//on pop fragment
+onBackTrackFragment()

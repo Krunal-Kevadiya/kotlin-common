@@ -1,0 +1,23 @@
+<com.kotlincommon.widget.JustifiedTextView
+    android:id="@+id/txt_desc_value"
+    android:layout_width="@dimen/_0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:fontFamily="@font/montserrat_light"
+    android:lineSpacingExtra="@dimen/_5ssp"
+    android:textColor="@color/dark_gray_text"
+    android:textSize="@dimen/_11ssp"
+    app:layout_constraintLeft_toLeftOf="@+id/guide_left"
+    app:layout_constraintRight_toRightOf="@+id/guide_right"
+    app:layout_constraintTop_toBottomOf="@+id/txt_desc"
+    bind:load_data="@{viewModel.details.restaurantDetail.description}"
+    tools:text="@string/app_name" />
+
+
+@JvmStatic
+@BindingAdapter("load_data")
+fun setTextLoadData(textView: JustifiedTextView, text: String?) {
+    text?.let {
+        textView.setJustifiedText(it)
+    }
+}

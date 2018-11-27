@@ -22,7 +22,7 @@ class SpannerActivity : AppCompatActivity() {
                     +getString(R.string.app_name)
                 }
             }
-            foregroundColor(ContextCompat.getColor(this@SpannerActivity, R.color.colorPrimaryDark)) {
+            foregroundColor(ContextCompat.getColor(this@SpannerActivity, R.color.colorAccent)) {
                 fontface(this@SpannerActivity, R.font.montserrat_regular) {
                     +" ${getString(R.string.app_name)}"
                 }

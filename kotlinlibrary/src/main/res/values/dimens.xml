@@ -14,4 +14,9 @@
     <dimen name="sb_margin_secondary_action">12dp</dimen>
     <dimen name="sb_margin_secondary_action_container">12dp</dimen>
     <dimen name="sbb_margin_progress">20dp</dimen>
+
+    <!-- Badge Drawable -->
+    <dimen name="default_badge_large_size">24dp</dimen>
+    <dimen name="default_badge_size">16dp</dimen>
+    <dimen name="default_badge_border_size">0.5dp</dimen>
 </resources>

@@ -1,0 +1,28 @@
+val builder: AmazonOption.Builder = AmazonOption.Builder()
+.setPoolId("here set pool id")
+.setEndPoint("here end point url")
+.setDefaultBucket("here your default bucket name")
+
+//foreground Used
+val amazonManager: AmazonManager = AmazonManager.getInstance(context, option)
+
+amazonManager.uploadImage(file, bucketName, object : ImageUploadListener{
+	override fun imageUploadProgress(percentage: Int) {
+		Logger.e("ImageUpload Per -> $percentage")
+	}
+
+	override fun imageUploadCompleted(url: String) {
+		Logger.e("ImageUpload Done -> $url")
+	}
+
+	override fun imageUploadFailure(message: String) {
+		Logger.e("ImageUpload Fail -> $message")
+	}
+})
+
+//background Used
+val intent = Intent(mContext, ImageUploadService::class.java)
+intent.putExtra(ImageUploadService.EXTRA_URL, imagePath)
+intent.putExtra(ImageUploadService.EXTRA_BUCKET, bucketName)
+intent.putExtra(ImageUploadService.EXTRA_OPTION, option)
+JobIntentService.enqueueWork(mContext, ImageUploadService::class.java, 1, intent)

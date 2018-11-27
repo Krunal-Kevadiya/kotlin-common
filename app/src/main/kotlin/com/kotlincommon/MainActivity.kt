@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_argument).setOnClickListener {
-            startActivity(Intent(this, ArgumentActivity::class.java))
+            startActivity(ArgumentActivity.newInstance(this))
         }
 
         findViewById<Button>(R.id.btn_loadmore).setOnClickListener {
@@ -69,6 +69,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_skeleton).setOnClickListener {
             startActivity(Intent(this, SkeletonViewActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btn_location).setOnClickListener {
+            startActivity(Intent(this, LocationActivity::class.java))
         }
     }
 }

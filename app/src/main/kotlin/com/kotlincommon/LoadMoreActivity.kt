@@ -64,7 +64,7 @@ class LoadMoreActivity : AppCompatActivity() {
         loadMore = LoadMore.Builder(this)
             .setRecyclerView(recyclerView)
             .setCustomView { linearLayout, textView ->
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._10ssp))
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._5ssp))
             }
             .setLoadMoreListener {
                 if (!swipeRefreshLayout.isRefreshing) {
