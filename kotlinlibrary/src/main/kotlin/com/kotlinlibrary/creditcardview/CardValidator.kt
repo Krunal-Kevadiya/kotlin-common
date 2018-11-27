@@ -1,23 +1,17 @@
 package com.kotlinlibrary.creditcardview
 
 import java.util.Arrays
+import kotlin.collections.ArrayList
+import kotlin.collections.dropLastWhile
+import kotlin.collections.forEach
+import kotlin.collections.map
+import kotlin.collections.plusAssign
+import kotlin.collections.sumBy
+import kotlin.collections.toTypedArray
 
 class CardValidator(cardNo: String) {
     companion object {
         const val CARD_SEPARATORS: String = " "
-        fun guessCard(cartType: String): Int? {
-            for (cardEnum in CardEnum.values()) {
-                if (cartType.isNotEmpty() && cardEnum.cardName.isNotEmpty() && cartType.equals(
-                        cardEnum.cardName,
-                        ignoreCase = true
-                    )
-                ) {
-                    return cardEnum.icon
-                }
-            }
-
-            return null
-        }
     }
 
     private var cardNumber: String? = null
@@ -74,15 +68,22 @@ class CardValidator(cardNo: String) {
                             if (cardNumberSub.toLong() in start..end) {
                                 return Card(
                                     cardEnum.cardName,
-                                    fetchPossibleLength(cardEnum),
                                     cardEnum.icon,
+                                    startWiths,
+                                    fetchPossibleLength(cardEnum),
                                     cardEnum.cvv
                                 )
                             }
                         }
                     } else {
                         if (cardNumber!!.startsWith(cardStartIndex)) {
-                            return Card(cardEnum.cardName, fetchPossibleLength(cardEnum), cardEnum.icon, cardEnum.cvv)
+                            return Card(
+                                cardEnum.cardName,
+                                cardEnum.icon,
+                                startWiths,
+                                fetchPossibleLength(cardEnum),
+                                cardEnum.cvv
+                            )
                         }
                     }
                 }
