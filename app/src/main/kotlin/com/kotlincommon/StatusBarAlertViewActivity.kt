@@ -34,13 +34,10 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
 
     private fun showAlertView(alertView: StatusBarAlertView?) {
         if(statusBarProgress != null) {
-            statusBarProgress?.hideIndeterminateProgress(statusBarProgress!!)
-            statusBarProgress = alertView
-            statusBarProgress?.showIndeterminateProgress()
-        } else {
-            statusBarProgress = alertView
-            statusBarProgress?.showIndeterminateProgress()
+            StatusBarAlert.hide(this, Runnable {})
         }
+        statusBarProgress = alertView
+        statusBarProgress?.showIndeterminateProgress()
     }
 
     private fun progressBar(): StatusBarAlertView? {
@@ -48,7 +45,6 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
         return StatusBarAlert.Builder(this)
             .autoHide(true)
             .withDuration(5000)
-            .withAddedStack(false)
             .showProgress(true)
             .showTextAnimation(false)
             .withText("Please wait")
@@ -59,8 +55,7 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
     private fun redAlertBar(): StatusBarAlertView? {
         return StatusBarAlert.Builder(this)
             .autoHide(true)
-            .withDuration(100)
-            .withAddedStack(false)
+            .withDuration(500)
             .showProgress(false)
             .withText("RED ALERT!")
             .withTypeface(Typeface.createFromAsset(assets, "BeautifulAndOpenHearted.ttf"))
@@ -72,8 +67,7 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
         return ResourcesCompat.getFont(this, R.font.montserrat_light)?.let {
             StatusBarAlert.Builder(this)
                 .autoHide(true)
-                .withDuration(100)
-                .withAddedStack(false)
+                .withDuration(500)
                 .showProgress(false)
                 .withText("BLINK!")
                 .withTypeface(it)

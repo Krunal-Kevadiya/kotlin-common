@@ -37,3 +37,13 @@ return Retrofit.Builder()
 @GET("api/logout")
 fun logout(@HeaderMap header: HashMap<String, Any>):
     Observable<YourResponseClass>
+
+//Used Coroutines
+return Retrofit.Builder()
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+
+
+@GET("api/logout")
+fun logout(@HeaderMap header: HashMap<String, Any>):
+    Deferred<CoroutinesApiResult<YourResponseClass>>

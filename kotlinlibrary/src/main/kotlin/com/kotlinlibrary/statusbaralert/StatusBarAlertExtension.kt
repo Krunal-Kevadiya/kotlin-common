@@ -7,7 +7,6 @@ import com.kotlinlibrary.R
 
 fun Activity.progressMessage(
     autoHide: Boolean = false,
-    addedStack: Boolean = false,
     showProgress: Boolean = false,
     textAnim: Boolean = false,
     time: Long = 10,
@@ -17,7 +16,6 @@ fun Activity.progressMessage(
 ): StatusBarAlertView? {
     val statusBarAlert = StatusBarAlert.Builder(this)
         .autoHide(autoHide)
-        .withAddedStack(addedStack)
         .showProgress(showProgress)
         .showTextAnimation(textAnim)
         .withDuration(time)

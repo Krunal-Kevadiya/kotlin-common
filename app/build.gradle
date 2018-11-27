@@ -121,7 +121,7 @@ dependencies {
 
     implementation deps.google.location
 
-    //implementation 'com.github.Krunal-Kevadiya:kotlin-common:1.0.0'
+    //implementation 'com.github.Krunal-Kevadiya:kotlin-common:1.0.1'
     implementation project(':kotlinlibrary')
 }
 

@@ -23,7 +23,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
-@SuppressLint("ViewConstructor")
 class StatusBarAlertView(
     private val activity: Activity,
     alertColor: Int,
@@ -40,8 +39,10 @@ class StatusBarAlertView(
     private var textView: TextView? = null
     private var progressBar: ProgressBar? = null
     private var autohideRunnable: Runnable? = null
+    private var statusBarColor: Int = 0
 
     init {
+        statusBarColor = activity.window.statusBarColor
         this.observeLifecycle(activity)
         this.buildUI(activity, alertColor, stringText, text, typeface, autohide, autohideDuration)
     }
@@ -154,7 +155,7 @@ class StatusBarAlertView(
         }
     }
 
-    fun hideIndeterminateProgress(it: StatusBarAlertView) {
+    private fun hideIndeterminateProgress(it: StatusBarAlertView) {
         if (showTextAnimation) {
             textView?.stopProgressAnimation()
         }

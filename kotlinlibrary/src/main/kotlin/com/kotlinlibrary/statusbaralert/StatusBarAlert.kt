@@ -19,7 +19,6 @@ class StatusBarAlert {
         private var duration: Long = 2000
         private var autoHide: Boolean = true
         private var typeFace: Typeface? = null
-        private var addedStack: Boolean = false
 
         fun withAlertColor(alertColor: Int): Builder {
             this.alertColor = alertColor
@@ -61,11 +60,6 @@ class StatusBarAlert {
             return this
         }
 
-        fun withAddedStack(addedStack: Boolean): Builder {
-            this.addedStack = addedStack
-            return this
-        }
-
         fun build(): StatusBarAlertView? =
             addStatusBarTextAndProgress(
                 context,
@@ -76,8 +70,7 @@ class StatusBarAlert {
                 showTextAnimation,
                 typeFace,
                 autoHide,
-                duration,
-                addedStack
+                duration
             )
     }
 
@@ -95,20 +88,15 @@ class StatusBarAlert {
             showTextAnimation: Boolean,
             typeFace: Typeface?,
             autoHide: Boolean,
-            duration: Long,
-            addedStack: Boolean
+            duration: Long
         ): StatusBarAlertView? {
             hide(any, null)
             val statusBarAlert = StatusBarAlertView(any, alertColor, stringText, text, typeFace, showProgress, showTextAnimation, autoHide, duration)
-
-            if (addedStack) {
-                if (allAlerts[any.componentName.className] == null) {
-                    allAlerts[any.componentName.className] = mutableListOf()
-                }
-
-                allAlerts[any.componentName.className]?.add(statusBarAlert)
+            if (allAlerts[any.componentName.className] == null) {
+                allAlerts[any.componentName.className] = mutableListOf()
             }
 
+            allAlerts[any.componentName.className]?.add(statusBarAlert)
             return statusBarAlert
         }
 
