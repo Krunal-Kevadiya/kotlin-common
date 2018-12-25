@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.Manifest
 import android.os.Bundle
@@ -24,7 +24,7 @@ class PermissionActivity : AppCompatActivity() {
             }
             PermissionAkt.DENIED -> {
                 textView.text = "Permission -> Denied"
-                permissionCore.ask()
+                permissionCore.ask(true)
             }
             PermissionAkt.FOREVER_DENIED -> {
                 textView.text = "Permission -> Forever denied"

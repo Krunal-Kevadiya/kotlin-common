@@ -1,7 +1,7 @@
 object Config {
 
     object Application {
-        val applicationId = "sk.android.com.kotlindsl"
+        val applicationId = "com.kotlincommon.sample"
     }
 
     object BuildFurniture {

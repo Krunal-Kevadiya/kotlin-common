@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -40,7 +40,9 @@ class ArgumentActivity : AppCompatActivity() {
                    lastName -> $lastName
                    email -> $email
                 """.trimIndent()
-        supportFragmentManager.beginTransaction().add(R.id.frameLayout, UserProfileFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout,
+            UserProfileFragment.newInstance()
+        ).commit()
     }
 }
 

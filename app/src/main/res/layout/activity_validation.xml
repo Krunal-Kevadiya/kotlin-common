@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.kotlincommon.ValidationActivity"/>
+            type="com.kotlincommon.sample.ValidationActivity"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

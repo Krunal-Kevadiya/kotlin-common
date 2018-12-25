@@ -1,8 +1,6 @@
 import java.net.URI
 
 buildscript {
-    apply(from = "./buildSrc/repositories.gradle.kts")
-
     repositories {
         google()
         jcenter()

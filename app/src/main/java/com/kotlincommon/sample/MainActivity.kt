@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
@@ -19,7 +19,9 @@ class ResourceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_resources)
 
-        supportFragmentManager.beginTransaction().add(R.id.frameLayout, ResourcesFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout,
+            ResourcesFragment.newInstance()
+        ).commit()
     }
 }
 

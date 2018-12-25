@@ -45,6 +45,7 @@ androidExtensions {
 dependencies {
     // Support Design
     compileOnly(Depend.AndroidX.appcompat)
+    compileOnly(Depend.AndroidX.v4)
     compileOnly(Depend.AndroidX.material)
     compileOnly(Depend.AndroidX.recyclerview)
 

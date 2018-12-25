@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.textfield.TextInputLayout
-import com.kotlincommon.databinding.ActivityValidationBinding
+import com.kotlincommon.sample.BR
+import com.kotlincommon.sample.databinding.ActivityValidationBinding
 import com.kotlinlibrary.validation.ValidatedObservableField
 
 class ValidationActivity : AppCompatActivity() {

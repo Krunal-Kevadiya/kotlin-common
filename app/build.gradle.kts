@@ -9,7 +9,7 @@ android {
     compileSdkVersion(Versions.Android.compileSdkVersion)
 
     defaultConfig {
-        applicationId = ""
+        applicationId = "com.kotlincommon.sample"//Config.Application.applicationId
         minSdkVersion(Versions.Android.minSdkVersion)
         targetSdkVersion(Versions.Android.targetSdkVersion)
         manifestPlaceholders = mapOf("crashlyticsKey" to "krunal")
@@ -60,24 +60,3 @@ dependencies {
     //implementation('com.github.Krunal-Kevadiya:kotlin-common:1.0.1")
     implementation(project(":kotlinlibrary"))
 }
-/*
-def readVersionName(def buildType = "buildVariant") {
-    def version = readVersionFile("app", buildType)
-    return "${version['VERSION_MAJOR']}.${version['VERSION_MINOR']}.${version['VERSION_PATCH']}(${version['VERSION_CODE']})"
-}
-
-def readVersionCode(def buildType = "buildVariant") {
-    def version = readVersionFile("app", buildType)
-    def build = version['VERSION_CODE'] as int
-    return build
-}
-
-def readCrashlyticsKey() {
-    def version = readVersionFile("app", flavorFiles.project)
-    return "${version['FABRIC_API_TOKEN']}"
-}
-
-def readApplicationId() {
-    def version = readVersionFile("app", flavorFiles.project)
-    return "${version['APPLICATION_ID']}"
-}*/

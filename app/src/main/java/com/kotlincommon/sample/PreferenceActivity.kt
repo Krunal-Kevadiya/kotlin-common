@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -47,7 +47,9 @@ class PreferenceActivity : AppCompatActivity() {
                 profile -> $profile
                 """.trimIndent()
 
-        supportFragmentManager.beginTransaction().add(R.id.frameLayout, PreferencesFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout,
+            PreferencesFragment.newInstance()
+        ).commit()
     }
 }
 

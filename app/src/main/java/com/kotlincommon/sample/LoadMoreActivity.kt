@@ -1,6 +1,5 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
-import android.icu.text.UnicodeSetIterator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

@@ -1,4 +1,4 @@
-package com.kotlincommon
+package com.kotlincommon.sample
 
 import android.os.Bundle
 import android.os.Handler
@@ -29,7 +29,9 @@ class SkeletonViewActivity : AppCompatActivity() {
             skeleton.showOriginal()
         }, 5000)
 
-        supportFragmentManager.beginTransaction().add(R.id.frameLayout, SkeletonFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout,
+            SkeletonFragment.newInstance()
+        ).commit()
     }
 
     override fun onPause() {

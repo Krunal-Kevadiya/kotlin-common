@@ -3,8 +3,19 @@
     <string name="msg_no_internet_available">Please check your internet.</string>
 
     <!-- Location -->
-    <string name="error_get_location">Fail to get Location. Please open google map app &amp; tap current location then try again later.</string>
-    <string name="error_setting_location">Location settings are inadequate, and cannot be fixed here. Fix in Settings.</string>
+    <string name="location_rationale_custom">Are you sure you want to skip location services? Turning location on
+        provides deals in your area and for items on your list.
+    </string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_settings">Settings</string>
+    <string name="location_is_currently_disabled">Location is currently disabled</string>
+    <string name="please_enable_access_to_location">Please enable access to Location from Settings.</string>
+    <string name="settings_title">Settings</string>
+    <string name="enable">ENABLE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="permission_blocked_title">Location Permission Blocked</string>
+    <string name="grant">GRANT</string>
+    <string name="permission_required_title">Location Permission Required!</string>
 
     <!-- Image Pick -->
     <string name="btn_proceed">Proceed</string>

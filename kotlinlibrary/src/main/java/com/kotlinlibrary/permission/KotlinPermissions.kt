@@ -21,6 +21,7 @@ object KotlinPermissions {
     class PermissionCore(activity: FragmentActivity) {
         private val activityReference: WeakReference<FragmentActivity> = WeakReference(activity)
         private var permissions: List<String> = ArrayList()
+        private var isRationale = false
         private var acceptedCallback: WeakReference<ResponsePermissionCallback>? = null
         private var deniedCallback: WeakReference<ResponsePermissionCallback>? = null
         private var foreverDeniedCallback: WeakReference<ResponsePermissionCallback>? = null
@@ -41,7 +42,9 @@ object KotlinPermissions {
             }
 
             denied.whenNotNullNorEmpty {
-                deniedCallback?.get()?.onResult(it)
+                if(!isRationale) {
+                    deniedCallback?.get()?.onResult(it)
+                }
             }
         }
 
@@ -92,7 +95,8 @@ object KotlinPermissions {
             return this@PermissionCore
         }
 
-        fun ask() {
+        fun ask(isSecondTime: Boolean = false) {
+            isRationale = isSecondTime
             KotlinPermissions.semaphore.acquire()
             val activity = activityReference.get()
             activity?.let { fragmentActivity ->
@@ -129,10 +133,6 @@ object KotlinPermissions {
                 }
 
             }
-        }
-
-        fun settion() {
-
         }
 
         private fun onAcceptedPermission(permissions: List<String>) {
