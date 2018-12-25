@@ -76,7 +76,8 @@ class EnumAdapter<E : Enum<E>>(val clazz: Class<E>) : Adapter<E, String> {
     override fun toPreference(value: E): String = value.name
 }
 
-@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST") class PreferencesVar<T : Any, V : Any, P : Any>(
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
+class PreferencesVar<T : Any, V : Any, P : Any>(
     private val adapter: Adapter<V, P>,
     private val source: Any,
     private val key: String?,
@@ -88,7 +89,7 @@ class EnumAdapter<E : Enum<E>>(val clazz: Class<E>) : Adapter<E, String> {
         onGetPreferencesFromSource(source)
     }
 
-    override final operator fun getValue(thisRef: T, property: KProperty<*>): V {
+    override operator fun getValue(thisRef: T, property: KProperty<*>): V {
         val name = key ?: property.name
 
         if (!preferences.contains(name)) {
@@ -98,7 +99,7 @@ class EnumAdapter<E : Enum<E>>(val clazz: Class<E>) : Adapter<E, String> {
         return adapter.fromPreference(preference[preferences, name] as P)
     }
 
-    override final operator fun setValue(thisRef: T, property: KProperty<*>, value: V) {
+    override operator fun setValue(thisRef: T, property: KProperty<*>, value: V) {
         preferences.edit().apply {
             preference.set(this, key ?: property.name, adapter.toPreference(value))
             apply()
@@ -106,7 +107,8 @@ class EnumAdapter<E : Enum<E>>(val clazz: Class<E>) : Adapter<E, String> {
     }
 }
 
-@Suppress("UNCHECKED_CAST") class OptionalPreferencesVar<T : Any, V : Any, P : Any>(
+@Suppress("UNCHECKED_CAST")
+class OptionalPreferencesVar<T : Any, V : Any, P : Any>(
     private val adapter: Adapter<V, P>,
     private val source: Any,
     private val key: String?

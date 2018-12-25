@@ -3,16 +3,14 @@ package com.kotlincommon.sample
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.kotlinlibrary.utils.preferences.PreferencesAware
-import com.kotlinlibrary.utils.preferences.bindGsonPreference
-import com.kotlinlibrary.utils.preferences.bindOptionalPreference
-import com.kotlinlibrary.utils.preferences.bindPreference
+import com.kotlinlibrary.utils.preferences.*
 
 class PreferenceActivity : AppCompatActivity() {
 
@@ -79,6 +77,20 @@ class PreferencesFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        refresh(view)
+        Handler().postDelayed({
+            boolean = true
+            float = -1F
+            integer = -1
+            long = -1
+            string = "K"
+            optionalLong = -1
+            optionalString = "K"
+            refresh(view)
+        }, 3000)
+    }
+
+    private fun refresh(view: View) {
         view.findViewById<TextView>(R.id.textView).text =
                 """From Fragment
                 boolean -> $boolean
