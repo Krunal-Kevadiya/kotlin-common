@@ -4,10 +4,12 @@ import android.Manifest
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.kotlinlibrary.permission.KotlinPermissions
-import com.kotlinlibrary.permission.PermissionAkt
+import com.kotlinlibrary.permission.RuntimePermission
+import com.kotlinlibrary.permission.askPermission
 import com.kotlinlibrary.permission.bindPermission
+import com.kotlinlibrary.permission.callback.PermissionCallback
 
 class PermissionActivity : AppCompatActivity() {
 
@@ -15,64 +17,70 @@ class PermissionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.textView)
     }
 
-    private val permissionCore: KotlinPermissions.PermissionCore by
-    bindPermission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-        when (it) {
-            PermissionAkt.ACCEPTED -> {
-                textView.text = "Permission -> Granted"
-
-            }
-            PermissionAkt.DENIED -> {
-                textView.text = "Permission -> Denied"
-                permissionCore.ask(true)
-            }
-            PermissionAkt.FOREVER_DENIED -> {
-                textView.text = "Permission -> Forever denied"
-            }
-            else -> {
-                textView.text = "Permission -> Else"
-            }
-        }
+    fun appendText(textView: TextView, text: String) {
+        textView.post { textView.text = textView.text.toString() + "\n" + text }
     }
 
+    //Using Lazy DSL
+    private val permission: RuntimePermission by
+        bindPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE){
+            setResult(it)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
 
         findViewById<Button>(R.id.btn_permission).setOnClickListener {
-            permissionCore.ask()
+            //Using Extension DSL
+            /*askPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) {
+                setResult(it)
+            }.ask()*/
+
+            //Using Manually
+            /*RuntimePermission(this@PermissionActivity)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .onResponse { setResult(it) }
+                .ask()*/
+            permission.ask()
+        }
+    }
+
+    private fun setResult(it: PermissionCallback) {
+        with(it) {
+            if (hasAccepted()) {
+                textView.text = "Accepted :${accepted}"
+            }
+
+            if (hasDenied()) {
+                appendText(textView, "Denied :")
+                appendText(textView, "$denied")
+
+                AlertDialog.Builder(this@PermissionActivity)
+                    .setMessage("Please accept our permissions to denied")
+                    .setPositiveButton("yes") { dialog, which ->
+                        askAgain();
+                    }
+                    .setNegativeButton("no") { dialog, which ->
+                        dialog.dismiss();
+                    }
+                    .show();
+            }
+
+            if (hasForeverDenied()) {
+                appendText(textView, "ForeverDenied :")
+                appendText(textView, "$foreverDenied")
+
+                AlertDialog.Builder(this@PermissionActivity)
+                    .setMessage("Please accept our permissions foreverDenied")
+                    .setPositiveButton("yes") { dialog, which ->
+                        goToSettings();
+                    }
+                    .setNegativeButton("no") { dialog, which ->
+                        dialog.dismiss();
+                    }
+                    .show();
+            }
         }
     }
 }
-
-/*
-KotlinPermissions.with(this)
-    .permissions(Manifest.permission.CAMERA)
-    .onAccepted {
-        setCameraStatus("Granted")
-    }
-    .onDenied {
-        setCameraStatus("Denied")
-    }
-    .onForeverDenied {
-        setCameraStatus("Forever denied")
-    }
-    .ask()
-
-
-private var permissionCore: KotlinPermissions.PermissionCore? = null
-permissionCore = KotlinPermissions.with(activity!!)
-                .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .onAccepted {
-                    setLocationStatus("Granted")
-                }
-                .onDenied {
-                    setLocationStatus("Denied")
-                    permissionCore?.ask()
-                }
-                .onForeverDenied {
-                    setLocationStatus("Forever denied")
-                }
-permissionCore?.ask()
-*/

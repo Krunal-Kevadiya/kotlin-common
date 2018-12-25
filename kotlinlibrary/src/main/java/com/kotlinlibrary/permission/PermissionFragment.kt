@@ -1,47 +1,42 @@
 package com.kotlinlibrary.permission
 
 import android.content.pm.PackageManager
+import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
-import java.util.*
-import java.util.concurrent.ConcurrentLinkedQueue
+
+import java.util.ArrayList
 
 class PermissionFragment : Fragment() {
-    private val permissionQueue = ConcurrentLinkedQueue<PermissionHolder>()
-    private var permissionsList: List<String> = ArrayList()
-    private var listener: PermissionListener? = null
-    private var waitingForReceive = false
+    private val permissionsList = ArrayList<String>()
+    private var listener: ((List<String>, List<String>, List<String>) -> Unit)? = null
 
     init {
         retainInstance = true
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val arguments = arguments
+        if (arguments != null) {
+            val permissionsArgs = arguments.getStringArrayList(LIST_PERMISSIONS)
+            permissionsArgs?.let {
+                permissionsList.addAll(it)
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        runQueuePermission()
-    }
-
-    private fun runQueuePermission() {
-        if (waitingForReceive) return
-        val poll = permissionQueue.poll()
-        poll.ifNotNullOrElse({
-            waitingForReceive = true
-            this.listener = it.listener
-            permissionsList = ArrayList(it.permissions)
-            proceedPermissions()
-        }, {
-            if (!waitingForReceive) removeFragment()
-        })
-    }
-
-    private fun proceedPermissions() {
-        val perms = permissionsList.toTypedArray()
-        requestPermissions(perms, REQUEST_CODE)
+        if (permissionsList.size > 0) {
+            requestPermissions(permissionsList.toTypedArray(), REQUEST_CODE)
+        } else {
+            fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_CODE && permissions.isNotEmpty() && grantResults.isNotEmpty()) {
+        if (requestCode == REQUEST_CODE && permissions.isNotEmpty() && this.listener != null) {
+            val listener = this.listener
 
             val acceptedPermissions = ArrayList<String>()
             val askAgainPermissions = ArrayList<String>()
@@ -59,37 +54,26 @@ class PermissionFragment : Fragment() {
                     }
                 }
             }
-
-            listener?.onRequestPermissionsResult(acceptedPermissions, refusedPermissions, askAgainPermissions)
-        }
-        waitingForReceive = false
-    }
-
-    private fun removeFragment() {
-        try {
-            fragmentManager?.beginTransaction()?.remove(this@PermissionFragment)?.commitAllowingStateLoss()
-        } catch (e: Exception) {
-            logs("Error while removing fragment", LogType.WARN)
+            listener?.invoke(acceptedPermissions, refusedPermissions, askAgainPermissions)
+            fragmentManager?.beginTransaction()?.remove(this)?.commitAllowingStateLoss()
         }
     }
 
-    internal fun addPermissionForRequest(listener: PermissionListener, permission: List<String>) {
-        permissionQueue.add(PermissionHolder(permission, listener))
+    fun setListener(listener: (List<String>, List<String>, List<String>) -> Unit): PermissionFragment {
+        this.listener = listener
+        return this
     }
-
-    internal interface PermissionListener {
-        fun onRequestPermissionsResult(acceptedPermissions: List<String>, refusedPermissions: List<String>, askAgainPermissions: List<String>)
-    }
-
-    private data class PermissionHolder(
-            val permissions: List<String>,
-            val listener: PermissionListener
-    )
 
     companion object {
-        private const val REQUEST_CODE = 23000
-        fun newInstance(): PermissionFragment {
-            return PermissionFragment()
+        const val LIST_PERMISSIONS = "LIST_PERMISSIONS"
+        private const val REQUEST_CODE = 23
+
+        fun newInstance(permissions: List<String>): PermissionFragment {
+            val args = Bundle()
+            args.putStringArrayList(LIST_PERMISSIONS, ArrayList(permissions))
+            val fragment = PermissionFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }
