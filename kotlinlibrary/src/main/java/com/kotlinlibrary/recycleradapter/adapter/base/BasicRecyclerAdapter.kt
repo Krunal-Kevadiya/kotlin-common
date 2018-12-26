@@ -4,8 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.BaseViewHolder
-import com.kotlinlibrary.recycleradapter.exception.IllegalTypeOfViewHolderException
 import com.kotlinlibrary.recycleradapter.exception.ViewHolderNotRegisteredException
 import com.kotlinlibrary.recycleradapter.util.inflate
 import kotlin.reflect.KClass

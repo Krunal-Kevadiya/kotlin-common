@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.kotlincommon.temp.MultiTypeActivity
+import com.kotlincommon.temp.SingleTypeActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_recycle_adapter).setOnClickListener {
-            startActivity(Intent(this, RecyclerAdapterActivity::class.java))
+            //startActivity(Intent(this, RecyclerAdapterActivity::class.java))
+            //startActivity(Intent(this, SingleTypeActivity::class.java))
+            startActivity(Intent(this, MultiTypeActivity::class.java))
         }
 
         findViewById<Button>(R.id.btn_resource).setOnClickListener {
