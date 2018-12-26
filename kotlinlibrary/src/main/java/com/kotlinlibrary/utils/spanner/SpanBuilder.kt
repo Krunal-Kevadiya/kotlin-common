@@ -41,6 +41,7 @@ import java.util.ArrayList
 
 open class SpanBuilder {
     private val spans = ArrayList<SpanBuilder>()
+
     open fun build(builder: SpannableStringBuilder = SpannableStringBuilder()): Spannable {
         spans.forEach { span -> span.build(builder) }
         return builder
@@ -59,6 +60,7 @@ open class SpanBuilder {
     }
 
     operator fun String.unaryPlus() = text(this)
+
     fun style(style: Int, span: StyleSpan = StyleSpan(style), init: SpanBuilder.() -> Unit): SpanBuilder =
         span(span, init)
 

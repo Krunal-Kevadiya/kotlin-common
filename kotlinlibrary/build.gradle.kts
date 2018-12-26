@@ -7,6 +7,8 @@ plugins {
     kotlin("kapt")
 }
 
+//apply(from = "../settings/codequality/quality.gradle")
+
 android {
     compileSdkVersion(Versions.Android.compileSdkVersion)
 
@@ -28,10 +30,15 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-
+            Config.proguardList.forEach {
+                proguardFile(file(it))
+            }
         }
         getByName("debug") {
             isMinifyEnabled = false
+            Config.proguardList.forEach {
+                proguardFile(file(it))
+            }
         }
     }
 }
@@ -43,42 +50,43 @@ androidExtensions {
 }
 
 dependencies {
-    // Support Design
-    compileOnly(Depend.AndroidX.appcompat)
-    compileOnly(Depend.AndroidX.v4)
-    compileOnly(Depend.AndroidX.material)
-    compileOnly(Depend.AndroidX.recyclerview)
+    compileOnlys {
+        // Support Design
+        +Depend.AndroidX.appcompat
+        +Depend.AndroidX.material
+        +Depend.AndroidX.recyclerview
 
-    // Kotlin
-    compileOnly(Depend.Kotlin.stdlib)
-    compileOnly(Depend.Kotlin.coroutinesCore)
+        // Kotlin
+        +Depend.Kotlin.stdlib
+        +Depend.Kotlin.coroutinesCore
 
-    // S3 Bucket
-    compileOnly(Depend.Amazon.s3)
-    compileOnly(Depend.ThirdParty.commonsLogging)
+        // S3 Bucket
+        +Depend.Amazon.s3
+        +Depend.ThirdParty.commonsLogging
 
-    // Location
-    compileOnly(Depend.Google.location)
+        // Location
+        +Depend.Google.location
 
-    // Socket IO
-    compileOnly(Depend.ThirdParty.socketIo)
+        // Socket IO
+        +Depend.ThirdParty.socketIo
 
-    // GSON
-    compileOnly(Depend.ThirdParty.gson)
+        // GSON
+        +Depend.ThirdParty.gson
 
-    // Retrofit
-    compileOnly(Depend.Retrofit.lib)
-    compileOnly(Depend.Retrofit.adapterRx2)
-    compileOnly(Depend.Retrofit.gson)
-    compileOnly(Depend.OkHttp.lib)
-    compileOnly(Depend.OkHttp.logging)
+        // Retrofit
+        +Depend.Retrofit.lib
+        +Depend.Retrofit.adapterRx2
+        +Depend.Retrofit.gson
+        +Depend.OkHttp.lib
+        +Depend.OkHttp.logging
 
-    // Reactive
-    compileOnly(Depend.JavaxAndRx.android2)
-    compileOnly(Depend.JavaxAndRx.java2)
+        // Reactive
+        +Depend.JavaxAndRx.android2
+        +Depend.JavaxAndRx.java2
 
-    //Livedata
-    compileOnly(Depend.Lifecycle.livedata)
+        //Livedata
+        +Depend.Lifecycle.livedata
+    }
 }
 
 /*
@@ -114,3 +122,4 @@ ext {
 }
 
 apply from: '../settings/maven/android-release-aar.gradle'*/
+

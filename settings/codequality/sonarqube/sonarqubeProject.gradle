@@ -1,0 +1,39 @@
+apply plugin: "org.sonarqube"
+
+def qualityConfigDir = "$project.rootDir/settings/codequality"
+def sourceDir = "$project.rootDir"
+
+sonarqube {
+    androidVariant 'debug'
+
+    properties {
+        property "sonar.verbose", true
+        property "sonar.login", "admin"
+        property "sonar.password", "admin"
+        property "sonar.host.url", "http://localhost:9000"
+        //property "sonar.password", "Simform.321"
+        //property "sonar.host.url", "http://ci.simformsolutions.com:9000"
+
+        property "sonar.issuesReport.html.enable", "true"
+        property "sonar.issuesReport.console.enable", "true"
+
+        property "detekt.sonar.kotlin.config.path", "$qualityConfigDir/detekt/detekt.yml"
+
+        //property "sonar.sources", "app/src/main/java"
+        //property "sonar.tests", "app/src/test/java"
+
+        property "sonar.sources", "$sourceDir/app/src/main/java"
+        property "sonar.tests", ["$sourceDir/appsrc/test/java"]
+
+        property "sonar.exclusions", "$sourceDir/app/src/main/java/**"
+        property "sonar.test.inclusions", "$sourceDir/app/src/test/java/**"
+        //property "sonar.scm.provider", "git"
+        property "sonar.scm.disabled", true
+
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.java.binaries", "${rootProject.projectDir}/app/build/intermediates/classes," +
+                "${rootProject.projectDir}/app/build/tmp/kotlin-classes"
+
+        property 'sonar.jacoco.reportPaths', "${rootProject.projectDir}/app/build/jacoco/testDebugUnitTest.exec"
+    }
+}

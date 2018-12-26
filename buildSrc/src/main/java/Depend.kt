@@ -2,6 +2,10 @@ object Depend {
     object BuildPlugins {
         const val androidPlugin = "com.android.tools.build:gradle:${Versions.GradlePlugin.android}"
         const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.GradlePlugin.kotlin}"
+        const val jacocoPlugin = "com.dicedmelon.gradle:jacoco-android:${Versions.GradlePlugin.jacoco}"
+        const val sonarqubePlugin = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.GradlePlugin.sonarqube}"
+        const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.GradlePlugin.detekt}"
+        const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:${Versions.GradlePlugin.spotless}"
     }
 
     object Core {
@@ -266,11 +270,6 @@ object Depend {
             "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.Leakcanary.androidNoOp}"
         const val supportFragment =
             "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.Leakcanary.supportFragment}"
-    }
-
-    object StaticTools {
-        const val jacoco = "com.dicedmelon.gradle:jacoco-android:${Versions.StaticTools.jacoco}"
-        const val sonarqube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.StaticTools.sonarqube}"
     }
 
     object Atsl {

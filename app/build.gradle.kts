@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.builder.model.ProductFlavor
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -5,23 +8,23 @@ plugins {
     kotlin("kapt")
 }
 
+//apply(from = "../settings/codequality/quality.gradle")
+
 android {
     compileSdkVersion(Versions.Android.compileSdkVersion)
 
     defaultConfig {
-        applicationId = "com.kotlincommon.sample"//Config.Application.applicationId
+        readAppSetting(Config.AppType.app, project) { id, key ->
+            applicationId = id
+            manifestPlaceholders = mapOf("crashlyticsKey" to key)
+        }
         minSdkVersion(Versions.Android.minSdkVersion)
         targetSdkVersion(Versions.Android.targetSdkVersion)
-        manifestPlaceholders = mapOf("crashlyticsKey" to "krunal")
         vectorDrawables.useSupportLibrary = true
     }
 
     dataBinding {
         isEnabled = true
-    }
-
-    androidExtensions {
-        isExperimental = true
     }
 
     java {
@@ -32,31 +35,64 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            Config.proguardList.forEach {
+                proguardFile(file(it))
+            }
 
         }
         getByName("debug") {
             isMinifyEnabled = false
+            Config.proguardList.forEach {
+                proguardFile(file(it))
+            }
+        }
+    }
+
+    flavorDimensions(Config.Application.flavorDimention)
+    productFlavors {
+        create(Config.Flavors.production) {
+            readVersion(Config.AppType.app, Config.Flavors.production, project) { name, code ->
+                versionName = name
+                versionCode = code
+            }
+        }
+        create(Config.Flavors.qa) {
+            readVersion(Config.AppType.app, Config.Flavors.qa, project) { name, code ->
+                versionName = name
+                versionCode = code
+            }
+        }
+        create(Config.Flavors.development) {
+            readVersion(Config.AppType.app, Config.Flavors.development, project) { name, code ->
+                versionName = name
+                versionCode = code
+            }
         }
     }
 }
 
 dependencies {
-    implementation(Depend.AndroidX.appcompat)
-    implementation(Depend.AndroidX.material)
-    implementation(Depend.AndroidX.recyclerview)
-    implementation(Depend.AndroidX.swipereFreshlayout)
+    implementations {
+        // Support Design
+        +Depend.AndroidX.appcompat
+        +Depend.AndroidX.material
+        +Depend.AndroidX.recyclerview
+        +Depend.AndroidX.swipereFreshlayout
+        +Depend.Constraint.lib
 
-    implementation(Depend.Constraint.lib)
+        //Kotlin
+        +Depend.Kotlin.stdlib
 
-    implementation(Depend.Kotlin.stdlib)
+        //Margin, Padding and fontsize
+        +Depend.Intuit.sdp
+        +Depend.Intuit.ssp
 
-    implementation(Depend.Intuit.sdp)
-    implementation(Depend.Intuit.ssp)
+        //Json parsing
+        +Depend.ThirdParty.gson
 
-    implementation(Depend.ThirdParty.gson)
-
-    implementation(Depend.Google.location)
-
+        //Location
+        +Depend.Google.location
+    }
     //implementation('com.github.Krunal-Kevadiya:kotlin-common:1.0.1")
     implementation(project(":kotlinlibrary"))
 }

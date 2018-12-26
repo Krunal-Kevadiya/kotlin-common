@@ -2,6 +2,7 @@
 .gradle
 /local.properties
 /.idea
+/.scannerwork
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
@@ -11,3 +12,5 @@
 .externalNativeBuild
 report.xml
 settings/reports
+app/src/main/res/values/com_crashlytics_export_strings.xml
+/buildSrc

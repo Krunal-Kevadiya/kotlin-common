@@ -1,37 +1,26 @@
 import java.net.URI
 
 buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-        maven { url = uri("http://dl.bintray.com/piasy/maven") }
-        maven { url = uri("https://maven.google.com") }
-        maven { url = uri("https://www.jitpack.io") }
-        maven { url = uri("https://maven.fabric.io/public") }
-        maven { url = uri("https://plugins.gradle.org/m2") }
-    }
+    addRepo(repositories)
+
     dependencies {
         classpath(Depend.BuildPlugins.androidPlugin)
         classpath(Depend.BuildPlugins.kotlinPlugin)
+        classpath(Depend.BuildPlugins.sonarqubePlugin)
+        classpath(Depend.BuildPlugins.detektPlugin)
+        classpath(Depend.BuildPlugins.spotlessPlugin)
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-        maven { url = uri("http://dl.bintray.com/piasy/maven") }
-        maven { url = uri("https://maven.google.com") }
-        maven { url = uri("https://www.jitpack.io") }
-        maven { url = uri("https://maven.fabric.io/public") }
-        maven { url = uri("https://plugins.gradle.org/m2") }
-    }
+    addRepo(repositories)
 }
 
 task<Delete>("clean") {
     delete(rootProject.buildDir)
 }
+
+//apply(from = "./settings/codequality/detekt/detekt.gradle")
+//apply(from = "./settings/codequality/sonarqube/sonarqubeProject.gradle")
+
+

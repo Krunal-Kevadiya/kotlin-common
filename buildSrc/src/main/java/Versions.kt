@@ -11,6 +11,10 @@ object Versions {
     object GradlePlugin {
         const val android = "3.2.1"
         const val kotlin = "1.3.10"
+        const val jacoco = "0.1.2"
+        const val sonarqube = "2.6.2"
+        const val detekt = "1.0.0-RC11"
+        const val spotless = "3.16.0"
     }
 
     object Core {
@@ -259,11 +263,6 @@ object Versions {
         const val android = "1.6.1"
         const val androidNoOp = "1.6.1"
         const val supportFragment = "1.6.1"
-    }
-
-    object StaticTools {
-        const val jacoco = "0.1.2"
-        const val sonarqube = "2.6.2"
     }
 
     object Atsl {

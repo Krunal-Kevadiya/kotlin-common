@@ -1,0 +1,23 @@
+apply plugin: 'findbugs'
+
+def qualityConfigDir = "$project.rootDir/settings/codequality"
+def sourceDir = "$project.rootDir"
+
+task findbugs(type: FindBugs, group: 'Verification', description: 'Inspect java bytecode for bugs') {
+    ignoreFailures = false
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = new File("$qualityConfigDir/findbugs/findbugs.xml")
+
+    classes = files("$sourceDir/common/build/intermediates/classes", "$sourceDir/customer/build/intermediates/classes", "$sourceDir/provider/build/intermediates/classes")
+    classpath = files()
+    source = fileTree('src/main/java')
+
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}

@@ -1,0 +1,32 @@
+def qualityConfigDir = "$project.rootDir/settings/codequality"
+def sourceDir = "$project.rootDir"
+
+android {
+    lintOptions {
+        // Turns off checks for the issue IDs you specify.
+        disable 'NewApi', 'RestrictedApi', 'TypographyFractions', 'TypographyQuotes'
+        // Turns on checks for the issue IDs you specify. These checks are in
+        // addition to the default lint checks.
+        enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
+        // To enable checks for only a subset of issue IDs and ignore all others,
+        // list the issue IDs with the 'check' property instead. This property overrides
+        // any issue IDs you enable or disable using the properties above.
+        check 'InlinedApi', 'HandlerLeak'
+        // If set to true, turns off analysis progress reporting by lint.
+        quiet true
+
+        abortOnError true
+        xmlReport true
+        htmlReport true
+        lintConfig file("${qualityConfigDir}/lint/javalintrc.xml")
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            outputs.upToDateWhen { false }
+            showStandardStreams = true
+        }
+        jvmArgs '-noverify'
+    }
+}

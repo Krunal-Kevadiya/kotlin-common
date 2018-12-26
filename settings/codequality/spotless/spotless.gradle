@@ -1,0 +1,17 @@
+apply plugin: "com.diffplug.gradle.spotless"
+
+def qualityConfigDir = "$project.rootDir/settings/codequality"
+def sourceDir = "$project.rootDir"
+
+spotless {
+    java {
+        target '**/*.java'
+        googleJavaFormat()
+        licenseHeaderFile "$qualityConfigDir/spotless/copyright.java"
+    }
+    kotlin {
+        target "**/*.kt"
+        ktlint()
+        licenseHeaderFile "$qualityConfigDir/spotless/copyright.kt"
+    }
+}
