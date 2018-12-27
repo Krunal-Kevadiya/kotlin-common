@@ -1,11 +1,9 @@
-package com.kotlincommon.temp
+package com.kotlincommon.sample
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.kotlincommon.sample.R
-import com.kotlinlibrary.recycleradapter.dsladapter.setUp
+import com.kotlinlibrary.recycleradapter.setUp
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*

@@ -2,8 +2,7 @@ plugins {
     jacoco
 }
 
-val fileFilter =
-    arrayOf(
+val fileFilter = arrayOf(
         "**/*Parcel.class",
         "**/*\$CREATOR.class",
         "**/*Test*.*",
@@ -34,10 +33,12 @@ val debugTree = fileTree("dir" to "$buildDir/intermediates/classes/debug", "excl
 val mainSrc = "${project.projectDir}/src/main/java"
 val kotlinDebugTree = fileTree("dir" to "$buildDir/tmp/kotlin-classes/debug", "excludes" to fileFilter)
 
+/*
 jacoco {
     version = "0.7.9"
     toolVersion = "0.7.9"
 }
+*/
 
 android {
     testOptions {

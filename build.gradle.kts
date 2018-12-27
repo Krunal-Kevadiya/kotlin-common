@@ -9,6 +9,7 @@ buildscript {
         classpath(Depend.BuildPlugins.sonarqubePlugin)
         classpath(Depend.BuildPlugins.detektPlugin)
         classpath(Depend.BuildPlugins.spotlessPlugin)
+        classpath(Depend.BuildPlugins.jitpack)
     }
 }
 

@@ -15,6 +15,7 @@ object Versions {
         const val sonarqube = "2.6.2"
         const val detekt = "1.0.0-RC11"
         const val spotless = "3.16.0"
+        const val jitpack = "2.1"
     }
 
     object Core {

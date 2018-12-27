@@ -1,4 +1,4 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.base
+package com.kotlinlibrary.recycleradapter.base
 
 open class AdapterList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
     private var oldList: MutableList<E>? = null

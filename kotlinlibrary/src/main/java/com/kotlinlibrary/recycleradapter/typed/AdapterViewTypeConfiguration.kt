@@ -1,4 +1,4 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.typed
+package com.kotlinlibrary.recycleradapter.typed
 
 import android.view.View
 import androidx.annotation.IdRes

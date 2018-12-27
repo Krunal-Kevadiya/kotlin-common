@@ -6,6 +6,7 @@ object Depend {
         const val sonarqubePlugin = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.GradlePlugin.sonarqube}"
         const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.GradlePlugin.detekt}"
         const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:${Versions.GradlePlugin.spotless}"
+        const val jitpack = "com.github.dcendents:android-maven-gradle-plugin:${Versions.GradlePlugin.jitpack}"
     }
 
     object Core {

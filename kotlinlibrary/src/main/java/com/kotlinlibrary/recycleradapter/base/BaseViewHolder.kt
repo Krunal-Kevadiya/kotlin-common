@@ -1,4 +1,4 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.base
+package com.kotlinlibrary.recycleradapter.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

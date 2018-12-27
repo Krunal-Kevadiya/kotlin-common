@@ -1,57 +1,59 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.typed
+package com.kotlinlibrary.recycleradapter.typed
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseAdapter
-import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseViewHolder
-import com.kotlinlibrary.recycleradapter.dsladapter.base.DiffUtilCallback
+import com.kotlinlibrary.recycleradapter.base.BaseAdapter
+import com.kotlinlibrary.recycleradapter.base.BaseViewHolder
+import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
 
 open class MultiTypedAdapter(
     private val multiTypedAdapterConfiguration: MultiTypedAdapterConfiguration
-) : BaseAdapter<Any, BaseViewHolder<Any>>(multiTypedAdapterConfiguration.getAllItems()) {
+) : BaseAdapter<Any, BaseViewHolder<Any>>(multiTypedAdapterConfiguration.items) {
     init {
         multiTypedAdapterConfiguration.validate()
     }
 
     override fun getItemViewType(position: Int): Int {
         return multiTypedAdapterConfiguration.viewTypes.first {
-            it.viewType == multiTypedAdapterConfiguration.getAllItems()[position]::class.hashCode()
+            it.viewType == multiTypedAdapterConfiguration.items[position]::class.hashCode()
         }.viewType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Any> {
         val adapterViewType = multiTypedAdapterConfiguration.viewTypes.first { it.viewType == viewType }
         val view = LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
-        return object : BaseViewHolder<Any>(view) {
+        val holder = object : BaseViewHolder<Any>(view) {
             override fun bindView(item: Any) {
                 adapterViewType.configuration.bindHolder(itemView, item)
             }
         }
+        setUpClickListener(adapterViewType, holder)
+        return holder
     }
 
-    override fun onBindViewClick(holder: BaseViewHolder<Any>) {
+    /*override fun onBindViewClick(holder: BaseViewHolder<Any>) {
         super.onBindViewClick(holder)
         setUpClickListener(holder)
-    }
+    }*/
 
-    private fun setUpClickListener(holder: BaseViewHolder<Any>) {
+    private fun setUpClickListener(adapterViewType: AdapterViewType<Any>, holder: BaseViewHolder<Any>) {
         val itemView = holder.itemView
-        if(configuration.clickResId.isEmpty()) {
+        if(adapterViewType.configuration.clickResId.isEmpty()) {
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                    adapterViewType.configuration.clickListener.invoke(view.id, itemList[adapterPosition])
                 }
             }
         } else {
-            configuration.clickResId.forEach { id ->
+            adapterViewType.configuration.clickResId.forEach { id ->
                 itemView.findViewById<View>(id)?.setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
-                        configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                        adapterViewType.configuration.clickListener.invoke(view.id, itemList[adapterPosition])
                     }
                 }
             }
@@ -105,9 +107,9 @@ open class MultiTypedAdapter(
 
     private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<Any>) {
         with(diffUtilCallback) {
-            contentComparator = configuration.contentComparator
-            itemsComparator = configuration.itemsComparator
-            DiffUtil.calculateDiff(this).dispatchUpdatesTo(this@SingleAdapter)
+            contentComparator = multiTypedAdapterConfiguration.contentComparator
+            itemsComparator = multiTypedAdapterConfiguration.itemsComparator
+            DiffUtil.calculateDiff(this).dispatchUpdatesTo(this@MultiTypedAdapter)
         }
     }
 }

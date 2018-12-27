@@ -1,13 +1,13 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.simple
+package com.kotlinlibrary.recycleradapter.simple
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseAdapter
-import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseViewHolder
-import com.kotlinlibrary.recycleradapter.dsladapter.base.DiffUtilCallback
+import com.kotlinlibrary.recycleradapter.base.BaseAdapter
+import com.kotlinlibrary.recycleradapter.base.BaseViewHolder
+import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
 
 open class SingleAdapter<T> (
     private val configuration: SingleAdapterConfiguration<T>
@@ -18,17 +18,19 @@ open class SingleAdapter<T> (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(configuration.layoutResId, parent, false)
-        return object : BaseViewHolder<T>(view) {
+        val holder = object : BaseViewHolder<T>(view) {
             override fun bindView(item: T) {
                 configuration.bindHolder(itemView, item)
             }
         }
+        setUpClickListener(holder)
+        return holder
     }
 
-    override fun onBindViewClick(holder: BaseViewHolder<T>) {
+    /*override fun onBindViewClick(holder: BaseViewHolder<T>) {
         super.onBindViewClick(holder)
         setUpClickListener(holder)
-    }
+    }*/
 
     private fun setUpClickListener(holder: BaseViewHolder<T>) {
         val itemView = holder.itemView

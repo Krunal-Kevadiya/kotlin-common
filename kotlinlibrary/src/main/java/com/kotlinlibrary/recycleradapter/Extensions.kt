@@ -1,11 +1,11 @@
-package com.kotlinlibrary.recycleradapter.dsladapter
+package com.kotlinlibrary.recycleradapter
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.dsladapter.simple.SingleAdapter
-import com.kotlinlibrary.recycleradapter.dsladapter.simple.SingleAdapterConfiguration
-import com.kotlinlibrary.recycleradapter.dsladapter.typed.MultiTypedAdapter
-import com.kotlinlibrary.recycleradapter.dsladapter.typed.MultiTypedAdapterConfiguration
+import com.kotlinlibrary.recycleradapter.simple.SingleAdapter
+import com.kotlinlibrary.recycleradapter.simple.SingleAdapterConfiguration
+import com.kotlinlibrary.recycleradapter.typed.MultiTypedAdapter
+import com.kotlinlibrary.recycleradapter.typed.MultiTypedAdapterConfiguration
 
 fun <T> RecyclerView.setUp(block: SingleAdapterConfiguration<T>.() -> Unit): SingleAdapter<T> {
     val configuration = SingleAdapterConfiguration<T>().apply(block)

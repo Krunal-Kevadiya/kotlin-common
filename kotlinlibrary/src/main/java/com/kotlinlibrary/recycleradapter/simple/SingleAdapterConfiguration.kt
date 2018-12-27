@@ -1,11 +1,11 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.simple
+package com.kotlinlibrary.recycleradapter.simple
 
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.dsladapter.base.AdapterList
-import com.kotlinlibrary.recycleradapter.dsladapter.exceptions.UndefinedLayout
+import com.kotlinlibrary.recycleradapter.base.AdapterList
+import com.kotlinlibrary.recycleradapter.exceptions.UndefinedLayout
 
 class SingleAdapterConfiguration<T> {
     internal var items = AdapterList<T>()
@@ -64,8 +64,10 @@ class SingleAdapterConfiguration<T> {
 
     internal fun validate() {
         when {
-            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout("Adapter layout is not set, " +
-                    "please declare it with withLayoutResId() function")
+            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout(
+                "Adapter layout is not set, " +
+                        "please declare it with withLayoutResId() function"
+            )
         }
     }
 }

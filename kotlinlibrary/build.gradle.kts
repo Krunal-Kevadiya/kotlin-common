@@ -5,7 +5,9 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("com.github.dcendents.android-maven")
 }
+group = "com.kevadiyakrunalk"
 
 //apply(from = "../settings/codequality/quality.gradle")
 
@@ -89,29 +91,29 @@ dependencies {
     }
 }
 
-/*
 // For jitPack
-task.sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+val sourcesJar = task("sourcesJar", Jar::class) {
+    from(android.sourceSets["main"].java.srcDirs)
+    classifier = "sources"
 }
 
-task.javadoc(type: Javadoc) {
-    failOnError  false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+val javadoc = task("javadoc", Javadoc::class) {
+    isFailOnError = false
+    source = android.sourceSets["main"].java.sourceFiles
+    classpath += project.files(android.bootClasspath.joinToString(File.pathSeparator))
     classpath += configurations.compile
 }
 
-task.javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+val javadocJar = task("javadocJar", Jar::class) {
+    dependsOn(javadoc)
+    classifier = "javadoc"
+    from(javadoc.destinationDir)
 }
 
 artifacts {
-    archives sourcesJar
-    archives javadocJar
-}*/
+    add("archives", sourcesJar)
+    add("archives", javadocJar)
+}
 
 /*
 // For Bintry or jcenter
@@ -121,5 +123,6 @@ ext {
     PUBLISH_VERSION = '1.0.0'
 }
 
-apply from: '../settings/maven/android-release-aar.gradle'*/
+apply from: '../settings/maven/android-release-aar.gradle'
+*/
 

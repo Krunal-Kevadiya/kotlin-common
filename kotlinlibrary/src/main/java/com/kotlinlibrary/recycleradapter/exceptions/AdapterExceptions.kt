@@ -1,4 +1,4 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.exceptions
+package com.kotlinlibrary.recycleradapter.exceptions
 
 open class AdapterException(message: String, cause: Throwable? = null) : Throwable(message, cause)
 

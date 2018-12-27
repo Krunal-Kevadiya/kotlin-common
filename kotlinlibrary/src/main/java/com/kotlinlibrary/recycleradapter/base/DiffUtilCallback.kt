@@ -1,4 +1,4 @@
-package com.kotlinlibrary.recycleradapter.dsladapter.base
+package com.kotlinlibrary.recycleradapter.base
 
 import androidx.recyclerview.widget.DiffUtil
 
