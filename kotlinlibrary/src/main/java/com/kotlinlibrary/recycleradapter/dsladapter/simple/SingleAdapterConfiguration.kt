@@ -1,22 +1,32 @@
-package com.kotlinlibrary.recycleradapter.kidadapter.simple
+package com.kotlinlibrary.recycleradapter.dsladapter.simple
 
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.kidadapter.base.KidList
-import com.kotlinlibrary.recycleradapter.kidadapter.exceptions.UndefinedLayout
+import com.kotlinlibrary.recycleradapter.dsladapter.base.AdapterList
+import com.kotlinlibrary.recycleradapter.dsladapter.exceptions.UndefinedLayout
 
-class SingleKidAdapterConfiguration<T> {
-    internal var items = KidList<T>()
+class SingleAdapterConfiguration<T> {
+    internal var items = AdapterList<T>()
         private set
+
     internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
+
     @LayoutRes
     internal var layoutResId: Int = -1
         private set
+
     internal var bindHolder: View.(T) -> Unit = {}
         private set
+
+    internal var clickResId = ArrayList<Int>()
+    internal var clickListener: (Int, T) -> Unit = {_, _ -> }
+        private set
+
     internal var contentComparator: ((T, T) -> Boolean)? = null
+
     internal var itemsComparator: ((T, T) -> Boolean)? = null
 
     fun withItems(items: MutableList<T>) {
@@ -43,8 +53,13 @@ class SingleKidAdapterConfiguration<T> {
         this.itemsComparator = itemsComparator
     }
 
-    fun bind(block: View.(T) -> Unit) {
+    fun onBind(block: View.(T) -> Unit) {
         this.bindHolder = block
+    }
+
+    fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {
+        clickResId.addAll(resId.toList())
+        this.clickListener = block
     }
 
     internal fun validate() {

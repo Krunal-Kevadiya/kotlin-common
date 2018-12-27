@@ -13,4 +13,5 @@
 report.xml
 settings/reports
 app/src/main/res/values/com_crashlytics_export_strings.xml
-/buildSrc
+/buildSrc/.gradle
+/buildSrc/build

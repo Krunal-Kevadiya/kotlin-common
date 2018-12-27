@@ -1,8 +1,8 @@
-package com.kotlinlibrary.recycleradapter.kidadapter.base
+package com.kotlinlibrary.recycleradapter.dsladapter.base
 
 import androidx.recyclerview.widget.DiffUtil
 
-internal class KidDiffUtilCallback<T>(
+internal class DiffUtilCallback<T>(
     private val oldItems: MutableList<T>,
     private val newItems: MutableList<T>,
     internal var contentComparator: ((T, T) -> Boolean)? = null,

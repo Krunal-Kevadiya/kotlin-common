@@ -1,38 +1,55 @@
-package com.kotlinlibrary.recycleradapter.kidadapter.simple
+package com.kotlinlibrary.recycleradapter.dsladapter.simple
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.kidadapter.base.BaseAdapter
-import com.kotlinlibrary.recycleradapter.kidadapter.base.BaseViewHolder
-import com.kotlinlibrary.recycleradapter.kidadapter.base.KidDiffUtilCallback
+import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseAdapter
+import com.kotlinlibrary.recycleradapter.dsladapter.base.BaseViewHolder
+import com.kotlinlibrary.recycleradapter.dsladapter.base.DiffUtilCallback
 
-open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfiguration<T>)
-    : BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
+open class SingleAdapter<T> (
+    private val configuration: SingleAdapterConfiguration<T>
+) : BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
     init {
         configuration.validate()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(configuration.layoutResId, parent, false)
-        val viewHolder = object : BaseViewHolder<T>(view) {
+        return object : BaseViewHolder<T>(view) {
             override fun bindView(item: T) {
                 configuration.bindHolder(itemView, item)
             }
         }
-        val itemView = viewHolder.itemView
-        itemView.setOnClickListener {
-            val adapterPosition = viewHolder.adapterPosition
-            if (adapterPosition != RecyclerView.NO_POSITION) {
-                onItemClick(itemView, adapterPosition)
-            }
-        }
-        return viewHolder
     }
 
-    open fun onItemClick(itemView: View, position: Int) {}
+    override fun onBindViewClick(holder: BaseViewHolder<T>) {
+        super.onBindViewClick(holder)
+        setUpClickListener(holder)
+    }
+
+    private fun setUpClickListener(holder: BaseViewHolder<T>) {
+        val itemView = holder.itemView
+        if(configuration.clickResId.isEmpty()) {
+            itemView.setOnClickListener { view ->
+                val adapterPosition = holder.adapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                }
+            }
+        } else {
+            configuration.clickResId.forEach { id ->
+                itemView.findViewById<View>(id)?.setOnClickListener { view ->
+                    val adapterPosition = holder.adapterPosition
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                    }
+                }
+            }
+        }
+    }
 
     override operator fun plusAssign(itemList: MutableList<T>) {
         this.itemList.reset(itemList)
@@ -79,11 +96,11 @@ open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfi
         itemList.clear().also(::dispatchUpdates)
     }
 
-    private fun dispatchUpdates(diffUtilCallback: KidDiffUtilCallback<T>) {
+    private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<T>) {
         with(diffUtilCallback) {
             contentComparator = configuration.contentComparator
             itemsComparator = configuration.itemsComparator
-            DiffUtil.calculateDiff(this).dispatchUpdatesTo(this@SingleKidAdapter)
+            DiffUtil.calculateDiff(this).dispatchUpdatesTo(this@SingleAdapter)
         }
     }
 }

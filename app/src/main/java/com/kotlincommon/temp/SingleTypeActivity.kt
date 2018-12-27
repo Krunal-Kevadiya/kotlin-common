@@ -2,9 +2,12 @@ package com.kotlincommon.temp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlincommon.sample.R
-import com.kotlinlibrary.recycleradapter.kidadapter.setUp
+import com.kotlinlibrary.recycleradapter.dsladapter.setUp
+import com.kotlinlibrary.utils.LogType
+import com.kotlinlibrary.utils.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 import kotlinx.android.synthetic.main.item_advertisement.view.*
 import java.util.*
@@ -17,17 +20,31 @@ class SingleTypeActivity: AppCompatActivity() {
 
         val adapter = recyclerView.setUp<String> {
             withLayoutResId(R.layout.item_advertisement)
-            withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
-            bind {
+            onBind {
                 setBackgroundColor(getRandomColor())
-                textView.text = it
+                textViewAdvertisement.text = it
             }
+            onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
+                logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
+            }
+            withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
         }
 
-        recyclerView.postDelayed({ adapter + "1" }, 2_000)
-        recyclerView.postDelayed({ adapter + mutableListOf("2", "3", "4") }, 4_000)
-        recyclerView.postDelayed({ adapter[2] =  "3" }, 4_000)
-        recyclerView.postDelayed({ adapter.clear() }, 8_000)
+        recyclerView.postDelayed({
+            adapter + "1"
+        }, 2_000)
+
+        recyclerView.postDelayed({
+            adapter + mutableListOf("2", "3", "4")
+        }, 4_000)
+
+        recyclerView.postDelayed({
+            adapter[2] =  "3"
+        }, 4_000)
+
+        /*recyclerView.postDelayed({
+            adapter.clear()
+        }, 8_000)*/
     }
 
     private fun getRandomColor(): Int {

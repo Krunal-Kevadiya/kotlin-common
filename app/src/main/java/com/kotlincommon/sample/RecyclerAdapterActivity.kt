@@ -8,6 +8,7 @@ import com.kotlinlibrary.recycleradapter.BaseViewHolder
 import com.kotlinlibrary.recycleradapter.adapter.SimpleBasicRecyclerAdapter
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
+import kotlinx.android.synthetic.main.item_advertisement.view.*
 import kotlinx.android.synthetic.main.item_loadmore.view.*
 
 class RecyclerAdapterActivity : AppCompatActivity() {
@@ -59,15 +60,15 @@ data class Advertisement(val url: String)
 class UserViewHolder(itemView: View, val onClickListener: (item: User, index: Int, viewId: Int) -> Unit)
     : RecyclerView.ViewHolder(itemView), BaseViewHolder<User> {
     override fun bind(item: User) {
-        itemView.textView.text = item.name
-        itemView.textView.setOnClickListener {
-            onClickListener(item, adapterPosition, itemView.textView.id)
+        itemView.textViewLoadMore.text = item.name
+        itemView.textViewLoadMore.setOnClickListener {
+            onClickListener(item, adapterPosition, itemView.textViewLoadMore.id)
         }
     }
 }
 class AdvertisementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), BaseViewHolder<Advertisement> {
     override fun bind(item: Advertisement) {
-        itemView.textView.text = item.url
+        itemView.textViewAdvertisement.text = item.url
     }
 }
 

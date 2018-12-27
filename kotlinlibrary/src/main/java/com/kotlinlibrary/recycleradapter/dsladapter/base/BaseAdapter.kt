@@ -1,15 +1,18 @@
-package com.kotlinlibrary.recycleradapter.kidadapter.base
+package com.kotlinlibrary.recycleradapter.dsladapter.base
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: KidList<T>) : RecyclerView.Adapter<H>() {
-    constructor(itemList: MutableList<T>) : this(KidList(itemList))
+abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: AdapterList<T>) : RecyclerView.Adapter<H>() {
+    constructor(itemList: MutableList<T>) : this(AdapterList(itemList))
 
     override fun getItemCount() = itemList.size
 
     final override fun onBindViewHolder(holder: H, position: Int) {
         holder.bindView(itemList[position])
+        onBindViewClick(holder)
     }
+
+    open fun onBindViewClick(holder: H) {}
 
     open operator fun plusAssign(itemList: MutableList<T>) {
         this.itemList.reset(itemList)
