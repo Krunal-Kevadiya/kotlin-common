@@ -64,8 +64,8 @@ class ValidatedObservableField<T : Any>(
     }
 
     private fun reset() {
-        isValid = true
         this.setError(null)
+        isValid = true
     }
 
     // Rules
