@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,3 +16,4 @@
         android:textColor="@color/color_type_help"
         tools:text="@tools:sample/full_names"/>
 </LinearLayout>
+</layout>

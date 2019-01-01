@@ -3,6 +3,7 @@ package com.kotlinlibrary.recycleradapter.simple
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.recycleradapter.base.AdapterList
 import com.kotlinlibrary.recycleradapter.exceptions.UndefinedLayout
@@ -19,6 +20,9 @@ class SingleAdapterConfiguration<T> {
         private set
 
     internal var bindHolder: View.(T) -> Unit = {}
+        private set
+
+    internal var bindBindingHolder: ViewDataBinding.(T) -> Unit = {}
         private set
 
     internal var clickResId = ArrayList<Int>()
@@ -55,6 +59,10 @@ class SingleAdapterConfiguration<T> {
 
     fun onBind(block: View.(T) -> Unit) {
         this.bindHolder = block
+    }
+
+    fun onBindBinding(block: ViewDataBinding.(T) -> Unit) {
+        this.bindBindingHolder = block
     }
 
     fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {
