@@ -50,7 +50,7 @@ fun Context.buildCounterDrawable(
     count: Int,
     @DrawableRes bgImageId: Int = R.drawable.ic_person,
     @ColorRes bgColor: Int = R.color.color_type_warning,
-    @DimenRes badgeSize: Int = R.dimen.default_badge_size,
+    @DimenRes badgeSize: Int = R.dimen._16sdp,
     position: BadgePosition = BadgePosition.TOP_RIGHT,
     @ColorRes textColor: Int = android.R.color.white,
     isBoarder:Boolean = false,

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fbRoot"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/fbRoot"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:clickable="true"
+              android:focusable="true"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/fbContent"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/warm_grey"
-        android:padding="@dimen/sb_content_padding_all"
+        android:padding="@dimen/_16sdp"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
@@ -25,21 +25,21 @@
             <com.kotlinlibrary.snackbar.view.SbProgress
                 android:id="@+id/fbLeftProgress"
                 style="@style/SbCircularIndeterminateProgressStyle"
-                android:layout_width="@dimen/sb_progress_size"
-                android:layout_height="@dimen/sb_progress_size"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/sbb_margin_progress"
-                android:layout_marginRight="@dimen/sbb_margin_progress"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
                 android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/fbIcon"
-                android:layout_width="@dimen/sb_icon_size"
-                android:layout_height="@dimen/sb_icon_size"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/sb_margin_right_icon"
-                android:layout_marginRight="@dimen/sb_margin_right_icon"
-                android:src="@drawable/ic_cancel_white"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                app:srcCompat="@drawable/ic_cancel_white"
                 android:tint="@android:color/white"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -54,7 +54,7 @@
                     android:id="@+id/fbTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/sb_title_message_margin"
+                    android:layout_marginBottom="@dimen/_2sdp"
                     android:textAppearance="@style/SbTitleTextStyle"
                     android:visibility="gone"
                     tools:text="Title"
@@ -64,7 +64,7 @@
                     android:id="@+id/fbMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sb_title_message_margin"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:justificationMode="inter_word"
                     android:textAppearance="@style/SbMessageStyle"
                     android:visibility="gone"
@@ -86,11 +86,11 @@
             <com.kotlinlibrary.snackbar.view.SbProgress
                 android:id="@+id/fbRightProgress"
                 style="@style/SbCircularIndeterminateProgressStyle"
-                android:layout_width="@dimen/sb_progress_size"
-                android:layout_height="@dimen/sb_progress_size"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/sbb_margin_progress"
-                android:layout_marginStart="@dimen/sbb_margin_progress"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -99,7 +99,7 @@
             android:id="@+id/fbSecondaryActionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sb_margin_secondary_action_container"
+            android:layout_marginTop="@dimen/_12sdp"
             android:gravity="end"
             android:visibility="gone">
 
@@ -118,8 +118,8 @@
                 style="@style/SbButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginStart="@dimen/sb_margin_secondary_action"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:textAppearance="@style/SbButtonTextStyle"
                 android:visibility="gone"
                 tools:text="CANCEL"

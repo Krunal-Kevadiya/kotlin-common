@@ -89,6 +89,12 @@ dependencies {
         //Livedata
         +Depend.Lifecycle.livedata
     }
+
+    implementations {
+        //Ssp, Sdp
+        +Depend.Intuit.ssp
+        +Depend.Intuit.sdp
+    }
 }
 
 // For jitPack

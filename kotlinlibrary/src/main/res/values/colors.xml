@@ -18,8 +18,9 @@
     <color name="default_badge_color">#ff0000</color>
 
     <!-- Skeleton Layout -->
-    <color name="skeleton_mask">#E0E0E0</color>
-    <color name="skeleton_shimmer">#d5d5d5</color>
+    <color name="shimmer_color">#a2878787</color>
+    <color name="light_transparent">#16000000</color>
+    <color name="dark_transparent">#24000000</color>
 
     <!-- Credit Card -->
     <color name="img_payment_amex">#0072CE</color>

@@ -6,4 +6,7 @@
 
     <color name="green">#2AB63A</color>
     <color name="red">#F50B1A</color>
+
+
+    <color name="colorLine">#dfdfdf</color>
 </resources>

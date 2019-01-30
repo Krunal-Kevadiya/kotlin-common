@@ -4,25 +4,25 @@
     <style name="SbTitleTextStyle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/sb_title_text_size</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
     </style>
 
     <style name="SbMessageStyle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/sb_message_text_size</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
     </style>
 
     <style name="SbButtonTextStyle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/sb_button_text_size</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
     </style>
 
     <style name="SbButtonStyle">
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">@dimen/_8sdp</item>
+        <item name="android:paddingRight">@dimen/_8sdp</item>
+        <item name="android:paddingTop">@dimen/_4sdp</item>
+        <item name="android:paddingBottom">@dimen/_4sdp</item>
         <item name="android:background">@drawable/sb_btn_bg_selector</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
@@ -30,7 +30,7 @@
 
     <style name="SbCircularIndeterminateProgressStyle">
         <item name="sbp_barColor">@android:color/white</item>
-        <item name="sbp_barWidth">2dp</item>
+        <item name="sbp_barWidth">@dimen/_2sdp</item>
         <item name="sbp_progressIndeterminate">true</item>
     </style>
 

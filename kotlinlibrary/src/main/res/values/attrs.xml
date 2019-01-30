@@ -51,17 +51,20 @@
         <attr name="rb_text_color_disabled" format="color" />
     </declare-styleable>
 
-    <!-- Skeleton Layout -->
-    <declare-styleable name="SkeletonLayout">
-        <attr name="maskColor" format="color"/>
-        <attr name="maskCornerRadius" format="dimension"/>
-        <attr name="showShimmer" format="boolean"/>
-        <attr name="shimmerColor" format="color"/>
-        <attr name="shimmerDurationInMillis" format="integer"/>
-    </declare-styleable>
-
+    <!-- Layout -->
     <declare-styleable name="AspectRatioLayout">
         <attr name="width_ratio" format="integer" />
         <attr name="height_ratio" format="integer" />
+    </declare-styleable>
+
+    <!-- Skeleton Layout -->
+    <declare-styleable name="ShimmerLayout">
+        <attr name="shimmer_color" format="color|reference"/>
+        <attr name="shimmer_animation_duration" format="integer|reference"/>
+        <attr name="shimmer_auto_start" format="boolean|reference"/>
+        <attr name="shimmer_angle" format="integer|reference"/>
+        <attr name="shimmer_mask_width" format="float|reference"/>
+        <attr name="shimmer_gradient_center_color_width" format="float|reference"/>
+        <attr name="shimmer_reverse_animation" format="boolean|reference"/>
     </declare-styleable>
 </resources>

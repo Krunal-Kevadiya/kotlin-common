@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Snack Bar -->
-    <dimen name="sb_content_padding_all">16dp</dimen>
-    <dimen name="sb_title_text_size">16sp</dimen>
-    <dimen name="sb_message_text_size">14sp</dimen>
-    <dimen name="sb_title_message_margin">2dp</dimen>
-    <dimen name="sb_icon_size">28dp</dimen>
-    <dimen name="sb_margin_right_icon">16dp</dimen>
-    <dimen name="sb_button_text_size">16sp</dimen>
-    <dimen name="sb_top_compensation_margin">16dp</dimen>
-    <dimen name="sb_bottom_compensation_margin">30dp</dimen>
-    <dimen name="sb_progress_size">20dp</dimen>
-    <dimen name="sb_margin_secondary_action">12dp</dimen>
-    <dimen name="sb_margin_secondary_action_container">12dp</dimen>
-    <dimen name="sbb_margin_progress">20dp</dimen>
-
     <!-- Badge Drawable -->
-    <dimen name="default_badge_large_size">24dp</dimen>
-    <dimen name="default_badge_size">16dp</dimen>
     <dimen name="default_badge_border_size">0.5dp</dimen>
 </resources>

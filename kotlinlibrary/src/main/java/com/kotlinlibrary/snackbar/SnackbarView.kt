@@ -38,8 +38,8 @@ import com.kotlinlibrary.snackbar.view.ShadowView
 
 internal class SnackbarView(context: Context) : LinearLayout(context) {
 
-    private val TOP_COMPENSATION_MARGIN = resources.getDimension(R.dimen.sb_top_compensation_margin).toInt()
-    private val BOTTOM_COMPENSATION_MARGIN = resources.getDimension(R.dimen.sb_bottom_compensation_margin).toInt()
+    private val TOP_COMPENSATION_MARGIN = resources.getDimension(R.dimen._16sdp).toInt()
+    private val BOTTOM_COMPENSATION_MARGIN = resources.getDimension(R.dimen._30sdp).toInt()
 
     private lateinit var parentSnackbarContainer: SnackbarContainerView
     private lateinit var gravity: Gravity

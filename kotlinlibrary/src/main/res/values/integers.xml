@@ -2,4 +2,7 @@
 <resources>
     <!-- Snack Bar -->
     <integer name="sb_default_animation_duration">250</integer>
+
+    <!-- Skeleton Layout -->
+    <integer name="shimmer_animation_duration">1200</integer>
 </resources>

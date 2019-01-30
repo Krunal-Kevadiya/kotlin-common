@@ -1,16 +1,16 @@
 package com.kotlinlibrary.skeletonlayout
 
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
-interface Skeleton {
-    var maskColor: Int
-    var shimmerColor: Int
-    var showShimmer: Boolean
-    var maskCornerRadius: Float
-    var shimmerDurationInMillis: Long
+object Skeleton {
 
-    fun showOriginal()
+    fun bind(recyclerView: RecyclerView): RecyclerViewSkeletonScreen.Builder {
+        return RecyclerViewSkeletonScreen.Builder(recyclerView)
+    }
 
-    fun showSkeleton()
+    fun bind(view: View): ViewSkeletonScreen.Builder {
+        return ViewSkeletonScreen.Builder(view)
+    }
 
-    fun isSkeleton(): Boolean
 }

@@ -96,7 +96,7 @@ class DrawableBadge private constructor(
 
         fun build(): DrawableBadge {
             if (bitmap == null) throw IllegalArgumentException("Badge drawable/bitmap can not be null.")
-            if (badgeSize == null) badgeSize(R.dimen.default_badge_size)
+            if (badgeSize == null) badgeSize(R.dimen._16sdp)
             if (textColor == null) textColor(android.R.color.white)
             if (badgeColor == null) badgeColor(R.color.default_badge_color)
             if (badgeBorderColor == null) badgeBorderColor(android.R.color.white)
