@@ -130,6 +130,11 @@ class RecyclerViewSkeletonScreen private constructor(builder: Builder) : Skeleto
             return this
         }
 
+        fun create(): RecyclerViewSkeletonScreen {
+            val recyclerViewSkeleton = RecyclerViewSkeletonScreen(this)
+            return recyclerViewSkeleton
+        }
+
         fun show(): RecyclerViewSkeletonScreen {
             val recyclerViewSkeleton = RecyclerViewSkeletonScreen(this)
             recyclerViewSkeleton.show()
