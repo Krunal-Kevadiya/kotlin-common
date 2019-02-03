@@ -19,6 +19,9 @@ class SingleAdapterConfiguration<T> {
     internal var layoutResId: Int = -1
         private set
 
+    internal var layoutBr: Int = -1
+        private set
+
     internal var bindHolder: View.(T) -> Unit = {}
         private set
 
@@ -61,7 +64,8 @@ class SingleAdapterConfiguration<T> {
         this.bindHolder = block
     }
 
-    fun onBindBinding(block: ViewDataBinding.(T) -> Unit) {
+    fun onBind(brId: Int, block: ViewDataBinding.(T) -> Unit) {
+        layoutBr = brId
         this.bindBindingHolder = block
     }
 

@@ -27,6 +27,10 @@ open class SingleBindingAdapter<T> (
         )
         val holder = object : DataBindingBaseViewHolder<T>(view) {
             override fun bindView(item: T) {
+                if(configuration.layoutBr != -1) {
+                    view.setVariable(configuration.layoutBr, item)
+                    view.executePendingBindings()
+                }
                 configuration.bindBindingHolder(view, item)
             }
         }

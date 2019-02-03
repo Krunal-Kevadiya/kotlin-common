@@ -7,7 +7,10 @@ import androidx.databinding.ViewDataBinding
 
 class AdapterViewTypeConfiguration<T> {
     @LayoutRes
-    var layoutResId: Int = -1
+    internal var layoutResId: Int = -1
+        private set
+
+    internal var layoutBr: Int = -1
         private set
 
     internal var bindHolder: View.(Any) -> Unit = {}
@@ -26,7 +29,8 @@ class AdapterViewTypeConfiguration<T> {
         bindHolder = (block as View.(Any) -> Unit)
     }
 
-    fun onBindBinding(block: ViewDataBinding.(T) -> Unit) {
+    fun onBind(brId: Int, block: ViewDataBinding.(T) -> Unit) {
+        layoutBr = brId
         bindBindingHolder = (block as ViewDataBinding.(Any) -> Unit)
     }
 

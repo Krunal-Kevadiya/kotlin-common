@@ -22,18 +22,18 @@ class MultiTypeActivity : AppCompatActivity() {
 
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        val adapter = recyclerView.setUp/*Binding*/ {
+        val adapter = recyclerView.setUpBinding {
 
             withViewType<String> {
                 withLayoutResId(R.layout.item_advertisement)
-                onBind {
+                /*onBind {
                     textViewAdvertisement?.text = it
-                }
-                /*onBindBinding {
-                    if(this@onBindBinding is ItemAdvertisementBinding) {
-                        textViewAdvertisement.text = it
-                    }
                 }*/
+                onBind(BR.viewModel) {
+                    /*if(this@onBind is ItemAdvertisementBinding) {
+                        textViewAdvertisement.text = it
+                    }*/
+                }
                 onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
                     logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
                 }
@@ -41,14 +41,14 @@ class MultiTypeActivity : AppCompatActivity() {
 
             withViewType<Int> {
                 withLayoutResId(R.layout.item_loadmore)
-                onBind {
+                /*onBind {
                     textViewLoadMore?.text = it.toString()
-                }
-                /*onBindBinding {
-                    if(this@onBindBinding is ItemLoadmoreBinding) {
+                }*/
+                onBind(-1) {
+                    if(this@onBind is ItemLoadmoreBinding) {
                         textViewLoadMore.text = it.toString()
                     }
-                }*/
+                }
                 onClick/*(R.id.textViewLoadMore)*/ { id, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
                 }

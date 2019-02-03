@@ -32,6 +32,10 @@ open class MultiTypedBindingAdapter(
         )
         val holder = object : DataBindingBaseViewHolder<Any>(view) {
             override fun bindView(item: Any) {
+                if(adapterViewType.configuration.layoutBr != -1) {
+                    view.setVariable(adapterViewType.configuration.layoutBr, item)
+                    view.executePendingBindings()
+                }
                 adapterViewType.configuration.bindBindingHolder(view, item)
             }
         }

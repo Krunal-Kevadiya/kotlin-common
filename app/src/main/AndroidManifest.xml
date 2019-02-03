@@ -54,7 +54,6 @@
         <activity android:name=".ArgumentActivity"/>
         <activity android:name=".LoadMoreActivity"/>
         <activity android:name=".PreferenceActivity"/>
-        <activity android:name=".RecyclerAdapterActivity"/>
         <activity android:name=".ResourceActivity"/>
         <activity android:name=".SnackBarActivity"/>
         <activity android:name=".SpannerActivity"/>
@@ -64,6 +63,7 @@
         <activity android:name=".LocationActivity"/>
         <activity android:name=".MultiTypeActivity"/>
         <activity android:name=".SingleTypeActivity"/>
+        <activity android:name=".SwipeToRefreshActivity"/>
     </application>
 
 </manifest>

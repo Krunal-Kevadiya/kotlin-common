@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <data>
+        <variable name="viewModel"
+                  type="java.lang.String"/>
+    </data>
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewAdvertisement"
-        android:textSize="@dimen/_20ssp"
-        android:padding="@dimen/_5sdp"
-        android:textColor="@color/color_type_help"
-        tools:text="@tools:sample/full_names"/>
-</LinearLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewAdvertisement"
+                android:textSize="@dimen/_20ssp"
+                android:padding="@dimen/_5sdp"
+                android:text="@{viewModel}"
+                android:textColor="@color/color_type_help"
+                tools:text="@tools:sample/full_names"/>
+    </LinearLayout>
 </layout>
