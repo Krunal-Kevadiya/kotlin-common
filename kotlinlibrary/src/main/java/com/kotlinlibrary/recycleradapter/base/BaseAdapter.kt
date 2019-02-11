@@ -73,4 +73,10 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: Ada
         itemList.clear()
         notifyDataSetChanged()
     }
+
+    open fun reSet(items: MutableList<T>) {
+        itemList.clear()
+        itemList.addAll(items)
+        notifyDataSetChanged()
+    }
 }

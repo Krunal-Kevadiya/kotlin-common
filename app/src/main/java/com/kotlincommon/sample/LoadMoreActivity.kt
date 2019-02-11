@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kotlinlibrary.loadmore.ILoadMore
 import com.kotlinlibrary.loadmore.LoadMore
+import com.kotlinlibrary.loadmore.LoadMoreSides
 import kotlin.random.Random
 
 class LoadMoreActivity : AppCompatActivity() {
@@ -62,6 +63,7 @@ class LoadMoreActivity : AppCompatActivity() {
     fun setupLoadMore(onLoadMoreListener: () -> Unit) {
         loadMore = LoadMore.Builder(this)
             .setRecyclerView(recyclerView)
+            .setLoadMoreSide(LoadMoreSides.DOWN_SIDE)
             .setCustomView { linearLayout, textView ->
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._5ssp))
             }

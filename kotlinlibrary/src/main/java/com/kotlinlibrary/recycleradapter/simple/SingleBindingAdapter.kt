@@ -20,10 +20,7 @@ open class SingleBindingAdapter<T> (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingBaseViewHolder<T> {
         val view: ViewDataBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            configuration.layoutResId,
-            parent,
-            false
+            LayoutInflater.from(parent.context), configuration.layoutResId, parent, false
         )
         val holder = object : DataBindingBaseViewHolder<T>(view) {
             override fun bindView(item: T) {
@@ -38,11 +35,6 @@ open class SingleBindingAdapter<T> (
         return holder
     }
 
-    /*override fun onBindViewClick(holder: DataBindingBaseViewHolder<T>) {
-        super.onBindViewClick(holder)
-        setUpClickListener(holder)
-    }*/
-
     private fun setUpClickListener(holder: DataBindingBaseViewHolder<T>) {
         val itemView = holder.itemView
         if(configuration.clickResId.isEmpty()) {
@@ -54,7 +46,7 @@ open class SingleBindingAdapter<T> (
             }
         } else {
             configuration.clickResId.forEach { id ->
-                itemView.findViewById<View>(id)?.setOnClickListener { view ->
+                itemView.rootView.findViewById<View>(id).setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != RecyclerView.NO_POSITION) {
                         configuration.clickListener.invoke(view.id, itemList[adapterPosition])

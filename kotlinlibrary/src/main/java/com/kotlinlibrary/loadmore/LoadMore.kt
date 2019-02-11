@@ -12,6 +12,7 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
     private var hasMore: Boolean = true
     private var context: Context
     private var recyclerView: RecyclerView
+    private var loadMoreSides: Int = LoadMoreSides.DOWN_SIDE
     private var loadMoreListener: () -> Unit
     private var customView: ((LinearLayout, TextView) -> Unit)?
     private var userAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -31,6 +32,8 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
 
         recyclerView = builder.recyclerView
 
+        loadMoreSides = builder.loadMoreSides
+
         loadMoreListener = builder.loadMoreListener
 
         customView = builder.customView
@@ -45,9 +48,11 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
             (builder.recyclerView.layoutManager as GridLayoutManager).spanSizeLookup =
                     object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
-                            return if (position == userAdapter.itemCount) {
+                            return if (position == userAdapter.itemCount && loadMoreSides == LoadMoreSides.DOWN_SIDE) {
                                 (builder.recyclerView.layoutManager as GridLayoutManager).spanCount
-                            } else {
+                            } else if (position == 0 && loadMoreSides == LoadMoreSides.DOWN_SIDE) {
+                                (builder.recyclerView.layoutManager as GridLayoutManager).spanCount
+                            } else{
                                 1
                             }
                         }
@@ -124,12 +129,18 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
     }
 
     class Builder(internal val context: Context) {
+        internal var loadMoreSides: Int = LoadMoreSides.DOWN_SIDE
         internal lateinit var recyclerView: RecyclerView
         internal lateinit var loadMoreListener: () -> Unit
         internal var customView: ((LinearLayout, TextView) -> Unit)? = null
 
         fun setRecyclerView(recyclerView: RecyclerView): Builder {
             this.recyclerView = recyclerView
+            return this
+        }
+
+        fun setLoadMoreSide(@LoadMoreSide loadMoreSides: Int): Builder {
+            this.loadMoreSides = loadMoreSides
             return this
         }
 

@@ -3,16 +3,12 @@ package com.kotlincommon.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.kotlincommon.sample.R
 import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 import com.kotlincommon.sample.databinding.ItemLoadmoreBinding
-import com.kotlinlibrary.recycleradapter.setUp
 import com.kotlinlibrary.recycleradapter.setUpBinding
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
-import kotlinx.android.synthetic.main.activity_recycler_adapter.recyclerView
-import kotlinx.android.synthetic.main.item_advertisement.view.*
-import kotlinx.android.synthetic.main.item_loadmore.view.*
+import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 
 class MultiTypeActivity : AppCompatActivity() {
 
@@ -29,10 +25,8 @@ class MultiTypeActivity : AppCompatActivity() {
                 /*onBind {
                     textViewAdvertisement?.text = it
                 }*/
-                onBind(BR.viewModel) {
-                    /*if(this@onBind is ItemAdvertisementBinding) {
-                        textViewAdvertisement.text = it
-                    }*/
+                onBind<ItemAdvertisementBinding>(BR.viewModel) {
+                    this.textViewAdvertisement.text = it
                 }
                 onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
                     logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
@@ -44,10 +38,8 @@ class MultiTypeActivity : AppCompatActivity() {
                 /*onBind {
                     textViewLoadMore?.text = it.toString()
                 }*/
-                onBind(-1) {
-                    if(this@onBind is ItemLoadmoreBinding) {
-                        textViewLoadMore.text = it.toString()
-                    }
+                onBind<ItemLoadmoreBinding>(-1) {
+                    this.textViewLoadMore.text = it.toString()
                 }
                 onClick/*(R.id.textViewLoadMore)*/ { id, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
@@ -62,12 +54,12 @@ class MultiTypeActivity : AppCompatActivity() {
         }, 2_000)
 
         recyclerView.postDelayed({
-            adapter + mutableListOf(8, "nine", "ten")
+            adapter.reSet(mutableListOf(8, "nine", "ten"))
         }, 4_000)
 
         recyclerView.postDelayed({
             adapter[2] =  "two - 2"
-        }, 4_000)
+        }, 6_000)
 
         /*recyclerView.postDelayed({
             adapter.clear()

@@ -25,7 +25,7 @@ class SingleAdapterConfiguration<T> {
     internal var bindHolder: View.(T) -> Unit = {}
         private set
 
-    internal var bindBindingHolder: ViewDataBinding.(T) -> Unit = {}
+    internal var bindBindingHolder: Any.(T) -> Unit = {}
         private set
 
     internal var clickResId = ArrayList<Int>()
@@ -64,9 +64,10 @@ class SingleAdapterConfiguration<T> {
         this.bindHolder = block
     }
 
-    fun onBind(brId: Int, block: ViewDataBinding.(T) -> Unit) {
-        layoutBr = brId
-        this.bindBindingHolder = block
+    @Suppress("UNCHECKED_CAST")
+    fun <V: ViewDataBinding> onBind(brId: Int, block: V.(T) -> Unit) {
+        this.layoutBr = brId
+        this.bindBindingHolder = block as Any.(T) -> Unit
     }
 
     fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {

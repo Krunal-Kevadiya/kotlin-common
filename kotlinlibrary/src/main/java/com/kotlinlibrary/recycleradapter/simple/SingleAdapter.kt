@@ -27,11 +27,6 @@ open class SingleAdapter<T> (
         return holder
     }
 
-    /*override fun onBindViewClick(holder: BaseViewHolder<T>) {
-        super.onBindViewClick(holder)
-        setUpClickListener(holder)
-    }*/
-
     private fun setUpClickListener(holder: BaseViewHolder<T>) {
         val itemView = holder.itemView
         if(configuration.clickResId.isEmpty()) {

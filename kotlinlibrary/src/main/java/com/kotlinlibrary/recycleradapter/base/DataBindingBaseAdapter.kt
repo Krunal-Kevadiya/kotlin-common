@@ -73,4 +73,10 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
         itemList.clear()
         notifyDataSetChanged()
     }
+
+    open fun reSet(items: MutableList<T>) {
+        itemList.clear()
+        itemList.addAll(items)
+        notifyDataSetChanged()
+    }
 }

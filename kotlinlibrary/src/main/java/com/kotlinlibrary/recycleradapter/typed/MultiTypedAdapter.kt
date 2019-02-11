@@ -34,11 +34,6 @@ open class MultiTypedAdapter(
         return holder
     }
 
-    /*override fun onBindViewClick(holder: BaseViewHolder<Any>) {
-        super.onBindViewClick(holder)
-        setUpClickListener(holder)
-    }*/
-
     private fun setUpClickListener(adapterViewType: AdapterViewType<Any>, holder: BaseViewHolder<Any>) {
         val itemView = holder.itemView
         if(adapterViewType.configuration.clickResId.isEmpty()) {

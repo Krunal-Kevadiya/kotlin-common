@@ -43,11 +43,6 @@ open class MultiTypedBindingAdapter(
         return holder
     }
 
-    /*override fun onBindViewClick(holder: DataBindingBaseViewHolder<Any>) {
-        super.onBindViewClick(holder)
-        setUpClickListener(holder)
-    }*/
-
     private fun setUpClickListener(adapterViewType: AdapterViewType<Any>, holder: DataBindingBaseViewHolder<Any>) {
         val itemView = holder.itemView
         if(adapterViewType.configuration.clickResId.isEmpty()) {

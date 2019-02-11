@@ -3,14 +3,12 @@ package com.kotlincommon.sample
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kotlinlibrary.recycleradapter.setUp
+import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 import com.kotlinlibrary.recycleradapter.setUpBinding
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
-import kotlinx.android.synthetic.main.item_advertisement.view.*
 import java.util.*
-import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 
 class SingleTypeActivity : AppCompatActivity() {
 
@@ -24,10 +22,8 @@ class SingleTypeActivity : AppCompatActivity() {
                 setBackgroundColor(getRandomColor())
                 textViewAdvertisement.text = it
             }*/
-            onBind(BR.viewModel) {
-                /*if(this@onBind is ItemAdvertisementBinding) {
-                    user for anythings
-                }*/
+            onBind<ItemAdvertisementBinding>(BR.viewModel) {
+                //this.textViewAdvertisement.setTextColor(Color.BLUE)
             }
             onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)

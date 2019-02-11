@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_recycle_adapter).setOnClickListener {
-            startActivity(Intent(this, SingleTypeActivity::class.java))
-            //startActivity(Intent(this, MultiTypeActivity::class.java))
+            //startActivity(Intent(this, SingleTypeActivity::class.java))
+            startActivity(Intent(this, MultiTypeActivity::class.java))
         }
 
         findViewById<Button>(R.id.btn_resource).setOnClickListener {
