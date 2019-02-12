@@ -23,12 +23,12 @@ open class SingleBindingAdapter<T> (
             LayoutInflater.from(parent.context), configuration.layoutResId, parent, false
         )
         val holder = object : DataBindingBaseViewHolder<T>(view) {
-            override fun bindView(item: T) {
+            override fun bindView(position: Int, item: T) {
                 if(configuration.layoutBr != -1) {
                     view.setVariable(configuration.layoutBr, item)
                     view.executePendingBindings()
                 }
-                configuration.bindBindingHolder(view, item)
+                configuration.bindBindingHolder(view, position, item)
             }
         }
         setUpClickListener(holder)

@@ -4,5 +4,5 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class DataBindingBaseViewHolder<T>(itemView: ViewDataBinding) : RecyclerView.ViewHolder(itemView.root) {
-    abstract fun bindView(item: T)
+    abstract fun bindView(position:Int, item: T)
 }

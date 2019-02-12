@@ -19,8 +19,8 @@ open class SingleAdapter<T> (
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(configuration.layoutResId, parent, false)
         val holder = object : BaseViewHolder<T>(view) {
-            override fun bindView(item: T) {
-                configuration.bindHolder(itemView, item)
+            override fun bindView(position: Int, item: T) {
+                configuration.bindHolder(itemView, position, item)
             }
         }
         setUpClickListener(holder)

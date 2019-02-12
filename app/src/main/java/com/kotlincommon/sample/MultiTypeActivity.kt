@@ -22,11 +22,11 @@ class MultiTypeActivity : AppCompatActivity() {
 
             withViewType<String> {
                 withLayoutResId(R.layout.item_advertisement)
-                /*onBind {
+                /*onBind { index, item ->
                     textViewAdvertisement?.text = it
                 }*/
-                onBind<ItemAdvertisementBinding>(BR.viewModel) {
-                    this.textViewAdvertisement.text = it
+                onBind<ItemAdvertisementBinding>(BR.viewModel) { index, item ->
+                    this.textViewAdvertisement.text = item
                 }
                 onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
                     logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
@@ -35,11 +35,11 @@ class MultiTypeActivity : AppCompatActivity() {
 
             withViewType<Int> {
                 withLayoutResId(R.layout.item_loadmore)
-                /*onBind {
+                /*onBind { index, item ->
                     textViewLoadMore?.text = it.toString()
                 }*/
-                onBind<ItemLoadmoreBinding>(-1) {
-                    this.textViewLoadMore.text = it.toString()
+                onBind<ItemLoadmoreBinding>(-1) { index, item ->
+                    this.textViewLoadMore.text = item.toString()
                 }
                 onClick/*(R.id.textViewLoadMore)*/ { id, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)

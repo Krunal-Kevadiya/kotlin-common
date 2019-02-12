@@ -8,7 +8,7 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
     override fun getItemCount() = itemList.size
 
     final override fun onBindViewHolder(holder: H, position: Int) {
-        holder.bindView(itemList[position])
+        holder.bindView(position, itemList[position])
         onBindViewClick(holder)
     }
 

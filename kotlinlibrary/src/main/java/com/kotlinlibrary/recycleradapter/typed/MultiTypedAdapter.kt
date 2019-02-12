@@ -26,8 +26,8 @@ open class MultiTypedAdapter(
         val adapterViewType = multiTypedAdapterConfiguration.viewTypes.first { it.viewType == viewType }
         val view = LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
         val holder = object : BaseViewHolder<Any>(view) {
-            override fun bindView(item: Any) {
-                adapterViewType.configuration.bindHolder(itemView, item)
+            override fun bindView(position: Int, item: Any) {
+                adapterViewType.configuration.bindHolder(itemView, position, item)
             }
         }
         setUpClickListener(adapterViewType, holder)

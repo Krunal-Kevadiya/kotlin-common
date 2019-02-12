@@ -18,11 +18,11 @@ class SingleTypeActivity : AppCompatActivity() {
 
         val adapter = recyclerView.setUpBinding<String> {
             withLayoutResId(R.layout.item_advertisement)
-            /*onBind {
+            /*onBind { index, item ->
                 setBackgroundColor(getRandomColor())
                 textViewAdvertisement.text = it
             }*/
-            onBind<ItemAdvertisementBinding>(BR.viewModel) {
+            onBind<ItemAdvertisementBinding>(BR.viewModel) { index, item ->
                 //this.textViewAdvertisement.setTextColor(Color.BLUE)
             }
             onClick/*(R.id.textViewAdvertisement)*/ { id, item ->

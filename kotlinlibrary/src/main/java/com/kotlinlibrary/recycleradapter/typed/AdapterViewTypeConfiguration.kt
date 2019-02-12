@@ -13,9 +13,9 @@ class AdapterViewTypeConfiguration<T> {
     internal var layoutBr: Int = -1
         private set
 
-    internal var bindHolder: View.(Any) -> Unit = {}
+    internal var bindHolder: View.(Int, Any) -> Unit = {_, _ -> }
 
-    internal var bindBindingHolder: Any.(Any) -> Unit = {}
+    internal var bindBindingHolder: Any.(Int, Any) -> Unit = {_, _ -> }
 
     internal var clickResId = ArrayList<Int>()
     internal var clickListener: (Int, T) -> Unit = {_, _ -> }
@@ -26,14 +26,14 @@ class AdapterViewTypeConfiguration<T> {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun onBind(block: View.(T) -> Unit) {
-        bindHolder = (block as View.(Any) -> Unit)
+    fun onBind(block: View.(Int, T) -> Unit) {
+        bindHolder = (block as View.(Int, Any) -> Unit)
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <V: ViewDataBinding> onBind(brId: Int, block: V.(T) -> Unit) {
+    fun <V: ViewDataBinding> onBind(brId: Int, block: V.(Int, T) -> Unit) {
         layoutBr = brId
-        bindBindingHolder = (block as Any.(Any) -> Unit)
+        bindBindingHolder = (block as Any.(Int, Any) -> Unit)
     }
 
     fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {

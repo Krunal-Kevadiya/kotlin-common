@@ -22,10 +22,10 @@ class SingleAdapterConfiguration<T> {
     internal var layoutBr: Int = -1
         private set
 
-    internal var bindHolder: View.(T) -> Unit = {}
+    internal var bindHolder: View.(Int, T) -> Unit = {_, _ -> }
         private set
 
-    internal var bindBindingHolder: Any.(T) -> Unit = {}
+    internal var bindBindingHolder: Any.(Int, T) -> Unit = {_, _ -> }
         private set
 
     internal var clickResId = ArrayList<Int>()
@@ -60,14 +60,14 @@ class SingleAdapterConfiguration<T> {
         this.itemsComparator = itemsComparator
     }
 
-    fun onBind(block: View.(T) -> Unit) {
+    fun onBind(block: View.(Int, T) -> Unit) {
         this.bindHolder = block
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <V: ViewDataBinding> onBind(brId: Int, block: V.(T) -> Unit) {
+    fun <V: ViewDataBinding> onBind(brId: Int, block: V.(Int, T) -> Unit) {
         this.layoutBr = brId
-        this.bindBindingHolder = block as Any.(T) -> Unit
+        this.bindBindingHolder = block as Any.(Int, T) -> Unit
     }
 
     fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {

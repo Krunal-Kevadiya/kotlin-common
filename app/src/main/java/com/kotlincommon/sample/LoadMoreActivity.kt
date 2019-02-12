@@ -63,7 +63,7 @@ class LoadMoreActivity : AppCompatActivity() {
     fun setupLoadMore(onLoadMoreListener: () -> Unit) {
         loadMore = LoadMore.Builder(this)
             .setRecyclerView(recyclerView)
-            .setLoadMoreSide(LoadMoreSides.DOWN_SIDE)
+            //.setLoadMoreSide(LoadMoreSides.DOWN_SIDE)
             .setCustomView { linearLayout, textView ->
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._5ssp))
             }
