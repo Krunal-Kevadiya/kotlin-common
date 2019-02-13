@@ -18,8 +18,8 @@ class SkeletonViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recycler_adapter)
         val adapter = recyclerView.setUp<String> {
             withLayoutResId(R.layout.item_advertisement)
-            onBind {
-                textViewAdvertisement.text = it
+            onBind { _, item ->
+                textViewAdvertisement.text = item
             }
             onClick { id, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)

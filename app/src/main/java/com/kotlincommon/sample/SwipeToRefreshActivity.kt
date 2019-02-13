@@ -20,9 +20,9 @@ class SwipeToRefreshActivity : AppCompatActivity() {
 
         val adapter = recyclerView.setUp<String> {
             withLayoutResId(R.layout.item_advertisement)
-            onBind {
+            onBind { _, item ->
                 setBackgroundColor(getRandomColor())
-                textViewAdvertisement.text = it
+                textViewAdvertisement.text = item
             }
             onClick{ id, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
