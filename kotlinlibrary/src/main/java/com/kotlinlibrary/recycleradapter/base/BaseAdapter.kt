@@ -79,4 +79,6 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: Ada
         itemList.addAll(items)
         notifyDataSetChanged()
     }
+
+    open fun getItemLists(): AdapterList<T> = itemList
 }

@@ -79,4 +79,6 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
         itemList.addAll(items)
         notifyDataSetChanged()
     }
+
+    open fun getItemLists(): AdapterList<T> = itemList
 }

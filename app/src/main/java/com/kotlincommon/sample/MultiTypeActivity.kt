@@ -28,7 +28,7 @@ class MultiTypeActivity : AppCompatActivity() {
                 onBind<ItemAdvertisementBinding>(BR.viewModel) { index, item ->
                     this.textViewAdvertisement.text = item
                 }
-                onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
+                onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
                     logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
                 }
             }
@@ -41,7 +41,7 @@ class MultiTypeActivity : AppCompatActivity() {
                 onBind<ItemLoadmoreBinding>(-1) { index, item ->
                     this.textViewLoadMore.text = item.toString()
                 }
-                onClick/*(R.id.textViewLoadMore)*/ { id, item ->
+                onClick/*(R.id.textViewLoadMore)*/ { id, index, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
                 }
             }

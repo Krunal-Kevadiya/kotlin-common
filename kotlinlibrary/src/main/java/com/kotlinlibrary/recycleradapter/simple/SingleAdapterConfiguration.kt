@@ -29,7 +29,7 @@ class SingleAdapterConfiguration<T> {
         private set
 
     internal var clickResId = ArrayList<Int>()
-    internal var clickListener: (Int, T) -> Unit = {_, _ -> }
+    internal var clickListener: (Int, Int, T) -> Unit = {_, _, _ -> }
         private set
 
     internal var contentComparator: ((T, T) -> Boolean)? = null
@@ -70,7 +70,7 @@ class SingleAdapterConfiguration<T> {
         this.bindBindingHolder = block as Any.(Int, T) -> Unit
     }
 
-    fun onClick(@IdRes vararg resId: Int, block: (Int, T) -> Unit) {
+    fun onClick(@IdRes vararg resId: Int, block: (Int, Int, T) -> Unit) {
         clickResId.addAll(resId.toList())
         this.clickListener = block
     }

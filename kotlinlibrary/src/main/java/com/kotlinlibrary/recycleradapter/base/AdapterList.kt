@@ -1,6 +1,6 @@
 package com.kotlinlibrary.recycleradapter.base
 
-open class AdapterList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
+open class AdapterList<E>(private var newList: MutableList<E> = mutableListOf()) : List<E> {
     private var oldList: MutableList<E>? = null
 
     override val size: Int

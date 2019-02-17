@@ -25,7 +25,7 @@ class SingleTypeActivity : AppCompatActivity() {
             onBind<ItemAdvertisementBinding>(BR.viewModel) { index, item ->
                 //this.textViewAdvertisement.setTextColor(Color.BLUE)
             }
-            onClick/*(R.id.textViewAdvertisement)*/ { id, item ->
+            onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
             }
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))

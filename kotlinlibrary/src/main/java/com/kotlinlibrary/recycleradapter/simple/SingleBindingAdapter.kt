@@ -41,7 +41,7 @@ open class SingleBindingAdapter<T> (
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                    configuration.clickListener.invoke(view.id, adapterPosition, itemList[adapterPosition])
                 }
             }
         } else {
@@ -49,7 +49,7 @@ open class SingleBindingAdapter<T> (
                 itemView.rootView.findViewById<View>(id).setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                        configuration.clickListener.invoke(view.id, adapterPosition, itemList[adapterPosition])
                     }
                 }
             }

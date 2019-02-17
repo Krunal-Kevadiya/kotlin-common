@@ -40,7 +40,7 @@ open class MultiTypedAdapter(
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    adapterViewType.configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                    adapterViewType.configuration.clickListener.invoke(view.id, adapterPosition, itemList[adapterPosition])
                 }
             }
         } else {
@@ -48,7 +48,7 @@ open class MultiTypedAdapter(
                 itemView.findViewById<View>(id)?.setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
-                        adapterViewType.configuration.clickListener.invoke(view.id, itemList[adapterPosition])
+                        adapterViewType.configuration.clickListener.invoke(view.id, adapterPosition, itemList[adapterPosition])
                     }
                 }
             }
