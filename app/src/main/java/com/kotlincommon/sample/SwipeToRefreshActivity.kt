@@ -24,7 +24,7 @@ class SwipeToRefreshActivity : AppCompatActivity() {
                 setBackgroundColor(getRandomColor())
                 textViewAdvertisement.text = item
             }
-            onClick{ id, item ->
+            onClick{ id, index, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
             }
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
