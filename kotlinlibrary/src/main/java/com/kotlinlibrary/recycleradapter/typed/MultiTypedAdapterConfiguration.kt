@@ -14,6 +14,8 @@ class MultiTypedAdapterConfiguration {
     internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
 
+    internal var isDiffUtils: Boolean = true
+
     internal var contentComparator: ((Any, Any) -> Boolean)? = null
 
     internal var itemsComparator: ((Any, Any) -> Boolean)? = null
@@ -25,6 +27,18 @@ class MultiTypedAdapterConfiguration {
                 block
             ) as AdapterViewType<Any>
         )
+    }
+
+    fun withDiffUtils(block: () -> Boolean) {
+        isDiffUtils = block()
+    }
+
+    fun withContentComparator(block: (Any, Any) -> Boolean) {
+        contentComparator = block
+    }
+
+    fun withItemsComparator(block: (Any, Any) -> Boolean) {
+        itemsComparator = block
     }
 
     fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {

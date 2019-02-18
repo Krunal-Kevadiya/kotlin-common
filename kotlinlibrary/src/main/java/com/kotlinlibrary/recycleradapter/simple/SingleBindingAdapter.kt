@@ -56,49 +56,104 @@ open class SingleBindingAdapter<T> (
         }
     }
 
-    override operator fun plusAssign(itemList: MutableList<T>) {
-        this.itemList.reset(itemList)
+    override operator fun plusAssign(items: MutableList<T>) {
+        itemList.reset(items)
         notifyDataSetChanged()
     }
 
-    override operator fun plus(itemList: List<T>) {
-        this.itemList.addAll(itemList).also(::dispatchUpdates)
+    override operator fun plus(items: List<T>) {
+        if(configuration.isDiffUtils) {
+            itemList.addAll(items).also(::dispatchUpdates)
+        } else {
+            val size = itemList.size + 1
+            itemList.addAll(items)
+            notifyItemRangeInserted(size, items.size)
+        }
     }
 
     override operator fun plus(item: T) {
-        itemList.add(item).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.add(item).also(::dispatchUpdates)
+        } else {
+            itemList.add(item)
+            notifyItemInserted(itemList.size - 1)
+        }
     }
 
     override fun add(index: Int, item: T) {
-        itemList.add(index, item).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.add(index, item).also(::dispatchUpdates)
+        } else {
+            itemList.add(index, item)
+            notifyItemInserted(index)
+        }
     }
 
     override fun addAll(items: MutableList<T>) {
-        itemList.addAll(items).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.addAll(items).also(::dispatchUpdates)
+        } else {
+            val size = itemList.size + 1
+            itemList.addAll(items)
+            notifyItemRangeInserted(size, items.size)
+        }
     }
 
     override fun addAll(index: Int, items: MutableList<T>) {
-        itemList.addAll(index, items).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.addAll(index, items).also(::dispatchUpdates)
+        } else {
+            val size = itemList.size - index
+            itemList.addAll(items)
+            notifyItemRangeInserted(index, items.size + size)
+        }
     }
 
     override operator fun set(index: Int, item: T) {
-        itemList.set(index, item).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.set(index, item).also(::dispatchUpdates)
+        } else {
+            itemList.set(index, item)
+            notifyItemChanged(index)
+        }
     }
 
-    override fun insert(index: Int, itemList: List<T>) {
-        this.itemList.addAll(index, itemList).also(::dispatchUpdates)
+    override fun insert(index: Int, items: List<T>) {
+        if(configuration.isDiffUtils) {
+            this.itemList.addAll(index, items).also(::dispatchUpdates)
+        } else {
+            val size = itemList.size - index
+            itemList.addAll(items)
+            notifyItemRangeInserted(index, items.size + size)
+        }
     }
 
     override operator fun minus(index: Int) {
-        itemList.removeAt(index).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.removeAt(index).also(::dispatchUpdates)
+        } else {
+            itemList.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     override operator fun minus(item: T) {
-        itemList.remove(item).also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.remove(item).also(::dispatchUpdates)
+        } else {
+            val index = itemList.indexOf(item)
+            itemList.remove(item)
+            notifyItemRemoved(index)
+        }
     }
 
     override fun clear() {
-        itemList.clear().also(::dispatchUpdates)
+        if(configuration.isDiffUtils) {
+            itemList.clear().also(::dispatchUpdates)
+        } else {
+            itemList.clear()
+            notifyDataSetChanged()
+        }
     }
 
     private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<T>) {

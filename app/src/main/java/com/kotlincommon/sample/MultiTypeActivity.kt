@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 import com.kotlincommon.sample.databinding.ItemLoadmoreBinding
 import com.kotlinlibrary.recycleradapter.setUpBinding
+import com.kotlinlibrary.recycleradapter.typed.MultiTypedBindingAdapter
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 
 class MultiTypeActivity : AppCompatActivity() {
+
+    lateinit var adapter: MultiTypedBindingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +21,10 @@ class MultiTypeActivity : AppCompatActivity() {
 
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        val adapter = recyclerView.setUpBinding {
+        adapter = recyclerView.setUpBinding {
+            withDiffUtils { false }
+            withContentComparator { s1, s2 -> s1 == s2 }
+            withItemsComparator { s1, s2 ->  s1.hashCode() == s2.hashCode()}
 
             withViewType<String> {
                 withLayoutResId(R.layout.item_advertisement)
@@ -30,6 +36,7 @@ class MultiTypeActivity : AppCompatActivity() {
                 }
                 onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
                     logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
+                    adapter - index
                 }
             }
 
@@ -43,13 +50,14 @@ class MultiTypeActivity : AppCompatActivity() {
                 }
                 onClick/*(R.id.textViewLoadMore)*/ { id, index, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
+                    adapter.add((adapter.getItemLists().size - 1), "")
                 }
             }
 
-            withItems(mutableListOf("one", 1, "two", 2, "three", 3, "four", 4, "five", 5, "six", 6, "seven", 7))
+            withItems(mutableListOf("one", 1, "two", 2))
         }
 
-        recyclerView.postDelayed({
+        /*recyclerView.postDelayed({
             adapter - "eight"
         }, 2_000)
 
@@ -61,7 +69,7 @@ class MultiTypeActivity : AppCompatActivity() {
             adapter[2] =  "two - 2"
         }, 6_000)
 
-        /*recyclerView.postDelayed({
+        recyclerView.postDelayed({
             adapter.clear()
         }, 8_000)*/
     }

@@ -32,6 +32,8 @@ class SingleAdapterConfiguration<T> {
     internal var clickListener: (Int, Int, T) -> Unit = {_, _, _ -> }
         private set
 
+    internal var isDiffUtils: Boolean = true
+
     internal var contentComparator: ((T, T) -> Boolean)? = null
 
     internal var itemsComparator: ((T, T) -> Boolean)? = null
@@ -50,6 +52,10 @@ class SingleAdapterConfiguration<T> {
 
     fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
+    }
+
+    fun withDiffUtils(block: () -> Boolean) {
+        isDiffUtils = block()
     }
 
     fun withContentComparator(contentComparator: (T, T) -> Boolean) {
