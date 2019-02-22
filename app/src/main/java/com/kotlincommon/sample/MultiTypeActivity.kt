@@ -12,7 +12,9 @@ import com.kotlinlibrary.utils.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 
 class MultiTypeActivity : AppCompatActivity() {
+
     lateinit var adapter: MultiTypedBindingAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycler_adapter)
@@ -20,6 +22,9 @@ class MultiTypeActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         adapter = recyclerView.setUpBinding {
+            withDiffUtils { false }
+            withContentComparator { s1, s2 -> s1 == s2 }
+            withItemsComparator { s1, s2 ->  s1.hashCode() == s2.hashCode()}
 
             withViewType<String> {
                 withLayoutResId(R.layout.item_advertisement)
@@ -45,7 +50,7 @@ class MultiTypeActivity : AppCompatActivity() {
                 }
                 onClick/*(R.id.textViewLoadMore)*/ { id, index, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
-                    adapter.add((adapter.itemCount-1), "Text = ${adapter.itemCount}")
+                    adapter.add((adapter.getItemLists().size - 1), "")
                 }
             }
 
