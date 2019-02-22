@@ -8,6 +8,12 @@ fun StaggeredGridLayoutManager.findLastCompletelyVisibleItemPosition(): Int {
     return findMax(lastPositions)
 }
 
+fun StaggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(): Int {
+    val firstPositions = IntArray(spanCount)
+    this.findFirstCompletelyVisibleItemPositions(firstPositions)
+    return findMin(firstPositions)
+}
+
 private fun findMax(lastPositions: IntArray): Int {
     var max = lastPositions[0]
 
@@ -17,4 +23,15 @@ private fun findMax(lastPositions: IntArray): Int {
         }
     }
     return max
+}
+
+private fun findMin(firstPositions: IntArray): Int {
+    var min = firstPositions[0]
+
+    for (value in firstPositions) {
+        if (value < min) {
+            min = value
+        }
+    }
+    return min
 }

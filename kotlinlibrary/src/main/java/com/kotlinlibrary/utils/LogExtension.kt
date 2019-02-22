@@ -2,7 +2,6 @@ package com.kotlinlibrary.utils
 
 import android.util.Log
 import androidx.annotation.IntDef
-import com.kotlinlibrary.BuildConfig
 
 object LogType {
     const val UNKNOWN = 1
@@ -18,16 +17,14 @@ object LogType {
 annotation class LogTypes
 
 fun Any.logs(message: Any, @LogTypes type: Int) {
-    if (BuildConfig.DEBUG) {
-        when (type) {
-            LogType.ASSERT -> Log.wtf(this.javaClass.simpleName, "$message")
-            LogType.DEBUG -> Log.d(this.javaClass.simpleName, "$message")
-            LogType.ERROR -> Log.e(this.javaClass.simpleName, "$message")
-            LogType.INFO -> Log.i(this.javaClass.simpleName, "$message")
-            LogType.VERBOSE -> Log.v(this.javaClass.simpleName, "$message")
-            LogType.WARN -> Log.w(this.javaClass.simpleName, "$message")
-            LogType.UNKNOWN -> Log.wtf(this.javaClass.simpleName, "$message")
-            else -> Log.wtf(this.javaClass.simpleName, "$message")
-        }
+    when (type) {
+        LogType.ASSERT -> Log.wtf(this.javaClass.simpleName, "$message")
+        LogType.DEBUG -> Log.d(this.javaClass.simpleName, "$message")
+        LogType.ERROR -> Log.e(this.javaClass.simpleName, "$message")
+        LogType.INFO -> Log.i(this.javaClass.simpleName, "$message")
+        LogType.VERBOSE -> Log.v(this.javaClass.simpleName, "$message")
+        LogType.WARN -> Log.w(this.javaClass.simpleName, "$message")
+        LogType.UNKNOWN -> Log.wtf(this.javaClass.simpleName, "$message")
+        else -> Log.wtf(this.javaClass.simpleName, "$message")
     }
 }

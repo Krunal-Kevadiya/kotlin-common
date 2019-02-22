@@ -30,6 +30,7 @@ class LoadMoreActivity : AppCompatActivity() {
         MoviesAdapter(mutableListOf())
     }
 
+    private var count: Int = 1
     private lateinit var loadMore: ILoadMore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,18 +44,23 @@ class LoadMoreActivity : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 adapter.setListItem(MutableList(15) { index -> "Refresh -> $index"})
                 swipeRefreshLayout.isRefreshing = false
-                resetLoadMore()
+                loadMore.resetLoadMore()
             }, 5000)
         }
 
         setupLoadMore {
-            onLoadMoreBegin()
+            loadMore.onLoadMoreBegin()
             Handler(Looper.getMainLooper()).postDelayed({
                 if(Random(100).nextInt() % 2 == 0) {
-                    adapter.addListItem(MutableList(10) { index -> "LoadMore -> ${index + this.adapter.itemCount}" })
-                    onLoadMoreSucceed(true)
+                    if (loadMore.getLoadMoreSide() == LoadMoreSides.DOWN_SIDE) {
+                        adapter.addLastListItem(MutableList(10) { index -> "LoadMore -> ${index + this.adapter.itemCount}" })
+                    } else if(loadMore.getLoadMoreSide() == LoadMoreSides.UP_SIDE) {
+                        adapter.addFirstListItem(MutableList(10) { index -> "LoadMore -> ${index + this.adapter.itemCount}" })
+                    }
+                    count++
+                    loadMore.onLoadMoreSucceed(count < 3)
                 } else {
-                    onLoadMoreFailed()
+                    loadMore.onLoadMoreFailed()
                 }
             }, 5000)
         }
@@ -63,10 +69,12 @@ class LoadMoreActivity : AppCompatActivity() {
     fun setupLoadMore(onLoadMoreListener: () -> Unit) {
         loadMore = LoadMore.Builder(this)
             .setRecyclerView(recyclerView)
-            //.setLoadMoreSide(LoadMoreSides.DOWN_SIDE)
-            .setCustomView { linearLayout, textView ->
+            .setLoadMoreSide(LoadMoreSides.UP_SIDE)
+            .setLoginProgressBarVisible(true)
+            .setTriggerThreshold(5)
+            /*.setCustomView { relativeLayout, textView, progressBar ->
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._5ssp))
-            }
+            }*/
             .setLoadMoreListener {
                 if (!swipeRefreshLayout.isRefreshing) {
                     onLoadMoreListener()
@@ -74,27 +82,6 @@ class LoadMoreActivity : AppCompatActivity() {
             }
             .build()
     }
-
-    //Display Loader
-    fun onLoadMoreBegin() {
-        loadMore.onLoadMoreBegin("Please wait will load data.")
-    }
-
-    //Enable/Disable load more event
-    fun onLoadMoreSucceed(hasMoreItems: Boolean) {
-        loadMore.onLoadMoreSucceed(hasMoreItems)
-    }
-
-    //Display message for fail
-    fun onLoadMoreFailed() {
-        loadMore.onLoadMoreFailed()
-    }
-
-    //Reset event when refresh data, for example pull to refresh
-    fun resetLoadMore() {
-        loadMore.resetLoadMore()
-    }
-
 }
 
 class MoviesAdapter(var mList: MutableList<String>) : RecyclerView.Adapter<MoviesAdapter.MyViewHolder>() {
@@ -102,7 +89,7 @@ class MoviesAdapter(var mList: MutableList<String>) : RecyclerView.Adapter<Movie
     override fun getItemCount(): Int = mList.size
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var title: TextView = view.findViewById(R.id.textView)
+        var title: TextView = view.findViewById(R.id.textViewLoadMore)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -123,10 +110,17 @@ class MoviesAdapter(var mList: MutableList<String>) : RecyclerView.Adapter<Movie
         notifyDataSetChanged()
     }
 
-    fun addListItem(data: MutableList<String>){
+    fun addLastListItem(data: MutableList<String>){
         val startIndex: Int = mList.size
         val itemCount: Int = data.count()
         mList.addAll(data)
         notifyItemRangeInserted(startIndex, itemCount)
+    }
+
+    fun addFirstListItem(data: MutableList<String>){
+        data.reverse()
+        val itemCount: Int = data.count()
+        mList.addAll(0, data)
+        notifyItemRangeInserted(0, itemCount)
     }
 }

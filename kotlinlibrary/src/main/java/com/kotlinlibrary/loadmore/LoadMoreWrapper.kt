@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.R
@@ -12,9 +13,11 @@ import kotlinx.android.synthetic.main.listitem_loadmore.view.*
 
 class LoadMoreWrapper(
     val context: Context,
-    val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
     var status: Status = Status.Idle,
-    var customView: ((LinearLayout, TextView) -> Unit)? = null
+    @LoadMoreSide val loadMoreSides: Int,
+    private var isLoginProgressBarVisible: Boolean,
+    val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
+    var customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -34,7 +37,7 @@ class LoadMoreWrapper(
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            isLoadingType(position) || isErrorType(position) || isNoMoreType(position) -> {
+            isLoadingType(position, loadMoreSides) || isErrorType(position, loadMoreSides) || isNoMoreType(position, loadMoreSides) -> {
                 TYPE_LOAD_MORE
             }
             else -> {
@@ -86,12 +89,19 @@ class LoadMoreWrapper(
         }
     }
 
-    class LoadMoreVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBindViewHolder(status: Status, customView: ((LinearLayout, TextView) -> Unit)?) {
+    fun setLoginProgressBarVisible(isLoginProgressBarVisible: Boolean) {
+        this.isLoginProgressBarVisible = isLoginProgressBarVisible
+    }
+
+    inner class LoadMoreVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun onBindViewHolder(status: Status, customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)?) {
             itemView.tvTitle.apply {
                 text = status.title ?: ""
             }
-            customView?.invoke(itemView.linearLayout, itemView.tvTitle)
+
+            itemView.tvTitle.visibility = if(isLoginProgressBarVisible) View.GONE else View.VISIBLE
+            itemView.pbLoader.visibility = if(isLoginProgressBarVisible) View.VISIBLE else View.GONE
+            customView?.invoke(itemView.relativeLayout, itemView.tvTitle, itemView.pbLoader)
         }
     }
 }

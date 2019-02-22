@@ -1,7 +1,8 @@
 package com.kotlinlibrary.loadmore
 
 import android.content.Context
-import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,49 +11,40 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
     private var isFailed: Boolean = false
     private var isLoading: Boolean = false
     private var hasMore: Boolean = true
-    private var context: Context
-    private var recyclerView: RecyclerView
-    //private var loadMoreSides: Int = LoadMoreSides.DOWN_SIDE
-    private var loadMoreListener: () -> Unit
-    private var customView: ((LinearLayout, TextView) -> Unit)?
-    private var userAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
-    private var loadMoreWrapper: LoadMoreWrapper
+    private var context: Context = builder.context
+    private var recyclerView: RecyclerView = builder.recyclerView
+    private var loadMoreListener: () -> Unit = builder.loadMoreListener
+    @LoadMoreSide private var loadMoreSides: Int = builder.loadMoreSides
+    private var loadingTriggerThreshold: Int = builder.loadingTriggerThreshold
+    private var isLoginProgressBarVisible: Boolean = builder.isLoginProgressBarVisible
+    private var customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)? = builder.customView
+    private var userAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder> = recyclerView.adapter!!
     private var myAdapterDataObserver: RecyclerView.AdapterDataObserver
+    private var loadMoreWrapper: LoadMoreWrapper
 
     private val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (isOnBottom(recyclerView, dx, dy)) {
-                onReachBottom()
+            if (isOnBottom(recyclerView, dx, dy, loadingTriggerThreshold) && loadMoreSides == LoadMoreSides.DOWN_SIDE) {
+                onReachLoading()
+            } else if (isOnUp(recyclerView, dx, dy, loadingTriggerThreshold) && loadMoreSides == LoadMoreSides.UP_SIDE) {
+                onReachLoading()
             }
         }
     }
 
     init {
-        context = builder.context
-
-        recyclerView = builder.recyclerView
-
-        //loadMoreSides = builder.loadMoreSides
-
-        loadMoreListener = builder.loadMoreListener
-
-        customView = builder.customView
-
-        userAdapter = recyclerView.adapter!!
-
-        loadMoreWrapper = LoadMoreWrapper(context, userAdapter, Status.Idle, customView)
-
+        loadMoreWrapper = LoadMoreWrapper(context, Status.Idle, loadMoreSides, isLoginProgressBarVisible, userAdapter, customView)
         myAdapterDataObserver = MyAdapterDataObserver(loadMoreWrapper)
 
         if (builder.recyclerView.layoutManager is GridLayoutManager) {
             (builder.recyclerView.layoutManager as GridLayoutManager).spanSizeLookup =
                     object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
-                            return if (position == userAdapter.itemCount /*&& loadMoreSides == LoadMoreSides.DOWN_SIDE*/) {
+                            return if (position == userAdapter.itemCount && loadMoreSides == LoadMoreSides.DOWN_SIDE) {
                                 (builder.recyclerView.layoutManager as GridLayoutManager).spanCount
-                            } /*else if (position == 0 && loadMoreSides == LoadMoreSides.DOWN_SIDE) {
+                            } else if (position == 0 && loadMoreSides == LoadMoreSides.UP_SIDE) {
                                 (builder.recyclerView.layoutManager as GridLayoutManager).spanCount
-                            } */else{
+                            } else {
                                 1
                             }
                         }
@@ -72,7 +64,7 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
         recyclerView.addOnScrollListener(scrollListener)
     }
 
-    private fun onReachBottom() {
+    private fun onReachLoading() {
         if (isFailed) {
             return
         }
@@ -87,37 +79,34 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
         loadMoreListener()
     }
 
-    override fun onLoadMoreBegin(loadMessage: String?) {
+    override fun onLoadMoreBegin(isLoginProgressBarVisible: Boolean, loadMessage: String?) {
         isFailed = false
         isLoading = true
         val status = Status.Loading
-        loadMessage?.let { msg ->
-            status.title = msg
-        }
+        status.title = loadMessage
+        loadMoreWrapper.setLoginProgressBarVisible(isLoginProgressBarVisible)
         loadMoreWrapper.notifyStatusChanged(status)
     }
 
-    override fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String?) {
+    override fun onLoadMoreSucceed(hasMoreItems: Boolean, isLoginProgressBarVisible: Boolean, noMoreMessage: String?) {
         isFailed = false
         isLoading = false
         hasMore = hasMoreItems
 
         if (!hasMoreItems) {
             val status = Status.NoMore
-            noMoreMessage?.let { msg ->
-                status.title = msg
-            }
+            status.title = noMoreMessage
+            loadMoreWrapper.setLoginProgressBarVisible(isLoginProgressBarVisible)
             loadMoreWrapper.notifyStatusChanged(status)
         }
     }
 
-    override fun onLoadMoreFailed(failMessage: String?) {
+    override fun onLoadMoreFailed(isLoginProgressBarVisible: Boolean, failMessage: String?) {
         isFailed = true
         isLoading = false
         val status = Status.Error
-        failMessage?.let { msg ->
-            status.title = msg
-        }
+        status.title = failMessage
+        loadMoreWrapper.setLoginProgressBarVisible(isLoginProgressBarVisible)
         loadMoreWrapper.notifyStatusChanged(status)
     }
 
@@ -128,23 +117,39 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
         loadMoreWrapper.notifyStatusChanged(Status.Idle)
     }
 
+    override fun getLoadMoreSide(): Int {
+        return loadMoreSides
+    }
+
     class Builder(internal val context: Context) {
-        //internal var loadMoreSides: Int = LoadMoreSides.DOWN_SIDE
+        internal var loadingTriggerThreshold: Int = 0
         internal lateinit var recyclerView: RecyclerView
         internal lateinit var loadMoreListener: () -> Unit
-        internal var customView: ((LinearLayout, TextView) -> Unit)? = null
+        internal var isLoginProgressBarVisible: Boolean = true
+        @LoadMoreSide internal var loadMoreSides: Int = LoadMoreSides.DOWN_SIDE
+        internal var customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)? = null
 
         fun setRecyclerView(recyclerView: RecyclerView): Builder {
             this.recyclerView = recyclerView
             return this
         }
 
-        /*fun setLoadMoreSide(@LoadMoreSide loadMoreSides: Int): Builder {
+        fun setTriggerThreshold(loadingTriggerThreshold: Int): Builder {
+            this.loadingTriggerThreshold = loadingTriggerThreshold
+            return this
+        }
+
+        fun setLoginProgressBarVisible(isLoginProgressBarVisible: Boolean): Builder {
+            this.isLoginProgressBarVisible = isLoginProgressBarVisible
+            return this
+        }
+
+        fun setLoadMoreSide(@LoadMoreSide loadMoreSides: Int): Builder {
             this.loadMoreSides = loadMoreSides
             return this
-        }*/
+        }
 
-        fun setCustomView(customView: ((LinearLayout, TextView) -> Unit)?): Builder {
+        fun setCustomView(customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)?): Builder {
             this.customView = customView
             return this
         }
