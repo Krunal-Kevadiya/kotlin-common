@@ -14,8 +14,9 @@ import kotlinx.android.synthetic.main.listitem_loadmore.view.*
 class LoadMoreWrapper(
     val context: Context,
     var status: Status = Status.Idle,
-    @LoadMoreSide val loadMoreSides: Int,
-    private var isLoginProgressBarVisible: Boolean,
+    private var isErrorVisible: Boolean,
+    private var isProgressVisible: Boolean,
+    private val loadMoreSides: LoadMoreSide,
     val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
     var customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -26,8 +27,11 @@ class LoadMoreWrapper(
 
     override fun getItemCount(): Int {
         return when (status) {
-            Status.Loading, Status.Error, Status.NoMore -> {
+            Status.Loading -> {
                 adapter.itemCount + 1
+            }
+            Status.Error, Status.NoMore -> {
+                if (isErrorVisible) (adapter.itemCount + 1) else adapter.itemCount
             }
             else -> {
                 adapter.itemCount
@@ -37,7 +41,9 @@ class LoadMoreWrapper(
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            isLoadingType(position, loadMoreSides) || isErrorType(position, loadMoreSides) || isNoMoreType(position, loadMoreSides) -> {
+            isLoadingType(position, loadMoreSides) ||
+                    ((isErrorType(position, loadMoreSides) || isNoMoreType(position, loadMoreSides)) && isErrorVisible)
+            -> {
                 TYPE_LOAD_MORE
             }
             else -> {
@@ -85,22 +91,67 @@ class LoadMoreWrapper(
     fun notifyStatusChanged(newStatus: Status) {
         if (status != newStatus) {
             status = newStatus
-            notifyDataSetChanged()
+            if (loadMoreSides == LoadMoreSide.UP_SIDE) {
+                notifyItemInserted(0)
+            } else {
+                notifyItemInserted(adapter.itemCount - 1)
+            }
         }
-    }
-
-    fun setLoginProgressBarVisible(isLoginProgressBarVisible: Boolean) {
-        this.isLoginProgressBarVisible = isLoginProgressBarVisible
     }
 
     inner class LoadMoreVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBindViewHolder(status: Status, customView: ((RelativeLayout, TextView, ProgressBar) -> Unit)?) {
-            itemView.tvTitle.apply {
-                text = status.title ?: ""
-            }
+            itemView.tvTitle.text = status.title
 
-            itemView.tvTitle.visibility = if(isLoginProgressBarVisible) View.GONE else View.VISIBLE
-            itemView.pbLoader.visibility = if(isLoginProgressBarVisible) View.VISIBLE else View.GONE
+            if (isProgressVisible && isErrorVisible) {
+                when (status) {
+                    Status.Loading -> {
+                        itemView.tvTitle.visibility = View.GONE
+                        itemView.pbLoader.visibility = View.VISIBLE
+                    }
+                    Status.Error, Status.NoMore -> {
+                        itemView.tvTitle.visibility = View.VISIBLE
+                        itemView.pbLoader.visibility = View.GONE
+                    }
+                    else -> {
+                        itemView.visibility = View.GONE
+                    }
+                }
+            } else if (isProgressVisible) {
+                when (status) {
+                    Status.Loading -> {
+                        itemView.tvTitle.visibility = View.GONE
+                        itemView.pbLoader.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        itemView.visibility = View.GONE
+                    }
+                }
+            } else if (isErrorVisible) {
+                when (status) {
+                    Status.Loading, Status.Error, Status.NoMore -> {
+                        itemView.tvTitle.visibility = View.VISIBLE
+                        itemView.pbLoader.visibility = View.GONE
+                    }
+                    else -> {
+                        itemView.visibility = View.GONE
+                    }
+                }
+            } else {
+                when (status) {
+                    Status.Loading -> {
+                        itemView.tvTitle.visibility = View.GONE
+                        itemView.pbLoader.visibility = View.VISIBLE
+                    }
+                    Status.Error, Status.NoMore -> {
+                        itemView.tvTitle.visibility = View.VISIBLE
+                        itemView.pbLoader.visibility = View.GONE
+                    }
+                    else -> {
+                        itemView.visibility = View.GONE
+                    }
+                }
+            }
             customView?.invoke(itemView.relativeLayout, itemView.tvTitle, itemView.pbLoader)
         }
     }

@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="@dimen/_16ssp"
+            android:textColor="@color/color_type_default"
             tools:text="loading..."/>
 
     <ProgressBar
