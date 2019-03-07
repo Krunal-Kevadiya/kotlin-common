@@ -1,6 +1,7 @@
 package com.kotlinlibrary.loadmore
 
 import android.content.Context
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -76,6 +77,7 @@ class LoadMore private constructor(val builder: Builder) : ILoadMore {
         if (!hasMore) {
             return
         }
+        Log.e("LoadMore", "$isFailed , $isLoading , $hasMore")
         loadMoreListener()
     }
 

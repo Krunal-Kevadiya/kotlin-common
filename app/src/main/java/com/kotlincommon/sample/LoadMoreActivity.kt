@@ -3,6 +3,7 @@ package com.kotlincommon.sample
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -49,6 +50,7 @@ class LoadMoreActivity : AppCompatActivity() {
         }
 
         setupLoadMore {
+            Log.e("LoadMore", "onLoadMoreBegin")
             loadMore.onLoadMoreBegin()
             Handler(Looper.getMainLooper()).postDelayed({
                 if(Random(100).nextInt() % 2 == 0) {
@@ -59,7 +61,9 @@ class LoadMoreActivity : AppCompatActivity() {
                     }
                     count++
                     loadMore.onLoadMoreSucceed(count < 3)
+                    Log.e("LoadMore", "onLoadMoreSucceed $count , ${count < 3}")
                 } else {
+                    Log.e("LoadMore", "onLoadMoreFailed")
                     loadMore.onLoadMoreFailed()
                 }
             }, 5000)
@@ -100,8 +104,10 @@ class MoviesAdapter(var mList: MutableList<String>) : RecyclerView.Adapter<Movie
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val movie = mList[position]
-        holder.title.text = movie
+        if (position >= 0 && position < mList.size) {
+            val movie = mList[position]
+            holder.title.text = movie
+        }
     }
 
     fun setListItem(data: MutableList<String>){

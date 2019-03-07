@@ -79,6 +79,7 @@ dependencies {
         +Depend.AndroidX.recyclerview
         +Depend.AndroidX.swipereFreshlayout
         +Depend.Constraint.lib
+        +Depend.AndroidX.exifInterface
 
         //Kotlin
         +Depend.Kotlin.stdlib

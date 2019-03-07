@@ -57,6 +57,7 @@ dependencies {
         +Depend.AndroidX.appcompat
         +Depend.AndroidX.material
         +Depend.AndroidX.recyclerview
+        +Depend.AndroidX.exifInterface
 
         // Kotlin
         +Depend.Kotlin.stdlib

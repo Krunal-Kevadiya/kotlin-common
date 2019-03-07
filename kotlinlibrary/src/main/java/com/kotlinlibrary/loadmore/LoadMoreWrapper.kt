@@ -99,8 +99,8 @@ class LoadMoreWrapper(
                 text = status.title ?: ""
             }
 
-            itemView.tvTitle.visibility = if(isLoginProgressBarVisible) View.GONE else View.VISIBLE
-            itemView.pbLoader.visibility = if(isLoginProgressBarVisible) View.VISIBLE else View.GONE
+            itemView.tvTitle.visibility = if(isLoginProgressBarVisible && status != Status.NoMore) View.GONE else View.VISIBLE
+            itemView.pbLoader.visibility = if(isLoginProgressBarVisible && status != Status.NoMore) View.VISIBLE else View.GONE
             customView?.invoke(itemView.relativeLayout, itemView.tvTitle, itemView.pbLoader)
         }
     }

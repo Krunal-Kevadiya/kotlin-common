@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager
 import com.kotlinlibrary.R
 import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.logs
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -209,14 +210,22 @@ class PickMediaExtensions {
                         try {
                             currentPhotoPath?.let {
                                 val path = Uri.parse(it).getRealPath(mContext)
-                                callback?.invoke(PICK_SUCCESS, path!!)
+                                val mPath = ifRequiredThenRotate(
+                                    MediaStore.Images.Media.getBitmap(mContext.contentResolver, Uri.fromFile(File(path))),
+                                    path!!
+                                )
+                                callback?.invoke(PICK_SUCCESS, mPath)
                             }
                         } catch (e: Exception) {
                             logs(e, LogType.ERROR)
                             try {
                                 currentPhotoPath?.let {
                                     val path = Uri.parse(it).getRealPathFromURI(mContext)
-                                    callback?.invoke(PICK_SUCCESS, path!!)
+                                    val mPath = ifRequiredThenRotate(
+                                        MediaStore.Images.Media.getBitmap(mContext.contentResolver, Uri.fromFile(File(path))),
+                                        path!!
+                                    )
+                                    callback?.invoke(PICK_SUCCESS, mPath)
                                 }
                             } catch (e: Exception) {
                                 logs(e, LogType.ERROR)
