@@ -5,19 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-fun isOnBottom(recyclerView: RecyclerView?, dx: Int, dy: Int, loadingTriggerThreshold: Int): Boolean {
+fun isOnBottom(recyclerView: RecyclerView?, dx: Int, dy: Int, triggerThreshold: Int): Boolean {
 
     val layoutManager = recyclerView?.layoutManager
 
     return when (layoutManager) {
         is LinearLayoutManager -> {
-            LinearLayoutManagerImpl(layoutManager).isOnBottom(loadingTriggerThreshold)
+            LinearLayoutManagerImpl(layoutManager).isOnBottom(triggerThreshold)
         }
         is GridLayoutManager -> {
-            GridLayoutManagerImpl(layoutManager).isOnBottom(loadingTriggerThreshold)
+            GridLayoutManagerImpl(layoutManager).isOnBottom(triggerThreshold)
         }
         is StaggeredGridLayoutManager -> {
-            StaggeredLayoutManagerImpl(layoutManager).isOnBottom(loadingTriggerThreshold)
+            StaggeredLayoutManagerImpl(layoutManager).isOnBottom(triggerThreshold)
         }
         else -> {
             false
@@ -25,19 +25,19 @@ fun isOnBottom(recyclerView: RecyclerView?, dx: Int, dy: Int, loadingTriggerThre
     }
 }
 
-fun isOnUp(recyclerView: RecyclerView?, dx: Int, dy: Int, loadingTriggerThreshold: Int): Boolean {
+fun isOnUp(recyclerView: RecyclerView?, dx: Int, dy: Int, triggerThreshold: Int): Boolean {
 
     val layoutManager = recyclerView?.layoutManager
 
     return when (layoutManager) {
         is LinearLayoutManager -> {
-            LinearLayoutManagerImpl(layoutManager).isOnUp(loadingTriggerThreshold)
+            LinearLayoutManagerImpl(layoutManager).isOnUp(triggerThreshold)
         }
         is GridLayoutManager -> {
-            GridLayoutManagerImpl(layoutManager).isOnUp(loadingTriggerThreshold)
+            GridLayoutManagerImpl(layoutManager).isOnUp(triggerThreshold)
         }
         is StaggeredGridLayoutManager -> {
-            StaggeredLayoutManagerImpl(layoutManager).isOnUp(loadingTriggerThreshold)
+            StaggeredLayoutManagerImpl(layoutManager).isOnUp(triggerThreshold)
         }
         else -> {
             false

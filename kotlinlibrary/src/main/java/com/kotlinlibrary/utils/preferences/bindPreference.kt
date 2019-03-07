@@ -11,7 +11,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 inline fun <reified V : Any> Any.bindPreference(default: V, key: String? = null): ReadWriteProperty<Any, V> {
-    return PreferencesVar(IdentityAdapter(V::class.java), this, key, { default })
+    return PreferencesVar(IdentityAdapter(V::class.java), this, key) { default }
 }
 
 inline fun <reified V : Any> Any.bindPreference(noinline default: () -> V, key: String? = null): ReadWriteProperty<Any, V> {
@@ -19,7 +19,7 @@ inline fun <reified V : Any> Any.bindPreference(noinline default: () -> V, key: 
 }
 
 inline fun <reified V : Any, reified P : Any> Any.bindPreference(default: V, adapter: Adapter<V, P>, key: String? = null): ReadWriteProperty<Any, V> {
-    return PreferencesVar(adapter, this, key, { default })
+    return PreferencesVar(adapter, this, key) { default }
 }
 
 inline fun <reified V : Any, reified P : Any> Any.bindPreference(noinline default: () -> V, adapter: Adapter<V, P>, key: String? = null): ReadWriteProperty<Any, V> {
@@ -27,7 +27,7 @@ inline fun <reified V : Any, reified P : Any> Any.bindPreference(noinline defaul
 }
 
 inline fun <reified E : Enum<E>> Any.bindEnumPreference(default: E, key: String? = null): ReadWriteProperty<Any, E> {
-    return PreferencesVar(EnumAdapter(E::class.java), this, key, { default })
+    return PreferencesVar(EnumAdapter(E::class.java), this, key) { default }
 }
 
 inline fun <reified E : Enum<E>> Any.bindEnumPreference(noinline default: () -> E, key: String? = null): ReadWriteProperty<Any, E> {

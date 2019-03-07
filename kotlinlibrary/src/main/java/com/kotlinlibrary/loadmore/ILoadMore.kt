@@ -1,13 +1,13 @@
 package com.kotlinlibrary.loadmore
 
 interface ILoadMore {
-    fun onLoadMoreBegin(isLoginProgressBarVisible: Boolean = true, loadMessage: String? = null)
+    fun onLoadMoreBegin(loadMessage: String? = null)
 
-    fun onLoadMoreSucceed(hasMoreItems: Boolean, isLoginProgressBarVisible: Boolean = true, noMoreMessage: String? = null)
+    fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String? = null)
 
-    fun onLoadMoreFailed(isLoginProgressBarVisible: Boolean = true, failMessage: String? = null)
+    fun onLoadMoreFailed(failMessage: String? = null)
 
     fun resetLoadMore()
 
-    fun getLoadMoreSide(): Int
+    fun getLoadMoreSide(): LoadMoreSide
 }
