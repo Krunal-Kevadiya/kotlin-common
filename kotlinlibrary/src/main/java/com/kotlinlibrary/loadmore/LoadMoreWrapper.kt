@@ -92,9 +92,17 @@ class LoadMoreWrapper(
         if (status != newStatus) {
             status = newStatus
             if (loadMoreSides == LoadMoreSide.UP_SIDE) {
-                notifyItemInserted(0)
-            } else {
-                notifyItemInserted(adapter.itemCount - 1)
+                if(status == Status.Idle) {
+                    notifyItemRemoved(0)
+                } else {
+                    notifyItemInserted(0)
+                }
+            } else if (loadMoreSides == LoadMoreSide.DOWN_SIDE) {
+                if(status == Status.Idle) {
+                    notifyItemRemoved(adapter.itemCount - 1)
+                } else {
+                    notifyItemInserted(adapter.itemCount - 1)
+                }
             }
         }
     }

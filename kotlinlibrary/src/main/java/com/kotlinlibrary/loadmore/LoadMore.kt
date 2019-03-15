@@ -82,15 +82,16 @@ class LoadMore constructor(option: LoadMoreBuilder.()-> Unit) : ILoadMore {
         builder.loadMoreListener()
     }
 
-    override fun onLoadMoreBegin(loadMessage: String?) {
+    override fun onLoadMoreBegin(loadMessage: String?, block: ()-> Unit) {
         isFailed = false
         isLoading = true
         val status = Status.Loading
         status.title = loadMessage ?: Status.STR_LOADING
+        block.invoke()
         loadMoreWrapper.notifyStatusChanged(status)
     }
 
-    override fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String?) {
+    override fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String?, block: ()-> Unit) {
         isFailed = false
         isLoading = false
         hasMore = hasMoreItems
@@ -98,15 +99,21 @@ class LoadMore constructor(option: LoadMoreBuilder.()-> Unit) : ILoadMore {
         if (!hasMoreItems) {
             val status = Status.NoMore
             status.title = noMoreMessage ?: Status.STR_NO_MORE
+            block.invoke()
+            loadMoreWrapper.notifyStatusChanged(status)
+        } else {
+            val status = Status.Idle
+            block.invoke()
             loadMoreWrapper.notifyStatusChanged(status)
         }
     }
 
-    override fun onLoadMoreFailed(failMessage: String?) {
+    override fun onLoadMoreFailed(failMessage: String?, block: ()-> Unit) {
         isFailed = true
         isLoading = false
         val status = Status.Error
         status.title = failMessage ?: Status.STR_ERROR
+        block.invoke()
         loadMoreWrapper.notifyStatusChanged(status)
     }
 
