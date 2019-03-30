@@ -45,7 +45,7 @@ class LoadMoreActivity : AppCompatActivity() {
             }, 5000)
         }
 
-        adapter.setListItem(MutableList(20) { index -> "Item -> $index"}, LoadMoreSide.UP_SIDE)
+        adapter.setListItem(MutableList(20) { index -> "Item -> ${index + 1}"}, LoadMoreSide.UP_SIDE)
         setupLoadMore()
     }
 
@@ -100,13 +100,16 @@ class LoadMoreActivity : AppCompatActivity() {
             if(position >= 0 && position < mList.size) {
                 val movie = mList[position]
                 holder.title.text = movie
+            } else {
+                holder.title.text = ""
             }
         }
 
         fun setListItem(data: MutableList<String>, type: LoadMoreSide) {
             mList.clear()
-            if(type == LoadMoreSide.UP_SIDE)
+            if(type == LoadMoreSide.UP_SIDE) {
                 data.reverse()
+            }
             mList.addAll(data)
             notifyDataSetChanged()
         }
@@ -122,7 +125,7 @@ class LoadMoreActivity : AppCompatActivity() {
             data.reverse()
             val itemCount: Int = data.count()
             mList.addAll(0, data)
-            notifyItemRangeInserted(0, itemCount)
+            notifyItemRangeInserted(0, mList.size)
         }
     }
 }

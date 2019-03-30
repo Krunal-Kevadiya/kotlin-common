@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kotlincommon.sample.BR
 import com.kotlincommon.sample.databinding.ActivityValidationBinding
 import com.kotlinlibrary.validation.ValidatedObservableField
+import com.kotlinlibrary.validation.views.validator
 
 class ValidationActivity : AppCompatActivity() {
 

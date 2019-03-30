@@ -55,7 +55,7 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
     private fun redAlertBar(): StatusBarAlertView? {
         return StatusBarAlert.Builder(this)
             .autoHide(true)
-            .withDuration(500)
+            .withDuration(5000)
             .showProgress(false)
             .withText("RED ALERT!")
             .withTypeface(Typeface.createFromAsset(assets, "BeautifulAndOpenHearted.ttf"))
@@ -67,7 +67,7 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
         return ResourcesCompat.getFont(this, R.font.montserrat_light)?.let {
             StatusBarAlert.Builder(this)
                 .autoHide(true)
-                .withDuration(500)
+                .withDuration(5000)
                 .showProgress(false)
                 .withText("BLINK!")
                 .withTypeface(it)
