@@ -1,11 +1,11 @@
 package com.kotlinlibrary.loadmore
 
 interface ILoadMore {
-    fun onLoadMoreBegin(loadMessage: String? = null)
+    fun onLoadMoreBegin(loadMessage: String? = null, block: ()-> Unit)
 
-    fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String? = null)
+    fun onLoadMoreSucceed(hasMoreItems: Boolean, noMoreMessage: String? = null, block: ()-> Unit)
 
-    fun onLoadMoreFailed(failMessage: String? = null)
+    fun onLoadMoreFailed(failMessage: String? = null, block: ()-> Unit)
 
     fun resetLoadMore()
 
