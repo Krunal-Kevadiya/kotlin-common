@@ -1,13 +1,15 @@
 package com.kotlinlibrary.recycleradapter.base
 
-open class AdapterList<E>(private var newList: MutableList<E> = mutableListOf()) : List<E> {
+import java.util.*
+import kotlin.collections.ArrayList
+
+open class AdapterList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
     private var oldList: MutableList<E>? = null
 
     override val size: Int
         get() = newList.size
 
     override fun contains(element: E): Boolean = newList.contains(element)
-
     override fun containsAll(elements: Collection<E>): Boolean = newList.containsAll(elements)
 
     override operator fun get(index: Int): E = newList[index]
@@ -101,6 +103,12 @@ open class AdapterList<E>(private var newList: MutableList<E> = mutableListOf())
     internal fun set(index: Int, element: E): DiffUtilCallback<E> {
         cacheOldItems()
         newList[index] = element
+        return getDiffUtils()
+    }
+
+    internal fun swap(firstIndex: Int, secondIndex: Int): DiffUtilCallback<E> {
+        cacheOldItems()
+        Collections.swap(newList, firstIndex, secondIndex)
         return getDiffUtils()
     }
 }

@@ -38,4 +38,10 @@
     <style name="ThemeDialog_AppTheme">
         <item name="android:windowDisablePreview">true</item>
     </style>
+
+    <!-- RecyclerView LoadMore -->
+    <style name="RepeatButtonStyle">
+        <item name="android:textColor">@color/loadmore_error_background</item>
+        <item name="android:text">@string/loadmore_network_error_button</item>
+    </style>
 </resources>

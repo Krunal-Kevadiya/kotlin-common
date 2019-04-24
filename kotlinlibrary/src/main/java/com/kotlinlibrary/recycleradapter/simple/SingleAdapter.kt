@@ -53,7 +53,7 @@ open class SingleAdapter<T> (
         notifyDataSetChanged()
     }
 
-    override operator fun plus(items: List<T>) {
+    override operator fun plus(items: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -61,27 +61,30 @@ open class SingleAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override operator fun plus(item: T) {
+    override operator fun plus(item: T): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.add(item).also(::dispatchUpdates)
         } else {
             itemList.add(item)
             notifyItemInserted(itemList.size - 1)
         }
+        return this
     }
 
-    override fun add(index: Int, item: T) {
+    override fun add(index: Int, item: T): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.add(index, item).also(::dispatchUpdates)
         } else {
             itemList.add(index, item)
             notifyItemInserted(index)
         }
+        return this
     }
 
-    override fun addAll(items: MutableList<T>) {
+    override fun addAll(items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -89,9 +92,10 @@ open class SingleAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override fun addAll(index: Int, items: MutableList<T>) {
+    override fun addAll(index: Int, items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -99,6 +103,7 @@ open class SingleAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
     override operator fun set(index: Int, item: T) {
@@ -110,7 +115,7 @@ open class SingleAdapter<T> (
         }
     }
 
-    override fun insert(index: Int, items: List<T>) {
+    override fun insert(index: Int, items: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             this.itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -118,18 +123,20 @@ open class SingleAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
-    override operator fun minus(index: Int) {
+    override fun remove(index: Int): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.removeAt(index).also(::dispatchUpdates)
         } else {
             itemList.removeAt(index)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override operator fun minus(item: T) {
+    override operator fun minus(item: T): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.remove(item).also(::dispatchUpdates)
         } else {
@@ -137,15 +144,17 @@ open class SingleAdapter<T> (
             itemList.remove(item)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override fun clear() {
+    override fun clear(): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.clear().also(::dispatchUpdates)
         } else {
             itemList.clear()
             notifyDataSetChanged()
         }
+        return this
     }
 
     private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<T>) {

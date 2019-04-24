@@ -4,6 +4,8 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import com.kotlinlibrary.recycleradapter.BindDsl
+import com.kotlinlibrary.recycleradapter.ConfigurationDsl
 
 class AdapterViewTypeConfiguration<T> {
     @LayoutRes
@@ -21,15 +23,33 @@ class AdapterViewTypeConfiguration<T> {
     internal var clickListener: (Int, Int, T) -> Unit = {_, _, _ -> }
         private set
 
+    /**
+     * Set layout resource id which will be bounded to actual view type
+     * @param layoutResId desired layout resource id
+     */
+    @ConfigurationDsl
     fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
     }
 
+    /**
+     * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
+     * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at position, equivalent of itemsList.get(position]
+     * @param block.index position
+     */
+    @BindDsl
     @Suppress("UNCHECKED_CAST")
     fun onBind(block: View.(Int, T) -> Unit) {
         bindHolder = (block as View.(Int, Any) -> Unit)
     }
 
+    /**
+     * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
+     * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at position, equivalent of itemsList.get(position]
+     * @param block.index position
+     */
     @Suppress("UNCHECKED_CAST")
     fun <V: ViewDataBinding> onBind(brId: Int, block: V.(Int, T) -> Unit) {
         layoutBr = brId

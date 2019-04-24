@@ -40,13 +40,6 @@ platform :android do
             )
 
             apkpath = APP_TYPE + "/build/outputs/apk/development/debug/" + MODULES + "-development-debug.apk"
-            crashlytics(
-                emails: TESTER_EMAIL,
-                api_token: FABRIC_API_TOKEN,
-                build_secret: FABRIC_BUILD_SECRET,
-                apk_path: apkpath,
-                notifications: true
-            )
         end
     #----------------------------------------------------------------------------------------------------------------------------------
         desc "Release for qa"
@@ -57,7 +50,13 @@ platform :android do
               flavor: "Qa",
               build_type: "Debug"
             )
-
+crashlytics(
+                emails: TESTER_EMAIL,
+                api_token: FABRIC_API_TOKEN,
+                build_secret: FABRIC_BUILD_SECRET,
+                apk_path: apkpath,
+                notifications: true
+            )
             apkpath = APP_TYPE + "/build/outputs/apk/qa/debug/" + MODULES + "-qa-debug.apk"
             crashlytics(
                 emails: TESTER_EMAIL,

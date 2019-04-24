@@ -53,4 +53,9 @@
 
     <color name="img_payment_visa_1">#26337A</color>
     <color name="img_payment_visa_2">#EC982D</color>
+
+    <color name="loadmore_color_button_repeat">#2196F3</color>
+    <color name="loadmore_color_button_repeat_selected">#90CAF9</color>
+    <color name="loadmore_error_background">#fff</color>
+    <color name="loadmore_error_color_separate_line">#E0E0E0</color>
 </resources>
