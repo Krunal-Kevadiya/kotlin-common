@@ -3,6 +3,7 @@ package com.kotlinlibrary.loadmore.paginate
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kotlinlibrary.loadmore.callback.OnAdapterChangeListener
 import com.kotlinlibrary.loadmore.callback.OnRepeatListener
 import com.kotlinlibrary.loadmore.item.DefaultGridLayoutItem
@@ -47,6 +48,8 @@ class NoPaginate constructor(option: NoPaginateBuilder.()-> Unit) : OnAdapterCha
                     (builder.recyclerView.layoutManager as LinearLayoutManager).reverseLayout = true
                 builder.recyclerView.layoutManager is GridLayoutManager ->
                     (builder.recyclerView.layoutManager as GridLayoutManager).reverseLayout = true
+                builder.recyclerView.layoutManager is StaggeredGridLayoutManager ->
+                    (builder.recyclerView.layoutManager as StaggeredGridLayoutManager).reverseLayout = true
                 else -> { }
             }
         }
