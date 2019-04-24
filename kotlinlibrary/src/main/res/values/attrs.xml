@@ -49,6 +49,13 @@
         <attr name="rb_text_color" format="color" />
         <attr name="rb_text_color_pressed" format="color" />
         <attr name="rb_text_color_disabled" format="color" />
+
+        <attr name="rb_is_shadow" format="boolean" />
+        <attr name="rb_cornerRadius" format="dimension"/>
+        <attr name="rb_shadowRadius" format="dimension"/>
+        <attr name="rb_shadowColor" format="color"/>
+        <attr name="rb_dx" format="dimension"/>
+        <attr name="rb_dy" format="dimension"/>
     </declare-styleable>
 
     <!-- Layout -->

@@ -94,6 +94,6 @@ dependencies {
         //Location
         +Depend.Google.location
     }
-    //implementation('com.github.Krunal-Kevadiya:kotlin-common:1.0.1")
+    //implementation("com.github.Krunal-Kevadiya:kotlin-common:1.1.0")
     implementation(project(":kotlinlibrary"))
 }

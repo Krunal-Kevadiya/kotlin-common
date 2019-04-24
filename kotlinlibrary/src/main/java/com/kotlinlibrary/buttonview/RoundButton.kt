@@ -18,6 +18,7 @@ import android.widget.Button
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import com.kotlinlibrary.R
 import com.kotlinlibrary.buttonview.animations.*
 
@@ -67,6 +68,17 @@ class RoundButton : AppCompatButton {
     private var textColorPressed: Int = 0
     private var textColorDisabled = -1
 
+    private var isShadow: Boolean = false
+    private var sdwColor: Int = 0
+    private var sdwRadius: Float = 0f
+    private var sdwCornerRadius: Float = 0f
+    private var sdwDx: Float = 0f
+    private var sdwDy: Float = 0f
+    private var mInvalidateShadowOnSizeChanged = true
+    private var mForceInvalidateShadow = false
+
+    private var viewWidth: Int = 0
+    private var viewHeight: Int = 0
     private var widthMeasureSpec: Int = 0
     private var heightMeasureSpec: Int = 0
 
@@ -143,30 +155,64 @@ class RoundButton : AppCompatButton {
         resultFailureColor = a.getColor(R.styleable.RoundButton_rb_failure_color, Color.RED)
         resultFailureResource = a.getResourceId(R.styleable.RoundButton_rb_failure_resource, 0)
 
+        isShadow = a.getBoolean(R.styleable.RoundButton_rb_is_shadow, false)
+        sdwCornerRadius = a.getDimension(R.styleable.RoundButton_rb_cornerRadius, 0f)
+        sdwRadius = a.getDimension(R.styleable.RoundButton_rb_shadowRadius, 0f)
+        sdwDx = a.getDimension(R.styleable.RoundButton_rb_dx, 0f)
+        sdwDy = a.getDimension(R.styleable.RoundButton_rb_dy, 0f)
+        sdwColor = a.getColor(R.styleable.RoundButton_rb_shadowColor, Color.TRANSPARENT)
         a.recycle()
+
         update()
     }
 
     private fun update() {
         val background = StateListDrawable()
         background.addState(
-            intArrayOf(android.R.attr.state_pressed), RoundButtonHelper.createDrawable(
-                backgroundColorPressed, cornerColorPressed, cornerWidth, cornerRadius
-            )
+            intArrayOf(android.R.attr.state_pressed),
+            if (isShadow && viewWidth > 0 && viewHeight > 0) {
+                RoundButtonHelper.createDrawable(
+                    context, isInEditMode,
+                    backgroundColorPressed, cornerColorPressed, cornerWidth, cornerRadius,
+                    viewWidth, viewHeight, sdwCornerRadius, sdwRadius, sdwDx, sdwDy, sdwColor, sdwColor
+                )
+            } else {
+                RoundButtonHelper.createDrawable(
+                    backgroundColorPressed, cornerColorPressed, cornerWidth, cornerRadius
+                )
+            }
         )
 
         if (backgroundColorDisabled != -1) {
             background.addState(
-                intArrayOf(-android.R.attr.state_enabled), RoundButtonHelper.createDrawable(
-                    backgroundColorDisabled, cornerColorDisabled, cornerWidth, cornerRadius
-                )
+                intArrayOf(-android.R.attr.state_enabled),
+                if (isShadow && viewWidth > 0 && viewHeight > 0) {
+                    RoundButtonHelper.createDrawable(
+                        context, isInEditMode,
+                        backgroundColorDisabled, cornerColorDisabled, cornerWidth, cornerRadius,
+                        viewWidth, viewHeight, sdwCornerRadius, sdwRadius, sdwDx, sdwDy, sdwColor, sdwColor
+                    )
+                } else {
+                    RoundButtonHelper.createDrawable(
+                        backgroundColorDisabled, cornerColorDisabled, cornerWidth, cornerRadius
+                    )
+                }
             )
         }
 
         background.addState(
-            StateSet.WILD_CARD, RoundButtonHelper.createDrawable(
-                backgroundColors, cornerColor, cornerWidth, cornerRadius
-            )
+            StateSet.WILD_CARD,
+            if (isShadow && viewWidth > 0 && viewHeight > 0) {
+                RoundButtonHelper.createDrawable(
+                    context, isInEditMode,
+                    backgroundColors, cornerColor, cornerWidth, cornerRadius,
+                    viewWidth, viewHeight, sdwCornerRadius, sdwRadius, sdwDx, sdwDy, sdwColor, sdwColor
+                )
+            } else {
+                RoundButtonHelper.createDrawable(
+                    backgroundColors, cornerColor, cornerWidth, cornerRadius
+                )
+            }
         )
         setBackground(background)
 
@@ -332,8 +378,49 @@ class RoundButton : AppCompatButton {
                 setLayoutParams(layoutParams)
             }
         }
-
         update()
+    }
+
+    override fun getSuggestedMinimumWidth(): Int {
+        return 0
+    }
+
+    override fun getSuggestedMinimumHeight(): Int {
+        return 0
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (!isAnimating && w > 0 && h > 0 && (background == null || mInvalidateShadowOnSizeChanged || mForceInvalidateShadow)) {
+            mForceInvalidateShadow = false
+            viewWidth = w
+            viewHeight = h
+            update()
+        } else {
+            mForceInvalidateShadow = false
+        }
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        if (mForceInvalidateShadow && !isAnimating) {
+            mForceInvalidateShadow = false
+            viewWidth = right - left
+            viewHeight = bottom - top
+            update()
+        } else {
+            mForceInvalidateShadow = false
+        }
+    }
+
+    fun setInvalidateShadowOnSizeChanged(invalidateShadowOnSizeChanged: Boolean) {
+        mInvalidateShadowOnSizeChanged = invalidateShadowOnSizeChanged
+    }
+
+    fun invalidateShadow() {
+        mForceInvalidateShadow = true
+        requestLayout()
+        invalidate()
     }
 
     fun setResultState(resultState: ResultState) {
@@ -560,14 +647,18 @@ class RoundButton : AppCompatButton {
         fromWidth: Int, fromHeight: Int, toWidth: Int, toHeight: Int,
         fromCorner: Int, toCorner: Int, fromAlpha: Int, toAlpha: Int, listener: Animator.AnimatorListener
     ) {
-
         setCompoundDrawables(null, null, null, null)
         text = null
         isClickable = false
 
         val cornerAnimation = ValueAnimator.ofInt(fromCorner, toCorner)
         cornerAnimation.addUpdateListener { animation ->
-            (background.current as GradientDrawable).cornerRadius = (animation.animatedValue as Int).toFloat()
+            //Todo: check other drawable type
+            if (background.current is GradientDrawable) {
+                (background.current as GradientDrawable).cornerRadius = (animation.animatedValue as Int).toFloat()
+            } else if(background.current is RoundedBitmapDrawable) {
+                (background.current as RoundedBitmapDrawable).cornerRadius = (animation.animatedValue as Int).toFloat()
+            }
         }
 
         val widthAnimation = ValueAnimator.ofInt(fromWidth, toWidth)

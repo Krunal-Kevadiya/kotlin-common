@@ -1,9 +1,7 @@
 package com.kotlinlibrary.buttonview
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -12,6 +10,10 @@ import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
+import android.graphics.drawable.LayerDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+
 
 object RoundButtonHelper {
 
@@ -43,6 +45,116 @@ object RoundButtonHelper {
         out.setStroke(cornerSize, cornerColor)
         out.cornerRadius = cornerRadius.toFloat()
         return out
+    }
+
+    fun createDrawable(
+        context: Context, isInEditMode: Boolean,
+        color: Int, cornerColor: Int, cornerSize: Int, cornerRadius: Int,
+        shadowWidth: Int, shadowHeight: Int, shadowCornerRadius: Float, shadowRadius: Float,
+        dx: Float, dy: Float, shadowColor: Int, fillColor: Int = Color.TRANSPARENT
+    ): RoundedBitmapDrawable {
+        val out = GradientDrawable()
+        out.setColor(color)
+        out.setStroke(cornerSize, cornerColor)
+        out.cornerRadius = cornerRadius.toFloat()
+
+        val drawable = createShadowBitmap(context, isInEditMode, shadowWidth, shadowHeight, shadowCornerRadius, shadowRadius, dx, dy, shadowColor, fillColor)
+        var top = shadowRadius
+        var left = shadowRadius
+        var right = shadowRadius
+        var bottom = shadowRadius
+
+        if (dy > 0) {
+            top += dy
+            bottom += dy
+        } else if (dy < 0) {
+            top -= dy
+            bottom -= dy
+        }
+
+        if (dx > 0) {
+            left += dx
+            right += dx
+        } else if (dx < 0) {
+            left -= dx
+            right -= dx
+        }
+
+        val layers = arrayOfNulls<Drawable>(2)
+        layers[0] = drawable
+        layers[1] = out
+        val layerDrawable = LayerDrawable(layers)
+        layerDrawable.setLayerInset(0, 0,0,0,0)
+        layerDrawable.setLayerInset(1, left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+
+        val imageBitmap = drawableToBitmap(layerDrawable)
+        val roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(context.resources, imageBitmap)
+        //roundedBitmapDrawable.cornerRadius = 50.0f
+        roundedBitmapDrawable.setAntiAlias(true)
+        return roundedBitmapDrawable
+    }
+
+    private fun drawableToBitmap(drawable: Drawable): Bitmap {
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+
+        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+    private fun createShadowBitmap(
+        context: Context, isInEditMode: Boolean,
+        shadowWidth: Int, shadowHeight: Int, cornerRadius: Float, shadowRadius: Float,
+        dx: Float, dy: Float, shadowColor: Int, fillColor: Int = Color.TRANSPARENT
+    ): Drawable {
+        val output = Bitmap.createBitmap(shadowWidth, shadowHeight, Bitmap.Config.ALPHA_8)
+        val canvas = Canvas(output)
+
+        val shadowRect = RectF(
+            shadowRadius, shadowRadius,
+            shadowWidth - shadowRadius, shadowHeight - shadowRadius
+        )
+
+        if (dy > 0) {
+            shadowRect.top += dy
+            shadowRect.bottom -= dy
+        } else if (dy < 0) {
+            shadowRect.top += Math.abs(dy)
+            shadowRect.bottom -= Math.abs(dy)
+        }
+
+        if (dx > 0) {
+            shadowRect.left += dx
+            shadowRect.right -= dx
+        } else if (dx < 0) {
+            shadowRect.left += Math.abs(dx)
+            shadowRect.right -= Math.abs(dx)
+        }
+
+        val shadowPaint = Paint()
+        shadowPaint.isAntiAlias = true
+        shadowPaint.color = fillColor
+        shadowPaint.style = Paint.Style.FILL
+
+        if (!isInEditMode) {
+            shadowPaint.setShadowLayer(shadowRadius, dx, dy, shadowColor)
+        }
+        canvas.drawRoundRect(shadowRect, cornerRadius, cornerRadius, shadowPaint)
+        val drawable = BitmapDrawable(context.resources, output)
+        if(output.isRecycled) {
+            output.recycle()
+        }
+        return drawable
     }
 
     class Builder : Parcelable {
