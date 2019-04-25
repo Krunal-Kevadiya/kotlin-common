@@ -12,8 +12,8 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_15sdp">
 
-        <com.kotlinlibrary.buttonview.RoundButton
-                android:id="@+id/fab_login"
+        <com.kotlinlibrary.buttonview.ShadowLayout
+                android:id="@+id/fab_test"
                 style="@style/TextStyle"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
@@ -43,6 +43,30 @@
                 app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.RoundButton
+                android:id="@+id/fab_login"
+                style="@style/TextStyle"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:gravity="center"
+                app:rb_animation_alpha="false"
+                app:rb_animation_corner_radius="@dimen/_50sdp"
+                app:rb_animation_duration="100"
+                app:rb_animation_progress_color="@android:color/white"
+                app:rb_animation_progress_padding="@dimen/_10sdp"
+                app:rb_animation_progress_width="@dimen/_2sdp"
+                app:rb_background_color="@color/colorAccent"
+                app:rb_background_color_pressed="@color/colorAccent"
+                app:rb_corner_color="@color/colorAccent"
+                app:rb_corner_color_pressed="@color/colorAccent"
+                app:rb_corner_radius="@dimen/_50sdp"
+                app:rb_corner_width="@dimen/_2sdp"
+                app:rb_drawable_color="@color/colorAccent"
+                app:rb_drawable_resource="@drawable/ic_cancel_white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fab_test"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        <com.kotlinlibrary.buttonview.RoundButton
                 android:id="@+id/btn_login"
                 style="@style/TextStyle"
                 android:layout_width="wrap_content"
@@ -66,12 +90,6 @@
                 app:rb_corner_width="@dimen/_1sdp"
                 app:rb_text_color="@android:color/white"
                 app:rb_text_color_pressed="@android:color/white"
-                app:rb_shadowRadius="@dimen/_2sdp"
-                app:rb_shadowColor="@color/colorAccent"
-                app:rb_dx="@dimen/_2sdp"
-                app:rb_dy="@dimen/_2sdp"
-                app:rb_cornerRadius="@dimen/_3sdp"
-                app:rb_is_shadow="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fab_login"
                 app:layout_constraintRight_toRightOf="parent"
