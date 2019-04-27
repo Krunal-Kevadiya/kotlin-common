@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kotlinlibrary.loadmore.ILoadMore
 import com.kotlinlibrary.loadmore.LoadMore
 import com.kotlinlibrary.loadmore.LoadMoreSide
@@ -22,9 +21,9 @@ class LoadMoreActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.recyclerView)
     }
 
-    private val swipeRefreshLayout: SwipeRefreshLayout by lazy {
+    /*private val swipeRefreshLayout: SwipeRefreshLayout by lazy {
         findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
-    }
+    }*/
 
     private val adapter: MoviesAdapter by lazy {
         MoviesAdapter(mutableListOf())
@@ -38,14 +37,14 @@ class LoadMoreActivity : AppCompatActivity() {
         setContentView(R.layout.activity_loadmore)
 
         recyclerView.adapter = adapter
-        swipeRefreshLayout.setOnRefreshListener {
+        /*swipeRefreshLayout.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 adapter.setListItem(MutableList(20) { index -> "Refresh -> ${index + 1}"}, LoadMoreSide.UP_SIDE)
                 adapter.notifyDataSetChanged()
                 swipeRefreshLayout.isRefreshing = false
                 loadMore.resetLoadMore()
             }, 5000)
-        }
+        }*/
 
         adapter.setListItem(MutableList(20) { index -> "Item -> ${index + 1}"}, LoadMoreSide.UP_SIDE)
         adapter.notifyDataSetChanged()
@@ -61,28 +60,30 @@ class LoadMoreActivity : AppCompatActivity() {
             recyclerViews = recyclerView
             loadMoreSides = LoadMoreSide.UP_SIDE
             loadMoreListener = {
-                if (!swipeRefreshLayout.isRefreshing) {
+                //if (!swipeRefreshLayout.isRefreshing) {
                     loadMore.onLoadMoreBegin {
                         adapter.addOrRemoveItem(true, loadMore.getLoadMoreSide())
                     }
                     Handler(Looper.getMainLooper()).postDelayed({
                         if (Random(100).nextInt() % 2 == 0) {
                             count++
-                            loadMore.onLoadMoreSucceed(count < 3) {
+                            loadMore.onLoadMoreSucceed(count < 10) {
                                 adapter.addOrRemoveItem(false, loadMore.getLoadMoreSide())
                             }
                             recyclerViews.post {
                                 if (loadMore.getLoadMoreSide() == LoadMoreSide.DOWN_SIDE) {
                                     val list = MutableList(10) { index -> "LoadMore -> ${index + (adapter.itemCount + 1)}" }
-                                    val startIndex: Int = adapter.itemCount + 1
-                                    val itemCount: Int = list.count()
+                                    //val startIndex: Int = adapter.itemCount + 1
+                                    //val itemCount: Int = list.count()
                                     adapter.addMoreItem(list, loadMore.getLoadMoreSide())
-                                    adapter.notifyItemRangeInserted(startIndex, itemCount)
+                                    adapter.notifyDataSetChanged()
+                                    //adapter.notifyItemRangeInserted(startIndex, itemCount)
                                 } else if (loadMore.getLoadMoreSide() == LoadMoreSide.UP_SIDE) {
                                     val list = MutableList(10) { index -> "LoadMore -> ${index + (adapter.itemCount + 1)}" }
-                                    val itemCount: Int = list.count()
+                                    //val itemCount: Int = list.count()
                                     adapter.addMoreItem(list, loadMore.getLoadMoreSide())
-                                    adapter.notifyItemRangeInserted(0, itemCount)
+                                    adapter.notifyDataSetChanged()
+                                    //adapter.notifyItemRangeInserted(0, itemCount)
                                 }
                             }
                         } else {
@@ -91,7 +92,7 @@ class LoadMoreActivity : AppCompatActivity() {
                             }
                         }
                     }, 5000)
-                }
+                //}
             }
             /*customView = { relativeLayout, textView, progressBar ->
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen._5ssp))
@@ -142,11 +143,12 @@ class LoadMoreActivity : AppCompatActivity() {
         }
 
         fun addOrRemoveItem(isAdd: Boolean, type: LoadMoreSide) {
-            if(type == LoadMoreSide.UP_SIDE) {
+            /*if(type == LoadMoreSide.UP_SIDE) {
                 if(isAdd) mList.add(0, "") else mList.removeAt(0)
             } else {
                 if(isAdd) mList.add("") else mList.removeAt(mList.size-1)
-            }
+            }*/
+            //notifyDataSetChanged()
         }
     }
 }
