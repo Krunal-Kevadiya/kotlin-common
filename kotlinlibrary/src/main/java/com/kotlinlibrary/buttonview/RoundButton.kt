@@ -143,6 +143,17 @@ class RoundButton : AppCompatButton {
         resultFailureColor = a.getColor(R.styleable.RoundButton_rb_failure_color, Color.RED)
         resultFailureResource = a.getResourceId(R.styleable.RoundButton_rb_failure_resource, 0)
 
+        val rbPadding = a.getDimensionPixelSize(R.styleable.RoundButton_rb_padding, 0)
+        if (rbPadding >= 0) {
+            setPadding(rbPadding, rbPadding, rbPadding, rbPadding)
+        } else {
+            val rbPaddingTop = a.getDimensionPixelSize(R.styleable.RoundButton_rb_padding_top, 0)
+            val rbPaddingLeft = a.getDimensionPixelSize(R.styleable.RoundButton_rb_padding_left, 0)
+            val rbPaddingRight = a.getDimensionPixelSize(R.styleable.RoundButton_rb_padding_right, 0)
+            val rbPaddingBottom = a.getDimensionPixelSize(R.styleable.RoundButton_rb_padding_bottom, 0)
+            setPadding(rbPaddingTop, rbPaddingLeft, rbPaddingRight, rbPaddingBottom)
+        }
+
         a.recycle()
         update()
     }
@@ -150,21 +161,24 @@ class RoundButton : AppCompatButton {
     private fun update() {
         val background = StateListDrawable()
         background.addState(
-            intArrayOf(android.R.attr.state_pressed), RoundButtonHelper.createDrawable(
+            intArrayOf(android.R.attr.state_pressed),
+            RoundButtonHelper.createDrawable(
                 backgroundColorPressed, cornerColorPressed, cornerWidth, cornerRadius
             )
         )
 
         if (backgroundColorDisabled != -1) {
             background.addState(
-                intArrayOf(-android.R.attr.state_enabled), RoundButtonHelper.createDrawable(
+                intArrayOf(-android.R.attr.state_enabled),
+                RoundButtonHelper.createDrawable(
                     backgroundColorDisabled, cornerColorDisabled, cornerWidth, cornerRadius
                 )
             )
         }
 
         background.addState(
-            StateSet.WILD_CARD, RoundButtonHelper.createDrawable(
+            StateSet.WILD_CARD,
+            RoundButtonHelper.createDrawable(
                 backgroundColors, cornerColor, cornerWidth, cornerRadius
             )
         )
@@ -332,7 +346,6 @@ class RoundButton : AppCompatButton {
                 setLayoutParams(layoutParams)
             }
         }
-
         update()
     }
 
@@ -560,14 +573,15 @@ class RoundButton : AppCompatButton {
         fromWidth: Int, fromHeight: Int, toWidth: Int, toHeight: Int,
         fromCorner: Int, toCorner: Int, fromAlpha: Int, toAlpha: Int, listener: Animator.AnimatorListener
     ) {
-
         setCompoundDrawables(null, null, null, null)
         text = null
         isClickable = false
 
         val cornerAnimation = ValueAnimator.ofInt(fromCorner, toCorner)
         cornerAnimation.addUpdateListener { animation ->
-            (background.current as GradientDrawable).cornerRadius = (animation.animatedValue as Int).toFloat()
+            if (background.current is GradientDrawable) {
+                (background.current as GradientDrawable).cornerRadius = (animation.animatedValue as Int).toFloat()
+            }
         }
 
         val widthAnimation = ValueAnimator.ofInt(fromWidth, toWidth)

@@ -43,12 +43,51 @@
         <attr name="rb_corner_color" format="color" />
         <attr name="rb_corner_color_pressed" format="color" />
         <attr name="rb_corner_color_disabled" format="color" />
+
         <attr name="rb_background_color" format="color" />
         <attr name="rb_background_color_pressed" format="color" />
         <attr name="rb_background_color_disabled" format="color" />
         <attr name="rb_text_color" format="color" />
         <attr name="rb_text_color_pressed" format="color" />
         <attr name="rb_text_color_disabled" format="color" />
+
+        <attr name="rb_padding" format="dimension"/>
+        <attr name="rb_padding_top" format="dimension"/>
+        <attr name="rb_padding_left" format="dimension"/>
+        <attr name="rb_padding_right" format="dimension"/>
+        <attr name="rb_padding_bottom" format="dimension"/>
+
+        <attr name="rb_shadow_margin" format="dimension"/>
+        <attr name="rb_shadow_margin_top" format="dimension"/>
+        <attr name="rb_shadow_margin_left" format="dimension"/>
+        <attr name="rb_shadow_margin_right" format="dimension"/>
+        <attr name="rb_shadow_margin_bottom" format="dimension"/>
+
+        <attr name="android:foreground"/>
+        <attr name="rb_foreground_color" format="color"/>
+        <attr name="rb_shadow_color" format="color"/>
+        <attr name="rb_shadow_dx" format="float"/>
+        <attr name="rb_shadow_dy" format="float"/>
+        <attr name="rb_shadow_radius" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShadowView_Layout">
+        <attr name="layout_gravity">
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+            <flag name="left" value="0x03"/>
+            <flag name="right" value="0x05"/>
+            <flag name="center_vertical" value="0x10"/>
+            <flag name="fill_vertical" value="0x70"/>
+            <flag name="center_horizontal" value="0x01"/>
+            <flag name="fill_horizontal" value="0x07"/>
+            <flag name="center" value="0x11"/>
+            <flag name="fill" value="0x77"/>
+            <flag name="clip_vertical" value="0x80"/>
+            <flag name="clip_horizontal" value="0x08"/>
+            <flag name="start" value="0x00800003"/>
+            <flag name="end" value="0x00800005"/>
+        </attr>
     </declare-styleable>
 
     <!-- Layout -->

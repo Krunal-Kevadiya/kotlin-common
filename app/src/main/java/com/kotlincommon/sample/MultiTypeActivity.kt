@@ -45,10 +45,10 @@ class MultiTypeActivity : AppCompatActivity() {
                 /*onBind { index, item ->
                     textViewLoadMore?.text = it.toString()
                 }*/
-                onBind<ItemLoadmoreBinding>(-1) { index, item ->
+                onBind<ItemLoadmoreBinding>(-1) { _, item ->
                     this.textViewLoadMore.text = item.toString()
                 }
-                onClick/*(R.id.textViewLoadMore)*/ { id, index, item ->
+                onClick/*(R.id.textViewLoadMore)*/ { id, _, item ->
                     logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
                     adapter.add((adapter.getItemLists().size - 1), "")
                 }

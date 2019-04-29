@@ -39,7 +39,7 @@ class ButtonViewActivity : AppCompatActivity() {
                 it.startAnimation()
 
                 it.postDelayed({
-                    it.setResultState(RoundButton.ResultState.SUCCESS);
+                    it.setResultState(RoundButton.ResultState.SUCCESS)
                 }, 3000)
 
                 it.postDelayed({

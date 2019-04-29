@@ -7,8 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlinlibrary.recycleradapter.base.DataBindingBaseAdapter
-import com.kotlinlibrary.recycleradapter.base.DataBindingBaseViewHolder
+import com.kotlinlibrary.recycleradapter.base.*
 import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
 
 open class SingleBindingAdapter<T> (
@@ -61,7 +60,7 @@ open class SingleBindingAdapter<T> (
         notifyDataSetChanged()
     }
 
-    override operator fun plus(items: List<T>) {
+    override operator fun plus(items: List<T>): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -69,27 +68,30 @@ open class SingleBindingAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override operator fun plus(item: T) {
+    override operator fun plus(item: T): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.add(item).also(::dispatchUpdates)
         } else {
             itemList.add(item)
             notifyItemInserted(itemList.size - 1)
         }
+        return this
     }
 
-    override fun add(index: Int, item: T) {
+    override fun add(index: Int, item: T): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.add(index, item).also(::dispatchUpdates)
         } else {
             itemList.add(index, item)
             notifyItemInserted(index)
         }
+        return this
     }
 
-    override fun addAll(items: MutableList<T>) {
+    override fun addAll(items: MutableList<T>): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -97,9 +99,10 @@ open class SingleBindingAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override fun addAll(index: Int, items: MutableList<T>) {
+    override fun addAll(index: Int, items: MutableList<T>): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -107,6 +110,7 @@ open class SingleBindingAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
     override operator fun set(index: Int, item: T) {
@@ -118,7 +122,7 @@ open class SingleBindingAdapter<T> (
         }
     }
 
-    override fun insert(index: Int, items: List<T>) {
+    override fun insert(index: Int, items: List<T>): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             this.itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -126,18 +130,20 @@ open class SingleBindingAdapter<T> (
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
-    override operator fun minus(index: Int) {
+    override fun remove(index: Int): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.removeAt(index).also(::dispatchUpdates)
         } else {
             itemList.removeAt(index)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override operator fun minus(item: T) {
+    override operator fun minus(item: T): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.remove(item).also(::dispatchUpdates)
         } else {
@@ -145,15 +151,17 @@ open class SingleBindingAdapter<T> (
             itemList.remove(item)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override fun clear() {
+    override fun clear(): DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
             itemList.clear().also(::dispatchUpdates)
         } else {
             itemList.clear()
             notifyDataSetChanged()
         }
+        return this
     }
 
     private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<T>) {

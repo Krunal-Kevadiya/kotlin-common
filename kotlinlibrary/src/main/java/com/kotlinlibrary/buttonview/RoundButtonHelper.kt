@@ -1,9 +1,7 @@
 package com.kotlinlibrary.buttonview
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -14,7 +12,6 @@ import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
 
 object RoundButtonHelper {
-
     fun getBitmap(context: Context, drawableId: Int): Bitmap {
         val drawable = ContextCompat.getDrawable(context, drawableId)
         return if (drawable is BitmapDrawable) drawable.bitmap else getBitmap(drawable!!)
@@ -42,6 +39,12 @@ object RoundButtonHelper {
         out.setColor(color)
         out.setStroke(cornerSize, cornerColor)
         out.cornerRadius = cornerRadius.toFloat()
+        /*out.cornerRadii = floatArrayOf(
+            cornerRadius.toFloat(),cornerRadius.toFloat(),
+            0f,0f,
+            cornerRadius.toFloat(),cornerRadius.toFloat(),
+            0f,0f
+        )*/
         return out
     }
 

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable name="viewModel"
+                  type="java.lang.String"/>
+    </data>
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +17,7 @@
                 android:id="@+id/textViewLoadMore"
                 android:textSize="@dimen/_20ssp"
                 android:padding="@dimen/_5sdp"
+                android:text="@{viewModel}"
                 android:textColor="@color/color_type_help"
                 tools:text="@tools:sample/full_names"/>
     </LinearLayout>

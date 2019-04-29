@@ -69,7 +69,7 @@ open class MultiTypedBindingAdapter(
         notifyDataSetChanged()
     }
 
-    override operator fun plus(items: List<Any>) {
+    override operator fun plus(items: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -77,27 +77,30 @@ open class MultiTypedBindingAdapter(
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override operator fun plus(item: Any) {
+    override operator fun plus(item: Any): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.add(item).also(::dispatchUpdates)
         } else {
             itemList.add(item)
             notifyItemInserted(itemList.size - 1)
         }
+        return this
     }
 
-    override fun add(index: Int, item: Any) {
+    override fun add(index: Int, item: Any): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.add(index, item).also(::dispatchUpdates)
         } else {
             itemList.add(index, item)
             notifyItemInserted(index)
         }
+        return this
     }
 
-    override fun addAll(items: MutableList<Any>) {
+    override fun addAll(items: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.addAll(items).also(::dispatchUpdates)
         } else {
@@ -105,9 +108,10 @@ open class MultiTypedBindingAdapter(
             itemList.addAll(items)
             notifyItemRangeInserted(size, items.size)
         }
+        return this
     }
 
-    override fun addAll(index: Int, items: MutableList<Any>) {
+    override fun addAll(index: Int, items: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -115,6 +119,7 @@ open class MultiTypedBindingAdapter(
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
     override operator fun set(index: Int, item: Any) {
@@ -126,7 +131,7 @@ open class MultiTypedBindingAdapter(
         }
     }
 
-    override fun insert(index: Int, items: List<Any>) {
+    override fun insert(index: Int, items: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             this.itemList.addAll(index, items).also(::dispatchUpdates)
         } else {
@@ -134,18 +139,20 @@ open class MultiTypedBindingAdapter(
             itemList.addAll(items)
             notifyItemRangeInserted(index, items.size + size)
         }
+        return this
     }
 
-    override operator fun minus(index: Int) {
+    override fun remove(index: Int): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.removeAt(index).also(::dispatchUpdates)
         } else {
             itemList.removeAt(index)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override operator fun minus(item: Any) {
+    override operator fun minus(item: Any): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.remove(item).also(::dispatchUpdates)
         } else {
@@ -153,15 +160,17 @@ open class MultiTypedBindingAdapter(
             itemList.remove(item)
             notifyItemRemoved(index)
         }
+        return this
     }
 
-    override fun clear() {
+    override fun clear(): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
             itemList.clear().also(::dispatchUpdates)
         } else {
             itemList.clear()
             notifyDataSetChanged()
         }
+        return this
     }
 
     private fun dispatchUpdates(diffUtilCallback: DiffUtilCallback<Any>) {

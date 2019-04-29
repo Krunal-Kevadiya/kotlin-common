@@ -28,4 +28,8 @@
     <!-- AWS Image Upload -->
     <string name="error_unknown">Something went wrong! Please try again later.</string>
     <string name="error_file_size">Your selected file content length zero! Please select other file.</string>
+
+    <!-- RecyclerView LoadMore -->
+    <string name="loadmore_network_error">Network Error. Please check your connection and try later</string>
+    <string name="loadmore_network_error_button">repeat</string>
 </resources>
