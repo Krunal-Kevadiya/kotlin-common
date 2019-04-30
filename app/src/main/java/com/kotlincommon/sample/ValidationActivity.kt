@@ -8,10 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.textfield.TextInputLayout
-import com.kotlincommon.sample.BR
 import com.kotlincommon.sample.databinding.ActivityValidationBinding
 import com.kotlinlibrary.validation.ValidatedObservableField
-import com.kotlinlibrary.validation.views.validator
 
 class ValidationActivity : AppCompatActivity() {
 
@@ -42,8 +40,6 @@ class ValidationActivity : AppCompatActivity() {
                 Log.e(ValidationActivity::class.java.simpleName, "False ${editTextEmail.getError()}")
             }
         }
-
-        nonEmptyList()
     }
 }
 
