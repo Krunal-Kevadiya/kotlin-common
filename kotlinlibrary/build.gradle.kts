@@ -95,6 +95,7 @@ dependencies {
         //Ssp, Sdp
         +Depend.Intuit.ssp
         +Depend.Intuit.sdp
+        +"com.sdsmdg.harjot:materialshadows:1.2.5"
     }
 }
 

@@ -2,7 +2,7 @@ object Versions {
     object Android {
         const val buildToolsVersion = "28.0.2"
         const val compileSdkVersion = 28
-        const val minSdkVersion = 16
+        const val minSdkVersion = 21
         const val targetSdkVersion = 28
         const val appVersionCode = 1
         const val appVersionName = "1.0"

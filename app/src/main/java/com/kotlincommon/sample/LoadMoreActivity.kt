@@ -14,6 +14,11 @@ import com.kotlinlibrary.loadmore.paginate.NoPaginate
 import com.kotlinlibrary.recycleradapter.setUpBinding
 import com.kotlinlibrary.recycleradapter.simple.SingleBindingAdapter
 import kotlin.random.Random
+import com.kotlinlibrary.loadmore.callback.OnRepeatListener
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 
 class LoadMoreActivity : AppCompatActivity() {
 
@@ -54,11 +59,14 @@ class LoadMoreActivity : AppCompatActivity() {
     }
 
     private fun setupLoadMore() {
+
         noPaginate = NoPaginate {
            loadingTriggerThreshold = 0
             recyclerView = recyclerViews
             loadingItem = LoadingItem.DEFAULT
             errorItem = ErrorItem.DEFAULT
+            //loadingItem = CustomLoadingItem()
+            //errorItem = CustomErrorItem()
             direction = Direction.UP
             onLoadMore = {
                 noPaginate.showError(false)
@@ -84,6 +92,33 @@ class LoadMoreActivity : AppCompatActivity() {
     override fun onDestroy() {
         noPaginate.unbind()
         super.onDestroy()
+    }
+
+    inner class CustomErrorItem : ErrorItem {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_error, parent, false)
+            return object : RecyclerView.ViewHolder(view) {}
+        }
+
+        override fun onBindViewHolder(
+            holder: RecyclerView.ViewHolder,
+            position: Int,
+            repeatListener: OnRepeatListener?
+        ) {
+            val btnRepeat = holder.itemView.findViewById<Button>(R.id.btnRepeat)
+            btnRepeat.setOnClickListener {
+                repeatListener?.onClickRepeat()
+            }
+        }
+    }
+
+    inner class CustomLoadingItem : LoadingItem {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
+            return object : RecyclerView.ViewHolder(view) {}
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
     }
 }
 

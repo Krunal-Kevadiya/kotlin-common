@@ -42,6 +42,8 @@ class ValidationActivity : AppCompatActivity() {
                 Log.e(ValidationActivity::class.java.simpleName, "False ${editTextEmail.getError()}")
             }
         }
+
+        nonEmptyList()
     }
 }
 
