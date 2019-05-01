@@ -1,6 +1,8 @@
 package com.kotlinlibrary.retrofitadapter.sealed
 
-import com.kotlinlibrary.retrofitadapter.interceptor.ConnectivityInterceptor
+import com.kotlinlibrary.retrofitadapter.SealedApiResult
+import com.kotlinlibrary.retrofitadapter.toSealedApiResult
+import com.kotlinlibrary.retrofitadapter.networkBody
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import retrofit2.Call
@@ -8,9 +10,7 @@ import retrofit2.CallAdapter
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import java.io.IOException
 import java.lang.reflect.Type
-import java.util.concurrent.TimeoutException
 
 internal class RxSealedCallAdapter(
     annotations: Array<out Annotation>,
@@ -40,13 +40,8 @@ internal class RxSealedCallAdapter(
                 @Suppress("USELESS_CAST")
                 it.toSealedApiResult(responseType()) as SealedApiResult<Any>
             }
-            .onErrorResumeNext { t ->
-                return@onErrorResumeNext when (t) {
-                    is TimeoutException -> Single.just(errorBody(responseType(), t))
-                    is IOException -> Single.just(errorBody(responseType(), t))
-                    is ConnectivityInterceptor.NoConnectivityException -> Single.just(errorBody(responseType(), t))
-                    else -> Single.error(t)
-                }
+            .onErrorResumeNext { throwable ->
+                return@onErrorResumeNext Single.just(networkBody(throwable))
             }
     }
 

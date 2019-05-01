@@ -1,6 +1,7 @@
 package com.kotlinlibrary.retrofitadapter.livedata
 
 import androidx.lifecycle.LiveData
+import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import retrofit2.CallAdapter
@@ -15,7 +16,7 @@ class LiveDataCallAdapterFactory : CallAdapter.Factory() {
         val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
         val rawObservableType = getRawType(observableType)
 
-        if (rawObservableType != LiveDataApiResult::class.java) {
+        if (rawObservableType != SealedApiResult::class.java) {
             throw IllegalArgumentException("type must be a resource")
         }
 

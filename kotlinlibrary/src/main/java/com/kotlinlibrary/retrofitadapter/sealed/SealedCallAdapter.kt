@@ -1,5 +1,8 @@
 package com.kotlinlibrary.retrofitadapter.sealed
 
+import com.kotlinlibrary.retrofitadapter.SealedApiResult
+import com.kotlinlibrary.retrofitadapter.networkBody
+import com.kotlinlibrary.retrofitadapter.toSealedApiResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import java.io.IOException
@@ -12,11 +15,11 @@ internal class SealedCallAdapter<R>(private val responseType: Type) : CallAdapte
         return try {
             call.execute().toSealedApiResult(responseType)
         } catch (e: TimeoutException) {
-            errorBody(responseType, e)
+            networkBody(e)
         } catch (e: IOException) {
-            errorBody(responseType, e)
+            networkBody(e)
         } catch (e: Exception) {
-            errorBody(responseType, e)
+            networkBody(e)
         }
     }
 }

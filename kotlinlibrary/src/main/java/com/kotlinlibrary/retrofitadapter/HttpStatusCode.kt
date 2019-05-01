@@ -1,4 +1,4 @@
-package com.kotlinlibrary.retrofitadapter.sealed
+package com.kotlinlibrary.retrofitadapter
 
 object HttpStatusCode {
     const val CONTINUE = 100

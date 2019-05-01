@@ -25,8 +25,17 @@ return Retrofit.Builder()
 
 @GET("api/logout")
 fun logout(@HeaderMap header: HashMap<String, Any>):
-    LiveData<LiveDataApiResult<YourResponseClass>>
+    LiveData<SealedApiResult<YourResponseClass>>
 
+//Used Coroutines
+return Retrofit.Builder()
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+
+
+@GET("api/logout")
+fun logout(@HeaderMap header: HashMap<String, Any>):
+    Deferred<SealedApiResult<YourResponseClass>>
 
 //Used RxErrorHandling
 return Retrofit.Builder()
@@ -37,13 +46,3 @@ return Retrofit.Builder()
 @GET("api/logout")
 fun logout(@HeaderMap header: HashMap<String, Any>):
     Observable<YourResponseClass>
-
-//Used Coroutines
-return Retrofit.Builder()
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build()
-
-
-@GET("api/logout")
-fun logout(@HeaderMap header: HashMap<String, Any>):
-    Deferred<CoroutinesApiResult<YourResponseClass>>

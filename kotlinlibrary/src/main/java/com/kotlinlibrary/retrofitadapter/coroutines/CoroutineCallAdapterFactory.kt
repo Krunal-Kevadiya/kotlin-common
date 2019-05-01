@@ -1,5 +1,6 @@
 package com.kotlinlibrary.retrofitadapter.coroutines
 
+import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import kotlinx.coroutines.Deferred
 import retrofit2.*
 import java.lang.reflect.ParameterizedType
@@ -14,7 +15,7 @@ class CoroutineCallAdapterFactory : CallAdapter.Factory() {
         val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
         val rawObservableType = getRawType(observableType)
 
-        if (rawObservableType != CoroutinesApiResult::class.java) {
+        if (rawObservableType != SealedApiResult::class.java) {
             throw IllegalArgumentException("type must be a resource")
         }
 

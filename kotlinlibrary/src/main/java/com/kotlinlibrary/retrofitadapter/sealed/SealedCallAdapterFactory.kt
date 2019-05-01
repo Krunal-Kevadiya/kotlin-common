@@ -1,5 +1,6 @@
 package com.kotlinlibrary.retrofitadapter.sealed
 
+import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import retrofit2.CallAdapter
 import retrofit2.CallAdapter.Factory
 import retrofit2.Retrofit
