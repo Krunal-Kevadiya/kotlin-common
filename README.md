@@ -22,6 +22,7 @@ This SDK provided below feature with easy to used.
 1. Skeleton
 1. Location
 1. Pull Down To Refresh
+1. Retrofit Adapter
 
 # How to integrated
 To get a Git project into your build:
