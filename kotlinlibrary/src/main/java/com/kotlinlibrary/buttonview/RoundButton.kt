@@ -407,7 +407,7 @@ class RoundButton : AppCompatButton {
                     }
 
                     when (animationProgressStyle) {
-                        RoundButton.AnimationProgressStyle.CIRCLE -> {
+                        AnimationProgressStyle.CIRCLE -> {
                             progressDrawable = CircularAnimatedDrawable(
                                 this@RoundButton,
                                 animationProgressWidth.toFloat(),
@@ -419,9 +419,9 @@ class RoundButton : AppCompatButton {
                                 isClickable = true
                             }
                         }
-                        RoundButton.AnimationProgressStyle.DOTS -> progressDrawable =
+                        AnimationProgressStyle.DOTS -> progressDrawable =
                                 DotsAnimatedDrawable(this@RoundButton, animationProgressColor)
-                        RoundButton.AnimationProgressStyle.CUSTOM -> progressDrawable = CustomAnimatedDrawable(
+                        AnimationProgressStyle.CUSTOM -> progressDrawable = CustomAnimatedDrawable(
                             this@RoundButton,
                             animationCustomResource,
                             animationProgressColor

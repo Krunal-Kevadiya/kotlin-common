@@ -8,8 +8,7 @@ class ViewReplacer(private val sourceView: View) {
     var targetView: View? = null
         private set
     private var mTargetViewResID = -1
-    var currentView: View? = null
-        private set
+    private var currentView: View? = null
     private var mSourceParentView: ViewGroup? = null
     private val mSourceViewLayoutParams: ViewGroup.LayoutParams = this.sourceView.layoutParams
     private var mSourceViewIndexInParent = 0

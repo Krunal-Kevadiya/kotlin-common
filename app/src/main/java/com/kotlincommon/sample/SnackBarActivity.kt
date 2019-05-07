@@ -2,6 +2,7 @@ package com.kotlincommon.sample
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -9,8 +10,7 @@ import com.kotlinlibrary.snackbar.Snackbar
 import com.kotlinlibrary.snackbar.anim.SnackAnim
 import com.kotlinlibrary.snackbar.util.SnackBatType
 import com.kotlinlibrary.snackbar.util.snackBarMessage
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 
 class SnackBarActivity : AppCompatActivity() {
 
@@ -400,15 +400,15 @@ class SnackBarActivity : AppCompatActivity() {
             .message("You can listen to events when the snackBar is shown.")
             .barShowListener(object : Snackbar.OnBarShowListener {
                 override fun onShowing(bar: Snackbar) {
-                    logs("Snackbar is showing", LogType.ERROR)
+                    logs("Snackbar is showing", Log.ERROR)
                 }
 
                 override fun onShowProgress(bar: Snackbar, progress: Float) {
-                    logs("Snackbar is showing with progress: $progress", LogType.ERROR)
+                    logs("Snackbar is showing with progress: $progress", Log.ERROR)
                 }
 
                 override fun onShown(bar: Snackbar) {
-                    logs("Snackbar is shown", LogType.ERROR)
+                    logs("Snackbar is shown", Log.ERROR)
                 }
             })
             .build()
@@ -422,16 +422,16 @@ class SnackBarActivity : AppCompatActivity() {
             .message("You can listen to events when the snackBar is dismissed.")
             .barDismissListener(object : Snackbar.OnBarDismissListener {
                 override fun onDismissing(bar: Snackbar, isSwiped: Boolean) {
-                    logs("Snackbar is dismissing with $isSwiped", LogType.ERROR)
+                    logs("Snackbar is dismissing with $isSwiped", Log.ERROR)
                 }
 
                 override fun onDismissProgress(bar: Snackbar, progress: Float) {
-                    logs("Snackbar is dismissing with progress $progress", LogType.ERROR)
+                    logs("Snackbar is dismissing with progress $progress", Log.ERROR)
                 }
 
                 override fun onDismissed(bar: Snackbar,
                                          event: Snackbar.DismissEvent) {
-                    logs("Snackbar is dismissed with event $event", LogType.ERROR)
+                    logs("Snackbar is dismissed with event $event", Log.ERROR)
                 }
             })
             .build()
@@ -444,12 +444,12 @@ class SnackBarActivity : AppCompatActivity() {
             .message("You can listen to tap events inside or outside te bar.")
             .listenBarTaps(object : Snackbar.OnTapListener {
                 override fun onTap(snackbar: Snackbar) {
-                    logs("Bar tapped", LogType.ERROR)
+                    logs("Bar tapped", Log.ERROR)
                 }
             })
             .listenOutsideTaps(object : Snackbar.OnTapListener {
                 override fun onTap(snackbar: Snackbar) {
-                    logs("Outside tapped", LogType.ERROR)
+                    logs("Outside tapped", Log.ERROR)
                 }
             })
             .build()

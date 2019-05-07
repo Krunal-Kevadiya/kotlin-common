@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.text.InputType
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputLayout
+import com.kotlinlibrary.utils.ktx.logs
 import java.lang.reflect.Field
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -35,13 +36,13 @@ class CardTextInputLayout @JvmOverloads constructor(
                 updatePasswordToggleView()
                 passwordVisibilityToggleRequested()
             } catch (e: NoSuchMethodException) {
-                e.printStackTrace()
+                logs(e)
             } catch (e: InvocationTargetException) {
-                e.printStackTrace()
+                logs(e)
             } catch (e: IllegalAccessException) {
-                e.printStackTrace()
+                logs(e)
             } catch (e: NoSuchFieldException) {
-                e.printStackTrace()
+                logs(e)
             }
 
             hasUpdated = true
@@ -62,17 +63,17 @@ class CardTextInputLayout @JvmOverloads constructor(
             collapsingTextHelper = null
             bounds = null
             recalculateMethod = null
-            e.printStackTrace()
+            logs(e)
         } catch (e: IllegalAccessException) {
             collapsingTextHelper = null
             bounds = null
             recalculateMethod = null
-            e.printStackTrace()
+            logs(e)
         } catch (e: NoSuchMethodException) {
             collapsingTextHelper = null
             bounds = null
             recalculateMethod = null
-            e.printStackTrace()
+            logs(e)
         }
     }
 
@@ -85,11 +86,11 @@ class CardTextInputLayout @JvmOverloads constructor(
             bounds!!.left = editText!!.left + editText!!.paddingLeft
             recalculateMethod!!.invoke(collapsingTextHelper)
         } catch (e: InvocationTargetException) {
-            e.printStackTrace()
+            logs(e)
         } catch (e: IllegalAccessException) {
-            e.printStackTrace()
+            logs(e)
         } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
+            logs(e)
         }
     }
 
@@ -113,7 +114,7 @@ class CardTextInputLayout @JvmOverloads constructor(
         // Store the current cursor position
         val selection = editText!!.selectionEnd
 
-        if (!editText!!.text.toString().isEmpty()) {
+        if (editText!!.text.toString().isNotEmpty()) {
             editText!!.transformationMethod = CreditCardTransformation.instance
             toggleEnabled("mPasswordToggledVisible", false)
         } else {

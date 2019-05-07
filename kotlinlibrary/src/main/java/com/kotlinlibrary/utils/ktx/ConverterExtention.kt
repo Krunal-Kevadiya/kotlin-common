@@ -1,18 +1,16 @@
-package com.kotlinlibrary.utils
+package com.kotlinlibrary.utils.ktx
 
 /**
  * Takes a number, a length unit, and a new unit and converts the number to the new unit.
- *
- *
  * Accepted units: inches, feet, yards, miles, millimeters, centimeters, meters, kilometers
  * Marc Kuniansky
  *
- * @param originalNum must be a valid double.
  * @param originalUnit must be a string
  * @param desiredUnit must be a string
  * @return the new double
  */
-fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String): Double {
+fun Double?.lengthConvert(originalUnit: String, desiredUnit: String): Double {
+    val originalNum: Double = this@lengthConvert ?: 0.0
     //  Make two variable doubles, one the original double and one the new one
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
@@ -135,9 +133,9 @@ fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String
                 "yards" -> num2 = originalNum / 914.4
                 "miles" -> num2 = originalNum / 1609000.0
                 "millimeters" -> num2 = originalNum
-                "centimeters" -> num2 = metricConvert(originalNum, "milli", "centi")
-                "meters" -> num2 = metricConvert(originalNum, "milli", "unit")
-                "kilometers" -> num2 = metricConvert(originalNum, "milli", "kilo")
+                "centimeters" -> num2 = originalNum.metricConvert("milli", "centi")
+                "meters" -> num2 = originalNum.metricConvert("milli", "unit")
+                "kilometers" -> num2 = originalNum.metricConvert("milli", "kilo")
             }
         } //  End converting from millimeters
         //  Next, convert from centimeters
@@ -147,10 +145,10 @@ fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String
                 "feet" -> num2 = originalNum / 30.48
                 "yards" -> num2 = originalNum / 91.44
                 "miles" -> num2 = originalNum / 160934.0
-                "millimeters" -> num2 = metricConvert(originalNum, "centi", "milli")
+                "millimeters" -> num2 = originalNum.metricConvert("centi", "milli")
                 "centimeters" -> num2 = originalNum
-                "meters" -> num2 = metricConvert(originalNum, "centi", "unit")
-                "kilometers" -> num2 = metricConvert(originalNum, "centi", "kilo")
+                "meters" -> num2 = originalNum.metricConvert("centi", "unit")
+                "kilometers" -> num2 = originalNum.metricConvert("centi", "kilo")
             }
         } //  End converting from centimeters
         //  Next, convert from meters
@@ -160,10 +158,10 @@ fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String
                 "feet" -> num2 = originalNum * 3.28084
                 "yards" -> num2 = originalNum * 1.09361
                 "miles" -> num2 = originalNum / 1609.34
-                "millimeters" -> num2 = metricConvert(originalNum, "unit", "milli")
-                "centimeters" -> num2 = metricConvert(originalNum, "unit", "centi")
+                "millimeters" -> num2 = originalNum.metricConvert("unit", "milli")
+                "centimeters" -> num2 = originalNum.metricConvert("unit", "centi")
                 "meters" -> num2 = originalNum
-                "kilometers" -> num2 = metricConvert(originalNum, "unit", "kilo")
+                "kilometers" -> num2 = originalNum.metricConvert("unit", "kilo")
             }
         } //  End converting from meters
         //  Finally, try converting from kilometers
@@ -173,9 +171,9 @@ fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String
                 "feet" -> num2 = originalNum * 3280.84
                 "yards" -> num2 = originalNum * 1093.61
                 "miles" -> num2 = originalNum / 1.60934
-                "millimeters" -> num2 = metricConvert(originalNum, "kilo", "milli")
-                "centimeters" -> num2 = metricConvert(originalNum, "kilo", "centi")
-                "meters" -> num2 = metricConvert(originalNum, "kilo", "unit")
+                "millimeters" -> num2 = originalNum.metricConvert("kilo", "milli")
+                "centimeters" -> num2 = originalNum.metricConvert("kilo", "centi")
+                "meters" -> num2 = originalNum.metricConvert("kilo", "unit")
                 "kilometers" -> num2 = originalNum
             }
         } //  End converting from kilometers
@@ -186,17 +184,15 @@ fun lengthConvert(originalNum: Double, originalUnit: String, desiredUnit: String
 
 /**
  * Takes a number, a temperature unit, and a new unit and converts the number to the new unit.
- *
- *
  * Accepted units: Fahrenheit, Kelvin, Celsius
  * Noah Getz
  *
- * @param originalNum must be a valid double.
  * @param originalUnit must be a string
  * @param desiredUnit must be a string
  * @return the new double
  */
-fun tempConvert(originalNum: Double, originalUnit: String, desiredUnit: String): Double { //  Begin tempConvert
+fun Double?.tempConvert(originalUnit: String, desiredUnit: String): Double { //  Begin tempConvert
+    val originalNum: Double = this@tempConvert ?: 0.0
     //  Make two variable doubles, one the original double and one the new one
     var num2 = 0.0
     val num3: Double
@@ -238,19 +234,15 @@ fun tempConvert(originalNum: Double, originalUnit: String, desiredUnit: String):
 
 /**
  * Takes a number, a volume unit, and a new unit and converts the number to the new unit.
- *
- *
  * Accepted units: Milliliter, liter, kiloliter, pint, quart, gallon, cup.
- *
- *
  * Noah Getz
  *
- * @param originalNum must be a valid double.
  * @param originalUnit must be a string
  * @param desiredUnit must be a string
  * @return the new double
  */
-fun volumeConvert(originalNum: Double, originalUnit: String, desiredUnit: String): Double { //  Begin volumeConvert
+fun Double?.volumeConvert(originalUnit: String, desiredUnit: String): Double { //  Begin volumeConvert
+    val originalNum: Double = this@volumeConvert ?: 0.0
     //  Make two variable doubles, one the original double and one the new one
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
@@ -262,25 +254,25 @@ fun volumeConvert(originalNum: Double, originalUnit: String, desiredUnit: String
         //  Begin conversion table
         "milliliter" -> when (newU) {
             "milliliter" -> num2 = originalNum
-            "liter" -> num2 = metricConvert(originalNum, "milli", "unit")
-            "kiloliter" -> num2 = metricConvert(originalNum, "milli", "kilo")
+            "liter" -> num2 = originalNum.metricConvert("milli", "unit")
+            "kiloliter" -> num2 = originalNum.metricConvert("milli", "kilo")
             "pint" -> num2 = originalNum * .00211338
             "quart" -> num2 = originalNum * .00105669
             "gallon" -> num2 = originalNum * .000264172
             "cup" -> num2 = originalNum * .00422675
         }
         "liter" -> when (newU) {
-            "milliliter" -> num2 = metricConvert(originalNum, "unit", "milli")
+            "milliliter" -> num2 = originalNum.metricConvert("unit", "milli")
             "liter" -> num2 = originalNum
-            "kiloliter" -> num2 = metricConvert(originalNum, "unit", "kilo")
+            "kiloliter" -> num2 = originalNum.metricConvert("unit", "kilo")
             "pint" -> num2 = originalNum * 2.11338
             "quart" -> num2 = originalNum * 1.05669
             "gallon" -> num2 = originalNum * 0.264172
             "cup" -> num2 = originalNum * 4.22675
         }
         "kiloliter" -> when (newU) {
-            "milliliter" -> num2 = metricConvert(originalNum, "kilo", "milli")
-            "liter" -> num2 = metricConvert(originalNum, "kilo", "unit")
+            "milliliter" -> num2 = originalNum.metricConvert("kilo", "milli")
+            "liter" -> num2 = originalNum.metricConvert("kilo", "unit")
             "kiloliter" -> num2 = originalNum
             "pint" -> num2 = originalNum * 2113.38
             "quart" -> num2 = originalNum * 1056.69
@@ -330,17 +322,15 @@ fun volumeConvert(originalNum: Double, originalUnit: String, desiredUnit: String
 
 /**
  * Takes a number, a mass unit, and a new unit and converts the number to the new unit.
- *
- *
  * Accepted units: pounds, kilograms, grams, milligrams
  * Noah Getz
  *
- * @param originalNum must be a valid double.
  * @param originalUnit must be a string
  * @param desiredUnit must be a string
  * @return the new double
  */
-fun massConvert(originalNum: Double, originalUnit: String, desiredUnit: String): Double { //  Begin massConvert
+fun Double?.massConvert(originalUnit: String, desiredUnit: String): Double { //  Begin massConvert
+    val originalNum: Double = this@massConvert ?: 0.0
     //  Make two variable doubles, one the original double and one the new one
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
@@ -359,19 +349,19 @@ fun massConvert(originalNum: Double, originalUnit: String, desiredUnit: String):
         "kilograms" -> when (newU) {
             "pounds" -> num2 = originalNum * 2.20462
             "kilograms" -> num2 = originalNum
-            "grams" -> num2 = metricConvert(originalNum, "kilo", "unit")
-            "milligrams" -> num2 = metricConvert(originalNum, "kilo", "milli")
+            "grams" -> num2 = originalNum.metricConvert("kilo", "unit")
+            "milligrams" -> num2 = originalNum.metricConvert("kilo", "milli")
         }
         "grams" -> when (newU) {
             "pounds" -> num2 = originalNum * 2.20462
-            "kilograms" -> num2 = metricConvert(originalNum, "unit", "kilo")
+            "kilograms" -> num2 = originalNum.metricConvert("unit", "kilo")
             "grams" -> num2 = originalNum
-            "milligrams" -> num2 = metricConvert(originalNum, "unit", "milli")
+            "milligrams" -> num2 = originalNum.metricConvert("unit", "milli")
         }
         "milligrams" -> when (newU) {
             "pounds" -> num2 = originalNum * .0000022046
-            "kilograms" -> num2 = metricConvert(originalNum, "milli", "kilo")
-            "grams" -> num2 = metricConvert(originalNum, "milli", "unit")
+            "kilograms" -> num2 = originalNum.metricConvert("milli", "kilo")
+            "grams" -> num2 = originalNum.metricConvert("milli", "unit")
             "milligrams" -> num2 = originalNum
         }
     } //  End conversion table
@@ -381,17 +371,15 @@ fun massConvert(originalNum: Double, originalUnit: String, desiredUnit: String):
 
 /**
  * Takes a number, a pressure unit, and a new unit and converts the number to the new unit.
- *
- *
  * Accepted units: torr, atm, mmHg, barr
  * Noah Getz
  *
- * @param originalNum must be a valid double.
  * @param originalUnit must be a string
  * @param desiredUnit must be a string
  * @return the new double
  */
-fun pressureConvert(originalNum: Double, originalUnit: String, desiredUnit: String): Double {
+fun Double?.pressureConvert(originalUnit: String, desiredUnit: String): Double {
+    val originalNum: Double = this@pressureConvert ?: 0.0
     //  Make two variable doubles, one the original double and one the new one
     val num2: Double
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
@@ -430,19 +418,15 @@ fun pressureConvert(originalNum: Double, originalUnit: String, desiredUnit: Stri
 
 /**
  * Converts a number from one unit of time to another
- *
- *
  * Units of time supported: seconds, minutes, hours, days, weeks, months, years
- *
- *
  * Marc Kuniansky
  *
- * @param originalNumber must be a valid double
  * @param originalUnit must be a valid String matching one of the supported units
  * @param newUnit must be a valid String matching one of the supported units
  * @return a double, the converted number
  */
-fun timeConvert(originalNumber: Double, originalUnit: String, newUnit: String): Double { //  Begin convertTime
+fun Double?.timeConvert(originalUnit: String, newUnit: String): Double { //  Begin convertTime
+    val originalNum: Double = this@timeConvert ?: 0.0
     //  Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     //  Make two strings, capturing the units fed to the method
@@ -454,73 +438,73 @@ fun timeConvert(originalNumber: Double, originalUnit: String, newUnit: String): 
         originalU == "seconds" -> //  Begin converting from seconds
             //  Thanks Pam for the suggestion about switch statements- I realized far too late how easy they are to use and how much better they look.
             when (newU) {
-                "seconds" -> num2 = originalNumber
-                "minutes" -> num2 = originalNumber / 60.0
-                "hours" -> num2 = originalNumber / 3600.0
-                "days" -> num2 = originalNumber * 0.000011574
-                "weeks" -> num2 = originalNumber * 0.0000016534
-                "months" -> num2 = originalNumber * 0.00000038027
-                "years" -> num2 = originalNumber * 0.000000031689
+                "seconds" -> num2 = originalNum
+                "minutes" -> num2 = originalNum / 60.0
+                "hours" -> num2 = originalNum / 3600.0
+                "days" -> num2 = originalNum * 0.000011574
+                "weeks" -> num2 = originalNum * 0.0000016534
+                "months" -> num2 = originalNum * 0.00000038027
+                "years" -> num2 = originalNum * 0.000000031689
             } //  End converting from seconds
         originalU.contains("minute") -> //  Begin converting from minutes
             when (newU) {
-                "minutes" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 60.0
-                "hours" -> num2 = originalNumber / 60.0
-                "days" -> num2 = originalNumber / 1440.0
-                "weeks" -> num2 = originalNumber / 10080.0
-                "months" -> num2 = originalNumber / 43829.1
-                "years" -> num2 = originalNumber / 525949.0
+                "minutes" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 60.0
+                "hours" -> num2 = originalNum / 60.0
+                "days" -> num2 = originalNum / 1440.0
+                "weeks" -> num2 = originalNum / 10080.0
+                "months" -> num2 = originalNum / 43829.1
+                "years" -> num2 = originalNum / 525949.0
             } //  End converting from minutes
         originalU.contains("hour") -> //  Begin converting from hours
             when (newU) {
-                "hours" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 3600.0
-                "minutes" -> num2 = originalNumber * 60.0
-                "days" -> num2 = originalNumber / 24.0
-                "weeks" -> num2 = originalNumber / 168.0
-                "months" -> num2 = originalNumber / 730.484
-                "years" -> num2 = originalNumber / 8765.81
+                "hours" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 3600.0
+                "minutes" -> num2 = originalNum * 60.0
+                "days" -> num2 = originalNum / 24.0
+                "weeks" -> num2 = originalNum / 168.0
+                "months" -> num2 = originalNum / 730.484
+                "years" -> num2 = originalNum / 8765.81
             } //  End converting from hours
         originalU.contains("day") -> //  Begin converting from days
             when (newU) {
-                "days" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 86400.0
-                "minutes" -> num2 = originalNumber * 1440.0
-                "hours" -> num2 = originalNumber * 24.0
-                "weeks" -> num2 = originalNumber / 7.0
-                "months" -> num2 = originalNumber / 30.4368
-                "years" -> num2 = originalNumber / 365.242
+                "days" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 86400.0
+                "minutes" -> num2 = originalNum * 1440.0
+                "hours" -> num2 = originalNum * 24.0
+                "weeks" -> num2 = originalNum / 7.0
+                "months" -> num2 = originalNum / 30.4368
+                "years" -> num2 = originalNum / 365.242
             } //  End converting from days
         originalU.contains("week") -> //  Begin converting from weeks
             when (newU) {
-                "weeks" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 604800.0
-                "minutes" -> num2 = originalNumber * 10080.0
-                "hours" -> num2 = originalNumber * 168.0
-                "days" -> num2 = originalNumber * 7.0
-                "months" -> num2 = originalNumber / 4.34812
-                "years" -> num2 = originalNumber / 52.1775
+                "weeks" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 604800.0
+                "minutes" -> num2 = originalNum * 10080.0
+                "hours" -> num2 = originalNum * 168.0
+                "days" -> num2 = originalNum * 7.0
+                "months" -> num2 = originalNum / 4.34812
+                "years" -> num2 = originalNum / 52.1775
             } //  End converting from weeks
         originalU.contains("month") -> //  Begin converting from months
             when (newU) {
-                "months" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 2630000.0
-                "minutes" -> num2 = originalNumber * 43829.1
-                "hours" -> num2 = originalNumber * 730.484
-                "days" -> num2 = originalNumber * 30.4368
-                "weeks" -> num2 = originalNumber * 4.34812
-                "years" -> num2 = originalNumber / 12.0
+                "months" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 2630000.0
+                "minutes" -> num2 = originalNum * 43829.1
+                "hours" -> num2 = originalNum * 730.484
+                "days" -> num2 = originalNum * 30.4368
+                "weeks" -> num2 = originalNum * 4.34812
+                "years" -> num2 = originalNum / 12.0
             } //  End converting from months
         else -> //  Begin converting from years
             when (newU) {
-                "years" -> num2 = originalNumber
-                "seconds" -> num2 = originalNumber * 31560000.0
-                "minutes" -> num2 = originalNumber * 525949.0
-                "hours" -> num2 = originalNumber * 8765.81
-                "days" -> num2 = originalNumber * 365.242
-                "weeks" -> num2 = originalNumber * 52.1775
-                "months" -> num2 = originalNumber * 12.0
+                "years" -> num2 = originalNum
+                "seconds" -> num2 = originalNum * 31560000.0
+                "minutes" -> num2 = originalNum * 525949.0
+                "hours" -> num2 = originalNum * 8765.81
+                "days" -> num2 = originalNum * 365.242
+                "weeks" -> num2 = originalNum * 52.1775
+                "months" -> num2 = originalNum * 12.0
             }
     }
     //  Convert from years
@@ -534,19 +518,15 @@ fun timeConvert(originalNumber: Double, originalUnit: String, newUnit: String): 
 
 /**
  * Converts a number from one unit of force to another.
- *
- *
  * Units accepted: Newtons, pound force
- *
- *
  * Marc Kuniansky
  *
- * @param originalNumber must be a valid double
  * @param originalUnit must be a valid String matching one of the supported units
  * @param newUnit must be a valid String matching one of the supported units
  * @return a double, the converted unit.
  */
-fun forceConvert(originalNumber: Double, originalUnit: String, newUnit: String): Double { // Begin convertForce
+fun Double?.forceConvert(originalUnit: String, newUnit: String): Double { // Begin convertForce
+    val originalNum: Double = this@forceConvert ?: 0.0
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
@@ -555,12 +535,12 @@ fun forceConvert(originalNumber: Double, originalUnit: String, newUnit: String):
     // The series of switch statements below figures out what unit to convert from/to, and does so.
     when (originalU) {
         "pound force" -> when (newU) {
-            "pound force" -> num2 = originalNumber
-            "newtons" -> num2 = originalNumber * 4.448222
+            "pound force" -> num2 = originalNum
+            "newtons" -> num2 = originalNum * 4.448222
         }
         "newtons" -> when (newU) {
-            "newtons" -> num2 = originalNumber
-            "pound force" -> num2 = originalNumber / 4.448222
+            "newtons" -> num2 = originalNum
+            "pound force" -> num2 = originalNum / 4.448222
         }
     }
     return num2
@@ -568,20 +548,16 @@ fun forceConvert(originalNumber: Double, originalUnit: String, newUnit: String):
 
 /**
  * Converts a number from one unit of speed to another
- *
- *
  * Recognized speed units: miles per hour, feet per second, meters per second,
  * kilometers per second, kilometers per hour.
- *
- *
  * Marc Kuniansky
  *
- * @param originalNumber must be a valid double
  * @param originalUnit must be a valid String recognized by the method
  * @param newUnit must be a valid String recognized by the method
  * @return double, the converted unit.
  */
-fun speedConvert(originalNumber: Double, originalUnit: String, newUnit: String): Double { // Begin convertSpeed
+fun Double?.speedConvert(originalUnit: String, newUnit: String): Double { // Begin convertSpeed
+    val originalNum: Double = this@speedConvert ?: 0.0
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
@@ -592,43 +568,43 @@ fun speedConvert(originalNumber: Double, originalUnit: String, newUnit: String):
         // Begin conversion table
         "miles per hour" -> when (newU) {
             // Begin converting from miles per hour
-            "miles per hour" -> num2 = originalNumber
-            "feet per second" -> num2 = originalNumber * 1.46667
-            "kilometers per second" -> num2 = originalNumber * 0.00044704
-            "kilometers per hour" -> num2 = originalNumber * 1.60934
-            "meters per second" -> num2 = originalNumber * 0.44704
+            "miles per hour" -> num2 = originalNum
+            "feet per second" -> num2 = originalNum * 1.46667
+            "kilometers per second" -> num2 = originalNum * 0.00044704
+            "kilometers per hour" -> num2 = originalNum * 1.60934
+            "meters per second" -> num2 = originalNum * 0.44704
         } // End converting from miles per hour
         "feet per second" -> when (newU) {
             // Begin converting from feet per second
-            "miles per hour" -> num2 = originalNumber * 0.681818
-            "feet per second" -> num2 = originalNumber
-            "kilometers per second" -> num2 = originalNumber * 0.0003048
-            "kilometers per hour" -> num2 = originalNumber * 1.09728
-            "meters per second" -> num2 = originalNumber * 0.3048
+            "miles per hour" -> num2 = originalNum * 0.681818
+            "feet per second" -> num2 = originalNum
+            "kilometers per second" -> num2 = originalNum * 0.0003048
+            "kilometers per hour" -> num2 = originalNum * 1.09728
+            "meters per second" -> num2 = originalNum * 0.3048
         } // End converting from feet per second
         "kilometers per second" -> when (newU) {
             // Begin converting from kilometers per second
-            "miles per hour" -> num2 = originalNumber * 2236.93629
-            "feet per second" -> num2 = originalNumber * 3280.8399
-            "kilometers per second" -> num2 = originalNumber
-            "kilometers per hour" -> num2 = originalNumber * 3600.0
-            "meters per second" -> num2 = originalNumber * 0.277778
+            "miles per hour" -> num2 = originalNum * 2236.93629
+            "feet per second" -> num2 = originalNum * 3280.8399
+            "kilometers per second" -> num2 = originalNum
+            "kilometers per hour" -> num2 = originalNum * 3600.0
+            "meters per second" -> num2 = originalNum * 0.277778
         } // End converting from kilometers per second
         "kilometers per hour" -> when (newU) {
             // Begin converting from kilometers per hour
-            "miles per hour" -> num2 = originalNumber * 2.23694
-            "feet per second" -> num2 = originalNumber * 0.911344
-            "kilometers per second" -> num2 = originalNumber * 0.000277777778
-            "kilometers per hour" -> num2 = originalNumber
-            "meters per second" -> num2 = originalNumber * 0.277778
+            "miles per hour" -> num2 = originalNum * 2.23694
+            "feet per second" -> num2 = originalNum * 0.911344
+            "kilometers per second" -> num2 = originalNum * 0.000277777778
+            "kilometers per hour" -> num2 = originalNum
+            "meters per second" -> num2 = originalNum * 0.277778
         } // end converting from kilometers per hour
         "meters per second" -> when (newU) {
             // Begin converting from meters per second
-            "miles per hour" -> num2 = originalNumber * 2.23694
-            "feet per second" -> num2 = originalNumber * 3.28084
-            "kilometers per second" -> num2 = originalNumber * 0.001
-            "kilometers per hour" -> num2 = originalNumber * 3.6
-            "meters per second" -> num2 = originalNumber
+            "miles per hour" -> num2 = originalNum * 2.23694
+            "feet per second" -> num2 = originalNum * 3.28084
+            "kilometers per second" -> num2 = originalNum * 0.001
+            "kilometers per hour" -> num2 = originalNum * 3.6
+            "meters per second" -> num2 = originalNum
         } // End converting from meters per second
     } // End conversion table
     // Return the result
@@ -637,19 +613,15 @@ fun speedConvert(originalNumber: Double, originalUnit: String, newUnit: String):
 
 /**
  * Converts a number from one unit of speed to another.
- *
- *
  * Accepted units: square inches, square feet, square yards, square miles, square meters, square kilometers, acres
- *
- *
  * Marc Kuniansky
  *
- * @param originalNumber must be a valid double
  * @param originalUnit must be a valid String matching one of the supported units
  * @param newUnit must be a valid String matching one of the supported units
  * @return a double, the converted unit.
  */
-fun areaConvert(originalNumber: Double, originalUnit: String, newUnit: String): Double { // Begin convertArea
+fun Double?.areaConvert(originalUnit: String, newUnit: String): Double { // Begin convertArea
+    val originalNum: Double = this@areaConvert ?: 0.0
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
@@ -660,73 +632,73 @@ fun areaConvert(originalNumber: Double, originalUnit: String, newUnit: String): 
         // Begin unit conversions
         "square inches" -> when (newU) {
             // Begin converting from square inches
-            "square inches" -> num2 = originalNumber
-            "square feet" -> num2 = originalNumber / 144.0
-            "square yards" -> num2 = originalNumber / 1296.0
-            "square miles" -> num2 = originalNumber / 4014000000.0
-            "acres" -> num2 = originalNumber / 6273000.0
-            "square kilometers" -> num2 = originalNumber / 1550000000.0
-            "square meters" -> num2 = originalNumber / 1550.0
+            "square inches" -> num2 = originalNum
+            "square feet" -> num2 = originalNum / 144.0
+            "square yards" -> num2 = originalNum / 1296.0
+            "square miles" -> num2 = originalNum / 4014000000.0
+            "acres" -> num2 = originalNum / 6273000.0
+            "square kilometers" -> num2 = originalNum / 1550000000.0
+            "square meters" -> num2 = originalNum / 1550.0
         } // End converting from square inches
         "square feet" -> when (newU) {
             // Begin converting from square feet
-            "square inches" -> num2 = originalNumber * 144.0
-            "square feet" -> num2 = originalNumber
-            "square yards" -> num2 = originalNumber / 9.0
-            "square miles" -> num2 = originalNumber / 27880000.0
-            "acres" -> num2 = originalNumber / 43560.0
-            "square kilometers" -> num2 = originalNumber / 10760000.0
-            "square meters" -> num2 = originalNumber / 10.7639
+            "square inches" -> num2 = originalNum * 144.0
+            "square feet" -> num2 = originalNum
+            "square yards" -> num2 = originalNum / 9.0
+            "square miles" -> num2 = originalNum / 27880000.0
+            "acres" -> num2 = originalNum / 43560.0
+            "square kilometers" -> num2 = originalNum / 10760000.0
+            "square meters" -> num2 = originalNum / 10.7639
         } // End converting from square feet
         "square yards" -> when (newU) {
             // Begin converting from square yards
-            "square inches" -> num2 = originalNumber * 1296.0
-            "square feet" -> num2 = originalNumber * 9.0
-            "square yards" -> num2 = originalNumber
-            "square miles" -> num2 = originalNumber / 3098000.0
-            "acres" -> num2 = originalNumber / 4840.0
-            "square kilometers" -> num2 = originalNumber / 1196000.0
-            "square meters" -> num2 = originalNumber / 1.19599
+            "square inches" -> num2 = originalNum * 1296.0
+            "square feet" -> num2 = originalNum * 9.0
+            "square yards" -> num2 = originalNum
+            "square miles" -> num2 = originalNum / 3098000.0
+            "acres" -> num2 = originalNum / 4840.0
+            "square kilometers" -> num2 = originalNum / 1196000.0
+            "square meters" -> num2 = originalNum / 1.19599
         } // End converting from square yards
         "square miles" -> when (newU) {
             // Begin converting from square miles
-            "square inches" -> num2 = originalNumber * 4014000000.0
-            "square feet" -> num2 = originalNumber * 27880000.0
-            "square yards" -> num2 = originalNumber * 3098000.0
-            "square miles" -> num2 = originalNumber
-            "acres" -> num2 = originalNumber * 640.0
-            "square kilometers" -> num2 = originalNumber * 2.58999
-            "square meters" -> num2 = originalNumber * 2590000.0
+            "square inches" -> num2 = originalNum * 4014000000.0
+            "square feet" -> num2 = originalNum * 27880000.0
+            "square yards" -> num2 = originalNum * 3098000.0
+            "square miles" -> num2 = originalNum
+            "acres" -> num2 = originalNum * 640.0
+            "square kilometers" -> num2 = originalNum * 2.58999
+            "square meters" -> num2 = originalNum * 2590000.0
         } // End converting from square miles
         "acres" -> when (newU) {
             // Begin converting from acres
-            "square inches" -> num2 = originalNumber * 6273000.0
-            "square feet" -> num2 = originalNumber * 43560.0
-            "square yards" -> num2 = originalNumber * 4840.0
-            "square miles" -> num2 = originalNumber / 640.0
-            "square acres" -> num2 = originalNumber
-            "square kilometers" -> num2 = originalNumber / 247.105
-            "square meters" -> num2 = originalNumber * 4046.86
+            "square inches" -> num2 = originalNum * 6273000.0
+            "square feet" -> num2 = originalNum * 43560.0
+            "square yards" -> num2 = originalNum * 4840.0
+            "square miles" -> num2 = originalNum / 640.0
+            "square acres" -> num2 = originalNum
+            "square kilometers" -> num2 = originalNum / 247.105
+            "square meters" -> num2 = originalNum * 4046.86
         } // End converting from acres
         "kilo" -> when (newU) {
             // Begin converting from square kilometers
-            "square inches" -> num2 = originalNumber * 1550000000.0
-            "square feet" -> num2 = originalNumber * 10760000.0
-            "square yards" -> num2 = originalNumber * 1196000.0
-            "square miles" -> num2 = originalNumber / 2.58999
-            "acres" -> num2 = originalNumber
-            "square kilometers" -> num2 = originalNumber
-            "square meters" -> num2 = originalNumber * 1000000.0
+            "square inches" -> num2 = originalNum * 1550000000.0
+            "square feet" -> num2 = originalNum * 10760000.0
+            "square yards" -> num2 = originalNum * 1196000.0
+            "square miles" -> num2 = originalNum / 2.58999
+            "acres" -> num2 = originalNum
+            "square kilometers" -> num2 = originalNum
+            "square meters" -> num2 = originalNum * 1000000.0
         } // End converting from square kilometers
         "square meters" -> when (newU) {
             // Begin converting from square meters
-            "square inches" -> num2 = originalNumber * 1550.0
-            "square feet" -> num2 = originalNumber * 10.7639
-            "square yards" -> num2 = originalNumber * 1.19599
-            "square miles" -> num2 = originalNumber / 2590000.0
-            "acres" -> num2 = originalNumber / 4046.86
-            "square kilometers" -> num2 = originalNumber / 1000000.0
-            "square meters" -> num2 = originalNumber
+            "square inches" -> num2 = originalNum * 1550.0
+            "square feet" -> num2 = originalNum * 10.7639
+            "square yards" -> num2 = originalNum * 1.19599
+            "square miles" -> num2 = originalNum / 2590000.0
+            "acres" -> num2 = originalNum / 4046.86
+            "square kilometers" -> num2 = originalNum / 1000000.0
+            "square meters" -> num2 = originalNum
         } // End converting from square meters
     } // End conversion table
     // Return the resulting number from the conversion table above
@@ -736,20 +708,16 @@ fun areaConvert(originalNumber: Double, originalUnit: String, newUnit: String): 
 /**
  * Converts between metric prefixes. The type of unit is unimportant- the metric system operates on a base 10 system
  * and so converting between, say, millimeters and meters is exactly the same as converting between milliliters and liters.
- *
- *
  * Accepted prefixes: yotta, zeta, exa, peta, tera, giga, mega, kilo, hecto, deka, UNIT,
  * deci, centi, milli, micro, nano, pico, femto, atto, zepto, yocto
- *
- *
  * Marc Kuniansky
  *
- * @param originalNumber must be a valid double
  * @param originalUnit must be a valid String matching one of the supported units
  * @param newUnit must be a valid String matching one of the supported units
  * @return a double, the converted number
  */
-fun metricConvert(originalNumber: Double, originalUnit: String, newUnit: String): Double { // Begin metricConvert
+fun Double?.metricConvert(originalUnit: String, newUnit: String): Double { // Begin metricConvert
+    val originalNum: Double = this@metricConvert ?: 0.0
     // This can use a slightly different, and much easier, algorithm than the others.
     // Because metric is so well organized, it doesn't matter what number is input- the conversion factors are the same.
     // So if I take the original number and convert it to UNITS (which is x*10^0) then convert from UNITS to the new unit,
@@ -782,107 +750,107 @@ fun metricConvert(originalNumber: Double, originalUnit: String, newUnit: String)
         "yotta" -> {
             // Yotta is 10^24 units
             tenP = allExponents(10.0, 24.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "zeta" -> {
             // Zeta is 10^21
             tenP = allExponents(10.0, 21.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "exa" -> {
             // Exa is 10^18
             tenP = allExponents(10.0, 18.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "peta" -> {
             // Peta is 10^15
             tenP = allExponents(10.0, 15.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "tera" -> {
             // Tera is 10^12
             tenP = allExponents(10.0, 12.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "giga" -> {
             // Giga is 10^9
             tenP = allExponents(10.0, 9.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "mega" -> {
             // Mega is 10^6
             tenP = allExponents(10.0, 6.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "kilo" -> {
             // Kilo is 10^3
             tenP = allExponents(10.0, 3.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "hecto" -> {
             // Hecto is 10^2
             tenP = allExponents(10.0, 2.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "deka" -> {
             // Deka is 10^1
             tenP = allExponents(10.0, 1.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "unit" -> {
             // UNIT is the target, 10^0
             tenP = allExponents(10.0, 0.0)
-            unitNum = tenP * originalNumber
+            unitNum = tenP * originalNum
         }
         "deci" -> {
             // Deci is 10^-1
             tenP = allExponents(10.0, -1.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "centi" -> {
             // Centi is 10^-2
             tenP = allExponents(10.0, -2.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "milli" -> {
             // Milli is 10^-3
             tenP = allExponents(10.0, -3.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "micro" -> {
             // Micro is 10^-6
             tenP = allExponents(10.0, -6.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "nano" -> {
             // Nano is 10^-9
             tenP = allExponents(10.0, -9.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "pico" -> {
             // Pico is 10^-12
             tenP = allExponents(10.0, -12.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "femto" -> {
             // Femto is 10^-15
             tenP = allExponents(10.0, -15.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "atto" -> {
             // Atto is 10^-18
             tenP = allExponents(10.0, -18.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "zepto" -> {
             // Zepto is 10^-21
             tenP = allExponents(10.0, -21.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
         "yocto" -> {
             // Yocto is 10^-24
             tenP = allExponents(10.0, -24.0)
-            unitNum = originalNumber * tenP
+            unitNum = originalNum * tenP
         }
     }
     // Next is a switch statement for all possible cases of the new unit. It takes
@@ -1004,8 +972,6 @@ fun metricConvert(originalNumber: Double, originalUnit: String, newUnit: String)
  * Helping method which will allow an exponent to be either positive or negative, unlike the math pow() method.
  * Thanks to this page for the idea to do this, and for the skeleton code -
  * http:// stackoverflow.com/questions/4364634/calculate-the-power-of-any-exponent-negative-or-positive
- *
- *
  * Marc Kuniansky
  *
  * @param base must be a valid double

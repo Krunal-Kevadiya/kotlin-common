@@ -1,13 +1,13 @@
 package com.kotlincommon.sample
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlinlibrary.creditcardview.Card
 import com.kotlinlibrary.creditcardview.CardNumberTextWatcher
 import com.kotlinlibrary.creditcardview.CardTextInputLayout
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 
 class CreditCardActivity : AppCompatActivity() {
 
@@ -23,15 +23,15 @@ class CreditCardActivity : AppCompatActivity() {
         edtCardNumber.post {
             edtCardNumber.editText?.addTextChangedListener(object : CardNumberTextWatcher(edtCardNumber) {
                 override fun onValidated(moveToNext: Boolean, cardPan: String, cardInfo: Card?) {
-                    logs(cardPan, LogType.ERROR)
-                    logs((cardInfo?.cvvLength ?: 3), LogType.ERROR)
+                    logs(cardPan, Log.ERROR)
+                    logs((cardInfo?.cvvLength ?: 3), Log.ERROR)
                 }
             })
         }
 
         findViewById<Button>(R.id.btn_submit).setOnClickListener {
             if (!edtCardNumber.hasValidInput()) {
-                logs("cart number invalid", LogType.ERROR)
+                logs("cart number invalid", Log.ERROR)
             }
         }
     }

@@ -8,15 +8,14 @@ import androidx.annotation.InterpolatorRes
 import com.kotlinlibrary.R
 
 abstract class BaseSnackAnimBuilder(private val context: Context) {
-
-    private val DEFAULT_DURATION = context.resources
+    private val defaultDuration = context.resources
             .getInteger(R.integer.sb_default_animation_duration).toLong()
 
-    protected val DEFAULT_ALPHA_START = 0.2f
-    protected val DEFAULT_ALPHA_END = 1.0f
+    protected val defaultAlphaStart = 0.2f
+    protected val defaultAlphaEnd = 1.0f
 
     protected var view: View? = null
-    protected var duration = DEFAULT_DURATION
+    protected var duration = defaultDuration
     protected var interpolator: Interpolator? = null
 
     protected var alpha: Boolean = false

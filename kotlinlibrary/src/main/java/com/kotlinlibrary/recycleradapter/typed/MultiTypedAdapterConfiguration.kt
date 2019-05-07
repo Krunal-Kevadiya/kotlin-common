@@ -31,6 +31,7 @@ class MultiTypedAdapterConfiguration {
      * Declare adapter view type.
      * @param block configure your view type here.
      */
+    @Suppress("UNCHECKED_CAST")
     @ConfigurationDsl
     inline fun <reified T> withViewType(noinline block: AdapterViewTypeConfiguration<T>.() -> Unit) {
         viewTypes.add(

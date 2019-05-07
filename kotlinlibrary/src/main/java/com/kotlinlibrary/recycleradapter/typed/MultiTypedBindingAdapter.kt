@@ -56,7 +56,7 @@ open class MultiTypedBindingAdapter(
             adapterViewType.configuration.clickResId.forEach { id ->
                 itemView.findViewById<View>(id)?.setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
-                    if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
                         adapterViewType.configuration.clickListener.invoke(view.id, adapterPosition, itemList[adapterPosition])
                     }
                 }
@@ -64,18 +64,18 @@ open class MultiTypedBindingAdapter(
         }
     }
 
-    override operator fun plusAssign(items: MutableList<Any>) {
-        itemList.reset(items)
+    override operator fun plusAssign(itemList: MutableList<Any>) {
+        this.itemList.reset(itemList)
         notifyDataSetChanged()
     }
 
-    override operator fun plus(items: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
+    override operator fun plus(itemList: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.addAll(items).also(::dispatchUpdates)
+            this.itemList.addAll(itemList).also(::dispatchUpdates)
         } else {
-            val size = itemList.size + 1
-            itemList.addAll(items)
-            notifyItemRangeInserted(size, items.size)
+            val size = this.itemList.size + 1
+            this.itemList.addAll(itemList)
+            notifyItemRangeInserted(size, itemList.size)
         }
         return this
     }
@@ -131,13 +131,13 @@ open class MultiTypedBindingAdapter(
         }
     }
 
-    override fun insert(index: Int, items: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
+    override fun insert(index: Int, itemList: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            this.itemList.addAll(index, items).also(::dispatchUpdates)
+            this.itemList.addAll(index, itemList).also(::dispatchUpdates)
         } else {
-            val size = itemList.size - index
-            itemList.addAll(items)
-            notifyItemRangeInserted(index, items.size + size)
+            val size = this.itemList.size - index
+            this.itemList.addAll(itemList)
+            notifyItemRangeInserted(index, itemList.size + size)
         }
         return this
     }

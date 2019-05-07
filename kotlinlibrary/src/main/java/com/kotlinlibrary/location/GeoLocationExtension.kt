@@ -51,7 +51,7 @@ class GeoLocation(
      * @param func is a lambda receiver for LocationOptions which is used to build LocationOptions object
      *
      * */
-    fun configure(func: LocationOptions.() -> Unit) {
+    private fun configure(func: LocationOptions.() -> Unit) {
         func.invoke(options)
     }
 

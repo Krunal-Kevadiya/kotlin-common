@@ -62,6 +62,7 @@ class DrawableBadge private constructor(
         }
 
         fun bitmap(bitmap: Bitmap) = apply { this.bitmap = bitmap }
+
         fun textColor(@ColorRes textColorRes: Int) = apply {
             this.textColor = ContextCompat.getColor(context, textColorRes)
         }

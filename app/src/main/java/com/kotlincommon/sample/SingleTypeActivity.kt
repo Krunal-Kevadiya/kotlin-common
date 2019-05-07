@@ -2,11 +2,11 @@ package com.kotlincommon.sample
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 import com.kotlinlibrary.recycleradapter.setUpBinding
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 import java.util.*
 
@@ -26,7 +26,7 @@ class SingleTypeActivity : AppCompatActivity() {
                 //this.textViewAdvertisement.setTextColor(Color.BLUE)
             }
             onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
-                logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
+                logs("(${R.id.textViewAdvertisement}, $id) -> $item", Log.ERROR)
             }
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
         }

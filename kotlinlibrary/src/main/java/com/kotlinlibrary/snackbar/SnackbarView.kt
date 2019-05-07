@@ -38,8 +38,8 @@ import com.kotlinlibrary.snackbar.view.ShadowView
 
 internal class SnackbarView(context: Context) : LinearLayout(context) {
 
-    private val TOP_COMPENSATION_MARGIN = resources.getDimension(R.dimen._16sdp).toInt()
-    private val BOTTOM_COMPENSATION_MARGIN = resources.getDimension(R.dimen._30sdp).toInt()
+    private val topCompensationMargin = resources.getDimension(R.dimen._16sdp).toInt()
+    private val bottomCompensationMargin = resources.getDimension(R.dimen._30sdp).toInt()
 
     private lateinit var parentSnackbarContainer: SnackbarContainerView
     private lateinit var gravity: Gravity
@@ -54,8 +54,8 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
 
             val params = layoutParams as ViewGroup.MarginLayoutParams
             when (gravity) {
-                TOP -> params.topMargin = -TOP_COMPENSATION_MARGIN
-                BOTTOM -> params.bottomMargin = -BOTTOM_COMPENSATION_MARGIN
+                TOP -> params.topMargin = -topCompensationMargin
+                BOTTOM -> params.bottomMargin = -bottomCompensationMargin
             }
             requestLayout()
         }
@@ -89,15 +89,15 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         val statusBarHeight = activity.getStatusBarHeightInPx()
 
         val snackbarViewContentLp =
-            findViewById<LinearLayout>(R.id.fbContent).layoutParams as LinearLayout.LayoutParams
+            findViewById<LinearLayout>(R.id.fbContent).layoutParams as LayoutParams
 
         when (gravity) {
             TOP -> {
-                snackbarViewContentLp.topMargin = statusBarHeight.plus(TOP_COMPENSATION_MARGIN / 2)
+                snackbarViewContentLp.topMargin = statusBarHeight.plus(topCompensationMargin / 2)
                 snackbarViewLp.addRule(ALIGN_PARENT_TOP)
             }
             BOTTOM -> {
-                snackbarViewContentLp.bottomMargin = BOTTOM_COMPENSATION_MARGIN
+                snackbarViewContentLp.bottomMargin = bottomCompensationMargin
                 snackbarViewLp.addRule(ALIGN_PARENT_BOTTOM)
             }
         }

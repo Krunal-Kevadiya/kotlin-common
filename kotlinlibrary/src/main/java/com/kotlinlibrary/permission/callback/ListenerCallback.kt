@@ -4,12 +4,12 @@ import com.kotlinlibrary.permission.RuntimePermission
 import java.util.ArrayList
 
 class ListenerCallback(
-    val runtimePermission: RuntimePermission,
+    private val runtimePermission: RuntimePermission,
     foreverDenied: List<String>?,
     denied: List<String>?
 ) {
-    val foreverDenied = ArrayList<String>()
-    val denied = ArrayList<String>()
+    private val foreverDenied = ArrayList<String>()
+    private val denied = ArrayList<String>()
 
     init {
         if (foreverDenied != null) {
@@ -29,11 +29,11 @@ class ListenerCallback(
     }
 
     fun hasDenied(): Boolean {
-        return !denied.isEmpty()
+        return denied.isNotEmpty()
     }
 
     fun hasForeverDenied(): Boolean {
-        return !foreverDenied.isEmpty()
+        return foreverDenied.isNotEmpty()
     }
 
     fun getForeverDenied(): List<String> {

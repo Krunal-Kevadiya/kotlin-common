@@ -5,7 +5,7 @@ import java.util.ArrayList
 class AcceptedCallback(
     accepted: List<String>?
 ) {
-    val accepted = ArrayList<String>()
+    private val accepted = ArrayList<String>()
 
     init {
         if (accepted != null) {

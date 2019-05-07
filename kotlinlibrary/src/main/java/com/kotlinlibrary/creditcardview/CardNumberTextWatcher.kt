@@ -6,6 +6,7 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import androidx.core.content.ContextCompat
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.logs
 
 abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextInputLayout) : TextWatcher {
     private var currentText = ""
@@ -38,9 +39,9 @@ abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextI
         try {
             mCardTextInputLayout.passwordVisibilityToggleRequested()
         } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
+            logs(e)
         } catch (e: IllegalAccessException) {
-            e.printStackTrace()
+            logs(e)
         }
         val moveToNext: Boolean
         moveToNext = when {

@@ -3,11 +3,11 @@ package com.kotlincommon.sample
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlinlibrary.recycleradapter.setUp
 import com.kotlinlibrary.swiperefreshlayout.WaveSwipeRefreshLayout
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 import kotlinx.android.synthetic.main.activity_swipe_to_refresh.*
 import kotlinx.android.synthetic.main.item_advertisement.view.*
 import java.util.*
@@ -25,7 +25,7 @@ class SwipeToRefreshActivity : AppCompatActivity() {
                 textViewAdvertisement.text = item
             }
             onClick{ id, index, item ->
-                logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
+                logs("(${R.id.textViewAdvertisement}, $id) -> $item", Log.ERROR)
             }
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
         }

@@ -112,7 +112,7 @@ internal class SnackbarContainerView(context: Context)
     }
 
     internal fun adjustOrientation(activity: Activity) {
-        val snackbarContainerViewLp = RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        val snackbarContainerViewLp = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         val navigationBarPosition = activity.getNavigationBarPosition()
         val navigationBarSize = activity.getNavigationBarSizeInPx()
@@ -121,8 +121,8 @@ internal class SnackbarContainerView(context: Context)
             LEFT -> snackbarContainerViewLp.leftMargin = navigationBarSize
             RIGHT -> snackbarContainerViewLp.rightMargin = navigationBarSize
             BOTTOM -> snackbarContainerViewLp.bottomMargin = navigationBarSize
+            else -> {}
         }
-
         layoutParams = snackbarContainerViewLp
     }
 

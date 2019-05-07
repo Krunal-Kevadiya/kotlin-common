@@ -1,5 +1,6 @@
 package com.kotlinlibrary.statusbaralert
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.util.DisplayMetrics
@@ -37,6 +38,7 @@ internal fun Activity.getStatusBarHeight(): Int {
     return titleBarHeigh
 }
 
+@SuppressLint("ObsoleteSdkInt")
 internal fun Activity.isTranslucentStatusBar(): Boolean {
     val w = this.window
     val lp = w.attributes

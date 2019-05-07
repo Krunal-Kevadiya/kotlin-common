@@ -6,9 +6,9 @@ import androidx.annotation.NonNull
 import kotlinx.android.parcel.Parcelize
 
 class AmazonOption {
-    final var awsPoolId: String
-    final var awsEndPoint: String
-    final var defaultBucket: String
+    var awsPoolId: String
+    var awsEndPoint: String
+    var defaultBucket: String
 
     constructor(awsPoolId: String, awsEndPoint: String, defaultBucket: String) {
         this.awsPoolId = awsPoolId
@@ -22,6 +22,7 @@ class AmazonOption {
         this.defaultBucket = builder.defaultBucket
     }
 
+    @Suppress("PLUGIN_WARNING")
     @Parcelize
     class Builder : Parcelable {
         internal var awsPoolId = ""
@@ -29,21 +30,21 @@ class AmazonOption {
         internal var defaultBucket = ""
 
         fun setPoolId(@NotNull awsPoolId: String): Builder {
-            if (!awsPoolId.isEmpty()) {
+            if (awsPoolId.isNotEmpty()) {
                 this.awsPoolId = awsPoolId
             }
             return this
         }
 
         fun setEndPoint(@NotNull awsEndPoint: String): Builder {
-            if (!awsEndPoint.isEmpty()) {
+            if (awsEndPoint.isNotEmpty()) {
                 this.awsEndPoint = awsEndPoint
             }
             return this
         }
 
         fun setDefaultBucket(@NotNull defaultBucket: String): Builder {
-            if (!defaultBucket.isEmpty()) {
+            if (defaultBucket.isNotEmpty()) {
                 this.defaultBucket = defaultBucket
             }
             return this

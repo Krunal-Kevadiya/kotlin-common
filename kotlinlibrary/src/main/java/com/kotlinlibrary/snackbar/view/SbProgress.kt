@@ -174,11 +174,12 @@ class SbProgress : View {
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
 
-        if (visibility == View.VISIBLE) {
+        if (visibility == VISIBLE) {
             lastTimeAnimated = SystemClock.uptimeMillis()
         }
     }
 
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     public override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
 

@@ -7,17 +7,16 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.kotlincommon.sample.BuildConfig
-import com.kotlinlibrary.utils.LogType
 import com.kotlinlibrary.utils.imagepick.PickMediaExtensions
 import com.kotlinlibrary.utils.imagepick.getRealPath
 import com.kotlinlibrary.utils.imagepick.getRealPathFromURI
 import com.kotlinlibrary.utils.imagepick.requestMediaScanner
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 import java.io.File
 
 class ImagePickerActivity : AppCompatActivity() {
@@ -66,7 +65,7 @@ class ImagePickerActivity : AppCompatActivity() {
 
     private fun resultMesage(resultCode: Int, path: String) {
         if (resultCode == PickMediaExtensions.PICK_PERMISSION_DENIED) {
-            logs(getString(R.string.permission_desc_setting_photo), LogType.ERROR)
+            logs(getString(R.string.permission_desc_setting_photo), Log.ERROR)
         } else if (resultCode == PickMediaExtensions.PICK_SUCCESS) {
             val realPath1 = Uri.parse(path).getRealPathFromURI(this)
             if (realPath1 != null) {
@@ -78,7 +77,7 @@ class ImagePickerActivity : AppCompatActivity() {
                     openCrop(realPath)
                     requestMediaScanner(realPath)
                 } else {
-                    logs("error unknown", LogType.ERROR)
+                    logs("error unknown", Log.ERROR)
                 }
             }
         }
@@ -108,7 +107,7 @@ class ImagePickerActivity : AppCompatActivity() {
             }
             startActivityForResult(cropIntent, REQUEST_FOR_CROP)
         } catch (e: Exception) {
-            logs(e, LogType.ERROR)
+            logs(e, Log.ERROR)
             imageView.setImageURI(Uri.fromFile(File(imagePathLocal)))
         }
     }

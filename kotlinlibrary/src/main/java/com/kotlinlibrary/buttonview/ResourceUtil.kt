@@ -39,8 +39,7 @@ object ResourceUtil {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun getBitmap(context: Context, @DrawableRes drawableResId: Int): Bitmap {
-        val drawable = ContextCompat.getDrawable(context, drawableResId)
-        return when (drawable) {
+        return when (val drawable = ContextCompat.getDrawable(context, drawableResId)) {
             is BitmapDrawable -> drawable.bitmap
             is VectorDrawableCompat -> getBitmap((drawable as VectorDrawableCompat?)!!)
             is VectorDrawable -> getBitmap((drawable as VectorDrawable?)!!)

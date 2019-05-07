@@ -13,8 +13,8 @@ import androidx.annotation.InterpolatorRes
 
 class SnackAnimIconBuilder(context: Context) : BaseSnackAnimBuilder(context) {
 
-    private val DEFAULT_PULSE_START = 1.0f
-    private val DEFAULT_PULSE_END = 0.6f
+    private val defaultPulseStart = 1.0f
+    private val defaultPulseEnd = 0.6f
 
     private var pulse: Boolean = false
     private var pulseStart = 0f
@@ -39,7 +39,7 @@ class SnackAnimIconBuilder(context: Context) : BaseSnackAnimBuilder(context) {
     override fun alpha() = apply { super.alpha() }
 
     @JvmOverloads
-    fun pulse(start: Float = DEFAULT_PULSE_START, end: Float = DEFAULT_PULSE_END) = apply {
+    fun pulse(start: Float = defaultPulseStart, end: Float = defaultPulseEnd) = apply {
         this.pulse = true
         this.pulseStart = start
         this.pulseEnd = end

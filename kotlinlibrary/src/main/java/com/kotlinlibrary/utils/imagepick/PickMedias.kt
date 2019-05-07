@@ -13,13 +13,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.kotlinlibrary.R
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -217,7 +217,7 @@ class PickMediaExtensions {
                                 callback?.invoke(PICK_SUCCESS, mPath)
                             }
                         } catch (e: Exception) {
-                            logs(e, LogType.ERROR)
+                            logs(e, Log.ERROR)
                             try {
                                 currentPhotoPath?.let {
                                     val path = Uri.parse(it).getRealPathFromURI(mContext)
@@ -228,7 +228,7 @@ class PickMediaExtensions {
                                     callback?.invoke(PICK_SUCCESS, mPath)
                                 }
                             } catch (e: Exception) {
-                                logs(e, LogType.ERROR)
+                                logs(e, Log.ERROR)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -238,12 +238,12 @@ class PickMediaExtensions {
                         try {
                             callback?.invoke(PICK_SUCCESS, data?.data?.getRealPath((mContext)) as String)
                         } catch (e: Exception) {
-                            logs(e, LogType.ERROR)
+                            logs(e, Log.ERROR)
                             try {
                                 val path = data?.data?.getRealPathFromURI(mContext)
                                 callback?.invoke(PICK_SUCCESS, path!!)
                             } catch (e: Exception) {
-                                logs(e, LogType.ERROR)
+                                logs(e, Log.ERROR)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -253,12 +253,12 @@ class PickMediaExtensions {
                         try {
                             callback?.invoke(PICK_SUCCESS, data?.data?.getRealPath((mContext)) as String)
                         } catch (e: Exception) {
-                            logs(e, LogType.ERROR)
+                            logs(e, Log.ERROR)
                             try {
                                 val path = data?.data?.getRealPathFromURI(mContext)
                                 callback?.invoke(PICK_SUCCESS, path!!)
                             } catch (e: Exception) {
-                                logs(e, LogType.ERROR)
+                                logs(e, Log.ERROR)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -275,7 +275,7 @@ class PickMediaExtensions {
                                 callback?.invoke(PICK_SUCCESS, path)
                             }
                         } catch (e: Exception) {
-                            logs(e, LogType.ERROR)
+                            logs(e, Log.ERROR)
                             try {
                                 var path = data?.data?.getRealPathFromURI(mContext)
                                 if (path == null || path.isEmpty()) {
@@ -286,7 +286,7 @@ class PickMediaExtensions {
                                     callback?.invoke(PICK_SUCCESS, path)
                                 }
                             } catch (e: Exception) {
-                                logs(e, LogType.ERROR)
+                                logs(e, Log.ERROR)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }

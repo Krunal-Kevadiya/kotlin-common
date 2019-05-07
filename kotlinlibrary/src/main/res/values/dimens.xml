@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Badge Drawable -->
+    <dimen name="default_badge_size">16dp</dimen>
     <dimen name="default_badge_border_size">0.5dp</dimen>
 </resources>

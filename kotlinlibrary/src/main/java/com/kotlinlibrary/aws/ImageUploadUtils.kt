@@ -7,10 +7,12 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.kotlinlibrary.R
 import com.kotlinlibrary.retrofitadapter.hasConnection
+import com.kotlinlibrary.utils.ktx.logs
 import java.io.File
 import java.util.Calendar
 
-fun AmazonManager.uploadImage(file: File, bucket: String, listener: ImageUploadListener) {
+fun AmazonManager.uploadImage(file: File, bucket: String, event: ImageUploadListener) {
+    var listener: ImageUploadListener? = event
     try {
         val amazonS3 = getAmazonS3Client()
         val transferUtility = getTransferUtility()
@@ -27,21 +29,20 @@ fun AmazonManager.uploadImage(file: File, bucket: String, listener: ImageUploadL
                     if (bytesTotal != 0L) {
                         percentage = (bytesCurrent * 100 / bytesTotal).toInt()
                         if (percentage == 100) {
-                            listener.imageUploadCompleted(
-                                amazonS3.getResourceUrl(bucketPath, fileName)
-                            )
+                            listener?.imageUploadCompleted(amazonS3.getResourceUrl(bucketPath, fileName))
+                            listener = null
                         } else {
-                            listener.imageUploadProgress(percentage)
+                            upload(percentage, listener)
                         }
                     } else {
-                        listener.imageUploadProgress(percentage)
+                        upload(percentage, listener)
                     }
                 }
 
                 override fun onStateChanged(id: Int, state: TransferState?) {
                     context.get()?.let { context ->
                         if (!context.hasConnection) {
-                            listener.imageUploadFailure(context.getString(R.string.msg_no_internet_available))
+                            uploadFail(context, context.getString(R.string.msg_no_internet_available), listener)
                         }
                     }
                 }
@@ -54,25 +55,31 @@ fun AmazonManager.uploadImage(file: File, bucket: String, listener: ImageUploadL
             })
         } else {
             context.get()?.let { context ->
-                listener.imageUploadFailure(context.getString(R.string.error_file_size))
+                uploadFail(context, context.getString(R.string.error_file_size), listener)
             }
         }
     } catch (e: AmazonClientException) {
+        logs(e)
         context.get()?.let { context ->
             uploadFail(context, e.message, listener)
         }
     } catch (e: Exception) {
+        logs(e)
         context.get()?.let { context ->
             uploadFail(context, e.message, listener)
         }
     }
 }
 
-fun uploadFail(context: Context, message: String?, listener: ImageUploadListener) {
+fun upload(percentage: Int, listener: ImageUploadListener?) {
+    listener?.imageUploadProgress(percentage)
+}
+
+fun uploadFail(context: Context, message: String?, listener: ImageUploadListener?) {
     if (message != null) {
-        listener.imageUploadFailure(message)
+        listener?.imageUploadFailure(message)
     } else {
-        listener.imageUploadFailure(context.getString(R.string.error_unknown))
+        listener?.imageUploadFailure(context.getString(R.string.error_unknown))
     }
 }
 

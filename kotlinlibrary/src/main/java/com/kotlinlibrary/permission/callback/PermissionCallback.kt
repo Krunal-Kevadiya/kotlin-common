@@ -4,7 +4,7 @@ import com.kotlinlibrary.permission.RuntimePermission
 import java.util.ArrayList
 
 class PermissionCallback(
-    val runtimePermission: RuntimePermission,
+    private val runtimePermission: RuntimePermission,
     accepted: List<String>?,
     foreverDenied: List<String>?,
     denied: List<String>?
@@ -38,11 +38,11 @@ class PermissionCallback(
     }
 
     fun hasDenied(): Boolean {
-        return !denied.isEmpty()
+        return denied.isNotEmpty()
     }
 
     fun hasForeverDenied(): Boolean {
-        return !foreverDenied.isEmpty()
+        return foreverDenied.isNotEmpty()
     }
 
     fun getAccepted(): List<String> {

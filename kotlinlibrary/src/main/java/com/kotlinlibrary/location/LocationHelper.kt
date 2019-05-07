@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.logs
 
 /**
  * Helper headless fragment to handle permission model and location retrieval process.
@@ -47,7 +48,7 @@ class LocationHelper : Fragment() {
     }
 
     companion object {
-        val TAG = this::class.java.simpleName
+        val TAG: String = this::class.java.simpleName
         private const val REQUEST_CODE_LOCATION_SETTINGS = 123
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
         private const val REQUEST_LOCATION_CODE = 7
@@ -315,7 +316,7 @@ class LocationHelper : Fragment() {
                     resolveLocationSettings(exception)
                     dialog.dismiss()
                 }
-                .setNegativeButton(getString(R.string.btn_cancel)) { dialog, _ ->
+                .setNegativeButton(getString(R.string.btn_cancel)) { _, _ ->
                 }.create().show()
         }
     }
@@ -339,7 +340,7 @@ class LocationHelper : Fragment() {
                 null
             )
         } catch (e1: IntentSender.SendIntentException) {
-            e1.printStackTrace()
+            logs(e1)
         }
     }
 

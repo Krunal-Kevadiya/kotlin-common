@@ -1,8 +1,7 @@
 package com.kotlinlibrary.retrofitadapter
 
+import android.util.Log
 import com.google.gson.Gson
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
 import okhttp3.Headers
 import org.json.JSONException
 import org.json.JSONObject
@@ -81,6 +80,7 @@ import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.ServerError5xx.Net
 import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.ServerError5xx.NetworkReadTimeoutError598
 import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.ServerError5xx.NetworkConnectTimeoutError599
 import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.UnknownError.UnknownRequired
+import com.kotlinlibrary.utils.ktx.logs
 
 fun <R : Any?> Response<R>.toSealedApiResult(responseType: Type): Some<R> {
     return when (code) {
@@ -176,7 +176,7 @@ fun <R> Response<R>.errorBody(responseType: Type): R {
         try {
             message = errorBody()!!.string()
         } catch (e: IOException) {
-            logs(e, LogType.ERROR)
+            logs(e, Log.ERROR)
         }
         return if (message.isNotEmpty()) {
             Gson().fromJson(message, responseType)
@@ -184,7 +184,7 @@ fun <R> Response<R>.errorBody(responseType: Type): R {
             Gson().fromJson(getErrorJson(httpCode = code), responseType)
         }
     } catch (e: JSONException) {
-        logs(e, LogType.ERROR)
+        logs(e, Log.ERROR)
         return Gson().fromJson(getErrorJson(httpCode = code), responseType)
     }
 }

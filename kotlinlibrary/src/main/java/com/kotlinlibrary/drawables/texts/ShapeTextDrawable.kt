@@ -16,7 +16,7 @@ class ShapeTextDrawable : ShapeDrawable {
     val text: String
     val textSize: Int
     private val borderThickness: Int
-    val radius: Float
+    private val radius: Float
     private val textPaint: Paint
     private val borderPaint: Paint
 

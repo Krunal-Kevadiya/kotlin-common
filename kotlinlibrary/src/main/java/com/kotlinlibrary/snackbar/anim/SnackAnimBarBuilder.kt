@@ -116,8 +116,8 @@ class SnackAnimBarBuilder(context: Context) : BaseSnackAnimBuilder(context) {
             alphaAnim.target = view
 
             when (type!!) {
-                ENTER -> alphaAnim.setFloatValues(DEFAULT_ALPHA_START, DEFAULT_ALPHA_END)
-                EXIT -> alphaAnim.setFloatValues(DEFAULT_ALPHA_END, DEFAULT_ALPHA_START)
+                ENTER -> alphaAnim.setFloatValues(defaultAlphaStart, defaultAlphaEnd)
+                EXIT -> alphaAnim.setFloatValues(defaultAlphaEnd, defaultAlphaStart)
             }
             animators.add(alphaAnim)
         }

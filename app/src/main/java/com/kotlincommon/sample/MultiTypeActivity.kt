@@ -1,14 +1,14 @@
 package com.kotlincommon.sample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.kotlincommon.sample.databinding.ItemAdvertisementBinding
 import com.kotlincommon.sample.databinding.ItemLoadmoreBinding
 import com.kotlinlibrary.recycleradapter.setUpBinding
 import com.kotlinlibrary.recycleradapter.typed.MultiTypedBindingAdapter
-import com.kotlinlibrary.utils.LogType
-import com.kotlinlibrary.utils.logs
+import com.kotlinlibrary.utils.ktx.logs
 import kotlinx.android.synthetic.main.activity_recycler_adapter.*
 
 class MultiTypeActivity : AppCompatActivity() {
@@ -35,7 +35,7 @@ class MultiTypeActivity : AppCompatActivity() {
                     this.textViewAdvertisement.text = item
                 }
                 onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
-                    logs("(${R.id.textViewAdvertisement}, $id) -> $item", LogType.ERROR)
+                    logs("(${R.id.textViewAdvertisement}, $id) -> $item", Log.ERROR)
                     adapter - index
                 }
             }
@@ -49,7 +49,7 @@ class MultiTypeActivity : AppCompatActivity() {
                     this.textViewLoadMore.text = item.toString()
                 }
                 onClick/*(R.id.textViewLoadMore)*/ { id, _, item ->
-                    logs("(${R.id.textViewLoadMore}, $id) -> $item", LogType.ERROR)
+                    logs("(${R.id.textViewLoadMore}, $id) -> $item", Log.ERROR)
                     adapter.add((adapter.getItemLists().size - 1), "")
                 }
             }

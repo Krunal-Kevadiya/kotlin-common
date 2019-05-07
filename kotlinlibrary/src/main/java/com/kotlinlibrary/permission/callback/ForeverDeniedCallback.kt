@@ -4,10 +4,10 @@ import java.util.ArrayList
 import com.kotlinlibrary.permission.RuntimePermission
 
 class ForeverDeniedCallback(
-    val runtimePermission: RuntimePermission,
+    private val runtimePermission: RuntimePermission,
     foreverDenied: List<String>?
 ) {
-    val foreverDenied = ArrayList<String>()
+    private val foreverDenied = ArrayList<String>()
 
     init {
         if (foreverDenied != null) {
@@ -20,7 +20,7 @@ class ForeverDeniedCallback(
     }
 
     fun hasForeverDenied(): Boolean {
-        return !foreverDenied.isEmpty()
+        return foreverDenied.isNotEmpty()
     }
 
     fun getForeverDenied(): List<String> {

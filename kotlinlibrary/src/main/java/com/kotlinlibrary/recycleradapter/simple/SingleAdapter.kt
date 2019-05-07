@@ -48,18 +48,18 @@ open class SingleAdapter<T> (
         }
     }
 
-    override operator fun plusAssign(items: MutableList<T>) {
-        itemList.reset(items)
+    override operator fun plusAssign(itemList: MutableList<T>) {
+        this.itemList.reset(itemList)
         notifyDataSetChanged()
     }
 
-    override operator fun plus(items: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
+    override operator fun plus(itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            itemList.addAll(items).also(::dispatchUpdates)
+            this.itemList.addAll(itemList).also(::dispatchUpdates)
         } else {
-            val size = itemList.size + 1
-            itemList.addAll(items)
-            notifyItemRangeInserted(size, items.size)
+            val size = this.itemList.size + 1
+            this.itemList.addAll(itemList)
+            notifyItemRangeInserted(size, itemList.size)
         }
         return this
     }
@@ -115,13 +115,13 @@ open class SingleAdapter<T> (
         }
     }
 
-    override fun insert(index: Int, items: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
+    override fun insert(index: Int, itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            this.itemList.addAll(index, items).also(::dispatchUpdates)
+            this.itemList.addAll(index, itemList).also(::dispatchUpdates)
         } else {
-            val size = itemList.size - index
-            itemList.addAll(items)
-            notifyItemRangeInserted(index, items.size + size)
+            val size = this.itemList.size - index
+            this.itemList.addAll(itemList)
+            notifyItemRangeInserted(index, itemList.size + size)
         }
         return this
     }

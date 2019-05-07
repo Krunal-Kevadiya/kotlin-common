@@ -1,5 +1,6 @@
 package com.kotlinlibrary.snackbar.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
@@ -47,7 +48,7 @@ internal fun Activity.getNavigationBarSizeInPx(): Int {
 }
 
 internal fun Activity?.getRootView(): ViewGroup? {
-    if (this == null || window == null || window.decorView == null) {
+    if (this == null || window == null) {
         return null
     }
     return window.decorView as ViewGroup
@@ -61,6 +62,7 @@ internal fun Context.convertPxToDp(px: Int): Int {
     return Math.round(px / (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
 }
 
+@SuppressLint("ObsoleteSdkInt")
 private fun Activity.getRealScreenSize(): Point {
     val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val defaultDisplay = windowManager.defaultDisplay

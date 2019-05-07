@@ -4,10 +4,10 @@ import java.util.ArrayList
 import com.kotlinlibrary.permission.RuntimePermission
 
 class DeniedCallback(
-    val runtimePermission: RuntimePermission,
+    private val runtimePermission: RuntimePermission,
     denied: List<String>?
 ) {
-    val denied = ArrayList<String>()
+    private val denied = ArrayList<String>()
 
     init {
         if (denied != null) {
@@ -20,7 +20,7 @@ class DeniedCallback(
     }
 
     fun hasDenied(): Boolean {
-        return !denied.isEmpty()
+        return denied.isNotEmpty()
     }
 
     fun getDenied(): List<String> {
