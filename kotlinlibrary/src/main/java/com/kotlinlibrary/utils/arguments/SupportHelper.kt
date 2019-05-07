@@ -1,12 +1,14 @@
 package com.kotlinlibrary.utils.arguments
 
 import android.os.Bundle
+import com.kotlinlibrary.utils.ktx.logs
 import androidx.fragment.app.Fragment as SupportFragment
 
 internal object SupportHelper {
   private val HAS_SUPPORT_FRAGMENTS = try {
     Class.forName("androidx.fragment.app.Fragment") != null
   } catch (exception: Exception) {
+    logs(exception)
     false
   }
 

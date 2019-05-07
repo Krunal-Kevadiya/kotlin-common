@@ -4,6 +4,7 @@ import com.kotlinlibrary.socket.SocketIOCallback
 import com.kotlinlibrary.socket.SocketIOException
 import com.kotlinlibrary.socket.SocketIOOptions
 import com.kotlinlibrary.socket.util.EventFormatter
+import com.kotlinlibrary.utils.ktx.logs
 import io.socket.client.Socket
 import org.json.JSONObject
 import java.util.ArrayList
@@ -12,7 +13,7 @@ import java.util.HashMap
 open class SocketIOChannel(
     protected var socket: Socket?,
     val name: String,
-    protected var options: SocketIOOptions
+    private var options: SocketIOOptions
 ) : AbstractChannel() {
     private var formatter: EventFormatter = EventFormatter(options.eventNamespace)
     private val eventsCallbacks: MutableMap<String, MutableList<SocketIOCallback>>
@@ -23,7 +24,7 @@ open class SocketIOChannel(
         try {
             this.subscribe(null)
         } catch (e: SocketIOException) {
-            e.printStackTrace()
+            logs(e)
         }
 
         configureReconnector()
@@ -46,6 +47,7 @@ open class SocketIOChannel(
                 })
             }
         } catch (e: Exception) {
+            logs(e)
             throw SocketIOException("Cannot subscribe to channel '" + name + "' : " + e.message)
         }
     }
@@ -68,6 +70,7 @@ open class SocketIOChannel(
                 })
             }
         } catch (e: Exception) {
+            logs(e)
             throw SocketIOException("Cannot unsubscribe to channel '" + name + "' : " + e.message)
         }
     }
@@ -100,7 +103,7 @@ open class SocketIOChannel(
                 try {
                     subscribe(null)
                 } catch (e: SocketIOException) {
-                    e.printStackTrace()
+                    logs(e)
                 }
             }
         }

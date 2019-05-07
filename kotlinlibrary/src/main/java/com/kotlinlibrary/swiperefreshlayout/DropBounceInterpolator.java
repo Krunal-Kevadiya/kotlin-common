@@ -1,7 +1,5 @@
 package com.kotlinlibrary.swiperefreshlayout;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.animation.Interpolator;
 
 public class DropBounceInterpolator implements Interpolator {

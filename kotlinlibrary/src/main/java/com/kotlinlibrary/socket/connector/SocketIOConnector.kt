@@ -7,6 +7,7 @@ import com.kotlinlibrary.socket.channel.AbstractChannel
 import com.kotlinlibrary.socket.channel.SocketIOChannel
 import com.kotlinlibrary.socket.channel.SocketIOPresenceChannel
 import com.kotlinlibrary.socket.channel.SocketIOPrivateChannel
+import com.kotlinlibrary.utils.ktx.logs
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
@@ -40,6 +41,7 @@ class SocketIOConnector(options: SocketIOOptions) : AbstractConnector(options) {
                 })
             }
         } catch (e: URISyntaxException) {
+            logs(e)
             error?.invoke(arrayOf())
         }
     }
@@ -95,9 +97,9 @@ class SocketIOConnector(options: SocketIOOptions) : AbstractConnector(options) {
                     channels[subscribed]?.unsubscribe(null)
                     // channels.remove(subscribed)
                 } catch (e: SocketIOException) {
-                    e.printStackTrace()
+                    logs(e)
                 } catch (e: ConcurrentModificationException) {
-                    e.printStackTrace()
+                    logs(e)
                 }
             }
         }
@@ -108,7 +110,7 @@ class SocketIOConnector(options: SocketIOOptions) : AbstractConnector(options) {
             try {
                 channels[subscribed]?.unsubscribe(null)
             } catch (e: SocketIOException) {
-                e.printStackTrace()
+                logs(e)
             }
         }
 

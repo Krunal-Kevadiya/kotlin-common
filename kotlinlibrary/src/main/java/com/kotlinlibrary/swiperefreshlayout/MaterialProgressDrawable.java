@@ -21,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -34,8 +35,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
     @Retention(RetentionPolicy.CLASS)
     @IntDef({LARGE, DEFAULT})
-    public @interface ProgressDrawableSize {
-    }
+    @interface ProgressDrawableSize { }
 
     static final int LARGE = 0;
     static final int DEFAULT = 1;
@@ -47,10 +47,6 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private static final int CIRCLE_DIAMETER_LARGE = 56;
     private static final float CENTER_RADIUS_LARGE = 12.5f;
     private static final float STROKE_WIDTH_LARGE = 3f;
-
-    private final int[] COLORS = new int[]{
-            Color.BLACK
-    };
 
     private static final int ANIMATION_DURATION = 1000 * 80 / 60;
 
@@ -74,13 +70,16 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private float mRotationCount;
     private double mWidth;
     private double mHeight;
-    boolean mFinishing;
+    private boolean mFinishing;
 
-    public MaterialProgressDrawable(Context context, View parent) {
+    MaterialProgressDrawable(Context context, View parent) {
         mParent = parent;
         mResources = context.getResources();
 
         mRing = new Ring(mCallback);
+        int[] COLORS = new int[]{
+                Color.BLACK
+        };
         mRing.setColors(COLORS);
 
         updateSizes(DEFAULT);
@@ -302,17 +301,17 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
     private final Callback mCallback = new Callback() {
         @Override
-        public void invalidateDrawable(Drawable d) {
+        public void invalidateDrawable(@NotNull Drawable d) {
             invalidateSelf();
         }
 
         @Override
-        public void scheduleDrawable(Drawable d, Runnable what, long when) {
+        public void scheduleDrawable(@NotNull Drawable d, @NotNull Runnable what, long when) {
             scheduleSelf(what, when);
         }
 
         @Override
-        public void unscheduleDrawable(Drawable d, Runnable what) {
+        public void unscheduleDrawable(@NotNull Drawable d, @NotNull Runnable what) {
             unscheduleSelf(what);
         }
     };

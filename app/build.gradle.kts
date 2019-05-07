@@ -1,14 +1,10 @@
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import com.android.builder.model.ProductFlavor
-
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
 }
-
-//apply(from = "../settings/codequality/quality.gradle")
+apply(from = "../settings/codequality/quality.gradle")
 
 android {
     compileSdkVersion(Versions.Android.compileSdkVersion)

@@ -18,7 +18,7 @@ import com.kotlinlibrary.snackbar.anim.SnackAnimBarBuilder
 import com.kotlinlibrary.snackbar.anim.SnackAnimIconBuilder
 
 private const val DEFAULT_SHADOW_STRENGTH = 4
-private const val DEFAUT_ICON_SCALE = 1.0f
+private const val DEFAULT_ICON_SCALE = 1.0f
 
 class Snackbar private constructor(private var builder: Builder) {
 
@@ -43,7 +43,7 @@ class Snackbar private constructor(private var builder: Builder) {
         snackbarContainerView.addParent(this)
 
         snackbarView = SnackbarView(builder.activity)
-        snackbarView.init(builder.gravity, builder.castShadow, builder.shadowStrength!!)
+        snackbarView.init(builder.gravity, builder.castShadow, builder.shadowStrength)
         snackbarView.adjustWitPositionAndOrientation(builder.activity, builder.gravity)
         snackbarView.addParent(snackbarContainerView)
 
@@ -196,7 +196,7 @@ class Snackbar private constructor(private var builder: Builder) {
         internal var onNegativeActionTapListener: OnActionTapListener? = null
 
         internal var showIcon: Boolean = false
-        internal var iconScale: Float = DEFAUT_ICON_SCALE
+        internal var iconScale: Float = DEFAULT_ICON_SCALE
         internal var iconScaleType: ScaleType = CENTER_CROP
         internal var iconDrawable: Drawable? = null
         internal var iconBitmap: Bitmap? = null
@@ -425,7 +425,7 @@ class Snackbar private constructor(private var builder: Builder) {
         }
 
         @JvmOverloads
-        fun showIcon(scale: Float = DEFAUT_ICON_SCALE, scaleType: ScaleType = CENTER_CROP) = apply {
+        fun showIcon(scale: Float = DEFAULT_ICON_SCALE, scaleType: ScaleType = CENTER_CROP) = apply {
             require(progressPosition != ProgressPosition.LEFT
             ) { "Cannot show icon if left progress is set" }
             require(scale > 0

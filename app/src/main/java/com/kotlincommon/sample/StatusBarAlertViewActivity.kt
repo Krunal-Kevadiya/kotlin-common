@@ -28,12 +28,12 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        StatusBarAlert.hide(this, Runnable{})
+        StatusBarAlert.hide(this, Runnable {})
         super.onDestroy()
     }
 
     private fun showAlertView(alertView: StatusBarAlertView?) {
-        if(statusBarProgress != null) {
+        if (statusBarProgress != null) {
             StatusBarAlert.hide(this, Runnable {})
         }
         statusBarProgress = alertView
@@ -41,7 +41,7 @@ class StatusBarAlertViewActivity : AppCompatActivity() {
     }
 
     private fun progressBar(): StatusBarAlertView? {
-        //return progressMessage(msg = "Please wait") available extention
+        // return progressMessage(msg = "Please wait") available extention
         return StatusBarAlert.Builder(this)
             .autoHide(true)
             .withDuration(5000)

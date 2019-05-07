@@ -1,5 +1,6 @@
 package com.kotlinlibrary.snackbar.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.JELLY_BEAN
@@ -24,6 +25,7 @@ internal class ShadowView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun setShadow(@DrawableRes id: Int) {
         val shadow = ContextCompat.getDrawable(context, id)
         if (SDK_INT >= JELLY_BEAN) {

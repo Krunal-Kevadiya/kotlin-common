@@ -1,5 +1,6 @@
 package com.kotlinlibrary.snackbar
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
@@ -109,6 +110,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         this.parentSnackbarContainer = snackbarContainerView
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     internal fun setBarBackgroundDrawable(drawable: Drawable?) {
         if (drawable == null) return
 
@@ -417,6 +419,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<ImageView>(R.id.fbIcon).clearAnimation()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     internal fun enableSwipeToDismiss(enable: Boolean, callbacks: DismissCallbacks) {
         if (enable) {
             findViewById<LinearLayout>(R.id.fbRoot).setOnTouchListener(SwipeDismissTouchListener(this, callbacks))

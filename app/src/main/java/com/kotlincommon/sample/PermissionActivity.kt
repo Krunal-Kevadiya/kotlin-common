@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlinlibrary.permission.RuntimePermission
-import com.kotlinlibrary.permission.askPermission
 import com.kotlinlibrary.permission.bindPermission
 import com.kotlinlibrary.permission.callback.PermissionCallback
 
@@ -21,9 +20,9 @@ class PermissionActivity : AppCompatActivity() {
         textView.post { textView.text = textView.text.toString() + "\n" + text }
     }
 
-    //Using Lazy DSL
+    // Using Lazy DSL
     private val permission: RuntimePermission by
-        bindPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE){
+        bindPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) {
             setResult(it)
         }
 
@@ -32,12 +31,12 @@ class PermissionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_permission)
 
         findViewById<Button>(R.id.btn_permission).setOnClickListener {
-            //Using Extension DSL
+            // Using Extension DSL
             /*askPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) {
                 setResult(it)
             }.ask()*/
 
-            //Using Manually
+            // Using Manually
             /*RuntimePermission(this@PermissionActivity)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .onResponse { setResult(it) }
@@ -49,7 +48,7 @@ class PermissionActivity : AppCompatActivity() {
     private fun setResult(it: PermissionCallback) {
         with(it) {
             if (hasAccepted()) {
-                textView.text = "Accepted :${accepted}"
+                textView.text = "Accepted :$accepted"
             }
 
             if (hasDenied()) {
@@ -59,12 +58,12 @@ class PermissionActivity : AppCompatActivity() {
                 AlertDialog.Builder(this@PermissionActivity)
                     .setMessage("Please accept our permissions to denied")
                     .setPositiveButton("yes") { dialog, which ->
-                        askAgain();
+                        askAgain()
                     }
                     .setNegativeButton("no") { dialog, which ->
-                        dialog.dismiss();
+                        dialog.dismiss()
                     }
-                    .show();
+                    .show()
             }
 
             if (hasForeverDenied()) {
@@ -74,12 +73,12 @@ class PermissionActivity : AppCompatActivity() {
                 AlertDialog.Builder(this@PermissionActivity)
                     .setMessage("Please accept our permissions foreverDenied")
                     .setPositiveButton("yes") { dialog, which ->
-                        goToSettings();
+                        goToSettings()
                     }
                     .setNegativeButton("no") { dialog, which ->
-                        dialog.dismiss();
+                        dialog.dismiss()
                     }
-                    .show();
+                    .show()
             }
         }
     }

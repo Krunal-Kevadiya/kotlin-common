@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
@@ -207,7 +208,7 @@ fun saveToInternalStorage(bitmap: Bitmap, fileName: String): String {
         fos = FileOutputStream(myPath)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
     } catch (e: Exception) {
-        e.printStackTrace()
+        Log.e("Files", e.toString())
     } finally {
         fos?.close()
     }

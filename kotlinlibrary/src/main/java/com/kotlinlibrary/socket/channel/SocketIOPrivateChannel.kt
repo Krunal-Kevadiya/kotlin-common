@@ -3,6 +3,7 @@ package com.kotlinlibrary.socket.channel
 import com.kotlinlibrary.socket.SocketIOCallback
 import com.kotlinlibrary.socket.SocketIOException
 import com.kotlinlibrary.socket.SocketIOOptions
+import com.kotlinlibrary.utils.ktx.logs
 import io.socket.client.Socket
 import org.json.JSONObject
 
@@ -33,6 +34,7 @@ open class SocketIOPrivateChannel(
                 })
             }
         } catch (e: Exception) {
+            logs(e)
             throw SocketIOException("Cannot whisper o, channel '" + name + "' : " + e.message)
         }
         return this

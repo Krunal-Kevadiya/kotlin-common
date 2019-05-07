@@ -31,20 +31,20 @@ class StatusBarAlertView(
     typeface: Typeface?,
     private val showProgress: Boolean,
     private val showTextAnimation: Boolean,
-    autohide: Boolean,
-    private val autohideDuration: Long
+    autoHide: Boolean,
+    private val autoHideDuration: Long
 ) : LinearLayout(activity, null, 0) {
     var statusBarColorOringinal: Int = 0
     var hasOriginalStatusBarTranslucent: Boolean = false
     private var textView: TextView? = null
     private var progressBar: ProgressBar? = null
-    private var autohideRunnable: Runnable? = null
+    private var autoHideRunnable: Runnable? = null
     private var statusBarColor: Int = 0
 
     init {
         statusBarColor = activity.window.statusBarColor
         this.observeLifecycle(activity)
-        this.buildUI(activity, alertColor, stringText, text, typeface, autohide, autohideDuration)
+        this.buildUI(activity, alertColor, stringText, text, typeface, autoHide, autoHideDuration)
     }
 
     private fun observeLifecycle(activity: Context) {
@@ -65,8 +65,8 @@ class StatusBarAlertView(
         stringText: String?,
         text: Int?,
         typeFace: Typeface?,
-        autohide: Boolean,
-        autohideDuration: Long
+        autoHide: Boolean,
+        autoHideDuration: Long
     ) {
         val decor = (activity as? Activity)!!.window.decorView as ViewGroup
 
@@ -76,7 +76,7 @@ class StatusBarAlertView(
             setBackgroundColor(ContextCompat.getColor(activity, alertColor))
         }
         val ll2 = LinearLayout(activity)
-        ll2.orientation = LinearLayout.HORIZONTAL
+        ll2.orientation = HORIZONTAL
         ll2.gravity = Gravity.CENTER_VERTICAL
         ll2.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, activity.getStatusBarHeight())
 
@@ -125,30 +125,32 @@ class StatusBarAlertView(
             .setInterpolator(AccelerateDecelerateInterpolator())
             .start()
 
-        if (autohide) {
-            autohideRunnable = Runnable { hideIndeterminateProgress(this) }
-            postDelayed(autohideRunnable, autohideDuration)
+        if (autoHide) {
+            autoHideRunnable = Runnable { hideIndeterminateProgress(this) }
+            postDelayed(autoHideRunnable, autoHideDuration)
         }
     }
 
     override fun onDetachedFromWindow() {
-        autohideRunnable?.let { removeCallbacks(it) }
-        autohideRunnable = null
+        autoHideRunnable?.let { removeCallbacks(it) }
+        autoHideRunnable = null
         (context as Activity).window.decorView.setOnSystemUiVisibilityChangeListener(null)
         super.onDetachedFromWindow()
     }
 
+    @SuppressLint("SetTextI18n")
     fun updateText(text: String) {
         textView?.text = "$text "
     }
 
+    @SuppressLint("SetTextI18n")
     fun updateText(text: Int) {
         textView?.text = "${context.resources.getString(text)} "
     }
 
     fun showIndeterminateProgress() {
         if (showTextAnimation) {
-            textView?.startProgressAnimation(autohideDuration)
+            textView?.startProgressAnimation(autoHideDuration)
         }
         if (showProgress) {
             progressBar?.visibility = View.VISIBLE

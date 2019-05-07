@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -124,7 +125,8 @@ public class WaveSwipeRefreshLayout extends ViewGroup implements ViewTreeObserve
 
             mCircleView.measure();
         } catch (IllegalArgumentException e){
-
+            Log.e(WaveSwipeRefreshLayout.class.getSimpleName(), e.toString());
+            e.printStackTrace();
         }
     }
 

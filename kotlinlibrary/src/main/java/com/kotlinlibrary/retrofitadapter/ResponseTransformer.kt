@@ -1,6 +1,5 @@
 package com.kotlinlibrary.retrofitadapter
 
-import android.util.Log
 import com.google.gson.Gson
 import okhttp3.Headers
 import org.json.JSONException
@@ -176,7 +175,7 @@ fun <R> Response<R>.errorBody(responseType: Type): R {
         try {
             message = errorBody()!!.string()
         } catch (e: IOException) {
-            logs(e, Log.ERROR)
+            logs(e)
         }
         return if (message.isNotEmpty()) {
             Gson().fromJson(message, responseType)
@@ -184,7 +183,7 @@ fun <R> Response<R>.errorBody(responseType: Type): R {
             Gson().fromJson(getErrorJson(httpCode = code), responseType)
         }
     } catch (e: JSONException) {
-        logs(e, Log.ERROR)
+        logs(e)
         return Gson().fromJson(getErrorJson(httpCode = code), responseType)
     }
 }

@@ -5,7 +5,7 @@ def sourceDir = "$project.rootDir"
 
 //CheckStyle
 checkstyle {
-    toolVersion = '8.11'
+    toolVersion = '8.20'
 }
 
 task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code style checks') {

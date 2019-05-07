@@ -4,6 +4,7 @@ apply from : '../settings/codequality/pmd/pmd.gradle'
 apply from : '../settings/codequality/lint/lint.gradle'
 apply from : '../settings/codequality/ktlint/ktlint.gradle'
 apply from : '../settings/codequality/spotless/spotless.gradle'
+apply from : '../settings/codequality/detekt/detekt.gradle'
 apply from : '../settings/codequality/jacoco/jacoco.gradle'
 apply from : '../settings/codequality/sonarqube/sonarqubeModule.gradle'
 

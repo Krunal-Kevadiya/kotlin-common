@@ -7,9 +7,8 @@ plugins {
     kotlin("kapt")
     id("com.github.dcendents.android-maven")
 }
-group = "com.kevadiyakrunalk"
-
 //apply(from = "../settings/codequality/quality.gradle")
+group = "com.kevadiyakrunalk"
 
 android {
     compileSdkVersion(Versions.Android.compileSdkVersion)

@@ -23,7 +23,7 @@ class SingleTypeActivity : AppCompatActivity() {
                 textViewAdvertisement.text = it
             }*/
             onBind<ItemAdvertisementBinding>(BR.viewModel) { index, item ->
-                //this.textViewAdvertisement.setTextColor(Color.BLUE)
+                // this.textViewAdvertisement.setTextColor(Color.BLUE)
             }
             onClick/*(R.id.textViewAdvertisement)*/ { id, index, item ->
                 logs("(${R.id.textViewAdvertisement}, $id) -> $item", Log.ERROR)

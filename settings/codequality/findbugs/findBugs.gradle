@@ -1,7 +1,7 @@
 apply plugin: 'findbugs'
 
 def qualityConfigDir = "$project.rootDir/settings/codequality"
-def sourceDir = "$project.rootDir"
+def sourceDir = "$project.projectDir"
 
 task findbugs(type: FindBugs, group: 'Verification', description: 'Inspect java bytecode for bugs') {
     ignoreFailures = false
@@ -9,7 +9,7 @@ task findbugs(type: FindBugs, group: 'Verification', description: 'Inspect java 
     reportLevel = "high"
     excludeFilter = new File("$qualityConfigDir/findbugs/findbugs.xml")
 
-    classes = files("$sourceDir/common/build/intermediates/classes", "$sourceDir/customer/build/intermediates/classes", "$sourceDir/provider/build/intermediates/classes")
+    classes = files("$sourceDir/build/intermediates/javac")
     classpath = files()
     source = fileTree('src/main/java')
 
@@ -17,7 +17,7 @@ task findbugs(type: FindBugs, group: 'Verification', description: 'Inspect java 
     exclude '**/gen/**'
 
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
     }
 }

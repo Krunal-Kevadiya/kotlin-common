@@ -10,6 +10,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.view.Surface.*
 import com.kotlinlibrary.snackbar.util.NavigationBarPosition.*
+import com.kotlinlibrary.utils.ktx.logs
 import java.lang.reflect.InvocationTargetException
 
 internal fun Activity.getStatusBarHeightInPx(): Int {
@@ -58,10 +59,6 @@ internal fun Context.convertDpToPx(dp: Int): Int {
     return Math.round(dp * (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
 }
 
-internal fun Context.convertPxToDp(px: Int): Int {
-    return Math.round(px / (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
-}
-
 @SuppressLint("ObsoleteSdkInt")
 private fun Activity.getRealScreenSize(): Point {
     val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -75,8 +72,11 @@ private fun Activity.getRealScreenSize(): Point {
             size.x = Display::class.java.getMethod("getRawWidth").invoke(defaultDisplay) as Int
             size.y = Display::class.java.getMethod("getRawHeight").invoke(defaultDisplay) as Int
         } catch (e: IllegalAccessException) {
+            logs(e)
         } catch (e: InvocationTargetException) {
+            logs(e)
         } catch (e: NoSuchMethodException) {
+            logs(e)
         }
     }
     return size

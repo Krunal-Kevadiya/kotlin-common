@@ -19,7 +19,6 @@ class CreditCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credit_card)
 
-
         edtCardNumber.post {
             edtCardNumber.editText?.addTextChangedListener(object : CardNumberTextWatcher(edtCardNumber) {
                 override fun onValidated(moveToNext: Boolean, cardPan: String, cardInfo: Card?) {

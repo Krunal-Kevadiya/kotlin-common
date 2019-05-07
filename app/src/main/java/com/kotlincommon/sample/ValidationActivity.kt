@@ -34,7 +34,7 @@ class ValidationActivity : AppCompatActivity() {
         binding.setVariable(BR.viewModel, this)
 
         findViewById<Button>(R.id.btnValidation).setOnClickListener {
-            if(editTextEmail.check()) {
+            if (editTextEmail.check()) {
                 Log.e(ValidationActivity::class.java.simpleName, "True ${editTextEmail.getError()}")
             } else {
                 Log.e(ValidationActivity::class.java.simpleName, "False ${editTextEmail.getError()}")

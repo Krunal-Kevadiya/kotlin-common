@@ -23,10 +23,10 @@ sonarqube {
         //property "sonar.tests", "app/src/test/java"
 
         property "sonar.sources", "$sourceDir/app/src/main/java"
-        property "sonar.tests", ["$sourceDir/appsrc/test/java"]
+        //property "sonar.tests", ["$sourceDir/appsrc/test/java"]
 
         property "sonar.exclusions", "$sourceDir/app/src/main/java/**"
-        property "sonar.test.inclusions", "$sourceDir/app/src/test/java/**"
+        //property "sonar.test.inclusions", "$sourceDir/app/src/test/java/**"
         //property "sonar.scm.provider", "git"
         property "sonar.scm.disabled", true
 

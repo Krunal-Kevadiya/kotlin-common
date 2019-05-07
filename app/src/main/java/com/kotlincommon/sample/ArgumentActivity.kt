@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import com.kotlinlibrary.utils.arguments.bindArgument
 import com.kotlinlibrary.utils.arguments.bindOptionalArgument
 
+
+
 class ArgumentActivity : AppCompatActivity() {
 
     companion object {
@@ -34,6 +36,7 @@ class ArgumentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_argument)
+
         findViewById<TextView>(R.id.textView).text =
                 """From Activity
                    firstName -> $firstName
@@ -77,7 +80,4 @@ class UserProfileFragment : Fragment() {
                    email -> $email
                 """.trimIndent()
     }
-
 }
-
-

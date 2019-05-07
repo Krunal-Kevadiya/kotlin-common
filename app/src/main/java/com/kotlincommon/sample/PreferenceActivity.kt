@@ -104,5 +104,5 @@ class PreferencesFragment : Fragment() {
     }
 }
 
-//Gson
+// Gson
 data class Profile(val firstName: String? = null, val lastName: String? = null)

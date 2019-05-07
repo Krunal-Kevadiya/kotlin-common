@@ -16,7 +16,6 @@ import com.kotlinlibrary.recycleradapter.simple.SingleBindingAdapter
 import kotlin.random.Random
 import com.kotlinlibrary.loadmore.callback.OnRepeatListener
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 
@@ -49,7 +48,7 @@ class LoadMoreActivity : AppCompatActivity() {
         }
         swipeRefreshLayout.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
-                val list = MutableList(20) { index -> "Refresh -> ${index + 1}"}
+                val list = MutableList(20) { index -> "Refresh -> ${index + 1}" }
                 adapter.reSet(list)
                 swipeRefreshLayout.isRefreshing = false
                 noPaginate.setResetItems()
@@ -65,8 +64,8 @@ class LoadMoreActivity : AppCompatActivity() {
             recyclerView = recyclerViews
             loadingItem = LoadingItem.DEFAULT
             errorItem = ErrorItem.DEFAULT
-            //loadingItem = CustomLoadingItem()
-            //errorItem = CustomErrorItem()
+            // loadingItem = CustomLoadingItem()
+            // errorItem = CustomErrorItem()
             direction = Direction.UP
             onLoadMore = {
                 noPaginate.showError(false)
@@ -121,4 +120,3 @@ class LoadMoreActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
     }
 }
-

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import com.kotlinlibrary.utils.ktx.logs
 
 import java.util.ArrayList
 
@@ -17,6 +18,7 @@ object PermissionManifestFinder {
         try {
             info = pm.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
         } catch (e: PackageManager.NameNotFoundException) {
+            logs(e)
         }
 
         val needed = ArrayList<String>()
@@ -28,6 +30,7 @@ object PermissionManifestFinder {
                     try {
                         group = pm.getPermissionInfo(it.requestedPermissions[i], 0).group
                     } catch (e: PackageManager.NameNotFoundException) {
+                        logs(e)
                     }
 
                     if (flags and PackageInfo.REQUESTED_PERMISSION_GRANTED == 0 && group != null) {

@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.logs
 
 class ShimmerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
     FrameLayout(context, attrs, defStyle) {
@@ -372,6 +373,7 @@ class ShimmerLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         return try {
             Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8)
         } catch (e: OutOfMemoryError) {
+            logs(e)
             System.gc()
             null
         }

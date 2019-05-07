@@ -8,9 +8,9 @@ val qualityConfigDir = "$project.rootDir/settings/codequality"
 val sourceDir = "$project.rootDir"
 
 detekt {
-    toolVersion = "1.0.0.RC11"
+    toolVersion = "1.0.0-RC14"
     config = files("$qualityConfigDir/detekt/detekt.yml")
-    input = files("src/main/kotlin")
+    input = files("src/main/java")
     filters = ".*/resources/.*,.*/build/.*"
 
     baseline = file("$project.projectDir/reports/baseline.xml")

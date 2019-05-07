@@ -6,7 +6,7 @@ class EventFormatter constructor(private val namespace: String?) {
 
         if (result[0] == '.' || result[0] == '\\') {
             return result.substring(1)
-        } else if (!namespace!!.isEmpty()) {
+        } else if (namespace!!.isNotEmpty()) {
             result = "$namespace.$event"
         }
 

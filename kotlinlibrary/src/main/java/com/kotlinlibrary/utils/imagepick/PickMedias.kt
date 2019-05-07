@@ -217,7 +217,7 @@ class PickMediaExtensions {
                                 callback?.invoke(PICK_SUCCESS, mPath)
                             }
                         } catch (e: Exception) {
-                            logs(e, Log.ERROR)
+                            logs(e)
                             try {
                                 currentPhotoPath?.let {
                                     val path = Uri.parse(it).getRealPathFromURI(mContext)
@@ -228,7 +228,7 @@ class PickMediaExtensions {
                                     callback?.invoke(PICK_SUCCESS, mPath)
                                 }
                             } catch (e: Exception) {
-                                logs(e, Log.ERROR)
+                                logs(e)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -238,12 +238,12 @@ class PickMediaExtensions {
                         try {
                             callback?.invoke(PICK_SUCCESS, data?.data?.getRealPath((mContext)) as String)
                         } catch (e: Exception) {
-                            logs(e, Log.ERROR)
+                            logs(e)
                             try {
                                 val path = data?.data?.getRealPathFromURI(mContext)
                                 callback?.invoke(PICK_SUCCESS, path!!)
                             } catch (e: Exception) {
-                                logs(e, Log.ERROR)
+                                logs(e)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -253,12 +253,12 @@ class PickMediaExtensions {
                         try {
                             callback?.invoke(PICK_SUCCESS, data?.data?.getRealPath((mContext)) as String)
                         } catch (e: Exception) {
-                            logs(e, Log.ERROR)
+                            logs(e)
                             try {
                                 val path = data?.data?.getRealPathFromURI(mContext)
                                 callback?.invoke(PICK_SUCCESS, path!!)
                             } catch (e: Exception) {
-                                logs(e, Log.ERROR)
+                                logs(e)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }
@@ -275,7 +275,7 @@ class PickMediaExtensions {
                                 callback?.invoke(PICK_SUCCESS, path)
                             }
                         } catch (e: Exception) {
-                            logs(e, Log.ERROR)
+                            logs(e)
                             try {
                                 var path = data?.data?.getRealPathFromURI(mContext)
                                 if (path == null || path.isEmpty()) {
@@ -286,7 +286,7 @@ class PickMediaExtensions {
                                     callback?.invoke(PICK_SUCCESS, path)
                                 }
                             } catch (e: Exception) {
-                                logs(e, Log.ERROR)
+                                logs(e)
                                 toast("Fail to get image path, Please try again later.")
                             }
                         }

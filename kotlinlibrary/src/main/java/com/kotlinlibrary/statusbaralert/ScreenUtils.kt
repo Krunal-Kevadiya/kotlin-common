@@ -10,7 +10,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 
-private var titleBarHeigh = 0
+private var titleBarHeight = 0
 private val dipsMap: MutableMap<Float, Int> = mutableMapOf()
 internal fun Activity.convertDpToPixel(dp: Float): Int {
     if (dipsMap.containsKey(dp)) {
@@ -25,17 +25,17 @@ internal fun Activity.convertDpToPixel(dp: Float): Int {
 }
 
 internal fun Activity.getStatusBarHeight(): Int {
-    if (titleBarHeigh > 0) {
-        return titleBarHeigh
+    if (titleBarHeight > 0) {
+        return titleBarHeight
     }
     val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
-    titleBarHeigh = if (resourceId > 0) {
+    titleBarHeight = if (resourceId > 0) {
         this.resources.getDimensionPixelSize(resourceId)
     } else {
         convertDpToPixel(25f)
     }
 
-    return titleBarHeigh
+    return titleBarHeight
 }
 
 @SuppressLint("ObsoleteSdkInt")

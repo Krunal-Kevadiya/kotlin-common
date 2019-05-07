@@ -2,6 +2,7 @@ package com.kotlinlibrary.utils.resources
 
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
+import com.kotlinlibrary.utils.ktx.logs
 import androidx.fragment.app.Fragment as SupportFragment
 
 internal object SupportHelper {
@@ -22,6 +23,7 @@ internal object SupportHelper {
   private fun hasClass(fqname: String): Boolean = try {
     Class.forName(fqname) != null
   } catch (exception: Exception) {
+    logs(exception)
     false
   }
 }

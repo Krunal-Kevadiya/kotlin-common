@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kotlinlibrary.buttonview.RoundButton
 import java.util.*
 
-
 class ButtonViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

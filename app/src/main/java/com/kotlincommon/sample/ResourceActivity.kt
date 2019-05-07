@@ -61,7 +61,7 @@ class ResourcesFragment : Fragment() {
         textView = view.findViewById(R.id.textView)
         imageView = view.findViewById(R.id.imageView)
 
-        if(boolean) {
+        if (boolean) {
             imageView?.setImageDrawable(bitmap)
         } else {
             imageView?.setImageDrawable(vector)

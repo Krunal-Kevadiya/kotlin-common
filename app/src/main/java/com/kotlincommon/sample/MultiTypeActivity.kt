@@ -24,7 +24,7 @@ class MultiTypeActivity : AppCompatActivity() {
         adapter = recyclerView.setUpBinding {
             withDiffUtils { false }
             withContentComparator { s1, s2 -> s1 == s2 }
-            withItemsComparator { s1, s2 ->  s1.hashCode() == s2.hashCode()}
+            withItemsComparator { s1, s2 -> s1.hashCode() == s2.hashCode() }
 
             withViewType<String> {
                 withLayoutResId(R.layout.item_advertisement)

@@ -35,8 +35,8 @@ val kotlinDebugTree = fileTree("dir" to "$buildDir/tmp/kotlin-classes/debug", "e
 
 /*
 jacoco {
-    version = "0.7.9"
-    toolVersion = "0.7.9"
+    version = "0.8.3"
+    toolVersion = "0.8.3"
 }
 */
 

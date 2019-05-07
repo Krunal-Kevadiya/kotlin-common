@@ -39,6 +39,7 @@ fun Context.isPackageInstalled(packageName :String) :Boolean = try {
     packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
     true
 } catch(e :PackageManager.NameNotFoundException) {
+    logs(e)
     false
 }
 
