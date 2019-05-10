@@ -1,8 +1,11 @@
 package com.kotlinlibrary.utils.navigate
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
+import java.io.Serializable
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -13,46 +16,85 @@ import com.kotlinlibrary.R
 
 val addToBackStrack = true
 val skipToBackStrack = false
-fun Activity.launchActivity(
-    intent: Intent,
+
+inline fun <reified T: Activity> Activity.launchActivity(
     finishCurrent: Boolean = false,
-    resultCode: Int? = null
+    resultCode: Int? = null,
+    applyAnimation: Boolean = true,
+    vararg params: Pair<String, Any>) {
+    internalStartActivity(finishCurrent, resultCode, applyAnimation, T::class.java, params)
+}
+
+fun Activity.internalStartActivity(
+    finishCurrent: Boolean = false,
+    resultCode: Int? = null,
+    applyAnimation: Boolean = true,
+    activity: Class<out Activity>,
+    params: Array<out Pair<String, Any>>
 ) {
     if (finishCurrent)
         finishCurrentActivity()
     if (resultCode != null)
-        startActivityForResult(intent, resultCode)
+        startActivityForResult(createIntent(this, activity, params), resultCode)
     else
-        startActivity(intent)
-    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        startActivity(createIntent(this, activity, params))
+    if(applyAnimation)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 }
 
-inline fun <reified T : Activity> Activity.launchActivity(
-    finishCurrent: Boolean,
-    bundle: Bundle? = null,
-    resultCode: Int? = null
-) {
-    if (finishCurrent)
-        finishCurrentActivity()
-    val intent = Intent(this, T::class.java)
-    bundle?.let {
-        intent.putExtras(it)
+fun <T> createIntent(ctx: Context, clazz: Class<out T>, params: Array<out Pair<String, Any?>>): Intent {
+    val intent = Intent(ctx, clazz)
+    if (params.isNotEmpty())
+        fillIntentArguments(intent, params)
+    return intent
+}
+
+private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, Any?>>) {
+    params.forEach {
+        val value = it.second
+        when (value) {
+            null -> intent.putExtra(it.first, null as Serializable?)
+            is Int -> intent.putExtra(it.first, value)
+            is Long -> intent.putExtra(it.first, value)
+            is CharSequence -> intent.putExtra(it.first, value)
+            is String -> intent.putExtra(it.first, value)
+            is Float -> intent.putExtra(it.first, value)
+            is Double -> intent.putExtra(it.first, value)
+            is Char -> intent.putExtra(it.first, value)
+            is Short -> intent.putExtra(it.first, value)
+            is Boolean -> intent.putExtra(it.first, value)
+            is Serializable -> intent.putExtra(it.first, value)
+            is Bundle -> intent.putExtra(it.first, value)
+            is Parcelable -> intent.putExtra(it.first, value)
+            is Array<*> -> when {
+                value.isArrayOf<CharSequence>() -> intent.putExtra(it.first, value)
+                value.isArrayOf<String>() -> intent.putExtra(it.first, value)
+                value.isArrayOf<Parcelable>() -> intent.putExtra(it.first, value)
+                else -> throw Exception("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
+            }
+            is IntArray -> intent.putExtra(it.first, value)
+            is LongArray -> intent.putExtra(it.first, value)
+            is FloatArray -> intent.putExtra(it.first, value)
+            is DoubleArray -> intent.putExtra(it.first, value)
+            is CharArray -> intent.putExtra(it.first, value)
+            is ShortArray -> intent.putExtra(it.first, value)
+            is BooleanArray -> intent.putExtra(it.first, value)
+            else -> throw Exception("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
+        }
+        return@forEach
     }
-    if (resultCode != null)
-        startActivityForResult(intent, resultCode)
-    else
-        startActivity(intent)
-    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 }
 
-fun Activity.finishCurrentActivity() {
+fun Activity.finishCurrentActivity(applyAnimation: Boolean = true) {
     finish()
-    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+    if(applyAnimation)
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 }
 
-fun Activity.finishAllCurrentActivity() {
+fun Activity.finishAllCurrentActivity(applyAnimation: Boolean = true) {
     finishAffinity()
-    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+    if(applyAnimation)
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 }
 
 /**
@@ -179,7 +221,6 @@ fun AppCompatActivity.replaceChildFragment(@IdRes frameId: Int, currentFragment:
 
     if (isAddToBackStack)
         fragmentTransaction.addToBackStack(null)
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
     fragmentTransaction.commitAllowingStateLoss()
 }
 
@@ -197,7 +238,6 @@ fun AppCompatActivity.loadFragment(
         fragmentTransaction.addToBackStack(null)
     if (fragmentToTarget != null)
         fragment.setTargetFragment(fragmentToTarget, requestcode)
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
     if (transactionType == TransactionType.ADD)
         fragmentTransaction.add(frameId, fragment)
     else

@@ -6,10 +6,16 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.kotlinlibrary.R
 import com.kotlinlibrary.snackbar.util.getRootView
 
 fun Activity.setFullScreen() {
@@ -156,4 +162,44 @@ enum class SoftInputVisibility(val flag: Int) {
     SOFT_INPUT_STATE_HIDDEN(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN),
     SOFT_INPUT_STATE_VISIBLE(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE),
     SOFT_INPUT_STATE_ALWAYS_VISIBLE(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+}
+
+fun Activity.circularRevealedAtCenter(view: View) {
+    val cx = (view.left + view.right) / 2
+    val cy = (view.top + view.bottom) / 2
+    val finalRadius = Math.max(view.width, view.height)
+
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && view.isAttachedToWindow) {
+        val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0f, finalRadius.toFloat())
+        view.visible()
+        view.setBackgroundColor(ContextCompat.getColor(this, R.color.color_type_default))
+        anim.duration = 550
+        anim.start()
+    }
+}
+
+fun AppCompatActivity.simpleToolbarWithHome(toolbar: Toolbar, title_: String = "", icon_: Int = 0) {
+    setSupportActionBar(toolbar)
+    supportActionBar?.run {
+        setDisplayHomeAsUpEnabled(true)
+        if(icon_ != 0) setHomeAsUpIndicator(icon_)
+        title = title_
+    }
+}
+
+fun AppCompatActivity.applyToolbarMargin(toolbar: Toolbar) {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        toolbar.layoutParams = (toolbar.layoutParams as CollapsingToolbarLayout.LayoutParams).apply {
+            topMargin = getStatusBarSize()
+        }
+    }
+}
+
+private fun AppCompatActivity.getStatusBarSize(): Int {
+    val idStatusBarHeight = resources.getIdentifier("status_bar_height", "dimen", "android")
+    return if (idStatusBarHeight > 0) {
+        resources.getDimensionPixelSize(idStatusBarHeight)
+    } else {
+        0
+    }
 }
