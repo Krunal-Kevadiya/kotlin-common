@@ -29,11 +29,37 @@ fun Context.isLandscape() :Boolean
 fun Context.isPortrait() :Boolean
     = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-fun Context.pxToDp(pixels :Int) :Int =
-    (pixels * resources.displayMetrics.density).toInt()
+/**
+ * Converts px to dp
+ * @receiver Context
+ * @param px value in pixels that needs to be converted to dp
+ * @return dp value
+ */
+fun Context.pxToDp(px: Float) = px / this.resources.displayMetrics.density
 
-fun Context.pxToSp(pixels :Int) :Int =
-    (pixels * resources.displayMetrics.scaledDensity).toInt()
+/**
+ * Converts dp to px
+ * @receiver Context
+ * @param dp value in dp that needs to be converted to px
+ * @return px value
+ */
+fun Context.dpToPx(dp: Float) = (dp * this.resources.displayMetrics.density).toInt()
+
+/**
+ * Converts sp to px
+ * @receiver Context
+ * @param sp value in sp that needs to be converted to px
+ * @return px value
+ */
+fun Context.spToPx(sp: Float) = (sp * this.resources.displayMetrics.scaledDensity).toInt()
+
+/**
+ * Converts px to sp
+ * @receiver Context
+ * @param px value in pixels that needs to be converted to sp
+ * @return sp value
+ */
+fun Context.pxToSp(px: Float) = px / this.resources.displayMetrics.scaledDensity
 
 fun Context.isPackageInstalled(packageName :String) :Boolean = try {
     packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
