@@ -12,23 +12,6 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_15sdp">
 
-        <com.sdsmdg.harjot.materialshadows.MaterialShadowViewWrapper
-                android:id="@+id/fab_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:shadowOffsetX="15"
-                app:shadowOffsetY="30"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-
-            <ImageView
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:elevation="10dp"
-                    android:src="@drawable/bg_gradient" />
-        </com.sdsmdg.harjot.materialshadows.MaterialShadowViewWrapper>
-
         <com.kotlinlibrary.buttonview.RoundButton
                 android:id="@+id/fab_login"
                 style="@style/TextStyle"
@@ -55,7 +38,7 @@
                 android:shadowDx="10"
                 android:shadowDy="10"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fab_test"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.RoundButton
