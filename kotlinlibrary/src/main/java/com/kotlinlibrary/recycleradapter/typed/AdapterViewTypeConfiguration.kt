@@ -20,7 +20,7 @@ class AdapterViewTypeConfiguration<T> {
     internal var bindBindingHolder: Any.(Int, Any) -> Unit = {_, _ -> }
 
     internal var clickResId = ArrayList<Int>()
-    internal var clickListener: (Int, Int, T) -> Unit = {_, _, _ -> }
+    internal var clickListener: (View, Int, T) -> Unit = {_, _, _ -> }
         private set
 
     /**
@@ -56,7 +56,7 @@ class AdapterViewTypeConfiguration<T> {
         bindBindingHolder = (block as Any.(Int, Any) -> Unit)
     }
 
-    fun onClick(@IdRes vararg resId: Int, block: (Int, Int, T) -> Unit) {
+    fun onClick(@IdRes vararg resId: Int, block: (View, Int, T) -> Unit) {
         clickResId.addAll(resId.toList())
         this.clickListener = block
     }

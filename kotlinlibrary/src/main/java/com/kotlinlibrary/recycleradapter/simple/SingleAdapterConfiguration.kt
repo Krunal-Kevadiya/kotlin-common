@@ -31,7 +31,7 @@ class SingleAdapterConfiguration<T> {
         private set
 
     internal var clickResId = ArrayList<Int>()
-    internal var clickListener: (Int, Int, T) -> Unit = {_, _, _ -> }
+    internal var clickListener: (View, Int, T) -> Unit = {_, _, _ -> }
         private set
 
     internal var isDiffUtils: Boolean = true
@@ -137,7 +137,7 @@ class SingleAdapterConfiguration<T> {
         this.bindBindingHolder = block as Any.(Int, T) -> Unit
     }
 
-    fun onClick(@IdRes vararg resId: Int, block: (Int, Int, T) -> Unit) {
+    fun onClick(@IdRes vararg resId: Int, block: (View, Int, T) -> Unit) {
         clickResId.addAll(resId.toList())
         this.clickListener = block
     }
