@@ -10,7 +10,7 @@ import java.lang.reflect.Type
 import java.lang.reflect.TypeVariable
 import java.lang.reflect.WildcardType
 
-class SealedCallAdapterFactory : Factory() {
+class SealedCallAdapterFactory(private val errorType: Type) : Factory() {
     override fun get(returnType: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val rawType = returnType.rawType
         if (rawType != SealedApiResult::class.java) {
@@ -21,7 +21,7 @@ class SealedCallAdapterFactory : Factory() {
             error("SealedApiResult return type must be parameterized as SealedApiResult<Foo> or SealedApiResult<out Foo>")
         }
 
-        return SealedCallAdapter<Any>(returnType.getParameterUpperBound(0))
+        return SealedCallAdapter<Any, Any>(returnType.getParameterUpperBound(0), errorType)
     }
 }
 

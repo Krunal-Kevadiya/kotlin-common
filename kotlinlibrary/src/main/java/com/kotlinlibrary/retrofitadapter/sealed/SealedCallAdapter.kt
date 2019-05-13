@@ -10,11 +10,14 @@ import java.io.IOException
 import java.lang.reflect.Type
 import java.util.concurrent.TimeoutException
 
-internal class SealedCallAdapter<R>(private val responseType: Type) : CallAdapter<R, SealedApiResult<*>> {
+internal class SealedCallAdapter<R, E>(
+    private val responseType: Type,
+    private val errorType: Type
+) : CallAdapter<R, SealedApiResult<R, E>> {
     override fun responseType() = responseType
-    override fun adapt(call: Call<R>): SealedApiResult<R> {
+    override fun adapt(call: Call<R>): SealedApiResult<R, E> {
         return try {
-            call.execute().toSealedApiResult(responseType)
+            call.execute().toSealedApiResult(responseType, errorType)
         } catch (e: TimeoutException) {
             logs(e)
             networkBody(e)

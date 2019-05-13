@@ -3,7 +3,6 @@ package com.kotlinlibrary.retrofitadapter
 import com.google.gson.Gson
 import okhttp3.Headers
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
 import java.lang.reflect.Type
@@ -81,9 +80,10 @@ import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.ServerError5xx.Net
 import com.kotlinlibrary.retrofitadapter.SealedApiResult.Some.UnknownError.UnknownRequired
 import com.kotlinlibrary.utils.ktx.logs
 
-fun <R : Any?> Response<R>.toSealedApiResult(responseType: Type): Some<R> {
+fun <R: Any?, E: Any?> Response<R>.toSealedApiResult(responseType: Type, errorType: Type): Some<R, E> {
     return when (code) {
-        HttpStatusCode.CONTINUE -> Continue100(headers, errorBody(responseType))
+        HttpStatusCode.CONTINUE -> Continue100(headers = headers, errorBody = errorBody(errorType))
+
         HttpStatusCode.SWITCHING_PROTOCOLS -> SwitchingProtocols101(headers, errorBody(responseType))
         HttpStatusCode.PROCESSING -> Processing102(headers, errorBody(responseType))
         HttpStatusCode.EARLY_HINTS -> EarlyHints103(headers, errorBody(responseType))
@@ -169,7 +169,7 @@ private val <R> Response<R>.body: R
 private val Response<*>.headers: Headers
     get() = headers()
 
-fun <R> Response<R>.errorBody(responseType: Type): R {
+fun <R, E> Response<R>.errorBody(responseType: Type): E? {
     try {
         var message = ""
         try {
@@ -180,25 +180,14 @@ fun <R> Response<R>.errorBody(responseType: Type): R {
         return if (message.isNotEmpty()) {
             Gson().fromJson(message, responseType)
         } else {
-            Gson().fromJson(getErrorJson(httpCode = code), responseType)
+            null
         }
     } catch (e: JSONException) {
         logs(e)
-        return Gson().fromJson(getErrorJson(httpCode = code), responseType)
+        return null
     }
 }
 
-fun <R> networkBody(exception: Throwable): SealedApiResult.NetworkError<R> {
+fun <R, E> networkBody(exception: Throwable): SealedApiResult.NetworkError<R, E> {
     return SealedApiResult.NetworkError(exception)
-}
-
-fun getErrorJson(code: String = "UNKNOWN", httpCode: Int = 0, msg: String = "Error while parsing response"): String {
-    val jsonError = JSONObject()
-    jsonError.put("code", code)
-    jsonError.put("http_code", httpCode)
-    jsonError.put("message", msg)
-
-    val jsonData = JSONObject()
-    jsonData.put("error", jsonError)
-    return jsonData.toString()
 }

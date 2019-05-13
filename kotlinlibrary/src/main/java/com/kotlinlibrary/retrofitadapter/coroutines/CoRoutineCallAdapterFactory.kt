@@ -6,7 +6,7 @@ import retrofit2.*
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class CoroutineCallAdapterFactory : CallAdapter.Factory() {
+class CoRoutineCallAdapterFactory(private val errorType: Type) : CallAdapter.Factory() {
 
     override fun get(returnType: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         if (getRawType(returnType) != Deferred::class.java) {
@@ -24,6 +24,6 @@ class CoroutineCallAdapterFactory : CallAdapter.Factory() {
         }
 
         val bodyType = getParameterUpperBound(0, observableType)
-        return CoroutinesCallAdapter<Any>(bodyType)
+        return CoRoutinesCallAdapter<Any, Any>(bodyType, errorType)
     }
 }

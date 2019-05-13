@@ -1,4 +1,4 @@
-package com.kotlinlibrary.retrofitadapter.sealed
+package com.kotlinlibrary.retrofitadapter.rx
 
 import io.reactivex.Scheduler
 import retrofit2.CallAdapter
@@ -8,10 +8,15 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class RxSealedCallAdapterFactory(private val defaultScheduler: Scheduler? = null) : Factory() {
+class RxSealedCallAdapterFactory(
+    private val defaultScheduler: Scheduler? = null,
+    private val errorType: Type
+) : Factory() {
     override fun get(returnType: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val newType = WrappedType(returnType)
-        return RxSealedCallAdapter(annotations, newType, retrofit, defaultScheduler)
+        return RxSealedCallAdapter(
+            annotations, newType, retrofit, defaultScheduler, errorType
+        )
     }
 }
 

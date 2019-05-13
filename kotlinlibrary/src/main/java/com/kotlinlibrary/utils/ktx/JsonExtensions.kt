@@ -1,7 +1,10 @@
 package com.kotlinlibrary.utils.ktx
 
+import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
 import org.json.JSONObject
+
+inline fun <reified T> genericType() = object: TypeToken<T>() {}.type
 
 fun String.createJSONObject(): JSONObject? = this.convertAcceptNull({ JSONObject(this) }, null)
 

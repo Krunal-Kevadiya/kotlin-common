@@ -11,12 +11,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.reflect.Type
 
-class CoroutinesCallAdapter<T>(private val responseType: Type) : CallAdapter<T, Deferred<SealedApiResult<T>>> {
+class CoRoutinesCallAdapter<R, E>(
+    private val responseType: Type,
+    private val errorType: Type
+) : CallAdapter<R, Deferred<SealedApiResult<R, E>>> {
 
     override fun responseType() = responseType
 
-    override fun adapt(call: Call<T>): Deferred<SealedApiResult<T>> {
-        val deferred = CompletableDeferred<SealedApiResult<T>>()
+    override fun adapt(call: Call<R>): Deferred<SealedApiResult<R, E>> {
+        val deferred = CompletableDeferred<SealedApiResult<R, E>>()
 
         deferred.invokeOnCompletion {
             if (deferred.isCancelled) {
@@ -24,13 +27,13 @@ class CoroutinesCallAdapter<T>(private val responseType: Type) : CallAdapter<T, 
             }
         }
 
-        call.enqueue(object : Callback<T> {
-            override fun onFailure(call: Call<T>, throwable: Throwable) {
+        call.enqueue(object : Callback<R> {
+            override fun onFailure(call: Call<R>, throwable: Throwable) {
                 deferred.complete(networkBody(throwable))
             }
 
-            override fun onResponse(call: Call<T>, response: Response<T>) {
-                deferred.complete(response.toSealedApiResult(responseType()))
+            override fun onResponse(call: Call<R>, response: Response<R>) {
+                deferred.complete(response.toSealedApiResult(responseType, errorType))
             }
         })
 

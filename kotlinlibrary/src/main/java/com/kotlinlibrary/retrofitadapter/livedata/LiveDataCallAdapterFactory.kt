@@ -1,13 +1,14 @@
 package com.kotlinlibrary.retrofitadapter.livedata
 
 import androidx.lifecycle.LiveData
+import com.google.gson.Gson
 import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 
-class LiveDataCallAdapterFactory : CallAdapter.Factory() {
+class LiveDataCallAdapterFactory(private val errorType: Type) : CallAdapter.Factory() {
 
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         if (getRawType(returnType) != LiveData::class.java) {
@@ -25,6 +26,6 @@ class LiveDataCallAdapterFactory : CallAdapter.Factory() {
         }
 
         val bodyType = getParameterUpperBound(0, observableType)
-        return LiveDataCallAdapter<Any>(bodyType)
+        return LiveDataCallAdapter<Any, Any>(bodyType, errorType)
     }
 }

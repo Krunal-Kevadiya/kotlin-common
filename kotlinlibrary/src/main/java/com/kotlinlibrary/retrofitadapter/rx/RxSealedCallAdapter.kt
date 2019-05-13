@@ -1,4 +1,4 @@
-package com.kotlinlibrary.retrofitadapter.sealed
+package com.kotlinlibrary.retrofitadapter.rx
 
 import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import com.kotlinlibrary.retrofitadapter.toSealedApiResult
@@ -16,7 +16,8 @@ internal class RxSealedCallAdapter(
     annotations: Array<out Annotation>,
     newType: WrappedType,
     retrofit: Retrofit,
-    defaultScheduler: Scheduler?
+    defaultScheduler: Scheduler?,
+    private val errorType: Type
 ) : CallAdapter<Any, Any> {
     @Suppress("UNCHECKED_CAST")
     private val delegate =
@@ -25,20 +26,20 @@ internal class RxSealedCallAdapter(
                 newType,
                 annotations,
                 retrofit
-            ) as CallAdapter<Any, Single<Response<*>>>
+            ) as CallAdapter<Any, Single<Response<Any>>>
         else
             RxJava2CallAdapterFactory.create().get(
                 newType,
                 annotations,
                 retrofit
-            ) as CallAdapter<Any, Single<Response<*>>>
+            ) as CallAdapter<Any, Single<Response<Any>>>
 
     override fun adapt(call: Call<Any>): Any {
         val adapt = delegate.adapt(call)
         return adapt
             .map {
                 @Suppress("USELESS_CAST")
-                it.toSealedApiResult(responseType()) as SealedApiResult<Any>
+                it.toSealedApiResult<Any, Any>(responseType(), errorType) as SealedApiResult<Any, Any>
             }
             .onErrorResumeNext { throwable ->
                 return@onErrorResumeNext Single.just(networkBody(throwable))

@@ -11,14 +11,17 @@ import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
 
-class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, LiveData<SealedApiResult<R>>> {
+class LiveDataCallAdapter<R, E>(
+    private val responseType: Type,
+    private val errorType: Type
+) : CallAdapter<R, LiveData<SealedApiResult<R, E>>> {
 
     override fun responseType(): Type {
         return responseType
     }
 
-    override fun adapt(call: Call<R>): LiveData<SealedApiResult<R>> {
-        return object : LiveData<SealedApiResult<R>>() {
+    override fun adapt(call: Call<R>): LiveData<SealedApiResult<R, E>> {
+        return object : LiveData<SealedApiResult<R, E>>() {
             var started = AtomicBoolean(false)
 
             override fun onActive() {
@@ -26,7 +29,7 @@ class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Li
                 if (started.compareAndSet(false, true)) {
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
-                            postValue(response.toSealedApiResult(responseType()))
+                            postValue(response.toSealedApiResult(responseType, errorType))
                         }
 
                         override fun onFailure(call: Call<R>, throwable: Throwable) {
