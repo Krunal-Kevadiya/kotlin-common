@@ -27,7 +27,7 @@ var View.isGone: Boolean
  * Toggle's view's visibility. If View is visible, then sets to gone. Else sets Visible
  * Previously knows as toggle()
  */
-inline fun View.toggleVisibility() {
+fun View.toggleVisibility() {
     visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
 }
 
@@ -53,6 +53,7 @@ var View.translationAxisZ: Float
     get() = ViewCompat.getTranslationZ(this)
     set(value) = ViewCompat.setTranslationZ(this, value)
 
+@Suppress("DEPRECATION")
 fun View.toBitmap(): Bitmap {
     this.isDrawingCacheEnabled = true
     this.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),

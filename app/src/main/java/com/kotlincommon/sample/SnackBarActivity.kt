@@ -13,9 +13,8 @@ import com.kotlinlibrary.snackbar.util.snackBarMessage
 import com.kotlinlibrary.utils.ktx.logs
 
 class SnackBarActivity : AppCompatActivity() {
-
     lateinit var snackBarMsg: Snackbar
-z
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snackbar)

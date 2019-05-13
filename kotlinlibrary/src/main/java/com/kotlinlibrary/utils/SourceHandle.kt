@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.Fragment as SupportFragment
 
-internal fun getContextFromSource(source: Any): Context {
+@Suppress("DEPRECATION")
+fun getContextFromSource(source: Any): Context {
     return when (source) {
         is Context -> source
         is Activity -> source
@@ -27,7 +28,8 @@ internal fun getContextFromSource(source: Any): Context {
 }
 private fun throwContextException(source: Any): Nothing = throw IllegalArgumentException("Unable to get Context on type ${source.javaClass.simpleName}")
 
-internal fun getActivityFromSource(source: Any): Activity {
+@Suppress("DEPRECATION")
+fun getActivityFromSource(source: Any): Activity {
     return when (source) {
         is Context -> source as? Activity ?: throwActivityException(source)
         is Activity -> source
@@ -43,7 +45,8 @@ internal fun getActivityFromSource(source: Any): Activity {
 }
 private fun throwActivityException(source: Any): Nothing = throw IllegalArgumentException("Unable to get Activity on type ${source.javaClass.simpleName}")
 
-internal fun getFragmentActivityFromSource(source: Any): FragmentActivity {
+@Suppress("DEPRECATION")
+fun getFragmentActivityFromSource(source: Any): FragmentActivity {
     return when (source) {
         is Context -> source as? FragmentActivity ?: throwFragmentActivityException(source)
         is Activity -> source as? FragmentActivity ?: throwFragmentActivityException(source)
@@ -59,7 +62,8 @@ internal fun getFragmentActivityFromSource(source: Any): FragmentActivity {
 }
 private fun throwFragmentActivityException(source: Any): Nothing = throw IllegalArgumentException("Unable to get FragmentActivity on type ${source.javaClass.simpleName}")
 
-internal fun getAppCompatActivityFromSource(source: Any): AppCompatActivity {
+@Suppress("DEPRECATION")
+fun getAppCompatActivityFromSource(source: Any): AppCompatActivity {
     return when (source) {
         is Context -> source as? AppCompatActivity ?: throwAppCompatActivityException(source)
         is Activity -> source as? AppCompatActivity ?: throwAppCompatActivityException(source)

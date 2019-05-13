@@ -52,7 +52,7 @@ fun File.copyInputStreamToFile(inputStream: InputStream) {
 
 private fun getDataColumn(
     context :Context,
-    uri :Uri?,
+    uri :Uri,
     selection :String?,
     selectionArgs :Array<String>?
 ) :String {
@@ -137,18 +137,18 @@ infix fun Uri.getRealPathFromURI(context :Context) :String? {
         } else if(isDownloadsDocument(this)) {
             val id = DocumentsContract.getDocumentId(this)
             val contentUri = ContentUris.withAppendedId(
-                Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!)
+                Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
 
             return context.getDataColumns(contentUri, null, null)
         } else if(isMediaDocument(this)) {
             val docId = DocumentsContract.getDocumentId(this)
             val split = docId.split(":".toRegex()).dropLastWhile {it.isEmpty()}.toTypedArray()
             val type = split[0]
-            var contentUri :Uri? = null
-            when(type) {
-                "image" -> contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                "video" -> contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                "audio" -> contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            val contentUri :Uri = when(type) {
+                "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                else -> Uri.EMPTY
             }
             val selection = "_id=?"
             val selectionArgs = arrayOf(split[1])
@@ -178,7 +178,7 @@ private fun Context.getRealPathFromURIDB(contentUri :Uri) :String? {
 }
 
 private fun Context.getDataColumns(
-    uri :Uri?,
+    uri :Uri,
     selection :String?,
     selectionArgs :Array<String>?
 ) :String? {

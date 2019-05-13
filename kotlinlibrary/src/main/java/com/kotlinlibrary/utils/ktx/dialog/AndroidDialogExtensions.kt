@@ -3,14 +3,14 @@ package com.kotlinlibrary.utils.ktx.dialog
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
-import com.kotlinlibrary.utils.getContextFrom
+import com.kotlinlibrary.utils.getContextFromSource
 
 fun Any.alert(
     message: CharSequence,
     title: CharSequence? = null,
     init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
 ): AlertBuilder<AlertDialog> {
-    return AndroidAlertBuilder(getContextFrom(this)).apply {
+    return AndroidAlertBuilder(getContextFromSource(this)).apply {
         if (title != null) {
             this.title = title
         }
@@ -24,7 +24,7 @@ fun Any.alert(
     titleResource: Int? = null,
     init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
 ): AlertBuilder<DialogInterface> {
-    return AndroidAlertBuilder(getContextFrom(this)).apply {
+    return AndroidAlertBuilder(getContextFromSource(this)).apply {
         if (titleResource != null) {
             this.titleResource = titleResource
         }
@@ -35,32 +35,36 @@ fun Any.alert(
 
 fun Any.alert(
     init: AlertBuilder<DialogInterface>.() -> Unit
-): AlertBuilder<DialogInterface> = AndroidAlertBuilder(getContextFrom(this)).apply { init() }
+): AlertBuilder<DialogInterface> = AndroidAlertBuilder(getContextFromSource(this)).apply { init() }
 
+@Suppress("DEPRECATION")
 fun Any.progressDialog(
     message: Int? = null,
     title: Int? = null,
     init: (ProgressDialog.() -> Unit)? = null
 ): ProgressDialog {
-    val context = getContextFrom(this)
+    val context = getContextFromSource(this)
     return progressDialog(false, message?.let { context.getString(it) }, title?.let { context.getString(it) }, init)
 }
 
+@Suppress("DEPRECATION")
 fun Any.indeterminateProgressDialog(
     message: Int? = null,
     title: Int? = null,
     init: (ProgressDialog.() -> Unit)? = null
 ): ProgressDialog {
-    val context = getContextFrom(this)
+    val context = getContextFromSource(this)
     return progressDialog(true, message?.let { context.getString(it) }, title?.let { context.getString(it) }, init)
 }
 
+@Suppress("DEPRECATION")
 fun Any.progressDialog(
     message: CharSequence? = null,
     title: CharSequence? = null,
     init: (ProgressDialog.() -> Unit)? = null
 ) = progressDialog(false, message, title, init)
 
+@Suppress("DEPRECATION")
 fun Any.indeterminateProgressDialog(
     message: CharSequence? = null,
     title: CharSequence? = null,
@@ -68,12 +72,13 @@ fun Any.indeterminateProgressDialog(
 ) = progressDialog(true, message, title, init)
 
 
+@Suppress("DEPRECATION")
 private fun Any.progressDialog(
     indeterminate: Boolean,
     message: CharSequence? = null,
     title: CharSequence? = null,
     init: (ProgressDialog.() -> Unit)? = null
-) = ProgressDialog(getContextFrom(this)).apply {
+) = ProgressDialog(getContextFromSource(this)).apply {
     isIndeterminate = indeterminate
     if (!indeterminate) setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
     if (message != null) setMessage(message)

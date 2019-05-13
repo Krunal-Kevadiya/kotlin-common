@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.annotation.RequiresPermission
 import com.kotlinlibrary.utils.ktx.connectivityManager
 
+@Suppress("DEPRECATION")
 @get:RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 val Context.hasConnection: Boolean
     get() = connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false

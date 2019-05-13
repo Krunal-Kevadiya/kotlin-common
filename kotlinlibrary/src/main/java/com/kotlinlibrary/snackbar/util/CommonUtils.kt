@@ -90,6 +90,8 @@ private fun Activity.getAppUsableScreenSize(): Point {
     return size
 }
 
+@Suppress("DEPRECATION")
+@SuppressLint("ObsoleteSdkInt")
 inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {

@@ -1,6 +1,6 @@
 package com.kotlinlibrary.utils
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
@@ -72,7 +72,7 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
         mSoftReferenceImageView = SoftReference(imageView)
 
         mHandler = Handler()
-        if(mIsRunning == true) {
+        if(mIsRunning) {
             stop()
         }
 
@@ -94,7 +94,7 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
         else
             resIds.size - 1
         for(resId in resIds.indices) {
-            mAnimationFrames!!.put(resId, AnimationFrame(resIds[resId], interval))
+            mAnimationFrames?.put(resId, AnimationFrame(resIds[resId], interval))
         }
     }
 
@@ -104,13 +104,13 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
      * @param resIds   the res ids
      * @param interval the interval
      */
-    fun addAllFrames(context :Context, resIds :TypedArray, interval :Int, size :Int) {
-        if(size == 0)
-            mSize = size
+    fun addAllFrames(resIds :TypedArray, interval :Int, size :Int) {
+        mSize = if(size == 0)
+            size
         else
-            mSize = resIds.length() - 1
+            resIds.length() - 1
         for(resId in 0 until resIds.length()) {
-            mAnimationFrames!!.put(resId, AnimationFrame(resIds.getResourceId(resId, -1), interval))
+            mAnimationFrames?.put(resId, AnimationFrame(resIds.getResourceId(resId, -1), interval))
         }
     }
 
@@ -121,14 +121,14 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
      */
     fun removeFrame(index :Int) {
         val key = mAnimationFrames!!.keyAt(index)
-        mAnimationFrames!!.remove(key)
+        mAnimationFrames?.remove(key)
     }
 
     /**
      * clear all frames
      */
     fun removeAllFrames() {
-        mAnimationFrames!!.clear()
+        mAnimationFrames?.clear()
     }
 
     /**
@@ -140,7 +140,7 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
      */
     fun replaceFrame(index :Int, resId :Int, interval :Int) {
         val key = mAnimationFrames!!.keyAt(index)
-        mAnimationFrames!!.append(key, AnimationFrame(resId, interval))
+        mAnimationFrames?.append(key, AnimationFrame(resId, interval))
     }
 
     /**
@@ -170,9 +170,8 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
         mShouldRun = true
         if(mIsRunning)
             return
-        if(mOnAnimationListener != null)
-            mOnAnimationListener!!.onAnimationStart()
-        mHandler!!.post(FramesSequenceAnimation())
+        mOnAnimationListener?.onAnimationStart()
+        mHandler?.post(FramesSequenceAnimation())
     }
 
     /**
@@ -189,8 +188,7 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
             val imageView = mSoftReferenceImageView!!.get()
             if(!mShouldRun || imageView == null) {
                 mIsRunning = false
-                if(mOnAnimationListener != null)
-                    mOnAnimationListener!!.onAnimationStopped()
+                mOnAnimationListener?.onAnimationStopped()
                 return
             }
             mIsRunning = true
@@ -199,25 +197,23 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
                 val frame = next
                 val task = GetImageDrawableTask(imageView)
                 task.execute(frame.resourceId)
-                if(mOnAnimationListener != null)
-                    mOnAnimationListener!!.onAnimationFrameChanged(mIndex)
+                mOnAnimationListener?.onAnimationFrameChanged(mIndex)
 
                 if(mIndex == mSize) {
                     if(isLooping) {
-                        mHandler!!.postDelayed(this, intTimeInterval.toLong())
-                        if(mOnAnimationListener != null)
-                            mOnAnimationListener!!.onAnimationRestart()
+                        mHandler?.postDelayed(this, intTimeInterval.toLong())
+                        mOnAnimationListener?.onAnimationRestart()
                     } else {
                         stop()
-                        if(mOnAnimationListener != null)
-                            mOnAnimationListener!!.onAnimationStopped()
+                        mOnAnimationListener?.onAnimationStopped()
                     }
                 } else
-                    mHandler!!.postDelayed(this, frame.duration.toLong())
+                    mHandler?.postDelayed(this, frame.duration.toLong())
             }
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     inner class GetImageDrawableTask(private val mImageView :ImageView) :AsyncTask<Int, Void, Drawable>() {
         override fun doInBackground(vararg params :Int?) :Drawable? {
             return params[0]?.let { ContextCompat.getDrawable(mImageView.context, it)}
@@ -227,8 +223,7 @@ class FasterAnimationsContainer(imageView :ImageView, private val intTimeInterva
             super.onPostExecute(result)
             if(result != null)
                 mImageView.setImageDrawable(result)
-            if(mOnAnimationListener != null)
-                mOnAnimationListener!!.onAnimationFrameChanged(mIndex)
+            mOnAnimationListener?.onAnimationFrameChanged(mIndex)
         }
     }
 }

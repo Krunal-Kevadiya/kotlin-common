@@ -44,23 +44,23 @@ class RxErrorHandlingCallAdapterFactory(val context: Context) : CallAdapter.Fact
             val result = wrappedCallAdapter?.adapt(call)
             if (result is Single<*>) {
                 return result.onErrorResumeNext { throwable: Throwable ->
-                    Single.error(asRetrofitException(throwable, context, retrofit))
+                    Single.error(asRetrofitException(throwable, retrofit))
                 }
             }
             if (result is Observable<*>) {
                 return result.onErrorResumeNext { throwable: Throwable ->
-                    Observable.error(asRetrofitException(throwable, context, retrofit))
+                    Observable.error(asRetrofitException(throwable, retrofit))
                 }
             }
             if (result is Completable) {
                 return result.onErrorResumeNext { throwable ->
-                    Completable.error(asRetrofitException(throwable, context, retrofit))
+                    Completable.error(asRetrofitException(throwable, retrofit))
                 }
             }
             return result
         }
 
-        private fun asRetrofitException(throwable: Throwable, context: Context, retrofit: Retrofit): RetrofitException {
+        private fun asRetrofitException(throwable: Throwable, retrofit: Retrofit): RetrofitException {
             return when (throwable) {
                 is UnknownHostException -> RetrofitException.networkError(throwable)
                 is MalformedJsonException -> RetrofitException.malformedJsonError(throwable)

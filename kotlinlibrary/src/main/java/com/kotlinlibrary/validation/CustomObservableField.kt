@@ -5,6 +5,7 @@ import androidx.databinding.Observable
 
 import java.io.Serializable
 
+@Suppress("FINAL_UPPER_BOUND")
 open class CustomObservableField<T, D : String> : BaseObservable, Serializable {
     private var mValue: T? = null
     private var mError: D? = null

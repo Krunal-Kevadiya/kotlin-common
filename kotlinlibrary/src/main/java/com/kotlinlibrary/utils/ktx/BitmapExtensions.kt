@@ -84,6 +84,7 @@ fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
     return this
 }
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 private fun Context.getOutputMediaFile() :File {
     val picName = UUID.randomUUID().toString().replace("-".toRegex(), "") + ".jpg"
     val folder = this.getExternalFilesDir(null)

@@ -11,8 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.kotlinlibrary.R
-import com.kotlinlibrary.utils.getActivityFrom
-import com.kotlinlibrary.utils.getAppCompatActivityFrom
+import com.kotlinlibrary.utils.getActivityFromSource
+import com.kotlinlibrary.utils.getAppCompatActivityFromSource
 
 //For Activity
 inline fun <reified T : Activity> Any.launchActivity(
@@ -33,7 +33,7 @@ fun Any.internalStartActivity(
     resultCode: Int? = null,
     params: Array<out Pair<String, Any>>
 ) {
-    val activity = getActivityFrom(this)
+    val activity = getActivityFromSource(this)
     if (finishCurrent)
         finishCurrentActivity()
     if (resultCode != null)
@@ -94,14 +94,14 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
 }
 
 fun Any.finishCurrentActivity(applyAnimation: Boolean = true) {
-    val activity = getActivityFrom(this)
+    val activity = getActivityFromSource(this)
     activity.finish()
     if (applyAnimation)
         activity.overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 }
 
 fun Any.finishAllCurrentActivity(applyAnimation: Boolean = true) {
-    val activity = getActivityFrom(this)
+    val activity = getActivityFromSource(this)
     activity.finishAffinity()
     if (applyAnimation)
         activity.overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
@@ -113,7 +113,7 @@ fun Any.showFragment(
     fragment: Fragment,
     func: NavigationOptions.() -> Unit = {}
 ) {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     val options = NavigationOptions()
     func.invoke(options)
     val fragmentManager = activity.supportFragmentManager
@@ -172,7 +172,7 @@ fun Any.showDialogFragment(
     dialogFragment: DialogFragment,
     func: NavigationOptions.() -> Unit = {}
 ) {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     val options = NavigationOptions()
     func.invoke(options)
     val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
@@ -200,22 +200,22 @@ fun Any.showDialogFragment(
 }
 
 fun Any.getCurrentFragmentManager(): FragmentManager? {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     return activity.supportFragmentManager
 }
 
 fun Any.getCurrentActiveFragment(@IdRes frameId: Int): Fragment? {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     return activity.supportFragmentManager.findFragmentById(frameId)
 }
 
 fun Any.clearAllFragment() {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     activity.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
 fun Any.onBackTrackFragment(): Boolean {
-    val activity = getAppCompatActivityFrom(this)
+    val activity = getAppCompatActivityFromSource(this)
     val fragmentManager = activity.supportFragmentManager
     return if (fragmentManager.backStackEntryCount != 0) {
         fragmentManager.popBackStack()

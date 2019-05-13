@@ -55,17 +55,17 @@ interface AlertBuilder<out D : DialogInterface> {
     fun show(): D
 }
 
-inline fun AlertBuilder<*>.okButton(noinline handler: (dialog: DialogInterface) -> Unit) =
+fun AlertBuilder<*>.okButton(handler: (dialog: DialogInterface) -> Unit) =
     positiveButton(android.R.string.ok, handler)
 
-inline fun AlertBuilder<*>.cancelButton(noinline handler: (dialog: DialogInterface) -> Unit) =
+fun AlertBuilder<*>.cancelButton(handler: (dialog: DialogInterface) -> Unit) =
     negativeButton(android.R.string.cancel, handler)
 
-inline fun AlertBuilder<*>.yesButton(noinline handler: (dialog: DialogInterface) -> Unit) =
+fun AlertBuilder<*>.yesButton(handler: (dialog: DialogInterface) -> Unit) =
     positiveButton(android.R.string.yes, handler)
 
-inline fun AlertBuilder<*>.noButton(noinline handler: (dialog: DialogInterface) -> Unit) =
+fun AlertBuilder<*>.noButton(handler: (dialog: DialogInterface) -> Unit) =
     negativeButton(android.R.string.no, handler)
 
-inline fun AlertBuilder<*>.customButton(@StringRes buttonLabel: Int, noinline handler: (dialog: DialogInterface) -> Unit) =
+fun AlertBuilder<*>.customButton(@StringRes buttonLabel: Int, handler: (dialog: DialogInterface) -> Unit) =
     positiveButton(buttonLabel, handler)

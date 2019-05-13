@@ -7,8 +7,8 @@ import com.kotlinlibrary.utils.ktx.logs
 import androidx.fragment.app.Fragment as SupportFragment
 
 internal object SupportHelper {
-    private val FQNAME_SUPPORT_FRAGMENT = "androidx.fragment.app.Fragment"
-    private val FQNAME_RECYCLER_HOLDER = "androidx.recyclerview.widget.RecyclerView.ViewHolder"
+    private const val FQNAME_SUPPORT_FRAGMENT = "androidx.fragment.app.Fragment"
+    private const val FQNAME_RECYCLER_HOLDER = "androidx.recyclerview.widget.RecyclerView.ViewHolder"
 
     private val HAS_SUPPORT_FRAGMENTS = hasClass(FQNAME_SUPPORT_FRAGMENT)
     private val HAS_RECYCLER_HOLDER = hasClass(FQNAME_RECYCLER_HOLDER)

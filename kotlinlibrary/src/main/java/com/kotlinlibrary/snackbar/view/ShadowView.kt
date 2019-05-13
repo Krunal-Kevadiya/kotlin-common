@@ -25,6 +25,7 @@ internal class ShadowView @JvmOverloads constructor(
         }
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("ObsoleteSdkInt")
     private fun setShadow(@DrawableRes id: Int) {
         val shadow = ContextCompat.getDrawable(context, id)

@@ -379,6 +379,7 @@ class ShimmerLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getColor(id: Int): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.getColor(id)

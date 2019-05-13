@@ -70,6 +70,7 @@ fun Any.confirm(
     }
 }
 
+@Suppress("DEPRECATION")
 @JvmOverloads
 fun Any.progress(message: String, cancelable: Boolean = true, title: String = ""): DialogInterface {
     return ProgressDialog(getContextFromSource(this)).apply {

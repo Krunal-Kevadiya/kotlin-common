@@ -55,6 +55,7 @@ class AmazonManager private constructor(
         return snsClient
     }
 
+    @Suppress("DEPRECATION")
     private fun transferUtility(context: Context): TransferUtility {
         val tuOptions = TransferUtilityOptions()
         tuOptions.transferServiceCheckTimeInterval = 5 * 60 * 1000

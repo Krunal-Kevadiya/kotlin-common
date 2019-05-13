@@ -53,7 +53,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         if (!isMarginCompensationApplied) {
             isMarginCompensationApplied = true
 
-            val params = layoutParams as ViewGroup.MarginLayoutParams
+            val params = layoutParams as MarginLayoutParams
             when (gravity) {
                 TOP -> params.topMargin = -topCompensationMargin
                 BOTTOM -> params.bottomMargin = -bottomCompensationMargin
@@ -110,6 +110,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         this.parentSnackbarContainer = snackbarContainerView
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("ObsoleteSdkInt")
     internal fun setBarBackgroundDrawable(drawable: Drawable?) {
         if (drawable == null) return
@@ -168,6 +169,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<TextView>(R.id.fbTitle).setTextColor(color)
     }
 
+    @Suppress("DEPRECATION")
     internal fun setTitleAppearance(titleAppearance: Int?) {
         if (titleAppearance == null) return
 
@@ -212,6 +214,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<TextView>(R.id.fbMessage).setTextColor(color)
     }
 
+    @Suppress("DEPRECATION")
     internal fun setMessageAppearance(messageAppearance: Int?) {
         if (messageAppearance == null) return
 
@@ -256,6 +259,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<SbButton>(R.id.fbPrimaryAction).setTextColor(color)
     }
 
+    @Suppress("DEPRECATION")
     internal fun setPrimaryActionTextAppearance(messageAppearance: Int?) {
         if (messageAppearance == null) return
 
@@ -310,6 +314,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<SbButton>(R.id.fbPositiveAction).setTextColor(color)
     }
 
+    @Suppress("DEPRECATION")
     internal fun setPositiveActionTextAppearance(messageAppearance: Int?) {
         if (messageAppearance == null) return
 
@@ -364,6 +369,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         findViewById<SbButton>(R.id.fbNegativeAction).setTextColor(color)
     }
 
+    @Suppress("DEPRECATION")
     internal fun setNegativeActionTextAppearance(messageAppearance: Int?) {
         if (messageAppearance == null) return
 

@@ -2,7 +2,7 @@ package com.kotlinlibrary.utils.ktx.dialog
 
 import android.content.Context
 import android.content.DialogInterface
-import com.kotlinlibrary.utils.getContextFrom
+import com.kotlinlibrary.utils.getContextFromSource
 
 typealias AlertBuilderFactory<D> = (Context) -> AlertBuilder<D>
 
@@ -12,7 +12,7 @@ fun <D : DialogInterface> Any.alert(
     title: String? = null,
     init: (AlertBuilder<D>.() -> Unit)? = null
 ): AlertBuilder<D> {
-    return factory(getContextFrom(this)).apply {
+    return factory(getContextFromSource(this)).apply {
         if (title != null) {
             this.title = title
         }
@@ -27,7 +27,7 @@ fun <D : DialogInterface> Any.alert(
     titleResource: Int? = null,
     init: (AlertBuilder<D>.() -> Unit)? = null
 ): AlertBuilder<D> {
-    return factory(getContextFrom(this)).apply {
+    return factory(getContextFromSource(this)).apply {
         if (titleResource != null) {
             this.titleResource = titleResource
         }
@@ -39,4 +39,4 @@ fun <D : DialogInterface> Any.alert(
 fun <D : DialogInterface> Any.alert(
     factory: AlertBuilderFactory<D>,
     init: AlertBuilder<D>.() -> Unit
-): AlertBuilder<D> = factory(getContextFrom(this)).apply { init() }
+): AlertBuilder<D> = factory(getContextFromSource(this)).apply { init() }

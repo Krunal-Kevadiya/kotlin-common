@@ -1,7 +1,7 @@
 package com.kotlinlibrary.utils.ktx.dialog
 
 import android.content.DialogInterface
-import com.kotlinlibrary.utils.getContextFrom
+import com.kotlinlibrary.utils.getContextFromSource
 
 fun <D : DialogInterface> Any.selector(
     factory: AlertBuilderFactory<D>,
@@ -9,7 +9,7 @@ fun <D : DialogInterface> Any.selector(
     items: List<CharSequence>,
     onClick: (DialogInterface, CharSequence, Int) -> Unit
 ) {
-    with(factory(getContextFrom(this))) {
+    with(factory(getContextFromSource(this))) {
         if (title != null) {
             this.title = title
         }

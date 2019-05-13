@@ -1,10 +1,13 @@
 package com.kotlinlibrary.utils.ktx
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.util.Base64
 import com.kotlinlibrary.utils.getContextFromSource
 import java.security.MessageDigest
 
+@Suppress("DEPRECATION")
+@SuppressLint("PackageManagerGetSignatures")
 fun Any.getKeyHash(): String {
     val context = getContextFromSource(this)
     val hashList: ArrayList<String> = ArrayList()

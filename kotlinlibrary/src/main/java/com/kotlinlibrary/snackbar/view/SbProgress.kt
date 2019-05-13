@@ -66,23 +66,23 @@ class SbProgress : View {
         val viewWidth = circleRadius + this.paddingLeft + this.paddingRight
         val viewHeight = circleRadius + this.paddingTop + this.paddingBottom
 
-        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
-        val widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
-        val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
-        val heightSize = View.MeasureSpec.getSize(heightMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
         val width: Int
         val height: Int
 
         width = when (widthMode) {
-            View.MeasureSpec.EXACTLY -> widthSize
-            View.MeasureSpec.AT_MOST -> Math.min(viewWidth, widthSize)
+            MeasureSpec.EXACTLY -> widthSize
+            MeasureSpec.AT_MOST -> Math.min(viewWidth, widthSize)
             else -> viewWidth
         }
 
-        height = if (heightMode == View.MeasureSpec.EXACTLY || widthMode == View.MeasureSpec.EXACTLY) {
+        height = if (heightMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.EXACTLY) {
             heightSize
-        } else if (heightMode == View.MeasureSpec.AT_MOST) {
+        } else if (heightMode == MeasureSpec.AT_MOST) {
             Math.min(viewHeight, heightSize)
         } else {
             viewHeight
@@ -367,9 +367,10 @@ class SbProgress : View {
         }
     }
 
+    @Suppress("DEPRECATION")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setAnimationEnabled() {
-        val currentApiVersion = android.os.Build.VERSION.SDK_INT
+        val currentApiVersion = Build.VERSION.SDK_INT
 
         val animationValue: Float
         animationValue = if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -496,7 +497,7 @@ class SbProgress : View {
         fun onProgressUpdate(progress: Float)
     }
 
-    internal class WheelSavedState : View.BaseSavedState {
+    internal class WheelSavedState : BaseSavedState {
         var mProgress: Float = 0.toFloat()
         var mTargetProgress: Float = 0.toFloat()
         var isSpinning: Boolean = false
