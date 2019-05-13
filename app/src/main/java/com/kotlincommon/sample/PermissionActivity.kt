@@ -17,14 +17,16 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun appendText(textView: TextView, text: String) {
-        textView.post { textView.text = textView.text.toString() + "\n" + text }
+        textView.post { textView.text = "${textView.text}\n$text" }
     }
 
     // Using Lazy DSL
-    private val permission: RuntimePermission by
-        bindPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) {
-            setResult(it)
-        }
+    private val permission: RuntimePermission by bindPermission(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    ) {
+        setResult(it)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

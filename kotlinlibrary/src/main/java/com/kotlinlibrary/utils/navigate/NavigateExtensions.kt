@@ -7,14 +7,15 @@ import android.os.Bundle
 import android.os.Parcelable
 import java.io.Serializable
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.getActivityFrom
+import com.kotlinlibrary.utils.getAppCompatActivityFrom
 
 //For Activity
-inline fun <reified T : Activity> Activity.launchActivity(
+inline fun <reified T : Activity> Any.launchActivity(
     finishCurrent: Boolean = false,
     applyAnimation: Boolean = true,
     flags: Int? = null,
@@ -24,22 +25,23 @@ inline fun <reified T : Activity> Activity.launchActivity(
     internalStartActivity(finishCurrent, applyAnimation, flags, T::class.java, resultCode, params)
 }
 
-fun Activity.internalStartActivity(
+fun Any.internalStartActivity(
     finishCurrent: Boolean = false,
     applyAnimation: Boolean = true,
     flags: Int? = null,
-    activity: Class<out Activity>,
+    activityClass: Class<out Activity>,
     resultCode: Int? = null,
     params: Array<out Pair<String, Any>>
 ) {
+    val activity = getActivityFrom(this)
     if (finishCurrent)
         finishCurrentActivity()
     if (resultCode != null)
-        startActivityForResult(createIntent(this, activity, flags, params), resultCode)
+        activity.startActivityForResult(createIntent(activity, activityClass, flags, params), resultCode)
     else
-        startActivity(createIntent(this, activity, flags, params))
+        activity.startActivity(createIntent(activity, activityClass, flags, params))
     if (applyAnimation)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 }
 
 fun <T> createIntent(
@@ -91,27 +93,30 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
     }
 }
 
-fun Activity.finishCurrentActivity(applyAnimation: Boolean = true) {
-    finish()
+fun Any.finishCurrentActivity(applyAnimation: Boolean = true) {
+    val activity = getActivityFrom(this)
+    activity.finish()
     if (applyAnimation)
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+        activity.overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 }
 
-fun Activity.finishAllCurrentActivity(applyAnimation: Boolean = true) {
-    finishAffinity()
+fun Any.finishAllCurrentActivity(applyAnimation: Boolean = true) {
+    val activity = getActivityFrom(this)
+    activity.finishAffinity()
     if (applyAnimation)
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+        activity.overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 }
 
 //Fragment
-fun AppCompatActivity.showFragment(
+fun Any.showFragment(
     @IdRes frameId: Int,
     fragment: Fragment,
     func: NavigationOptions.() -> Unit = {}
 ) {
+    val activity = getAppCompatActivityFrom(this)
     val options = NavigationOptions()
     func.invoke(options)
-    val fragmentManager = supportFragmentManager
+    val fragmentManager = activity.supportFragmentManager
     val fragmentTransaction = fragmentManager.beginTransaction()
     if (options.addToBackStack)
         fragmentTransaction.addToBackStack(null)
@@ -133,11 +138,12 @@ fun AppCompatActivity.showFragment(
     fragmentTransaction.commitAllowingStateLoss()
 }
 
-fun AppCompatActivity.showChildFragment(
+fun Any.showChildFragment(
     @IdRes frameId: Int,
     fragment: Fragment,
     func: NavigationOptions.() -> Unit = {}
 ) {
+    //val activity = getAppCompatActivityFrom(this)
     val options = NavigationOptions()
     func.invoke(options)
     val fragmentManager = options.childFragmentOption.parentFragment!!.childFragmentManager
@@ -162,13 +168,14 @@ fun AppCompatActivity.showChildFragment(
     fragmentTransaction.commitAllowingStateLoss()
 }
 
-fun AppCompatActivity.showDialogFragment(
+fun Any.showDialogFragment(
     dialogFragment: DialogFragment,
     func: NavigationOptions.() -> Unit = {}
 ) {
+    val activity = getAppCompatActivityFrom(this)
     val options = NavigationOptions()
     func.invoke(options)
-    val fragmentTransaction = supportFragmentManager.beginTransaction()
+    val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
     if (options.addToBackStack)
         fragmentTransaction.addToBackStack(null)
 
@@ -192,61 +199,27 @@ fun AppCompatActivity.showDialogFragment(
     fragmentTransaction.commitAllowingStateLoss()
 }
 
-fun AppCompatActivity.getCurrentFragmentManager(): FragmentManager? {
-    return supportFragmentManager
+fun Any.getCurrentFragmentManager(): FragmentManager? {
+    val activity = getAppCompatActivityFrom(this)
+    return activity.supportFragmentManager
 }
 
-fun AppCompatActivity.getCurrentActiveFragment(@IdRes frameId: Int): Fragment? {
-    return supportFragmentManager.findFragmentById(frameId)
+fun Any.getCurrentActiveFragment(@IdRes frameId: Int): Fragment? {
+    val activity = getAppCompatActivityFrom(this)
+    return activity.supportFragmentManager.findFragmentById(frameId)
 }
 
-fun AppCompatActivity.clearAllFragment() {
-    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+fun Any.clearAllFragment() {
+    val activity = getAppCompatActivityFrom(this)
+    activity.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
-fun AppCompatActivity.onBackTrackFragment(): Boolean {
-    val fragmentManager = supportFragmentManager
+fun Any.onBackTrackFragment(): Boolean {
+    val activity = getAppCompatActivityFrom(this)
+    val fragmentManager = activity.supportFragmentManager
     return if (fragmentManager.backStackEntryCount != 0) {
         fragmentManager.popBackStack()
         true
     } else
         false
-}
-
-/**
- * Fragment
- */
-fun Fragment.showFragment(
-    @IdRes frameId: Int,
-    fragment: Fragment,
-    func: NavigationOptions.() -> Unit = {}
-) {
-    (context as AppCompatActivity).showFragment(frameId, fragment, func)
-}
-
-fun Fragment.showChildFragment(
-    @IdRes frameId: Int,
-    fragment: Fragment,
-    func: NavigationOptions.() -> Unit = {}
-) {
-    (context as AppCompatActivity).showChildFragment(frameId, fragment, func)
-}
-
-fun Fragment.showDialogFragment(
-    dialogFragment: DialogFragment,
-    func: NavigationOptions.() -> Unit = {}
-) {
-    (context as AppCompatActivity).showDialogFragment(dialogFragment, func)
-}
-
-fun Fragment.getCurrentFragmentManager(): FragmentManager? {
-    return (context as AppCompatActivity).getCurrentFragmentManager()
-}
-
-fun Fragment.getCurrentActiveFragment(@IdRes frameId: Int): Fragment? {
-    return (context as AppCompatActivity).getCurrentActiveFragment(frameId)
-}
-
-fun Fragment.clearAllFragment() {
-    (context as AppCompatActivity).clearAllFragment()
 }

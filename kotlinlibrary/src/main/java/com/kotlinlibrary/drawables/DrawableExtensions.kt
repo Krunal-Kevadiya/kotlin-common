@@ -1,6 +1,5 @@
 package com.kotlinlibrary.drawables
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -12,6 +11,7 @@ import androidx.annotation.DrawableRes
 import com.kotlinlibrary.R
 import com.kotlinlibrary.drawables.badge.BadgePosition
 import com.kotlinlibrary.drawables.badge.DrawableBadge
+import com.kotlinlibrary.utils.getContextFromSource
 import java.util.*
 
 fun buildTextDrawable(text: String, width: Int = 500, height: Int = 500, argColor: Int = 0): Bitmap {
@@ -46,7 +46,7 @@ fun buildTextDrawable(text: String, width: Int = 500, height: Int = 500, argColo
     return bmp
 }
 
-fun Context.buildCounterDrawable(
+fun Any.buildCounterDrawable(
     count: Int,
     @DrawableRes bgImageId: Int = R.drawable.ic_person,
     @ColorRes bgColor: Int = R.color.color_type_warning,
@@ -58,7 +58,7 @@ fun Context.buildCounterDrawable(
     @DimenRes borderSize: Int = R.dimen.default_badge_border_size,
     maxCounter: Int = 99
 ): Drawable {
-    return DrawableBadge.Builder(applicationContext)
+    return DrawableBadge.Builder(getContextFromSource(this))
         .drawableResId(bgImageId)
         .badgeColor(bgColor)
         .badgeSize(badgeSize)

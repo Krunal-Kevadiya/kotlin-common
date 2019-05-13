@@ -1,16 +1,15 @@
 package com.kotlinlibrary.utils.ktx
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Base64
+import com.kotlinlibrary.utils.getContextFromSource
 import java.security.MessageDigest
 
-@SuppressLint("PackageManagerGetSignatures")
-fun Context.getKeyHash(): String {
+fun Any.getKeyHash(): String {
+    val context = getContextFromSource(this)
     val hashList: ArrayList<String> = ArrayList()
     try {
-        val info = this.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+        val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
         for (signature in info.signatures) {
             val md = MessageDigest.getInstance("SHA")
             md.update(signature.toByteArray())

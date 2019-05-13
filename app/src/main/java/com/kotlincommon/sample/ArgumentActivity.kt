@@ -12,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kotlinlibrary.utils.arguments.bindArgument
 import com.kotlinlibrary.utils.arguments.bindOptionalArgument
-
-
+import com.kotlinlibrary.utils.ktx.windowManager
 
 class ArgumentActivity : AppCompatActivity() {
 

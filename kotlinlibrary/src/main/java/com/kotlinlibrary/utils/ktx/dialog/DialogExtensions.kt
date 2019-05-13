@@ -1,33 +1,18 @@
 package com.kotlinlibrary.utils.ktx.dialog
 
-import android.app.Fragment
 import android.content.Context
 import android.content.DialogInterface
-import androidx.fragment.app.Fragment as SupportFragment
+import com.kotlinlibrary.utils.getContextFrom
 
 typealias AlertBuilderFactory<D> = (Context) -> AlertBuilder<D>
 
-inline fun <D : DialogInterface> SupportFragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    message: String,
-    title: String? = null,
-    noinline init: (AlertBuilder<D>.() -> Unit)? = null
-) = requireContext().alert(factory, message, title, init)
-
-inline fun <D : DialogInterface> Fragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    message: String,
-    title: String? = null,
-    noinline init: (AlertBuilder<D>.() -> Unit)? = null
-) = activity.alert(factory, message, title, init)
-
-fun <D : DialogInterface> Context.alert(
+fun <D : DialogInterface> Any.alert(
     factory: AlertBuilderFactory<D>,
     message: String,
     title: String? = null,
     init: (AlertBuilder<D>.() -> Unit)? = null
 ): AlertBuilder<D> {
-    return factory(this).apply {
+    return factory(getContextFrom(this)).apply {
         if (title != null) {
             this.title = title
         }
@@ -36,27 +21,13 @@ fun <D : DialogInterface> Context.alert(
     }
 }
 
-inline fun <D : DialogInterface> SupportFragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    message: Int,
-    title: Int? = null,
-    noinline init: (AlertBuilder<D>.() -> Unit)? = null
-) = requireContext().alert(factory, message, title, init)
-
-inline fun <D : DialogInterface> Fragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    message: Int,
-    title: Int? = null,
-    noinline init: (AlertBuilder<D>.() -> Unit)? = null
-) = activity.alert(factory, message, title, init)
-
-fun <D : DialogInterface> Context.alert(
+fun <D : DialogInterface> Any.alert(
     factory: AlertBuilderFactory<D>,
     messageResource: Int,
     titleResource: Int? = null,
     init: (AlertBuilder<D>.() -> Unit)? = null
 ): AlertBuilder<D> {
-    return factory(this).apply {
+    return factory(getContextFrom(this)).apply {
         if (titleResource != null) {
             this.titleResource = titleResource
         }
@@ -65,17 +36,7 @@ fun <D : DialogInterface> Context.alert(
     }
 }
 
-inline fun <D : DialogInterface> SupportFragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    noinline init: AlertBuilder<D>.() -> Unit
-) = requireContext().alert(factory, init)
-
-inline fun <D : DialogInterface> Fragment.alert(
-    noinline factory: AlertBuilderFactory<D>,
-    noinline init: AlertBuilder<D>.() -> Unit
-) = activity.alert(factory, init)
-
-fun <D : DialogInterface> Context.alert(
+fun <D : DialogInterface> Any.alert(
     factory: AlertBuilderFactory<D>,
     init: AlertBuilder<D>.() -> Unit
-): AlertBuilder<D> = factory(this).apply { init() }
+): AlertBuilder<D> = factory(getContextFrom(this)).apply { init() }

@@ -1,10 +1,10 @@
 package com.kotlinlibrary.snackbar.util
 
-import android.app.Activity
 import android.graphics.Typeface
 import androidx.annotation.IntDef
-import com.kotlinlibrary.snackbar.Snackbar
 import com.kotlinlibrary.R
+import com.kotlinlibrary.snackbar.Snackbar
+import com.kotlinlibrary.utils.getActivityFromSource
 
 object SnackBatType {
     const val INFO = 1
@@ -25,7 +25,7 @@ object SnackBatType {
 )
 annotation class SnackBatTypes
 
-fun Activity.snackBarMessage(
+fun Any.snackBarMessage(
     @SnackBatTypes types: Int,
     msg: String,
     font: Typeface? = null,
@@ -34,7 +34,7 @@ fun Activity.snackBarMessage(
     fontSize: Float = 18f,
     gravity: Snackbar.Gravity = Snackbar.Gravity.TOP
 ): Snackbar.Builder {
-    val snackbar =  Snackbar.Builder(this)
+    val snackbar =  Snackbar.Builder(getActivityFromSource(this))
         .gravity(gravity)
         .duration(time)
         .title(title)

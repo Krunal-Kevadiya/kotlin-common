@@ -1,30 +1,16 @@
 package com.kotlinlibrary.utils.ktx.dialog
 
 import android.app.AlertDialog
-import android.app.Fragment
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.DialogInterface
-import androidx.fragment.app.Fragment as SupportFragment
+import com.kotlinlibrary.utils.getContextFrom
 
-inline fun Fragment.alert(
-        message: CharSequence,
-        title: CharSequence? = null,
-        noinline init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
-) = activity.alert(message, title, init)
-
-inline fun SupportFragment.alert(
+fun Any.alert(
     message: CharSequence,
     title: CharSequence? = null,
-    noinline init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
-) = requireContext().alert(message, title, init)
-
-fun Context.alert(
-        message: CharSequence,
-        title: CharSequence? = null,
-        init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
+    init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
 ): AlertBuilder<AlertDialog> {
-    return AndroidAlertBuilder(this).apply {
+    return AndroidAlertBuilder(getContextFrom(this)).apply {
         if (title != null) {
             this.title = title
         }
@@ -33,24 +19,12 @@ fun Context.alert(
     }
 }
 
-inline fun SupportFragment.alert(
-        message: Int,
-        title: Int? = null,
-        noinline init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
-) = requireContext().alert(message, title, init)
-
-inline fun Fragment.alert(
-        message: Int,
-        title: Int? = null,
-        noinline init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
-) = activity.alert(message, title, init)
-
-fun Context.alert(
-        messageResource: Int,
-        titleResource: Int? = null,
-        init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
+fun Any.alert(
+    messageResource: Int,
+    titleResource: Int? = null,
+    init: (AlertBuilder<DialogInterface>.() -> Unit)? = null
 ): AlertBuilder<DialogInterface> {
-    return AndroidAlertBuilder(this).apply {
+    return AndroidAlertBuilder(getContextFrom(this)).apply {
         if (titleResource != null) {
             this.titleResource = titleResource
         }
@@ -59,101 +33,47 @@ fun Context.alert(
     }
 }
 
-
-inline fun SupportFragment.alert(
-    noinline init: AlertBuilder<DialogInterface>.() -> Unit
-) = requireContext().alert(init)
-
-inline fun Fragment.alert(
-    noinline init: AlertBuilder<DialogInterface>.() -> Unit
-) = activity.alert(init)
-
-fun Context.alert(
+fun Any.alert(
     init: AlertBuilder<DialogInterface>.() -> Unit
-): AlertBuilder<DialogInterface> = AndroidAlertBuilder(this).apply { init() }
+): AlertBuilder<DialogInterface> = AndroidAlertBuilder(getContextFrom(this)).apply { init() }
 
-inline fun SupportFragment.progressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = requireContext().progressDialog(message, title, init)
+fun Any.progressDialog(
+    message: Int? = null,
+    title: Int? = null,
+    init: (ProgressDialog.() -> Unit)? = null
+): ProgressDialog {
+    val context = getContextFrom(this)
+    return progressDialog(false, message?.let { context.getString(it) }, title?.let { context.getString(it) }, init)
+}
 
-inline fun Fragment.progressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = activity.progressDialog(message, title, init)
+fun Any.indeterminateProgressDialog(
+    message: Int? = null,
+    title: Int? = null,
+    init: (ProgressDialog.() -> Unit)? = null
+): ProgressDialog {
+    val context = getContextFrom(this)
+    return progressDialog(true, message?.let { context.getString(it) }, title?.let { context.getString(it) }, init)
+}
 
-fun Context.progressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        init: (ProgressDialog.() -> Unit)? = null
-) = progressDialog(false, message?.let { getString(it) }, title?.let { getString(it) }, init)
-
-
-inline fun SupportFragment.indeterminateProgressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = requireContext().indeterminateProgressDialog(message, title, init)
-
-inline fun Fragment.indeterminateProgressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = activity.indeterminateProgressDialog(message, title, init)
-
-fun Context.indeterminateProgressDialog(
-        message: Int? = null,
-        title: Int? = null,
-        init: (ProgressDialog.() -> Unit)? = null
-) = progressDialog(true, message?.let { getString(it) }, title?.let { getString(it) }, init)
-
-
-inline fun SupportFragment.progressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = requireContext().progressDialog(message, title, init)
-
-inline fun Fragment.progressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = activity.progressDialog(message, title, init)
-
-fun Context.progressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        init: (ProgressDialog.() -> Unit)? = null
+fun Any.progressDialog(
+    message: CharSequence? = null,
+    title: CharSequence? = null,
+    init: (ProgressDialog.() -> Unit)? = null
 ) = progressDialog(false, message, title, init)
 
-
-inline fun SupportFragment.indeterminateProgressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = requireContext().indeterminateProgressDialog(message, title, init)
-
-inline fun Fragment.indeterminateProgressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        noinline init: (ProgressDialog.() -> Unit)? = null
-) = activity.indeterminateProgressDialog(message, title, init)
-
-fun Context.indeterminateProgressDialog(
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        init: (ProgressDialog.() -> Unit)? = null
+fun Any.indeterminateProgressDialog(
+    message: CharSequence? = null,
+    title: CharSequence? = null,
+    init: (ProgressDialog.() -> Unit)? = null
 ) = progressDialog(true, message, title, init)
 
 
-private fun Context.progressDialog(
-        indeterminate: Boolean,
-        message: CharSequence? = null,
-        title: CharSequence? = null,
-        init: (ProgressDialog.() -> Unit)? = null
-) = ProgressDialog(this).apply {
+private fun Any.progressDialog(
+    indeterminate: Boolean,
+    message: CharSequence? = null,
+    title: CharSequence? = null,
+    init: (ProgressDialog.() -> Unit)? = null
+) = ProgressDialog(getContextFrom(this)).apply {
     isIndeterminate = indeterminate
     if (!indeterminate) setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
     if (message != null) setMessage(message)

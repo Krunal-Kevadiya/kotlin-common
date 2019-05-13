@@ -3,14 +3,15 @@ package com.kotlinlibrary.utils.ktx
 import android.content.ClipData
 import android.content.Context
 import android.net.Uri
+import com.kotlinlibrary.utils.getContextFromSource
 
-fun Context.copyTextToClipboard(value: String) =
+fun Any.copyTextToClipboard(value: String) =
     ClipData.newPlainText("text", value).let {
         clipboardManager?.primaryClip = it
     }
 
-fun Context.copyUriToClipboard(uri: Uri) =
-    ClipData.newUri(contentResolver, "uri", uri).let {
+fun Any.copyUriToClipboard(uri: Uri) =
+    ClipData.newUri(getContextFromSource(this).contentResolver, "uri", uri).let {
         clipboardManager?.primaryClip = it
     }
 
@@ -19,16 +20,16 @@ fun String.copyToClipboard(context: Context, label: String) =
         context.clipboardManager?.primaryClip = it
     }
 
-fun Context.getTextFromClipboard(): CharSequence {
+fun Any.getTextFromClipboard(): CharSequence {
     val clipData = clipboardManager?.primaryClip
     if (clipData != null && clipData.itemCount > 0) {
-        return clipData.getItemAt(0).coerceToText(this)
+        return clipData.getItemAt(0).coerceToText(getContextFromSource(this))
     }
 
     return ""
 }
 
-fun Context.getUriFromClipboard(): Uri? {
+fun Any.getUriFromClipboard(): Uri? {
     val clipData = clipboardManager?.primaryClip
     if (clipData != null && clipData.itemCount > 0) {
         return clipData.getItemAt(0).uri

@@ -1,74 +1,38 @@
 package com.kotlinlibrary.permission
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.kotlinlibrary.permission.callback.*
+import com.kotlinlibrary.utils.getFragmentActivityFromSource
 
-fun FragmentActivity.bindPermission(
+fun Any.bindPermission(
     vararg permission: String,
     callback: (PermissionCallback) -> Unit
 ) = lazy(LazyThreadSafetyMode.NONE) {
-    RuntimePermission(this)
+    RuntimePermission(getFragmentActivityFromSource(this))
         .request(*permission)
         .onResponse(callback)
 }
 
-fun Fragment.bindPermission(
+fun Any.askPermission(
     vararg permission: String,
     callback: (PermissionCallback) -> Unit
-) = lazy(LazyThreadSafetyMode.NONE) {
-    RuntimePermission(activity)
-        .request(*permission)
-        .onResponse(callback)
-}
-
-fun FragmentActivity.askPermission(
-    vararg permission: String,
-    callback: (PermissionCallback) -> Unit
-) = RuntimePermission(this)
+) = RuntimePermission(getFragmentActivityFromSource(this))
         .request(*permission)
         .onResponse(callback)
 
-fun FragmentActivity.askPermission(
+fun Any.askPermission(
     vararg permission: String,
     onAccepted: (AcceptedCallback) -> Unit,
     onDenied: (ListenerCallback) -> Unit
-) = RuntimePermission(this)
+) = RuntimePermission(getFragmentActivityFromSource(this))
         .request(*permission)
         .onListener(onAccepted, onDenied)
 
-fun FragmentActivity.askPermission(
+fun Any.askPermission(
     vararg permission: String,
     onAccepted: (AcceptedCallback) -> Unit,
     onDenied: (DeniedCallback) -> Unit,
     onForeverDenied: (ForeverDeniedCallback) -> Unit
-) = RuntimePermission(this)
-        .request(*permission)
-        .onAccepted(onAccepted)
-        .onDenied(onDenied)
-        .onForeverDenied(onForeverDenied)
-
-fun Fragment.askPermission(
-    vararg permission: String,
-    callback: (PermissionCallback) -> Unit
-) = RuntimePermission(activity)
-        .request(*permission)
-        .onResponse(callback)
-
-fun Fragment.askPermission(
-    vararg permission: String,
-    onAccepted: (AcceptedCallback) -> Unit,
-    onDenied: (ListenerCallback) -> Unit
-) = RuntimePermission(activity)
-        .request(*permission)
-        .onListener(onAccepted, onDenied)
-
-fun Fragment.askPermission(
-    vararg permission: String,
-    onAccepted: (AcceptedCallback) -> Unit,
-    onDenied: (DeniedCallback) -> Unit,
-    onForeverDenied: (ForeverDeniedCallback) -> Unit
-) = RuntimePermission(activity)
+) = RuntimePermission(getFragmentActivityFromSource(this))
         .request(*permission)
         .onAccepted(onAccepted)
         .onDenied(onDenied)
