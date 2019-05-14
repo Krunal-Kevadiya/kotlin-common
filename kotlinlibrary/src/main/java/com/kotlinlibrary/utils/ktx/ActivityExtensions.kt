@@ -194,7 +194,7 @@ fun Any.simpleToolbarWithHome(toolbar: Toolbar, title_: String = "", icon_: Int 
 fun Any.applyToolbarMargin(toolbar: Toolbar) {
     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         toolbar.layoutParams = (toolbar.layoutParams as CollapsingToolbarLayout.LayoutParams).apply {
-            topMargin = getStatusBarSize()
+            topMargin = this@applyToolbarMargin.getStatusBarSize()
         }
     }
 }

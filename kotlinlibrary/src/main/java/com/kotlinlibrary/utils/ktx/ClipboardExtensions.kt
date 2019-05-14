@@ -7,12 +7,12 @@ import com.kotlinlibrary.utils.getContextFromSource
 
 fun Any.copyTextToClipboard(value: String) =
     ClipData.newPlainText("text", value).let {
-        clipboardManager?.primaryClip = it
+        this@copyTextToClipboard.clipboardManager?.primaryClip = it
     }
 
 fun Any.copyUriToClipboard(uri: Uri) =
     ClipData.newUri(getContextFromSource(this).contentResolver, "uri", uri).let {
-        clipboardManager?.primaryClip = it
+        this@copyUriToClipboard.clipboardManager?.primaryClip = it
     }
 
 fun String.copyToClipboard(context: Context, label: String) =
@@ -25,7 +25,6 @@ fun Any.getTextFromClipboard(): CharSequence {
     if (clipData != null && clipData.itemCount > 0) {
         return clipData.getItemAt(0).coerceToText(getContextFromSource(this))
     }
-
     return ""
 }
 
@@ -34,6 +33,5 @@ fun Any.getUriFromClipboard(): Uri? {
     if (clipData != null && clipData.itemCount > 0) {
         return clipData.getItemAt(0).uri
     }
-
     return null
 }
