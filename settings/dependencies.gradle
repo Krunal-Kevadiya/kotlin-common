@@ -1,0 +1,666 @@
+ext {
+    config = [
+            appType    : [
+                    app: "app"
+            ],
+            application: [
+                    propertyProject: "project",
+                    flavorDimention: "dimention"
+            ],
+            flavors    : [
+                    production : "production",
+                    qa         : "qa",
+                    client     : "client",
+                    development: "development"
+            ]
+    ]
+
+    proguardList = [
+            "$project.rootDir/settings/proguard/proguard-architecture-components.pro",
+            "$project.rootDir/settings/proguard/proguard-crashlytics-2.pro",
+            "$project.rootDir/settings/proguard/proguard-glide.pro",
+            "$project.rootDir/settings/proguard/proguard-gson.pro",
+            "$project.rootDir/settings/proguard/proguard-picasso.pro",
+            "$project.rootDir/settings/proguard/proguard-project.pro",
+            "$project.rootDir/settings/proguard/proguard-rxjava-rxandroid.pro",
+            "$project.rootDir/settings/proguard/proguard-square-okhttp3.pro",
+            "$project.rootDir/settings/proguard/proguard-square-retrofit.pro",
+            "$project.rootDir/settings/proguard/proguard-support-design.pro",
+            "$project.rootDir/settings/proguard/proguard-support-v4.pro",
+            "$project.rootDir/settings/proguard/proguard-support-v7-appcompat.pro"
+    ]
+
+    flavorFiles = [
+            production : "production",
+            qa         : "qa",
+            client     : "client",
+            development: "development",
+            project    : "project"
+    ]
+
+    versions = [
+            android     : [
+                    buildToolsVersion: "28.0.2",
+                    compileSdkVersion: 28,
+                    minSdkVersion    : 21,
+                    targetSdkVersion : 28,
+                    appVersionCode   : 1,
+                    appVersionName   : "1.0"
+            ],
+            gradlePlugin: [
+                    android  : '3.2.1',
+                    kotlin   : "1.3.31",
+                    jacoco   : "0.1.4",
+                    sonarqube: "2.7.1",
+                    detekt   : "1.0.0-RC14",
+                    spotless : "3.23.0",
+                    jitpack  : "2.1"
+            ],
+            core        : [
+                    core   : "2.1.0-beta01",
+                    common : "2.1.0-beta01",
+                    testing: "2.1.0-beta01",
+                    runtime: "2.1.0-beta01"
+            ],
+            lifecycle   : [
+                    common         : "2.2.0-alpha01",
+                    commonJava8    : "2.2.0-alpha01",
+                    compiler       : "2.2.0-alpha01",
+                    extensions     : "2.2.0-alpha01",
+                    livedata       : "2.2.0-alpha01",
+                    livedataCode   : "2.2.0-alpha01",
+                    reactiveStreams: "2.2.0-alpha01",
+                    runtime        : "2.2.0-alpha01",
+                    viewmodel      : "2.2.0-alpha01"
+            ],
+            paging      : [
+                    lib    : "2.0.0-rc01",
+                    common : "2.0.0-rc01",
+                    rxjava2: "2.0.0-rc01",
+                    runtime: "2.0.0-rc01"
+            ],
+            persistence : [
+                    common         : "2.0.0-rc01",
+                    compiler       : "2.0.0-rc01",
+                    guava          : "2.0.0-rc01",
+                    migration      : "2.0.0-rc01",
+                    runtime        : "2.0.0-rc01",
+                    rxjava2        : "2.0.0-rc01",
+                    testing        : "2.0.0-rc01",
+                    sqlite         : "2.0.0-rc01",
+                    sqliteFramework: "2.0.0-rc01"
+            ],
+            constraint  : [
+                    lib   : "2.0.0-beta1",
+                    solver: "1.1.2"
+            ],
+            espresso    : [
+                    concurrent   : "3.1.0",
+                    net          : "3.1.0",
+                    accessibility: "3.1.0",
+                    contrib      : "3.1.0",
+                    core         : "3.1.0",
+                    resource     : "3.1.0",
+                    intents      : "3.1.0",
+                    remote       : "3.1.0",
+                    web          : "3.1.0"
+            ],
+            test        : [
+                    jankTestHelper: "1.0.1",
+                    services      : "1.1.0",
+                    uiAutomator   : "2.2.0",
+                    monitor       : "1.1.0",
+                    orchestrator  : "1.1.0",
+                    rules         : "1.1.0",
+                    runner        : "1.1.0"
+            ],
+            androidX    : [
+                    vectorDrawableAnimated : "1.0.0",
+                    appcompat              : "1.0.0",
+                    asynClayoutInflater    : "1.0.0",
+                    car                    : "1.0.0-alpha5",
+                    cardview               : "1.0.0",
+                    collection             : "1.0.0",
+                    coordinatorLayout      : "1.0.0",
+                    cursorAdapter          : "1.0.0",
+                    browser                : "1.0.0",
+                    customview             : "1.0.0",
+                    material               : "1.0.0-rc01",
+                    documentFile           : "1.0.0",
+                    drawerlayout           : "1.0.0",
+                    exifInterface          : "1.0.0",
+                    gridlayout             : "1.0.0",
+                    heifWriter             : "1.0.0",
+                    interpolator           : "1.0.0",
+                    leanback               : "1.0.0",
+                    loader                 : "1.0.0",
+                    localBroadcastManager  : "1.0.0",
+                    media2                 : "1.0.0-alpha03",
+                    media2Exoplayer        : "1.0.0-alpha01",
+                    mediaRouter            : "1.0.0",
+                    multidex               : "2.0.0",
+                    multidexInstrumentation: "2.0.0",
+                    palette                : "1.0.0",
+                    percentlayout          : "1.0.0",
+                    leanbackPreference     : "1.0.0",
+                    legacyPreference       : "1.0.0",
+                    preference             : "1.0.0",
+                    print                  : "1.0.0",
+                    recommendation         : "1.0.0",
+                    recyclerviewSelection  : "1.0.0",
+                    recyclerview           : "1.0.0",
+                    sliceBuilders          : "1.0.0",
+                    sliceCore              : "1.0.0",
+                    sliceView              : "1.0.0",
+                    slidingPanelayout      : "1.0.0",
+                    annotations            : "1.0.0",
+                    core                   : "1.0.0",
+                    contentPager           : "1.0.0",
+                    coreUi                 : "1.0.0",
+                    coreUtils              : "1.0.0",
+                    dynamicAnimation       : "1.0.0",
+                    emoji                  : "1.0.0",
+                    emojiAppcompat         : "1.0.0",
+                    emojiBundled           : "1.0.0",
+                    fragment               : "1.0.0",
+                    media                  : "1.0.0",
+                    tvprovider             : "1.0.0",
+                    v13                    : "1.0.0",
+                    v4                     : "1.0.0",
+                    vectorDrawable         : "1.0.0",
+                    swipereFreshlayout     : "1.0.0",
+                    textClassifier         : "1.0.0",
+                    transition             : "1.0.0",
+                    versionedParcelable    : "1.0.0",
+                    viewpager              : "1.0.0",
+                    wear                   : "1.0.0",
+                    webkit                 : "1.0.0"
+            ],
+            androidXKTX : [
+                    core              : "1.0.0",
+                    fragment          : "1.0.0",
+                    palette           : "1.0.0",
+                    sqlite            : "2.0.0",
+                    collection        : "1.0.0",
+                    viewmodel         : "2.0.0",
+                    reactivestreams   : "2.0.0",
+                    navigationCommon  : "1.0.0-alpha06",
+                    navigationFragment: "1.0.0-alpha06",
+                    navigationRuntime : "1.0.0-alpha06",
+                    navigationTesting : "1.0.0-alpha06",
+                    navigationUi      : "1.0.0-alpha06",
+                    work              : "1.0.0-alpha10"
+            ],
+            retrofit    : [
+                    lib              : "2.4.0",
+                    adapterRx2       : "2.4.0",
+                    gson             : "2.4.0",
+                    liveAdapterRx2   : "1.0.0",
+                    coroutinesAdapter: "0.9.2"
+            ],
+            dagger      : [
+                    lib                   : "2.16",
+                    android               : "2.16",
+                    compiler              : "2.16",
+                    androidSupport        : "2.16",
+                    androidSupportCompiler: "2.16"
+            ],
+            kotlin      : [
+                    stdlib            : "1.3.10",
+                    extensions        : "1.3.10",
+                    testing           : "1.3.10",
+                    testJunit         : "1.3.10",
+                    plugin            : "1.3.10",
+                    reflect           : "1.3.10",
+                    allopen           : "1.3.10",
+                    runtime           : "1.3.10",
+                    compiler          : "1.3.10",
+                    annotations       : "1.3.10",
+                    annotationsAndroid: "1.3.10",
+                    coroutinesAndroid : "1.0.1",
+                    coroutinesCore    : "1.0.1"
+            ],
+            google      : [
+                    services : "4.1.0",
+                    auth     : "16.0.1",
+                    ads      : "16.0.0",
+                    identity : "16.0.0",
+                    location : "16.0.0",
+                    base     : "16.0.1",
+                    analytics: "16.0.4",
+                    gcm      : "16.0.0",
+                    maps     : "16.0.0",
+                    vision   : "16.2.0",
+                    guava    : "27.1-android"
+            ],
+            firebase    : [
+                    core     : "16.0.4",
+                    auth     : "16.0.4",
+                    database : "16.0.3",
+                    firestore: "17.1.1",
+                    storage  : "16.0.3",
+                    messaging: "17.3.3",
+                    invites  : "16.0.4"
+            ],
+            picasso     : [
+                    lib       : "2.71828",
+                    downloader: "1.1.0"
+            ],
+            glide       : [
+                    lib            : "4.8.0",
+                    compiler       : "4.8.0",
+                    annotations    : "4.8.0",
+                    downloader     : "4.8.0",
+                    transformations: "3.1.0"
+            ],
+            okHttp      : [
+                    lib    : "3.11.0",
+                    logging: "3.11.0"
+            ],
+            javaxAndRx  : [
+                    android2    : "2.1.0",
+                    java2       : "2.2.2",
+                    annotations : "1.2",
+                    rxkotlin    : "2.3.0",
+                    rxMath      : "1.0.0",
+                    rxPermission: "0.7.0@aar",
+                    rxBinding   : "0.4.0"
+            ],
+            fabric      : [
+                    plugin: "1.+",
+                    lib   : "2.9.8@aar"
+            ],
+            amazon      : [
+                    s3     : "2.7.5",
+                    core   : "2.7.5",
+                    cognito: "2.7.5"
+            ],
+            intuit      : [
+                    sdp: "1.0.6",
+                    ssp: "1.0.6"
+            ],
+            leakcanary  : [
+                    android        : "1.6.1",
+                    androidNoOp    : "1.6.1",
+                    supportFragment: "1.6.1"
+            ],
+            atsl        : [
+                    testing: "1.0.1",
+                    rule   : "1.0.1"
+            ],
+            mockito     : [
+                    core: "2.23.4",
+                    all : "1.10.19"
+            ],
+            robolectric : [
+                    plugin : "1.1.0",
+                    testing: "3.5.1"
+            ],
+            social      : [
+                    facebook   : "[4,5)",
+                    facebookSdk: "4.22.0",
+                    twitter    : "2.3.2@aar"
+            ],
+            payment     : [
+                    stripe   : "8.0.0",
+                    braintree: "2.7.3"
+            ],
+            butterKnife : [
+                    lib     : "10.0.0",
+                    compiler: "10.0.0"
+            ],
+            thirdParty  : [
+                    pleaseAnimate : "1.0.4",
+                    eventbus      : "3.1.1",
+                    gson          : "2.8.5",
+                    timeago       : "3.0.1",
+                    socketIo      : "1.0.0",
+                    commonsLogging: "1.2",
+                    binding       : "3.2.1",
+                    dexmaker      : "2.2.0",
+                    timber        : "4.5.1",
+                    junit         : "4.12",
+                    mockWebServer : "3.8.1",
+                    hamcrest      : "1.3",
+                    cameraview    : "2.7.0",
+                    stetho        : "1.5.0",
+                    iconify       : "2.2.2",
+                    vlc           : "3.0.13",
+                    lottie        : "3.0.0-beta4"
+            ]
+    ]
+
+    depend = [
+            buildPlugins: [
+                    androidPlugin  : "com.android.tools.build:gradle:${versions.gradlePlugin.android}",
+                    kotlinPlugin   : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.gradlePlugin.kotlin}",
+                    jacocoPlugin   : "com.dicedmelon.gradle:jacoco-android:${versions.gradlePlugin.jacoco}",
+                    sonarqubePlugin: "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${versions.gradlePlugin.sonarqube}",
+                    detektPlugin   : "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.gradlePlugin.detekt}",
+                    spotlessPlugin : "com.diffplug.spotless:spotless-plugin-gradle:${versions.gradlePlugin.spotless}",
+                    jitpackPlugin : "com.github.dcendents:android-maven-gradle-plugin:${versions.gradlePlugin.jitpack}"
+            ],
+            core        : [
+                    lib    : "android.arch.core:core:${versions.core.core}",
+                    common : "androidx.arch.core:core-common:${versions.core.common}",
+                    testing: "android.arch.core:core-testing:${versions.core.testing}",
+                    runtime: "android.arch.core:runtime:${versions.core.runtime}"
+            ],
+            lifecycle   : [
+                    common         : "androidx.lifecycle:lifecycle-common:${versions.lifecycle.common}",
+                    commonJava8    : "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle.commonJava8}",
+                    compiler       : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle.compiler}",
+                    extensions     : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle.extensions}",
+                    livedata       : "androidx.lifecycle:lifecycle-livedata:${versions.lifecycle.livedata}",
+                    livedataCode   : "androidx.lifecycle:lifecycle-livedata-core:${versions.lifecycle.livedataCode}",
+                    reactiveStreams: "androidx.lifecycle:lifecycle-reactivestreams:${versions.lifecycle.reactiveStreams}",
+                    runtime        : "androidx.lifecycle:lifecycle-runtime:${versions.lifecycle.runtime}",
+                    viewmodel      : "androidx.lifecycle:lifecycle-viewmodel:${versions.lifecycle.viewmodel}"
+            ],
+            paging      : [
+                    lib    : "androidx.paging:paging-runtime:${versions.paging.lib}",
+                    common : "androidx.paging:paging-common:${versions.paging.common}",
+                    rxjava2: "androidx.paging:paging-rxjava2:${versions.paging.rxjava2}",
+                    runtime: "androidx.paging:paging-runtime:${versions.paging.runtime}"
+            ],
+            persistence : [
+                    common         : "androidx.room:room-common:${versions.persistence.common}",
+                    compiler       : "androidx.room:room-compiler:${versions.persistence.compiler}",
+                    guava          : "androidx.room:room-guava:${versions.persistence.guava}",
+                    migration      : "androidx.room:room-migration:${versions.persistence.migration}",
+                    runtime        : "androidx.room:room-runtime:${versions.persistence.runtime}",
+                    rxjava2        : "androidx.room:room-rxjava2:${versions.persistence.rxjava2}",
+                    testing        : "androidx.room:room-testing:${versions.persistence.testing}",
+                    sqlite         : "androidx.sqlite:sqlite:${versions.persistence.sqlite}",
+                    sqliteFramework: "androidx.sqlite:sqlite-framework:${versions.persistence.sqliteFramework}"
+            ],
+            constraint  : [
+                    lib   : "androidx.constraintlayout:constraintlayout:${versions.constraint.lib}",
+                    solver: "androidx.constraintlayout:constraintlayout-solver:${versions.constraint.solver}"
+            ],
+            espresso    : [
+                    concurrent   : "androidx.test.espresso.idling:idling-concurrent:${versions.espresso.concurrent}",
+                    net          : "androidx.test.espresso.idling:idling-net:${versions.espresso.net}",
+                    accessibility: "androidx.test.espresso:espresso-accessibility:${versions.espresso.accessibility}",
+                    contrib      : "androidx.test.espresso:espresso-contrib:${versions.espresso.contrib}",
+                    core         : "androidx.test.espresso:espresso-core:${versions.espresso.core}",
+                    resource     : "androidx.test.espresso:espresso-idling-resource:${versions.espresso.resource}",
+                    intents      : "androidx.test.espresso:espresso-intents:${versions.espresso.intents}",
+                    remote       : "androidx.test.espresso:espresso-remote:${versions.espresso.remote}",
+                    web          : "androidx.test.espresso:espresso-web:${versions.espresso.web}"
+            ],
+            test        : [
+                    jankTestHelper: "androidx.test.jank:janktesthelper:${versions.test.jankTestHelper}",
+                    services      : "androidx.test:test-services:${versions.test.services}",
+                    uiAutomator   : "androidx.test.uiautomator:uiautomator:${versions.test.uiAutomator}",
+                    monitor       : "androidx.test:monitor:${versions.test.monitor}",
+                    orchestrator  : "androidx.test:orchestrator:${versions.test.orchestrator}",
+                    rules         : "androidx.test:rules:${versions.test.rules}",
+                    runner        : "androidx.test:runner:${versions.test.runner}"
+            ],
+            androidX    : [
+                    vectorDrawableAnimated : "androidx.vectordrawable:vectordrawable-animated:${versions.androidX.vectorDrawableAnimated}",
+                    appcompat              : "androidx.appcompat:appcompat:${versions.androidX.appcompat}",
+                    asynClayoutInflater    : "androidx.asynclayoutinflater:asynclayoutinflater:${versions.androidX.asynClayoutInflater}",
+                    car                    : "androidx.car:car:${versions.androidX.car}",
+                    cardview               : "androidx.cardview:cardview:${versions.androidX.cardview}",
+                    collection             : "androidx.collection:collection:${versions.androidX.collection}",
+                    coordinatorLayout      : "androidx.coordinatorlayout:coordinatorlayout:${versions.androidX.coordinatorLayout}",
+                    cursorAdapter          : "androidx.cursoradapter:cursoradapter:${versions.androidX.cursorAdapter}",
+                    browser                : "androidx.browser:browser:${versions.androidX.browser}",
+                    customview             : "androidx.customview:customview:${versions.androidX.customview}",
+                    material               : "com.google.android.material:material:${versions.androidX.material}",
+                    documentFile           : "androidx.documentfile:documentfile:${versions.androidX.documentFile}",
+                    drawerlayout           : "androidx.drawerlayout:drawerlayout:${versions.androidX.drawerlayout}",
+                    exifInterface          : "androidx.exifinterface:exifinterface:${versions.androidX.exifInterface}",
+                    gridlayout             : "androidx.gridlayout:gridlayout:${versions.androidX.gridlayout}",
+                    heifWriter             : "androidx.heifwriter:heifwriter:${versions.androidX.heifWriter}",
+                    interpolator           : "androidx.interpolator:interpolator:${versions.androidX.interpolator}",
+                    leanback               : "androidx.leanback:leanback:${versions.androidX.leanback}",
+                    loader                 : "androidx.loader:loader:${versions.androidX.loader}",
+                    localBroadcastManager  :
+                            "androidx.localbroadcastmanager:localbroadcastmanager:${versions.androidX.localBroadcastManager}",
+                    media2                 : "androidx.media2:media2:${versions.androidX.media2}",
+                    media2Exoplayer        : "androidx.media2:media2-exoplayer:${versions.androidX.media2Exoplayer}",
+                    mediaRouter            : "androidx.mediarouter:mediarouter:${versions.androidX.mediaRouter}",
+                    multidex               : "androidx.multidex:multidex:${versions.androidX.multidex}",
+                    multidexInstrumentation: "androidx.multidex:multidex-instrumentation:${versions.androidX.multidexInstrumentation}",
+                    palette                : "androidx.palette:palette:${versions.androidX.palette}",
+                    percentlayout          : "androidx.percentlayout:percentlayout:${versions.androidX.percentlayout}",
+                    leanbackPreference     : "androidx.leanback:leanback-preference:${versions.androidX.leanbackPreference}",
+                    legacyPreference       : "androidx.legacy:legacy-preference-v14:${versions.androidX.legacyPreference}",
+                    preference             : "androidx.preference:preference:${versions.androidX.preference}",
+                    print                  : "androidx.print:print:${versions.androidX.print}",
+                    recommendation         : "androidx.recommendation:recommendation:${versions.androidX.recommendation}",
+                    recyclerviewSelection  : "androidx.recyclerview:recyclerview-selection:${versions.androidX.recyclerviewSelection}",
+                    recyclerview           : "androidx.recyclerview:recyclerview:${versions.androidX.recyclerview}",
+                    sliceBuilders          : "androidx.slice:slice-builders:${versions.androidX.sliceBuilders}",
+                    sliceCore              : "androidx.slice:slice-core:${versions.androidX.sliceCore}",
+                    sliceView              : "androidx.slice:slice-view:${versions.androidX.sliceView}",
+                    slidingPanelayout      : "androidx.slidingpanelayout:slidingpanelayout:${versions.androidX.slidingPanelayout}",
+                    annotations            : "androidx.annotation:annotation:${versions.androidX.annotations}",
+                    core                   : "androidx.core:core:${versions.androidX.core}",
+                    contentPager           : "androidx.contentpager:contentpager:${versions.androidX.contentPager}",
+                    coreUi                 : "androidx.legacy:legacy-support-core-ui:${versions.androidX.coreUi}",
+                    coreUtils              : "androidx.legacy:legacy-support-core-utils:${versions.androidX.coreUtils}",
+                    dynamicAnimation       : "androidx.dynamicanimation:dynamicanimation:${versions.androidX.dynamicAnimation}",
+                    emoji                  : "androidx.emoji:emoji:${versions.androidX.emoji}",
+                    emojiAppcompat         : "androidx.emoji:emoji-appcompat:${versions.androidX.emojiAppcompat}",
+                    emojiBundled           : "androidx.emoji:emoji-bundled:${versions.androidX.emojiBundled}",
+                    fragment               : "androidx.fragment:fragment:${versions.androidX.fragment}",
+                    media                  : "androidx.media:media:${versions.androidX.media}",
+                    tvprovider             : "androidx.tvprovider:tvprovider:${versions.androidX.tvprovider}",
+                    v13                    : "androidx.legacy:legacy-support-v13:${versions.androidX.v13}",
+                    v4                     : "androidx.legacy:legacy-support-v4:${versions.androidX.v4}",
+                    vectorDrawable         : "androidx.vectordrawable:vectordrawable:${versions.androidX.vectorDrawable}",
+                    swipereFreshlayout     : "androidx.swiperefreshlayout:swiperefreshlayout:${versions.androidX.swipereFreshlayout}",
+                    textClassifier         : "androidx.textclassifier:textclassifier:${versions.androidX.textClassifier}",
+                    transition             : "androidx.transition:transition:${versions.androidX.transition}",
+                    versionedParcelable    : "androidx.versionedparcelable:versionedparcelable:${versions.androidX.versionedParcelable}",
+                    viewpager              : "androidx.viewpager:viewpager:${versions.androidX.viewpager}",
+                    wear                   : "androidx.wear:wear:${versions.androidX.wear}",
+                    webkit                 : "androidx.webkit:webkit:${versions.androidX.webkit}"
+            ],
+            androidXKTX : [
+                    core              : "androidx.core:core-ktx:${versions.androidXKTX.core}",
+                    fragment          : "androidx.fragment:fragment-ktx:${versions.androidXKTX.fragment}",
+                    palette           : "androidx.palette:palette-ktx:${versions.androidXKTX.palette}",
+                    sqlite            : "androidx.sqlite:sqlite-ktx:${versions.androidXKTX.sqlite}",
+                    collection        : "androidx.collection:collection-ktx:${versions.androidXKTX.collection}",
+                    viewmodel         : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidXKTX.viewmodel}",
+                    reactivestreams   :
+                            "androidx.lifecycle:lifecycle-reactivestreams-ktx:${versions.androidXKTX.reactivestreams}",
+                    navigationCommon  :
+                            "android.arch.navigation:navigation-common-ktx:${versions.androidXKTX.navigationCommon}",
+                    navigationFragment:
+                            "android.arch.navigation:navigation-fragment-ktx:${versions.androidXKTX.navigationFragment}",
+                    navigationRuntime :
+                            "android.arch.navigation:navigation-runtime-ktx:${versions.androidXKTX.navigationRuntime}",
+                    navigationTesting :
+                            "android.arch.navigation:navigation-testing-ktx:${versions.androidXKTX.navigationTesting}",
+                    navigationUi      : "android.arch.navigation:navigation-ui-ktx:${versions.androidXKTX.navigationUi}",
+                    work              : "android.arch.work:work-runtime-ktx:${versions.androidXKTX.work}"
+            ],
+            retrofit    : [
+                    lib           : "com.squareup.retrofit2:retrofit:${versions.retrofit.lib}",
+                    coroutinesAdapter
+                                  : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofit.coroutinesAdapter}",
+                    adapterRx2    : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit.adapterRx2}",
+                    gson          : "com.squareup.retrofit2:converter-gson:${versions.retrofit.gson}",
+                    liveAdapterRx2:
+                            "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${versions.retrofit.liveAdapterRx2}"
+            ],
+            dagger      : [
+                    lib                   : "com.google.dagger:dagger:${versions.dagger.lib}",
+                    android               : "com.google.dagger:dagger-android:${versions.dagger.android}",
+                    compiler              : "com.google.dagger:dagger-compiler:${versions.dagger.compiler}",
+                    androidSupport        : "com.google.dagger:dagger-android-support:${versions.dagger.androidSupport}",
+                    androidSupportCompiler:
+                            "com.google.dagger:dagger-android-processor:${versions.dagger.androidSupportCompiler}"
+            ],
+            kotlin      : [
+                    stdlib            : "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin.stdlib}",
+                    extensions        :
+                            "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin.extensions}",
+                    testing           : "org.jetbrains.kotlin:kotlin-test:${versions.kotlin.testing}",
+                    testJunit         : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin.testJunit}",
+                    plugin            : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin.plugin}",
+                    reflect           : "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.reflect}",
+                    allopen           : "org.jetbrains.kotlin:kotlin-allopen:${versions.kotlin.allopen}",
+                    runtime           : "org.jetbrains.kotlin:kotlin-runtime:${versions.kotlin.runtime}",
+                    compiler          : "org.jetbrains.kotlin:kotlin-compiler:${versions.kotlin.compiler}",
+                    annotations       :
+                            "org.jetbrains.kotlin:kotlin-jdk-annotations:${versions.kotlin.annotations}",
+                    annotationsAndroid:
+                            "org.jetbrains.kotlin:kotlin-annotations-android:${versions.kotlin.annotationsAndroid}",
+                    coroutinesAndroid :
+                            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutinesAndroid}",
+                    coroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutinesCore}"
+            ],
+            google      : [
+                    services : "com.google.gms:google-services:${versions.google.services}",
+                    auth     : "com.google.android.gms:play-services-auth:${versions.google.auth}",
+                    ads      : "com.google.android.gms:play-services-ads:${versions.google.ads}",
+                    identity : "com.google.android.gms:play-services-identity:${versions.google.identity}",
+                    location : "com.google.android.gms:play-services-location:${versions.google.location}",
+                    base     : "com.google.android.gms:play-services-base:${versions.google.base}",
+                    analytics: "com.google.android.gms:play-services-analytics:${versions.google.analytics}",
+                    gcm      : "com.google.android.gms:play-services-gcm:${versions.google.gcm}",
+                    maps     : "com.google.android.gms:play-services-maps:${versions.google.maps}",
+                    vision   : "com.google.android.gms:play-services-vision:${versions.google.vision}",
+                    guava    : "com.google.guava:guava:${versions.google.guava}"
+            ],
+            firebase    : [
+                    core     : "com.google.firebase:firebase-core:${versions.firebase.core}",
+                    auth     : "com.google.firebase:firebase-auth:${versions.firebase.auth}",
+                    database : "com.google.firebase:firebase-database:${versions.firebase.database}",
+                    firestore: "com.google.firebase:firebase-firestore:${versions.firebase.firestore}",
+                    storage  : "com.google.firebase:firebase-storage:${versions.firebase.storage}",
+                    messaging: "com.google.firebase:firebase-messaging:${versions.firebase.messaging}",
+                    invites  : "com.google.firebase:firebase-invites:${versions.firebase.invites}"
+            ],
+            picasso     : [
+                    lib       : "com.squareup.picasso:picasso:${versions.picasso.lib}",
+                    downloader: "com.jakewharton.picasso:picasso2-okhttp3-downloader:${versions.picasso.downloader}"
+            ],
+            glide       : [
+                    lib            : "com.github.bumptech.glide:glide:${versions.glide.lib}",
+                    compiler       : "com.github.bumptech.glide:compiler:${versions.glide.compiler}",
+                    annotations    : "com.github.bumptech.glide:annotations:${versions.glide.annotations}",
+                    downloader     :
+                            "com.github.bumptech.glide:okhttp3-integration:${versions.glide.downloader}",
+                    transformations: "jp.wasabeef:glide-transformations:${versions.glide.transformations}"
+            ],
+            okHttp      : [
+                    lib    : "com.squareup.okhttp3:okhttp:${versions.okHttp.lib}",
+                    logging: "com.squareup.okhttp3:logging-interceptor:${versions.okHttp.logging}"
+            ],
+            javaxAndRx  : [
+                    android2    : "io.reactivex.rxjava2:rxandroid:${versions.javaxAndRx.android2}",
+                    java2       : "io.reactivex.rxjava2:rxjava:${versions.javaxAndRx.java2}",
+                    annotations : "javax.annotation:javax.annotation-api:${versions.javaxAndRx.annotations}",
+                    rxkotlin    : "io.reactivex.rxjava2:rxkotlin:${versions.javaxAndRx.rxkotlin}",
+                    rxMath      : "io.reactivex:rxjava-math:${versions.javaxAndRx.rxMath}",
+                    rxPermission: "com.tbruyelle.rxpermissions:rxpermissions:${versions.javaxAndRx.rxPermission}",
+                    rxBinding   : "com.jakewharton.rxbinding:rxbinding:${versions.javaxAndRx.rxBinding}",
+            ],
+            fabric      : [
+                    plugin: "io.fabric.tools:gradle:${versions.fabric.plugin}",
+                    lib   : "com.crashlytics.sdk.android:crashlytics:${versions.fabric.lib}"
+            ],
+            amazon      : [
+                    s3     : "com.amazonaws:aws-android-sdk-s3:${versions.amazon.s3}",
+                    core   : "com.amazonaws:aws-android-sdk-core:${versions.amazon.core}",
+                    cognito: "com.amazonaws:aws-android-sdk-cognito:${versions.amazon.cognito}"
+            ],
+            intuit      : [
+                    sdp: "com.intuit.sdp:sdp-android:${versions.intuit.sdp}",
+                    ssp: "com.intuit.ssp:ssp-android:${versions.intuit.ssp}"
+            ],
+            leakcanary  : [
+                    android        :
+                            "com.squareup.leakcanary:leakcanary-android:${versions.leakcanary.android}",
+                    androidNoOp    :
+                            "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanary.androidNoOp}",
+                    supportFragment:
+                            "com.squareup.leakcanary:leakcanary-support-fragment:${versions.leakcanary.supportFragment}"
+            ],
+            atsl        : [
+                    testing: "com.android.support.test:runner:${versions.atsl.testing}",
+                    rule   : "com.android.support.test:rules:${versions.atsl.rule}"
+            ],
+            mockito     : [
+                    core: "org.mockito:mockito-core:${versions.mockito.core}",
+                    all : "org.mockito:mockito-all:${versions.mockito.all}"
+            ],
+            robolectric : [
+                    plugin : "org.robolectric:robolectric-gradle-plugin:${versions.robolectric.plugin}",
+                    testing: "org.robolectric:robolectric:${versions.robolectric.testing}"
+            ],
+            social      : [
+                    facebook   : "com.facebook.android:facebook-login:${versions.social.facebook}",
+                    facebookSdk:
+                            "com.facebook.android:facebook-android-sdk:${versions.social.facebookSdk}",
+                    twitter    : "com.twitter.sdk.android:twitter:${versions.social.twitter}"
+            ],
+            payment     : [
+                    stripe   : "com.stripe:stripe-android:${versions.payment.stripe}",
+                    braintree: "com.braintreepayments.api:braintree:${versions.payment.braintree}"
+            ],
+            butterKnife : [
+                    lib     : "com.jakewharton:butterknife:${versions.butterKnife.lib}",
+                    compiler: "com.jakewharton:butterknife-compiler:${versions.butterKnife.compiler}"
+            ],
+            thirdParty  : [
+                    pleaseAnimate : "com.github.florent37:kotlinpleaseanimate:${versions.thirdParty.pleaseAnimate}",
+                    eventbus      : "org.greenrobot:eventbus:${versions.thirdParty.eventbus}",
+                    gson          : "com.google.code.gson:gson:${versions.thirdParty.gson}",
+                    timeago       : "com.github.marlonlom:timeago:${versions.thirdParty.timeago}",
+                    socketIo      : "io.socket:socket.io-client:${versions.thirdParty.socketIo}",
+                    commonsLogging: "commons-logging:commons-logging:${versions.thirdParty.commonsLogging}",
+                    binding       : "com.android.databinding:compiler:${versions.thirdParty.binding}",
+                    dexmaker      : "com.linkedin.dexmaker:dexmaker-mockito:${versions.thirdParty.dexmaker}",
+                    timber        : "com.jakewharton.timber:timber:${versions.thirdParty.timber}",
+                    junit         : "junit:junit:${versions.thirdParty.junit}",
+                    mockWebServer : "com.squareup.okhttp3:mockwebserver:${versions.thirdParty.mockWebServer}",
+                    hamcrest      : "org.hamcrest:hamcrest-all:${versions.thirdParty.hamcrest}",
+                    cameraview    : "com.priyankvasa.android:cameraview-ex:${versions.thirdParty.cameraview}",
+                    stetho        : "com.facebook.stetho:stetho:${versions.thirdParty.stetho}",
+                    iconify       : "com.joanzapata.iconify:android-iconify-material:${versions.thirdParty.iconify}",
+                    vlc           : "com.yyl.vlc:vlc-android-sdk:${versions.thirdParty.vlc}",
+                    lottie        : "com.airbnb.android:lottie:${versions.thirdParty.lottie}"
+            ]
+    ]
+}
+
+
+def addProjectSetting() {
+    ext.path = "$project.rootDir/settings/versions"
+
+    ext.readVersionFile = {
+        String appType = "appType",
+        String buildType = "buildVariant" ->
+            def versionPropsFile
+            if (buildType == flavorFiles.production)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.production}.properties")
+            else if (buildType == flavorFiles.qa)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.qa}.properties")
+            else if (buildType == flavorFiles.client)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.client}.properties")
+            else if (buildType == flavorFiles.development)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.development}.properties")
+            else if (buildType == flavorFiles.project)
+                versionPropsFile = file("$project.ext.path/$appType/${flavorFiles.project}.properties")
+            else
+                throw new FileNotFoundException("Unknown app variant type")
+
+            if (versionPropsFile.canRead()) {
+                Properties versionProps = new Properties()
+                versionProps.load(new FileInputStream(versionPropsFile))
+                return versionProps
+            } else {
+                throw new GradleException("Could not read properties! - readVersionFile")
+            }
+    }
+}
+ext.addProjectSetting = this.&addProjectSetting

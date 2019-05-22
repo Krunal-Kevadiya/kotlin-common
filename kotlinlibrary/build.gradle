@@ -1,0 +1,128 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.dcendents.android-maven'
+
+//apply from: '../settings/codequality/quality.gradle'
+//group = "com.kevadiyakrunalk"
+
+android {
+    compileSdkVersion versions.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion versions.android.minSdkVersion
+        targetSdkVersion versions.android.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardList.each { pro_guard ->
+                proguardFile pro_guard
+            }
+        }
+
+        debug {
+            minifyEnabled false
+            proguardList.each { pro_guard ->
+                proguardFile pro_guard
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Support Design
+    compileOnly depend.androidX.appcompat
+    compileOnly depend.androidX.material
+    compileOnly depend.androidX.recyclerview
+    compileOnly depend.androidX.exifInterface
+
+    // Kotlin
+    compileOnly depend.kotlin.stdlib
+    compileOnly depend.kotlin.coroutinesCore
+
+    // S3 Bucket
+    compileOnly depend.amazon.s3
+    compileOnly depend.thirdParty.commonsLogging
+
+    // Location
+    compileOnly depend.google.location
+
+    // Socket IO
+    compileOnly depend.thirdParty.socketIo
+
+    // GSON
+    compileOnly depend.thirdParty.gson
+
+    // Retrofit
+    compileOnly depend.retrofit.lib
+    compileOnly depend.retrofit.adapterRx2
+    compileOnly depend.retrofit.gson
+    compileOnly depend.okHttp.lib
+    compileOnly depend.okHttp.logging
+
+    // Reactive
+    compileOnly depend.javaxAndRx.android2
+    compileOnly depend.javaxAndRx.java2
+
+    //Livedata
+    compileOnly depend.lifecycle.livedata
+
+    //Ssp, Sdp
+    implementation depend.intuit.ssp
+    implementation depend.intuit.sdp
+}
+
+// For jitPack
+/*val sourcesJar = task("sourcesJar", Jar::class) {
+    from(android.sourceSets["main"].java.srcDirs)
+    classifier = "sources"
+}
+
+val javadoc = task("javadoc", Javadoc::class) {
+    isFailOnError = false
+    source = android.sourceSets["main"].java.sourceFiles
+    classpath += project.files(android.bootClasspath.joinToString(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+val javadocJar = task("javadocJar", Jar::class) {
+    dependsOn(javadoc)
+    classifier = "javadoc"
+    from(javadoc.destinationDir)
+}
+
+artifacts {
+    add("archives", sourcesJar)
+    add("archives", javadocJar)
+}*/
+
+/*
+// For Bintry or jcenter
+ext {
+    PUBLISH_GROUP_ID = 'com.kevadiyakrunalk'
+    PUBLISH_ARTIFACT_ID = 'kotlin-common'
+    PUBLISH_VERSION = '1.0.0'
+}
+
+apply from: '../settings/maven/android-release-aar.gradle'
+*/
+

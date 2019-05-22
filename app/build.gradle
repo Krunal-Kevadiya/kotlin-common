@@ -1,0 +1,118 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+//apply from: '../settings/codequality/quality.gradle'
+
+android {
+    compileSdkVersion versions.android.compileSdkVersion
+
+    defaultConfig {
+        applicationId readApplicationId()
+        manifestPlaceholders = [crashlyticsKey: readCrashlyticsKey()]
+
+        minSdkVersion versions.android.minSdkVersion
+        targetSdkVersion versions.android.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardList.each { pro_guard ->
+                proguardFile pro_guard
+            }
+        }
+
+        debug {
+            minifyEnabled false
+            proguardList.each { pro_guard ->
+                proguardFile pro_guard
+            }
+        }
+    }
+
+    flavorDimensions "mode"
+    productFlavors {
+        production {
+            dimension "mode"
+            versionCode readVersionCode(flavorFiles.production)
+            versionName readVersionName(flavorFiles.production)
+        }
+
+        qa {
+            dimension "mode"
+            versionCode readVersionCode(flavorFiles.qa)
+            versionName readVersionName(flavorFiles.qa)
+        }
+
+        client {
+            dimension "mode"
+            versionCode readVersionCode(flavorFiles.client)
+            versionName readVersionName(flavorFiles.client)
+        }
+
+        development {
+            dimension "mode"
+            versionCode readVersionCode(flavorFiles.development)
+            versionName readVersionName(flavorFiles.development)
+        }
+    }
+}
+
+dependencies {
+    // Support Design
+    implementation depend.androidX.appcompat
+    implementation depend.androidX.material
+    implementation depend.androidX.recyclerview
+    implementation depend.androidX.swipereFreshlayout
+    implementation depend.constraint.lib
+    implementation depend.androidX.exifInterface
+
+    // Kotlin
+    implementation depend.kotlin.stdlib
+
+    //Margin, Padding and fontsize
+    implementation depend.intuit.sdp
+    implementation depend.intuit.ssp
+
+    // GSON
+    implementation depend.thirdParty.gson
+
+    // Location
+    implementation depend.google.location
+
+    //implementation 'com.github.Krunal-Kevadiya:kotlin-common:1.1.0'
+    implementation(project(":kotlinlibrary"))
+}
+
+def readVersionName(def buildType = "buildVariant") {
+    def version = readVersionFile("app", buildType)
+    return "${version['VERSION_MAJOR']}.${version['VERSION_MINOR']}.${version['VERSION_PATCH']}(${version['VERSION_CODE']})"
+}
+
+def readVersionCode(def buildType = "buildVariant") {
+    def version = readVersionFile("app", buildType)
+    def build = version['VERSION_CODE'] as int
+    return build
+}
+
+def readCrashlyticsKey() {
+    def version = readVersionFile("app", flavorFiles.project)
+    return "${version['FABRIC_API_TOKEN']}"
+}
+
+def readApplicationId() {
+    def version = readVersionFile("app", flavorFiles.project)
+    return "${version['APPLICATION_ID']}"
+}

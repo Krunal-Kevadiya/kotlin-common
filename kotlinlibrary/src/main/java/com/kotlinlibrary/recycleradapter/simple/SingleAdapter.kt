@@ -48,17 +48,23 @@ open class SingleAdapter<T> (
         }
     }
 
+    private fun getDistinctList(itemList: MutableList<T>): MutableList<T> {
+        val list = this.itemList.toMutableList()
+        list.addAll(itemList.toMutableList())
+        return list.distinct().toMutableList()
+    }
+
     override operator fun plusAssign(itemList: MutableList<T>) {
-        this.itemList.reset(itemList)
+        this.itemList.reset(getDistinctList(itemList))
         notifyDataSetChanged()
     }
 
     override operator fun plus(itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            this.itemList.addAll(itemList).also(::dispatchUpdates)
+            this.itemList.addAll(getDistinctList(itemList.toMutableList())).also(::dispatchUpdates)
         } else {
             val size = this.itemList.size + 1
-            this.itemList.addAll(itemList)
+            this.itemList.addAll(getDistinctList(itemList.toMutableList()))
             notifyItemRangeInserted(size, itemList.size)
         }
         return this
