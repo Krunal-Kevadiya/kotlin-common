@@ -10,6 +10,7 @@ open class AdapterList<E>(internal var newList: MutableList<E> = mutableListOf()
         get() = newList.size
 
     override fun contains(element: E): Boolean = newList.contains(element)
+
     override fun containsAll(elements: Collection<E>): Boolean = newList.containsAll(elements)
 
     override operator fun get(index: Int): E = newList[index]

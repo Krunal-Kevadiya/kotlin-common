@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 
 //apply from: '../settings/codequality/quality.gradle'
-//group = "com.kevadiyakrunalk"
+group = "com.kevadiyakrunalk"
 
 android {
     compileSdkVersion versions.android.compileSdkVersion
@@ -92,28 +92,26 @@ dependencies {
 }
 
 // For jitPack
-/*val sourcesJar = task("sourcesJar", Jar::class) {
-    from(android.sourceSets["main"].java.srcDirs)
-    classifier = "sources"
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
-val javadoc = task("javadoc", Javadoc::class) {
-    isFailOnError = false
-    source = android.sourceSets["main"].java.sourceFiles
-    classpath += project.files(android.bootClasspath.joinToString(File.pathSeparator))
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile
 }
 
-val javadocJar = task("javadocJar", Jar::class) {
-    dependsOn(javadoc)
-    classifier = "javadoc"
-    from(javadoc.destinationDir)
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 artifacts {
-    add("archives", sourcesJar)
-    add("archives", javadocJar)
-}*/
+    archives javadocJar
+    archives sourcesJar
+}
 
 /*
 // For Bintry or jcenter

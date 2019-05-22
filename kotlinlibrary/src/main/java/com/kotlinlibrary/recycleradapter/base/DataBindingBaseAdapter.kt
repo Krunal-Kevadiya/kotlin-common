@@ -15,6 +15,18 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
 
     open fun onBindViewClick(holder: H) {}
 
+    protected fun getDistinctList(itemList: MutableList<T>): MutableList<T> {
+        val removeDuplicate = HashSet<T>(itemList)
+        removeDuplicate.removeAll(this.itemList.toMutableList())
+        return removeDuplicate.toMutableList()
+    }
+
+    protected fun getDistinctItem(itemList: T): T? {
+        val removeDuplicate = HashSet<T>(mutableListOf(itemList))
+        removeDuplicate.removeAll(this.itemList.toMutableList())
+        return removeDuplicate.firstOrNull()
+    }
+
     /**
      * Reset all items from adapter
      * @param itemList new adapter items
@@ -27,7 +39,7 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
      * Add new items to already existing adapter items
      * @param itemList new adapter items
      */
-    open operator fun plus(itemList: List<T>): DataBindingBaseAdapter<T, H> {
+    open operator fun plus(itemList: MutableList<T>): DataBindingBaseAdapter<T, H> {
         this.itemList.addAll(itemList)
         notifyItemRangeInserted(this.itemList.lastIndex, itemList.size)
         return this
@@ -91,7 +103,7 @@ abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(prote
      * @param index index of item form adapter items
      * @param itemList new adapter items
      */
-    open fun insert(index: Int, itemList: List<T>): DataBindingBaseAdapter<T, H> {
+    open fun insert(index: Int, itemList: MutableList<T>): DataBindingBaseAdapter<T, H> {
         this.itemList.addAll(index, itemList)
         notifyItemRangeChanged(index, itemList.size)
         return this

@@ -48,86 +48,101 @@ open class SingleAdapter<T> (
         }
     }
 
-    private fun getDistinctList(itemList: MutableList<T>): MutableList<T> {
-        val list = this.itemList.toMutableList()
-        list.addAll(itemList.toMutableList())
-        return list.distinct().toMutableList()
-    }
-
     override operator fun plusAssign(itemList: MutableList<T>) {
-        this.itemList.reset(getDistinctList(itemList))
-        notifyDataSetChanged()
+        if(configuration.isDiffUtils) {
+            this.itemList.reset(getDistinctList(itemList)).also(::dispatchUpdates)
+
+        } else {
+            this.itemList.reset(getDistinctList(itemList))
+            notifyDataSetChanged()
+        }
     }
 
-    override operator fun plus(itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
+    override operator fun plus(itemList: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            this.itemList.addAll(getDistinctList(itemList.toMutableList())).also(::dispatchUpdates)
+            this.itemList.addAll(getDistinctList(itemList)).also(::dispatchUpdates)
         } else {
             val size = this.itemList.size + 1
-            this.itemList.addAll(getDistinctList(itemList.toMutableList()))
-            notifyItemRangeInserted(size, itemList.size)
+            val list = getDistinctList(itemList)
+            this.itemList.addAll(list)
+            notifyItemRangeInserted(size, list.size)
         }
         return this
     }
 
     override operator fun plus(item: T): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            itemList.add(item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.add(it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.add(item)
-            notifyItemInserted(itemList.size - 1)
+            getDistinctItem(item)?.let {
+                itemList.add(it)
+                notifyItemInserted(itemList.size - 1)
+            }
         }
         return this
     }
 
     override fun add(index: Int, item: T): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            itemList.add(index, item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.add(index, it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.add(index, item)
-            notifyItemInserted(index)
+            getDistinctItem(item)?.let {
+                itemList.add(index, it)
+                notifyItemInserted(index)
+            }
         }
         return this
     }
 
     override fun addAll(items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            itemList.addAll(items).also(::dispatchUpdates)
+            itemList.addAll(getDistinctList(items)).also(::dispatchUpdates)
         } else {
             val size = itemList.size + 1
-            itemList.addAll(items)
-            notifyItemRangeInserted(size, items.size)
+            val list = getDistinctList(items)
+            itemList.addAll(list)
+            notifyItemRangeInserted(size, list.size)
         }
         return this
     }
 
     override fun addAll(index: Int, items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            itemList.addAll(index, items).also(::dispatchUpdates)
+            itemList.addAll(index, getDistinctList(items)).also(::dispatchUpdates)
         } else {
             val size = itemList.size - index
-            itemList.addAll(items)
-            notifyItemRangeInserted(index, items.size + size)
+            val list = getDistinctList(items)
+            itemList.addAll(list)
+            notifyItemRangeInserted(index, list.size + size)
         }
         return this
     }
 
     override operator fun set(index: Int, item: T) {
         if(configuration.isDiffUtils) {
-            itemList.set(index, item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.set(index, it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.set(index, item)
-            notifyItemChanged(index)
+            getDistinctItem(item)?.let {
+                itemList.set(index, it)
+                notifyItemChanged(index)
+            }
         }
     }
 
-    override fun insert(index: Int, itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
+    override fun insert(index: Int, itemList: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         if(configuration.isDiffUtils) {
-            this.itemList.addAll(index, itemList).also(::dispatchUpdates)
+            this.itemList.addAll(index, getDistinctList(itemList)).also(::dispatchUpdates)
         } else {
             val size = this.itemList.size - index
-            this.itemList.addAll(itemList)
-            notifyItemRangeInserted(index, itemList.size + size)
+            val list = getDistinctList(itemList)
+            this.itemList.addAll(list)
+            notifyItemRangeInserted(index, list.size + size)
         }
         return this
     }

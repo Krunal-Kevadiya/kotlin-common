@@ -65,79 +65,99 @@ open class MultiTypedBindingAdapter(
     }
 
     override operator fun plusAssign(itemList: MutableList<Any>) {
-        this.itemList.reset(itemList)
-        notifyDataSetChanged()
+        if(multiTypedAdapterConfiguration.isDiffUtils) {
+            this.itemList.reset(getDistinctList(itemList)).also(::dispatchUpdates)
+        } else {
+            this.itemList.reset(getDistinctList(itemList))
+            notifyDataSetChanged()
+        }
     }
 
-    override operator fun plus(itemList: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
+    override operator fun plus(itemList: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            this.itemList.addAll(itemList).also(::dispatchUpdates)
+            this.itemList.addAll(getDistinctList(itemList)).also(::dispatchUpdates)
         } else {
             val size = this.itemList.size + 1
-            this.itemList.addAll(itemList)
-            notifyItemRangeInserted(size, itemList.size)
+            val list = getDistinctList(itemList)
+            this.itemList.addAll(list)
+            notifyItemRangeInserted(size, list.size)
         }
         return this
     }
 
     override operator fun plus(item: Any): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.add(item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.add(it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.add(item)
-            notifyItemInserted(itemList.size - 1)
+            getDistinctItem(item)?.let {
+                itemList.add(it)
+                notifyItemInserted(itemList.size - 1)
+            }
         }
         return this
     }
 
     override fun add(index: Int, item: Any): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.add(index, item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.add(index, it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.add(index, item)
-            notifyItemInserted(index)
+            getDistinctItem(item)?.let {
+                itemList.add(index, it)
+                notifyItemInserted(index)
+            }
         }
         return this
     }
 
     override fun addAll(items: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.addAll(items).also(::dispatchUpdates)
+            itemList.addAll(getDistinctList(items)).also(::dispatchUpdates)
         } else {
             val size = itemList.size + 1
-            itemList.addAll(items)
-            notifyItemRangeInserted(size, items.size)
+            val list = getDistinctList(items)
+            itemList.addAll(list)
+            notifyItemRangeInserted(size, list.size)
         }
         return this
     }
 
     override fun addAll(index: Int, items: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.addAll(index, items).also(::dispatchUpdates)
+            itemList.addAll(index, getDistinctList(items)).also(::dispatchUpdates)
         } else {
             val size = itemList.size - index
-            itemList.addAll(items)
-            notifyItemRangeInserted(index, items.size + size)
+            val list = getDistinctList(items)
+            itemList.addAll(list)
+            notifyItemRangeInserted(index, list.size + size)
         }
         return this
     }
 
     override operator fun set(index: Int, item: Any) {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            itemList.set(index, item).also(::dispatchUpdates)
+            getDistinctItem(item)?.let {
+                itemList.set(index, it).also(::dispatchUpdates)
+            }
         } else {
-            itemList.set(index, item)
-            notifyItemChanged(index)
+            getDistinctItem(item)?.let {
+                itemList.set(index, it)
+                notifyItemChanged(index)
+            }
         }
     }
 
-    override fun insert(index: Int, itemList: List<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
+    override fun insert(index: Int, itemList: MutableList<Any>): DataBindingBaseAdapter<Any, DataBindingBaseViewHolder<Any>> {
         if(multiTypedAdapterConfiguration.isDiffUtils) {
-            this.itemList.addAll(index, itemList).also(::dispatchUpdates)
+            this.itemList.addAll(index, getDistinctList(itemList)).also(::dispatchUpdates)
         } else {
             val size = this.itemList.size - index
-            this.itemList.addAll(itemList)
-            notifyItemRangeInserted(index, itemList.size + size)
+            val list = getDistinctList(itemList)
+            this.itemList.addAll(list)
+            notifyItemRangeInserted(index, list.size + size)
         }
         return this
     }
