@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
-
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -7,6 +5,7 @@ plugins {
     kotlin("kapt")
     id("com.github.dcendents.android-maven")
 }
+
 //apply(from = "../settings/codequality/quality.gradle")
 group = "com.kevadiyakrunalk"
 
@@ -21,6 +20,10 @@ android {
 
     dataBinding {
         isEnabled = true
+    }
+
+    androidExtensions {
+        isExperimental = true
     }
 
     java {
@@ -42,12 +45,6 @@ android {
             }
         }
     }
-}
-
-androidExtensions {
-    configure(delegateClosureOf<AndroidExtensionsExtension> {
-        isExperimental = true
-    })
 }
 
 dependencies {

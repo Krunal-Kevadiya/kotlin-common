@@ -9,32 +9,32 @@ object Versions {
     }
 
     object GradlePlugin {
-        const val android = "3.2.1"
-        const val kotlin = "1.3.10"
+        const val android = "3.5.0-beta01"
+        const val kotlin = "1.3.31"
         const val jacoco = "0.1.4"
-        const val sonarqube = "2.7"
+        const val sonarqube = "2.7.1"
         const val detekt = "1.0.0-RC14"
         const val spotless = "3.23.0"
         const val jitpack = "2.1"
     }
 
     object Core {
-        const val core = "2.0.0-rc01"
-        const val common = "2.0.0-rc01"
-        const val testing = "2.0.0-rc01"
-        const val runtime = "2.0.0-rc01"
+        const val core = "2.1.0-beta01"
+        const val common = "2.1.0-beta01"
+        const val testing = "2.1.0-beta01"
+        const val runtime = "2.1.0-beta01"
     }
 
     object Lifecycle {
-        const val common = "2.0.0-rc01"
-        const val commonJava8 = "2.0.0-rc01"
-        const val compiler = "2.0.0-rc01"
-        const val extensions = "2.0.0-rc01"
-        const val livedata = "2.0.0-rc01"
-        const val livedataCode = "2.0.0-rc01"
-        const val reactiveStreams = "2.0.0-rc01"
-        const val runtime = "2.0.0-rc01"
-        const val viewmodel = "2.0.0-rc01"
+        const val common = "2.2.0-alpha01"
+        const val commonJava8 = "2.2.0-alpha01"
+        const val compiler = "2.2.0-alpha01"
+        const val extensions = "2.2.0-alpha01"
+        const val livedata = "2.2.0-alpha01"
+        const val livedataCode = "2.2.0-alpha01"
+        const val reactiveStreams = "2.2.0-alpha01"
+        const val runtime = "2.2.0-alpha01"
+        const val viewmodel = "2.2.0-alpha01"
     }
 
     object Paging {
@@ -57,7 +57,7 @@ object Versions {
     }
 
     object Constraint {
-        const val lib = "1.1.2"
+        const val lib = "2.0.0-beta1"
         const val solver = "1.1.2"
     }
 

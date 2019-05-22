@@ -4,6 +4,7 @@ plugins {
     kotlin("android.extensions")
     kotlin("kapt")
 }
+
 //apply(from = "../settings/codequality/quality.gradle")
 
 android {
