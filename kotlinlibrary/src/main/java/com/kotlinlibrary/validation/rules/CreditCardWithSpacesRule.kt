@@ -1,8 +1,12 @@
 package com.kotlinlibrary.validation.rules
 
+import com.kotlinlibrary.R
+import com.kotlinlibrary.validation.MismatchErrorTypeException
 import java.util.*
 
-class CreditCardWithSpacesRule(var errorMsg: String = "Invalid Credit Card Number!") : BaseRule {
+class CreditCardWithSpacesRule<ErrorMessage>(
+    var errorMsg: ErrorMessage? = null
+) : BaseRule<ErrorMessage> {
 
     override fun validate(text: String): Boolean {
         val listOfPattern = ArrayList<String>()
@@ -21,7 +25,6 @@ class CreditCardWithSpacesRule(var errorMsg: String = "Invalid Credit Card Numbe
 
         // remove all spaces
         val newtext = text.replace(" ", "")
-
         for (pattern in listOfPattern) {
             if (newtext.matches(Regex(pattern)))
                 return true
@@ -29,9 +32,16 @@ class CreditCardWithSpacesRule(var errorMsg: String = "Invalid Credit Card Numbe
         return false
     }
 
-    override fun getErrorMessage(): String = errorMsg
+    override fun getErrorMessage(): ErrorMessage {
+        return when {
+            errorMsg != null -> errorMsg!!
+            errorMsg is String -> "Invalid Credit Card Number!" as ErrorMessage
+            errorMsg is Int -> R.string.vald_invalid_card_number as ErrorMessage
+            else -> throw MismatchErrorTypeException()
+        }
+    }
 
-    override fun setError(msg: String) {
+    override fun setError(msg: ErrorMessage) {
         errorMsg = msg
     }
 }

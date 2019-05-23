@@ -32,4 +32,35 @@
     <!-- RecyclerView LoadMore -->
     <string name="loadmore_network_error">Network Error. Please check your connection and try later</string>
     <string name="loadmore_network_error_button">repeat</string>
+
+    <!-- Validation -->
+    <string name="vald_all_letters_lower_case">All letters should be in lower case.</string>
+    <string name="vald_all_letters_upper_case">All letters should be in upper case.</string>
+    <string name="vald_at_least_one_lower_case">At least one letter should be in lower case.</string>
+    <string name="vald_at_least_one_number_case">At least one letter should be a number</string>
+    <string name="vald_at_least_one_special_characters">Should contain at least 1 special characters.</string>
+    <string name="vald_at_least_one_upper_case">At least one letter should be in upper case.</string>
+    <string name="vald_should_content_target">Should contain your target.</string>
+    <string name="vald_invalid_card_number">Invalid Credit Card Number!</string>
+    <string name="vald_invalid_email_address">Invalid Email Address!</string>
+    <string name="vald_should_end_with_target">Should end with your target.</string>
+    <string name="vald_should_be_greater_than_or_equal_to_target">Should be greater than or equal to your target.</string>
+    <string name="vald_should_be_greater_than_target">Should be greater than your target.</string>
+    <string name="vald_should_be_less_than_or_equal_to_target">Should be less than or equal to your target.</string>
+    <string name="vald_should_be_less_than_target">Should be less than your target.</string>
+    <string name="vald_length_should_be_less_than_or_equal_to_max_length">Length should be less than or equal to max length.</string>
+    <string name="vald_length_should_be_greater_than_min_length">Length should be greater than min length.</string>
+    <string name="vald_can_not_be_empty">Can\'t be empty!</string>
+    <string name="vald_should_not_contain_any_numbers">Should not contain any numbers!</string>
+    <string name="vald_should_not_contain_any_special_characters">Should not contain any special characters.</string>
+    <string name="vald_should_not_contain_target">Should not contain your target.</string>
+    <string name="vald_should_be_equal_to_target">Should be equal to your target.</string>
+    <string name="vald_should_not_contain_any_alphabet_characters">Should not contain any alphabet characters!</string>
+    <string name="vald_regex_pattern_does_not_match">RegEx pattern doesn\'t match!</string>
+    <string name="vald_should_not_start_with_any_number">Should not start with any number.</string>
+    <string name="vald_should_start_with_any_number">Should start with any number.</string>
+    <string name="vald_should_start_with_target">Should start with your target.</string>
+    <string name="vald_should_not_be_equal_to_target">Should not be equal to your target.</string>
+    <string name="vald_invalid_number">Invalid Number!</string>
+    <string name="vald_invalid_web_url">Invalid web URL</string>
 </resources>

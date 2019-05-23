@@ -2,583 +2,583 @@ package com.kotlinlibrary.validation.datatype
 
 import com.kotlinlibrary.validation.ValidatedObservableField
 
-fun String.validator(): ValidatedObservableField<String> {
+fun <ErrorMessage> String.validator(): ValidatedObservableField<ErrorMessage> {
     return ValidatedObservableField(this, true)
 }
 
-fun String.nonEmpty(errorMsg: String? = null): Boolean {
-    return validator().nonEmpty(errorMsg).check()
+fun <ErrorMessage> String.nonEmpty(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().nonEmpty(errorMsg).check()
 }
 
-fun String.nonEmpty(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().nonEmpty(errorMsg)
+fun <ErrorMessage> String.nonEmpty(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().nonEmpty(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }
             .check()
 }
 
-fun String.nonEmpty(callback: (message: String?) -> Unit): Boolean {
-    return validator().nonEmpty()
+fun <ErrorMessage> String.nonEmpty(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().nonEmpty()
             .addErrorCallback {
                 callback.invoke(it)
             }
             .check()
 }
 
-fun String.minLength(minLength: Int, errorMsg: String? = null): Boolean {
-    return validator().minLength(minLength, errorMsg).check()
+fun <ErrorMessage> String.minLength(minLength: Int, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().minLength(minLength, errorMsg).check()
 }
 
-fun String.minLength(minLength: Int, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().minLength(minLength, errorMsg)
+fun <ErrorMessage> String.minLength(minLength: Int, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().minLength(minLength, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.minLength(minLength: Int, callback: (message: String?) -> Unit): Boolean {
-    return validator().minLength(minLength)
+fun <ErrorMessage> String.minLength(minLength: Int, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().minLength(minLength)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.maxLength(maxLength: Int, errorMsg: String? = null): Boolean {
-    return validator().maxLength(maxLength, errorMsg).check()
+fun <ErrorMessage> String.maxLength(maxLength: Int, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().maxLength(maxLength, errorMsg).check()
 }
 
-fun String.maxLength(maxLength: Int, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().maxLength(maxLength, errorMsg)
+fun <ErrorMessage> String.maxLength(maxLength: Int, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().maxLength(maxLength, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.maxLength(maxLength: Int, callback: (message: String?) -> Unit): Boolean {
-    return validator().maxLength(maxLength)
+fun <ErrorMessage> String.maxLength(maxLength: Int, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().maxLength(maxLength)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validEmail(errorMsg: String? = null): Boolean {
-    return validator().validEmail(errorMsg).check()
+fun <ErrorMessage> String.validEmail(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validEmail(errorMsg).check()
 }
 
-fun String.validEmail(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().validEmail(errorMsg)
+fun <ErrorMessage> String.validEmail(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validEmail(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validEmail(callback: (message: String?) -> Unit): Boolean {
-    return validator().validEmail()
+fun <ErrorMessage> String.validEmail(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().validEmail()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validNumber(errorMsg: String? = null): Boolean {
-    return validator().validNumber(errorMsg).check()
+fun <ErrorMessage> String.validNumber(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validNumber(errorMsg).check()
 }
 
-fun String.validNumber(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().validNumber(errorMsg)
+fun <ErrorMessage> String.validNumber(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validNumber(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validNumber(callback: (message: String?) -> Unit): Boolean {
-    return validator().validNumber()
+fun <ErrorMessage> String.validNumber(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().validNumber()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.greaterThan(number: Number, errorMsg: String? = null): Boolean {
-    return validator().greaterThan(number, errorMsg).check()
+fun <ErrorMessage> String.greaterThan(number: Number, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().greaterThan(number, errorMsg).check()
 }
 
-fun String.greaterThan(number: Number, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().greaterThan(number, errorMsg)
+fun <ErrorMessage> String.greaterThan(number: Number, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().greaterThan(number, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.greaterThan(number: Number, callback: (message: String?) -> Unit): Boolean {
-    return validator().greaterThan(number)
+fun <ErrorMessage> String.greaterThan(number: Number, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().greaterThan(number)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.greaterThanOrEqual(number: Number, errorMsg: String? = null): Boolean {
-    return validator().greaterThanOrEqual(number, errorMsg).check()
+fun <ErrorMessage> String.greaterThanOrEqual(number: Number, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().greaterThanOrEqual(number, errorMsg).check()
 }
 
-fun String.greaterThanOrEqual(number: Number, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().greaterThanOrEqual(number, errorMsg)
+fun <ErrorMessage> String.greaterThanOrEqual(number: Number, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().greaterThanOrEqual(number, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.greaterThanOrEqual(number: Number, callback: (message: String?) -> Unit): Boolean {
-    return validator().greaterThanOrEqual(number)
+fun <ErrorMessage> String.greaterThanOrEqual(number: Number, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().greaterThanOrEqual(number)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.lessThan(number: Number, errorMsg: String? = null): Boolean {
-    return validator().lessThan(number, errorMsg).check()
+fun <ErrorMessage> String.lessThan(number: Number, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().lessThan(number, errorMsg).check()
 }
 
-fun String.lessThan(number: Number, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().lessThan(number, errorMsg)
+fun <ErrorMessage> String.lessThan(number: Number, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().lessThan(number, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.lessThan(number: Number, callback: (message: String?) -> Unit): Boolean {
-    return validator().lessThan(number)
+fun <ErrorMessage> String.lessThan(number: Number, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().lessThan(number)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.lessThanOrEqual(number: Number, errorMsg: String? = null): Boolean {
-    return validator().lessThanOrEqual(number, errorMsg).check()
+fun <ErrorMessage> String.lessThanOrEqual(number: Number, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().lessThanOrEqual(number, errorMsg).check()
 }
 
-fun String.lessThanOrEqual(number: Number, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().lessThanOrEqual(number, errorMsg)
+fun <ErrorMessage> String.lessThanOrEqual(number: Number, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().lessThanOrEqual(number, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.lessThanOrEqual(number: Number, callback: (message: String?) -> Unit): Boolean {
-    return validator().lessThanOrEqual(number)
+fun <ErrorMessage> String.lessThanOrEqual(number: Number, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().lessThanOrEqual(number)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.numberEqualTo(number: Number, errorMsg: String? = null): Boolean {
-    return validator().numberEqualTo(number, errorMsg).check()
+fun <ErrorMessage> String.numberEqualTo(number: Number, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().numberEqualTo(number, errorMsg).check()
 }
 
-fun String.numberEqualTo(number: Number, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().numberEqualTo(number, errorMsg)
+fun <ErrorMessage> String.numberEqualTo(number: Number, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().numberEqualTo(number, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.numberEqualTo(number: Number, callback: (message: String?) -> Unit): Boolean {
-    return validator().numberEqualTo(number)
+fun <ErrorMessage> String.numberEqualTo(number: Number, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().numberEqualTo(number)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.allUperCase(errorMsg: String? = null): Boolean {
-    return validator().allUpperCase(errorMsg).check()
+fun <ErrorMessage> String.allUperCase(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().allUpperCase(errorMsg).check()
 }
 
-fun String.allUperCase(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().allUpperCase(errorMsg)
+fun <ErrorMessage> String.allUperCase(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().allUpperCase(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.allUperCase(callback: (message: String?) -> Unit): Boolean {
-    return validator().allUpperCase()
+fun <ErrorMessage> String.allUperCase(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().allUpperCase()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.allLowerCase(errorMsg: String? = null): Boolean {
-    return validator().allLowerCase(errorMsg).check()
+fun <ErrorMessage> String.allLowerCase(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().allLowerCase(errorMsg).check()
 }
 
-fun String.allLowerCase(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().allLowerCase(errorMsg)
+fun <ErrorMessage> String.allLowerCase(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().allLowerCase(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.allLowerCase(callback: (message: String?) -> Unit): Boolean {
-    return validator().allLowerCase()
+fun <ErrorMessage> String.allLowerCase(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().allLowerCase()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneUpperCase(errorMsg: String? = null): Boolean {
-    return validator().atleastOneUpperCase(errorMsg).check()
+fun <ErrorMessage> String.atleastOneUpperCase(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneUpperCase(errorMsg).check()
 }
 
-fun String.atleastOneUpperCase(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().atleastOneUpperCase(errorMsg)
+fun <ErrorMessage> String.atleastOneUpperCase(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneUpperCase(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneUpperCase(callback: (message: String?) -> Unit): Boolean {
-    return validator().atleastOneUpperCase()
+fun <ErrorMessage> String.atleastOneUpperCase(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().atleastOneUpperCase()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneLowerCase(errorMsg: String? = null): Boolean {
-    return validator().atleastOneLowerCase(errorMsg).check()
+fun <ErrorMessage> String.atleastOneLowerCase(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneLowerCase(errorMsg).check()
 }
 
-fun String.atleastOneLowerCase(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().atleastOneLowerCase(errorMsg)
+fun <ErrorMessage> String.atleastOneLowerCase(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneLowerCase(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneLowerCase(callback: (message: String?) -> Unit): Boolean {
-    return validator().atleastOneLowerCase()
+fun <ErrorMessage> String.atleastOneLowerCase(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().atleastOneLowerCase()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneNumber(errorMsg: String? = null): Boolean {
-    return validator().atleastOneNumber(errorMsg).check()
+fun <ErrorMessage> String.atleastOneNumber(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneNumber(errorMsg).check()
 }
 
-fun String.atleastOneNumber(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().atleastOneNumber(errorMsg)
+fun <ErrorMessage> String.atleastOneNumber(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneNumber(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneNumber(callback: (message: String?) -> Unit): Boolean {
-    return validator().atleastOneNumber()
+fun <ErrorMessage> String.atleastOneNumber(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().atleastOneNumber()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startWithNumber(errorMsg: String? = null): Boolean {
-    return validator().startWithNumber(errorMsg).check()
+fun <ErrorMessage> String.startWithNumber(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startWithNumber(errorMsg).check()
 }
 
-fun String.startWithNumber(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().startWithNumber(errorMsg)
+fun <ErrorMessage> String.startWithNumber(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startWithNumber(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startWithNumber(callback: (message: String?) -> Unit): Boolean {
-    return validator().startWithNumber()
+fun <ErrorMessage> String.startWithNumber(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().startWithNumber()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startWithNonNumber(errorMsg: String? = null): Boolean {
-    return validator().startWithNonNumber(errorMsg).check()
+fun <ErrorMessage> String.startWithNonNumber(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startWithNonNumber(errorMsg).check()
 }
 
-fun String.startWithNonNumber(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().startWithNonNumber(errorMsg)
+fun <ErrorMessage> String.startWithNonNumber(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startWithNonNumber(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startWithNonNumber(callback: (message: String?) -> Unit): Boolean {
-    return validator().startWithNonNumber()
+fun <ErrorMessage> String.startWithNonNumber(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().startWithNonNumber()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.noNumbers(errorMsg: String? = null): Boolean {
-    return validator().noNumbers(errorMsg).check()
+fun <ErrorMessage> String.noNumbers(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().noNumbers(errorMsg).check()
 }
 
-fun String.noNumbers(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().noNumbers(errorMsg)
+fun <ErrorMessage> String.noNumbers(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().noNumbers(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.noNumbers(callback: (message: String?) -> Unit): Boolean {
-    return validator().noNumbers()
+fun <ErrorMessage> String.noNumbers(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().noNumbers()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.onlyNumbers(errorMsg: String? = null): Boolean {
-    return validator().onlyNumbers(errorMsg).check()
+fun <ErrorMessage> String.onlyNumbers(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().onlyNumbers(errorMsg).check()
 }
 
-fun String.onlyNumbers(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().onlyNumbers(errorMsg)
+fun <ErrorMessage> String.onlyNumbers(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().onlyNumbers(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.onlyNumbers(callback: (message: String?) -> Unit): Boolean {
-    return validator().onlyNumbers()
+fun <ErrorMessage> String.onlyNumbers(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().onlyNumbers()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.noSpecialCharacters(errorMsg: String? = null): Boolean {
-    return validator().noSpecialCharacters(errorMsg).check()
+fun <ErrorMessage> String.noSpecialCharacters(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().noSpecialCharacters(errorMsg).check()
 }
 
-fun String.noSpecialCharacters(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().noSpecialCharacters(errorMsg)
+fun <ErrorMessage> String.noSpecialCharacters(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().noSpecialCharacters(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.noSpecialCharacters(callback: (message: String?) -> Unit): Boolean {
-    return validator().noSpecialCharacters()
+fun <ErrorMessage> String.noSpecialCharacters(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().noSpecialCharacters()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneSpecialCharacters(errorMsg: String? = null): Boolean {
-    return validator().atleastOneSpecialCharacters(errorMsg).check()
+fun <ErrorMessage> String.atleastOneSpecialCharacters(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneSpecialCharacters(errorMsg).check()
 }
 
-fun String.atleastOneSpecialCharacters(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().atleastOneSpecialCharacters(errorMsg)
+fun <ErrorMessage> String.atleastOneSpecialCharacters(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().atleastOneSpecialCharacters(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.atleastOneSpecialCharacters(callback: (message: String?) -> Unit): Boolean {
-    return validator().atleastOneSpecialCharacters()
+fun <ErrorMessage> String.atleastOneSpecialCharacters(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().atleastOneSpecialCharacters()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.textEqualTo(target: String, errorMsg: String? = null): Boolean {
-    return validator().textEqualTo(target, errorMsg).check()
+fun <ErrorMessage> String.textEqualTo(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().textEqualTo(target, errorMsg).check()
 }
 
-fun String.textEqualTo(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().textEqualTo(target, errorMsg)
+fun <ErrorMessage> String.textEqualTo(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().textEqualTo(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.textEqualTo(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().textEqualTo(target)
+fun <ErrorMessage> String.textEqualTo(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().textEqualTo(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.textNotEqualTo(target: String, errorMsg: String? = null): Boolean {
-    return validator().textNotEqualTo(target, errorMsg).check()
+fun <ErrorMessage> String.textNotEqualTo(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().textNotEqualTo(target, errorMsg).check()
 }
 
-fun String.textNotEqualTo(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().textNotEqualTo(target, errorMsg)
+fun <ErrorMessage> String.textNotEqualTo(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().textNotEqualTo(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.textNotEqualTo(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().textNotEqualTo(target)
+fun <ErrorMessage> String.textNotEqualTo(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().textNotEqualTo(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startsWith(target: String, errorMsg: String? = null): Boolean {
-    return validator().startsWith(target, errorMsg).check()
+fun <ErrorMessage> String.startsWith(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startsWith(target, errorMsg).check()
 }
 
-fun String.startsWith(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().startsWith(target, errorMsg)
+fun <ErrorMessage> String.startsWith(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().startsWith(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.startsWith(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().startsWith(target)
+fun <ErrorMessage> String.startsWith(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().startsWith(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.endssWith(target: String, errorMsg: String? = null): Boolean {
-    return validator().endsWith(target, errorMsg).check()
+fun <ErrorMessage> String.endssWith(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().endsWith(target, errorMsg).check()
 }
 
-fun String.endssWith(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().endsWith(target, errorMsg)
+fun <ErrorMessage> String.endssWith(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().endsWith(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.endssWith(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().endsWith(target)
+fun <ErrorMessage> String.endssWith(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().endsWith(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.contains(target: String, errorMsg: String? = null): Boolean {
-    return validator().contains(target, errorMsg).check()
+fun <ErrorMessage> String.contains(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().contains(target, errorMsg).check()
 }
 
-fun String.contains(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().contains(target, errorMsg)
+fun <ErrorMessage> String.contains(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().contains(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.contains(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().contains(target)
+fun <ErrorMessage> String.contains(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().contains(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.notContains(target: String, errorMsg: String? = null): Boolean {
-    return validator().notContains(target, errorMsg).check()
+fun <ErrorMessage> String.notContains(target: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().notContains(target, errorMsg).check()
 }
 
-fun String.notContains(target: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().notContains(target, errorMsg)
+fun <ErrorMessage> String.notContains(target: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().notContains(target, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.notContains(target: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().notContains(target)
+fun <ErrorMessage> String.notContains(target: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().notContains(target)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumber(errorMsg: String? = null): Boolean {
-    return validator().creditCardNumber(errorMsg).check()
+fun <ErrorMessage> String.creditCardNumber(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumber(errorMsg).check()
 }
 
-fun String.creditCardNumber(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().creditCardNumber(errorMsg)
+fun <ErrorMessage> String.creditCardNumber(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumber(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumber(callback: (message: String?) -> Unit): Boolean {
-    return validator().creditCardNumber()
+fun <ErrorMessage> String.creditCardNumber(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().creditCardNumber()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumberWithSpaces(errorMsg: String? = null): Boolean {
-    return validator().creditCardNumberWithSpaces(errorMsg).check()
+fun <ErrorMessage> String.creditCardNumberWithSpaces(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithSpaces(errorMsg).check()
 }
 
-fun String.creditCardNumberWithSpaces(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().creditCardNumberWithSpaces(errorMsg)
+fun <ErrorMessage> String.creditCardNumberWithSpaces(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithSpaces(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumberWithSpaces(callback: (message: String?) -> Unit): Boolean {
-    return validator().creditCardNumberWithSpaces()
+fun <ErrorMessage> String.creditCardNumberWithSpaces(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithSpaces()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumberWithDashes(errorMsg: String? = null): Boolean {
-    return validator().creditCardNumberWithDashes(errorMsg).check()
+fun <ErrorMessage> String.creditCardNumberWithDashes(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithDashes(errorMsg).check()
 }
 
-fun String.creditCardNumberWithDashes(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().creditCardNumberWithDashes(errorMsg)
+fun <ErrorMessage> String.creditCardNumberWithDashes(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithDashes(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.creditCardNumberWithDashes(callback: (message: String?) -> Unit): Boolean {
-    return validator().creditCardNumberWithDashes()
+fun <ErrorMessage> String.creditCardNumberWithDashes(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().creditCardNumberWithDashes()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validUrl(errorMsg: String? = null): Boolean {
-    return validator().validUrl(errorMsg).check()
+fun <ErrorMessage> String.validUrl(errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validUrl(errorMsg).check()
 }
 
-fun String.validUrl(callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().validUrl(errorMsg)
+fun <ErrorMessage> String.validUrl(callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().validUrl(errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.validUrl(callback: (message: String?) -> Unit): Boolean {
-    return validator().validUrl()
+fun <ErrorMessage> String.validUrl(callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().validUrl()
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.regex(pattern: String, errorMsg: String? = null): Boolean {
-    return validator().regex(pattern, errorMsg).check()
+fun <ErrorMessage> String.regex(pattern: String, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().regex(pattern, errorMsg).check()
 }
 
-fun String.regex(pattern: String, callback: (message: String?) -> Unit, errorMsg: String? = null): Boolean {
-    return validator().regex(pattern, errorMsg)
+fun <ErrorMessage> String.regex(pattern: String, callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().regex(pattern, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-fun String.regex(pattern: String, callback: (message: String?) -> Unit): Boolean {
-    return validator().regex(pattern)
+fun <ErrorMessage> String.regex(pattern: String, callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().regex(pattern)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()

@@ -1,11 +1,24 @@
 package com.kotlinlibrary.validation.rules
 
-class NonEmptyRule(var errorMsg: String = "Can't be empty!") : BaseRule {
-    override fun validate(text: String): Boolean = !text.isEmpty()
+import com.kotlinlibrary.R
+import com.kotlinlibrary.validation.MismatchErrorTypeException
 
-    override fun getErrorMessage(): String = errorMsg
+class NonEmptyRule<ErrorMessage>(
+    var errorMsg: ErrorMessage? = null
+) : BaseRule<ErrorMessage> {
+    override fun validate(text: String): Boolean = text.isNotEmpty()
 
-    override fun setError(msg: String) {
+    override fun getErrorMessage(): ErrorMessage {
+        return when {
+            errorMsg != null -> errorMsg!!
+            errorMsg is String -> "Can't be empty!" as ErrorMessage
+            errorMsg is Int -> R.string.vald_can_not_be_empty as ErrorMessage
+            else -> throw MismatchErrorTypeException()
+        }
+    }
+
+
+    override fun setError(msg: ErrorMessage) {
         errorMsg = msg
     }
 }

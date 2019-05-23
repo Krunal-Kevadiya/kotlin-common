@@ -1,18 +1,28 @@
 package com.kotlinlibrary.validation.rules
 
+import com.kotlinlibrary.R
+import com.kotlinlibrary.validation.MismatchErrorTypeException
 import com.kotlinlibrary.validation.ValidatedObservableField
 
-class StartsWithNumberRule(var errorMsg: String = "Should start with any number.") : BaseRule {
+class StartsWithNumberRule<ErrorMessage>(
+    var errorMsg: ErrorMessage? = null
+) : BaseRule<ErrorMessage> {
     override fun validate(text: String): Boolean {
         if (text.isEmpty())
             return false
-
-        return ValidatedObservableField(text).regex("^(\\d+.*|-\\d+.*)").check()
+        return ValidatedObservableField<ErrorMessage>(text).regex("^(\\d+.*|-\\d+.*)").check()
     }
 
-    override fun getErrorMessage(): String = errorMsg
+    override fun getErrorMessage(): ErrorMessage {
+        return when {
+            errorMsg != null -> errorMsg!!
+            errorMsg is String -> "Should start with any number." as ErrorMessage
+            errorMsg is Int -> R.string.vald_should_start_with_any_number as ErrorMessage
+            else -> throw MismatchErrorTypeException()
+        }
+    }
 
-    override fun setError(msg: String) {
+    override fun setError(msg: ErrorMessage) {
         errorMsg = msg
     }
 }

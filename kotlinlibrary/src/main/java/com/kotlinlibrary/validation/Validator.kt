@@ -7,7 +7,7 @@ import com.kotlinlibrary.validation.rules.*
  * The core Validator builder class for validation operations and checks!
  * This class allows developers to process single or multiple validation checks on input views.
  */
-class Validator(val text: String) {
+class Validator<D>(val text: String) {
     /*
      * Boolean to determine whether all the validations have passed successfully!
      * If any validation check is failed, then the value to
@@ -18,12 +18,12 @@ class Validator(val text: String) {
     /*
      The error message to be sent in the error callback
      */
-    private var errorMessage: String = ""
+    private var errorMessage: D? = null
 
     /*
      * In case of validation error or failure, this callback is invoked
      */
-    private var errorCallback: ((message: String) -> Unit)? = null
+    private var errorCallback: ((message: D?) -> Unit)? = null
 
     /*
      * In case of validation success, this callback is invoked
@@ -33,7 +33,7 @@ class Validator(val text: String) {
     /*
      * The rules list to check for validation
      */
-    var rulesList = ArrayList<BaseRule>()
+    var rulesList = ArrayList<BaseRule<D>>()
 
     /*
      * Performs the validation check and returns true or false.
@@ -56,193 +56,192 @@ class Validator(val text: String) {
         return isValid
     }
 
-    fun setError(message: String) {
+    fun setError(message: D) {
         isValid = false
         errorMessage = message
     }
 
-    fun addRule(rule: BaseRule): Validator {
+    fun addRule(rule: BaseRule<D>): Validator<D> {
         rulesList.add(rule)
         return this
     }
 
-    fun addErrorCallback(callback: (message: String) -> Unit): Validator {
+    fun addErrorCallback(callback: (message: D?) -> Unit): Validator<D> {
         errorCallback = callback
         return this
     }
 
-    fun addSuccessCallback(callback: () -> Unit): Validator {
+    fun addSuccessCallback(callback: () -> Unit): Validator<D> {
         successCallback = callback
         return this
     }
 
     // Rules
-    fun nonEmpty(errorMsg: String? = null): Validator {
+    fun nonEmpty(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { NonEmptyRule(errorMsg) } ?: NonEmptyRule()
         addRule(rule)
         return this
     }
 
-    fun minLength(length: Int, errorMsg: String? = null): Validator {
+    fun minLength(length: Int, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { MinLengthRule(length, errorMsg) } ?: MinLengthRule(length)
         addRule(rule)
         return this
     }
 
-    fun maxLength(length: Int, errorMsg: String? = null): Validator {
+    fun maxLength(length: Int, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { MaxLengthRule(length, errorMsg) } ?: MaxLengthRule(length)
         addRule(rule)
         return this
     }
 
-    fun validEmail(errorMsg: String? = null): Validator {
+    fun validEmail(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { EmailRule(errorMsg) } ?: EmailRule()
         addRule(rule)
         return this
     }
 
-    fun validNumber(errorMsg: String? = null): Validator {
+    fun validNumber(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { ValidNumberRule(errorMsg) } ?: ValidNumberRule()
         addRule(rule)
         return this
     }
 
-    fun greaterThan(number: Number, errorMsg: String? = null): Validator {
+    fun greaterThan(number: Number, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { GreaterThanRule(number, errorMsg) } ?: GreaterThanRule(number)
         addRule(rule)
         return this
     }
 
-    fun greaterThanOrEqual(number: Number, errorMsg: String? = null): Validator {
+    fun greaterThanOrEqual(number: Number, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { GreaterThanOrEqualRule(number, errorMsg) } ?: GreaterThanOrEqualRule(number)
         addRule(rule)
         return this
     }
 
-    fun lessThan(number: Number, errorMsg: String? = null): Validator {
+    fun lessThan(number: Number, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { LessThanRule(number, errorMsg) } ?: LessThanRule(number)
         addRule(rule)
         return this
     }
 
-    fun lessThanOrEqual(number: Number, errorMsg: String? = null): Validator {
+    fun lessThanOrEqual(number: Number, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { LessThanOrEqualRule(number, errorMsg) } ?: LessThanOrEqualRule(number)
         addRule(rule)
         return this
     }
 
-    fun numberEqualTo(number: Number, errorMsg: String? = null): Validator {
+    fun numberEqualTo(number: Number, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { NumberEqualToRule(number, errorMsg) } ?: NumberEqualToRule(number)
         addRule(rule)
         return this
     }
 
-    fun allLowerCase(errorMsg: String? = null): Validator {
+    fun allLowerCase(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { AllLowerCaseRule(errorMsg) } ?: AllLowerCaseRule()
         addRule(rule)
         return this
     }
 
-    fun allUpperCase(errorMsg: String? = null): Validator {
-        val rule = errorMsg?.let { AllUpercCaseRule(errorMsg) } ?: AllUpercCaseRule()
+    fun allUpperCase(errorMsg: D? = null): Validator<D> {
+        val rule = errorMsg?.let { AllUpperCaseRule(errorMsg) } ?: AllUpperCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneUpperCase(errorMsg: String? = null): Validator {
-        val rule = errorMsg?.let { AtLeastOneUpercCaseRule(errorMsg) } ?: AtLeastOneUpercCaseRule()
+    fun atleastOneUpperCase(errorMsg: D? = null): Validator<D> {
+        val rule = errorMsg?.let { AtLeastOneUpperCaseRule(errorMsg) } ?: AtLeastOneUpperCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneLowerCase(errorMsg: String? = null): Validator {
+    fun atleastOneLowerCase(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { AtLeastOneLowerCaseRule(errorMsg) } ?: AtLeastOneLowerCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneNumber(errorMsg: String? = null): Validator {
+    fun atleastOneNumber(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { AtLeastOneNumberCaseRule(errorMsg) } ?: AtLeastOneNumberCaseRule()
         addRule(rule)
         return this
     }
 
-    fun noNumbers(errorMsg: String? = null): Validator {
+    fun noNumbers(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { NoNumbersRule(errorMsg) } ?: NoNumbersRule()
         addRule(rule)
         return this
     }
 
-    fun onlyNumbers(errorMsg: String? = null): Validator {
+    fun onlyNumbers(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { OnlyNumbersRule(errorMsg) } ?: OnlyNumbersRule()
         addRule(rule)
         return this
     }
 
-    fun startWithNumber(errorMsg: String? = null): Validator {
+    fun startWithNumber(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { StartsWithNumberRule(errorMsg) } ?: StartsWithNumberRule()
         addRule(rule)
         return this
     }
 
-    fun startWithNonNumber(errorMsg: String? = null): Validator {
+    fun startWithNonNumber(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { StartsWithNoNumberRule(errorMsg) } ?: StartsWithNoNumberRule()
         addRule(rule)
         return this
     }
 
-    fun noSpecialCharacters(errorMsg: String? = null): Validator {
+    fun noSpecialCharacters(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { NoSpecialCharacterRule(errorMsg) } ?: NoSpecialCharacterRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneSpecialCharacters(errorMsg: String? = null): Validator {
-        val rule = errorMsg?.let { AtleastOneSpecialCharacterRule(errorMsg) } ?: AtleastOneSpecialCharacterRule()
+    fun atleastOneSpecialCharacters(errorMsg: D? = null): Validator<D> {
+        val rule = errorMsg?.let { AtLeastOneSpecialCharacterRule(errorMsg) } ?: AtLeastOneSpecialCharacterRule()
         addRule(rule)
         return this
     }
 
-    fun textEqualTo(target: String, errorMsg: String? = null): Validator {
+    fun textEqualTo(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { TextEqualToRule(target, errorMsg) } ?: TextEqualToRule(target)
         addRule(rule)
         return this
     }
 
-    fun textNotEqualTo(target: String, errorMsg: String? = null): Validator {
+    fun textNotEqualTo(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { TextNotEqualToRule(target, errorMsg) } ?: TextNotEqualToRule(target)
         addRule(rule)
         return this
     }
 
-    fun startsWith(target: String, errorMsg: String? = null): Validator {
+    fun startsWith(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { StartsWithRule(target, errorMsg) } ?: StartsWithRule(target)
         addRule(rule)
         return this
     }
 
-    fun endsWith(target: String, errorMsg: String? = null): Validator {
+    fun endsWith(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { EndsWithRule(target, errorMsg) } ?: EndsWithRule(target)
         addRule(rule)
         return this
     }
 
-    fun contains(target: String, errorMsg: String? = null): Validator {
+    fun contains(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { ContainsRule(target, errorMsg) } ?: ContainsRule(target)
         addRule(rule)
         return this
     }
 
-    fun notContains(target: String, errorMsg: String? = null): Validator {
+    fun notContains(target: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { NotContainsRule(target, errorMsg) } ?: NotContainsRule(target)
         addRule(rule)
         return this
     }
 
     fun creditCardNumber(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): Validator {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null, maxLengthErrorMsg: D? = null
+    ): Validator<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) } ?: MinLengthRule(16)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) } ?: MaxLengthRule(16)
         val creditCardRule = creditCardErrorMsg?.let { CreditCardRule(creditCardErrorMsg) } ?: CreditCardRule()
@@ -254,9 +253,8 @@ class Validator(val text: String) {
     }
 
     fun creditCardNumberWithSpaces(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): Validator {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null, maxLengthErrorMsg: D? = null
+    ): Validator<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) } ?: MinLengthRule(19)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) } ?: MaxLengthRule(19)
         val creditCardRule =
@@ -269,9 +267,8 @@ class Validator(val text: String) {
     }
 
     fun creditCardNumberWithDashes(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): Validator {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null, maxLengthErrorMsg: D? = null
+    ): Validator<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) } ?: MinLengthRule(19)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) } ?: MaxLengthRule(19)
         val creditCardRule =
@@ -283,13 +280,13 @@ class Validator(val text: String) {
         return this
     }
 
-    fun validUrl(errorMsg: String? = null): Validator {
+    fun validUrl(errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { ValidUrlRule(errorMsg) } ?: ValidUrlRule()
         addRule(rule)
         return this
     }
 
-    fun regex(pattern: String, errorMsg: String? = null): Validator {
+    fun regex(pattern: String, errorMsg: D? = null): Validator<D> {
         val rule = errorMsg?.let { RegexRule(pattern, errorMsg) } ?: RegexRule(pattern)
         addRule(rule)
         return this

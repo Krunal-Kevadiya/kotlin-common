@@ -3,21 +3,16 @@ package com.kotlinlibrary.validation.rules
 import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
 
-class TextEqualToRule<ErrorMessage>(
-    val target: String,
+class AllUpperCaseRule<ErrorMessage>(
     var errorMsg: ErrorMessage? = null
 ) : BaseRule<ErrorMessage> {
-    override fun validate(text: String): Boolean {
-        if (text.isEmpty())
-            return false
-        return text == target
-    }
+    override fun validate(text: String): Boolean = text == text.toUpperCase()
 
     override fun getErrorMessage(): ErrorMessage {
         return when {
             errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Should be equal to $target" as ErrorMessage
-            errorMsg is Int -> R.string.vald_should_be_equal_to_target as ErrorMessage
+            errorMsg is String -> "All letters should be in upper case." as ErrorMessage
+            errorMsg is Int -> R.string.vald_all_letters_upper_case as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

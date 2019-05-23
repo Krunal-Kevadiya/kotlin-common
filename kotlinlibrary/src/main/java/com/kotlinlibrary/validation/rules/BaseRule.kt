@@ -1,7 +1,7 @@
 package com.kotlinlibrary.validation.rules
 
-interface BaseRule {
+interface BaseRule<ErrorMessage> {
     fun validate(text: String) : Boolean
-    fun getErrorMessage() : String
-    fun setError(msg: String)
+    fun getErrorMessage() : ErrorMessage
+    fun setError(msg: ErrorMessage)
 }

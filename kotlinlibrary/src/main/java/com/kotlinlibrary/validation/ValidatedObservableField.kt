@@ -3,43 +3,43 @@ package com.kotlinlibrary.validation
 import androidx.databinding.*
 import com.kotlinlibrary.validation.rules.*
 
-class ValidatedObservableField<T : Any>(
-    value: T,
+class ValidatedObservableField<D> (
+    value: String,
     private val onChange: Boolean = false,
     vararg dependencies: Observable
-) : CustomObservableField<T, String>(*dependencies) {
+) : CustomObservableField<String, D>(*dependencies) {
     private var isValid = true
     private var successCallback: (() -> Unit)? = null
-    private var errorCallback: ((message: String?) -> Unit)? = null
-    private val rulesList = mutableListOf<BaseRule>()
+    private var errorCallback: ((message: D?) -> Unit)? = null
+    private val rulesList = mutableListOf<BaseRule<D>>()
 
     init {
         setValue(value)
     }
 
-    override fun setValue(value: T?) {
+    override fun setValue(value: String?) {
         super.setValue(value)
         if (onChange) {
             check()
         }
     }
 
-    override fun setError(error: String?) {
+    override fun setError(error: D?) {
         isValid = false
         super.setError(error)
     }
 
-    fun addRule(rule: BaseRule): ValidatedObservableField<T> {
+    fun addRule(rule: BaseRule<D>): ValidatedObservableField<D> {
         rulesList.add(rule)
         return this
     }
 
-    fun addErrorCallback(callback: (message: String?) -> Unit): ValidatedObservableField<T> {
+    fun addErrorCallback(callback: (message: D?) -> Unit): ValidatedObservableField<D> {
         errorCallback = callback
         return this
     }
 
-    fun addSuccessCallback(callback: () -> Unit): ValidatedObservableField<T> {
+    fun addSuccessCallback(callback: () -> Unit): ValidatedObservableField<D> {
         successCallback = callback
         return this
     }
@@ -69,178 +69,178 @@ class ValidatedObservableField<T : Any>(
     }
 
     // Rules
-    fun nonEmpty(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun nonEmpty(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { NonEmptyRule(errorMsg) } ?: NonEmptyRule()
         addRule(rule)
         return this
     }
 
-    fun minLength(length: Int, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun minLength(length: Int, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { MinLengthRule(length, errorMsg) } ?: MinLengthRule(length)
         addRule(rule)
         return this
     }
 
-    fun maxLength(length: Int, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun maxLength(length: Int, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { MaxLengthRule(length, errorMsg) } ?: MaxLengthRule(length)
         addRule(rule)
         return this
     }
 
-    fun validEmail(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun validEmail(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { EmailRule(errorMsg) } ?: EmailRule()
         addRule(rule)
         return this
     }
 
-    fun validNumber(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun validNumber(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { ValidNumberRule(errorMsg) } ?: ValidNumberRule()
         addRule(rule)
         return this
     }
 
-    fun greaterThan(number: Number, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun greaterThan(number: Number, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { GreaterThanRule(number, errorMsg) } ?: GreaterThanRule(number)
         addRule(rule)
         return this
     }
 
-    fun greaterThanOrEqual(number: Number, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun greaterThanOrEqual(number: Number, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { GreaterThanOrEqualRule(number, errorMsg) }
             ?: GreaterThanOrEqualRule(number)
         addRule(rule)
         return this
     }
 
-    fun lessThan(number: Number, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun lessThan(number: Number, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { LessThanRule(number, errorMsg) } ?: LessThanRule(number)
         addRule(rule)
         return this
     }
 
-    fun lessThanOrEqual(number: Number, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun lessThanOrEqual(number: Number, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { LessThanOrEqualRule(number, errorMsg) }
             ?: LessThanOrEqualRule(number)
         addRule(rule)
         return this
     }
 
-    fun numberEqualTo(number: Number, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun numberEqualTo(number: Number, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { NumberEqualToRule(number, errorMsg) }
             ?: NumberEqualToRule(number)
         addRule(rule)
         return this
     }
 
-    fun allLowerCase(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun allLowerCase(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { AllLowerCaseRule(errorMsg) } ?: AllLowerCaseRule()
         addRule(rule)
         return this
     }
 
-    fun allUpperCase(errorMsg: String? = null): ValidatedObservableField<T> {
-        val rule = errorMsg?.let { AllUpercCaseRule(errorMsg) } ?: AllUpercCaseRule()
+    fun allUpperCase(errorMsg: D? = null): ValidatedObservableField<D> {
+        val rule = errorMsg?.let { AllUpperCaseRule(errorMsg) } ?: AllUpperCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneUpperCase(errorMsg: String? = null): ValidatedObservableField<T> {
-        val rule = errorMsg?.let { AtLeastOneUpercCaseRule(errorMsg) } ?: AtLeastOneUpercCaseRule()
+    fun atleastOneUpperCase(errorMsg: D? = null): ValidatedObservableField<D> {
+        val rule = errorMsg?.let { AtLeastOneUpperCaseRule(errorMsg) } ?: AtLeastOneUpperCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneLowerCase(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun atleastOneLowerCase(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { AtLeastOneLowerCaseRule(errorMsg) } ?: AtLeastOneLowerCaseRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneNumber(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun atleastOneNumber(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { AtLeastOneNumberCaseRule(errorMsg) }
             ?: AtLeastOneNumberCaseRule()
         addRule(rule)
         return this
     }
 
-    fun noNumbers(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun noNumbers(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { NoNumbersRule(errorMsg) } ?: NoNumbersRule()
         addRule(rule)
         return this
     }
 
-    fun onlyNumbers(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun onlyNumbers(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { OnlyNumbersRule(errorMsg) } ?: OnlyNumbersRule()
         addRule(rule)
         return this
     }
 
-    fun startWithNumber(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun startWithNumber(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { StartsWithNumberRule(errorMsg) } ?: StartsWithNumberRule()
         addRule(rule)
         return this
     }
 
-    fun startWithNonNumber(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun startWithNonNumber(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { StartsWithNoNumberRule(errorMsg) } ?: StartsWithNoNumberRule()
         addRule(rule)
         return this
     }
 
-    fun noSpecialCharacters(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun noSpecialCharacters(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { NoSpecialCharacterRule(errorMsg) } ?: NoSpecialCharacterRule()
         addRule(rule)
         return this
     }
 
-    fun atleastOneSpecialCharacters(errorMsg: String? = null): ValidatedObservableField<T> {
-        val rule = errorMsg?.let { AtleastOneSpecialCharacterRule(errorMsg) }
-            ?: AtleastOneSpecialCharacterRule()
+    fun atleastOneSpecialCharacters(errorMsg: D? = null): ValidatedObservableField<D> {
+        val rule = errorMsg?.let { AtLeastOneSpecialCharacterRule(errorMsg) }
+            ?: AtLeastOneSpecialCharacterRule()
         addRule(rule)
         return this
     }
 
-    fun textEqualTo(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun textEqualTo(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { TextEqualToRule(target, errorMsg) } ?: TextEqualToRule(target)
         addRule(rule)
         return this
     }
 
-    fun textNotEqualTo(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun textNotEqualTo(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { TextNotEqualToRule(target, errorMsg) }
             ?: TextNotEqualToRule(target)
         addRule(rule)
         return this
     }
 
-    fun startsWith(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun startsWith(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { StartsWithRule(target, errorMsg) } ?: StartsWithRule(target)
         addRule(rule)
         return this
     }
 
-    fun endsWith(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun endsWith(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { EndsWithRule(target, errorMsg) } ?: EndsWithRule(target)
         addRule(rule)
         return this
     }
 
-    fun contains(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun contains(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { ContainsRule(target, errorMsg) } ?: ContainsRule(target)
         addRule(rule)
         return this
     }
 
-    fun notContains(target: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun notContains(target: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { NotContainsRule(target, errorMsg) } ?: NotContainsRule(target)
         addRule(rule)
         return this
     }
 
     fun creditCardNumber(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): ValidatedObservableField<T> {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null,
+        maxLengthErrorMsg: D? = null
+    ): ValidatedObservableField<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) }
             ?: MinLengthRule(16)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) }
@@ -255,9 +255,9 @@ class ValidatedObservableField<T : Any>(
     }
 
     fun creditCardNumberWithSpaces(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): ValidatedObservableField<T> {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null,
+        maxLengthErrorMsg: D? = null
+    ): ValidatedObservableField<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) }
             ?: MinLengthRule(19)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) }
@@ -272,9 +272,9 @@ class ValidatedObservableField<T : Any>(
     }
 
     fun creditCardNumberWithDashes(
-        creditCardErrorMsg: String? = null, minLengthErrorMsg: String? = null,
-        maxLengthErrorMsg: String? = null
-    ): ValidatedObservableField<T> {
+        creditCardErrorMsg: D? = null, minLengthErrorMsg: D? = null,
+        maxLengthErrorMsg: D? = null
+    ): ValidatedObservableField<D> {
         val minLengthRule = minLengthErrorMsg?.let { MinLengthRule(16, minLengthErrorMsg) }
             ?: MinLengthRule(19)
         val maxLengthRule = maxLengthErrorMsg?.let { MaxLengthRule(16, maxLengthErrorMsg) }
@@ -288,13 +288,13 @@ class ValidatedObservableField<T : Any>(
         return this
     }
 
-    fun validUrl(errorMsg: String? = null): ValidatedObservableField<T> {
+    fun validUrl(errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { ValidUrlRule(errorMsg) } ?: ValidUrlRule()
         addRule(rule)
         return this
     }
 
-    fun regex(pattern: String, errorMsg: String? = null): ValidatedObservableField<T> {
+    fun regex(pattern: String, errorMsg: D? = null): ValidatedObservableField<D> {
         val rule = errorMsg?.let { RegexRule(pattern, errorMsg) } ?: RegexRule(pattern)
         addRule(rule)
         return this

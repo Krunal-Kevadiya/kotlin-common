@@ -5,8 +5,7 @@ import androidx.databinding.Observable
 
 import java.io.Serializable
 
-@Suppress("FINAL_UPPER_BOUND")
-open class CustomObservableField<T, D : String> : BaseObservable, Serializable {
+open class CustomObservableField<T, D> : BaseObservable, Serializable {
     private var mValue: T? = null
     private var mError: D? = null
 
@@ -14,8 +13,6 @@ open class CustomObservableField<T, D : String> : BaseObservable, Serializable {
         mValue = value
         mError = error
     }
-
-    constructor()
 
     constructor(vararg dependencies: Observable) {
         if (dependencies.isNotEmpty()) {

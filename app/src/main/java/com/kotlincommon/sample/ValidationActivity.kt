@@ -13,14 +13,14 @@ import com.kotlinlibrary.validation.ValidatedObservableField
 
 class ValidationActivity : AppCompatActivity() {
 
-    val editTextEmail: ValidatedObservableField<String> = ValidatedObservableField("", false)
+    val editTextEmail: ValidatedObservableField<String> = ValidatedObservableField<String>("", false)
         .nonEmpty("Please enter your registered email address.")
         .regex("^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\\.([a-zA-Z])+([a-zA-Z])+", "Please enter valid email address.")
         .addErrorCallback {
             findViewById<EditText>(R.id.editText).error = it
         }
 
-    val editTextPassword: ValidatedObservableField<String> = ValidatedObservableField("", true)
+    val editTextPassword: ValidatedObservableField<String> = ValidatedObservableField<String>("", true)
         .nonEmpty("Please enter your password.")
         .regex(".*[A-Z]+.*", "Must contain capital letters.")
         .regex(".*[0-9]+.*", "Must contain digits.")

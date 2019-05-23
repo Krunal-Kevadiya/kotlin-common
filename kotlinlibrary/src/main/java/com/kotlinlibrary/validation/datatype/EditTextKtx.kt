@@ -5,10 +5,10 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.kotlinlibrary.validation.views.*
 
-fun Any.nonEmptyList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.nonEmptyList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.nonEmpty {
+        result = edittext.nonEmpty<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -17,10 +17,10 @@ fun Any.nonEmptyList(vararg editTextList: EditText, callback: (view: EditText, m
     return result
 }
 
-fun Activity.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).nonEmpty {
+        result = findViewById<EditText>(id).nonEmpty<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -29,12 +29,12 @@ fun Activity.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, me
     return result
 }
 
-fun Fragment.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).nonEmpty {
+                result = v.findViewById<EditText>(id).nonEmpty<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -46,14 +46,14 @@ fun Fragment.nonEmptyList(vararg editTextIds: Int, callback: (view: EditText, me
 }
 
 // Min Length
-fun Any.minLengthList(
+fun <ErrorMessage> Any.minLengthList(
     minLength: Int,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.minLength(minLength) {
+        result = edittext.minLength<ErrorMessage>(minLength) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -62,14 +62,14 @@ fun Any.minLengthList(
     return result
 }
 
-fun Activity.minLengthList(
+fun <ErrorMessage> Activity.minLengthList(
     minLength: Int,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).minLength(minLength) {
+        result = findViewById<EditText>(id).minLength<ErrorMessage>(minLength) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -78,16 +78,16 @@ fun Activity.minLengthList(
     return result
 }
 
-fun Fragment.minLengthList(
+fun <ErrorMessage> Fragment.minLengthList(
     minLength: Int,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).minLength(minLength) {
+                result = v.findViewById<EditText>(id).minLength<ErrorMessage>(minLength) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -100,14 +100,14 @@ fun Fragment.minLengthList(
 
 
 // Max Length
-fun Any.maxLengthList(
+fun <ErrorMessage> Any.maxLengthList(
     maxLength: Int,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.maxLength(maxLength) {
+        result = edittext.maxLength<ErrorMessage>(maxLength) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -116,14 +116,14 @@ fun Any.maxLengthList(
     return result
 }
 
-fun Activity.maxLengthList(
+fun <ErrorMessage> Activity.maxLengthList(
     maxLength: Int,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).maxLength(maxLength) {
+        result = findViewById<EditText>(id).maxLength<ErrorMessage>(maxLength) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -132,16 +132,16 @@ fun Activity.maxLengthList(
     return result
 }
 
-fun Fragment.maxLengthList(
+fun <ErrorMessage> Fragment.maxLengthList(
     maxLength: Int,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).maxLength(maxLength) {
+                result = v.findViewById<EditText>(id).maxLength<ErrorMessage>(maxLength) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -153,10 +153,10 @@ fun Fragment.maxLengthList(
 }
 
 // Valid Email
-fun Any.validEmailList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.validEmailList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.validEmail {
+        result = edittext.validEmail<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -165,10 +165,10 @@ fun Any.validEmailList(vararg editTextList: EditText, callback: (view: EditText,
     return result
 }
 
-fun Activity.validEmailList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.validEmailList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).validEmail {
+        result = findViewById<EditText>(id).validEmail<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -177,12 +177,12 @@ fun Activity.validEmailList(vararg editTextIds: Int, callback: (view: EditText, 
     return result
 }
 
-fun Fragment.validEmailList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.validEmailList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).validEmail {
+                result = v.findViewById<EditText>(id).validEmail<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -194,10 +194,10 @@ fun Fragment.validEmailList(vararg editTextIds: Int, callback: (view: EditText, 
 }
 
 // Valid Number
-fun Any.validNumberList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.validNumberList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.validNumber {
+        result = edittext.validNumber<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -206,10 +206,10 @@ fun Any.validNumberList(vararg editTextList: EditText, callback: (view: EditText
     return result
 }
 
-fun Activity.validNumberList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.validNumberList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).validNumber {
+        result = findViewById<EditText>(id).validNumber<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -218,12 +218,12 @@ fun Activity.validNumberList(vararg editTextIds: Int, callback: (view: EditText,
     return result
 }
 
-fun Fragment.validNumberList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.validNumberList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).validNumber {
+                result = v.findViewById<EditText>(id).validNumber<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -235,14 +235,14 @@ fun Fragment.validNumberList(vararg editTextIds: Int, callback: (view: EditText,
 }
 
 // Greater Than
-fun Any.greaterThanList(
+fun <ErrorMessage> Any.greaterThanList(
     number: Number,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.greaterThan(number) {
+        result = edittext.greaterThan<ErrorMessage>(number) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -251,14 +251,14 @@ fun Any.greaterThanList(
     return result
 }
 
-fun Activity.greaterThanList(
+fun <ErrorMessage> Activity.greaterThanList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).greaterThan(number) {
+        result = findViewById<EditText>(id).greaterThan<ErrorMessage>(number) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -267,16 +267,16 @@ fun Activity.greaterThanList(
     return result
 }
 
-fun Fragment.greaterThanList(
+fun <ErrorMessage> Fragment.greaterThanList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).greaterThan(number) {
+                result = v.findViewById<EditText>(id).greaterThan<ErrorMessage>(number) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -288,14 +288,14 @@ fun Fragment.greaterThanList(
 }
 
 // Greater Than Or Equal
-fun Any.greaterThanOrEqualList(
+fun <ErrorMessage> Any.greaterThanOrEqualList(
     number: Number,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.greaterThanOrEqual(number) {
+        result = edittext.greaterThanOrEqual<ErrorMessage>(number) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -304,14 +304,14 @@ fun Any.greaterThanOrEqualList(
     return result
 }
 
-fun Activity.greaterThanOrEqualList(
+fun <ErrorMessage> Activity.greaterThanOrEqualList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).greaterThanOrEqual(number) {
+        result = findViewById<EditText>(id).greaterThanOrEqual<ErrorMessage>(number) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -320,16 +320,16 @@ fun Activity.greaterThanOrEqualList(
     return result
 }
 
-fun Fragment.greaterThanOrEqualList(
+fun <ErrorMessage> Fragment.greaterThanOrEqualList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).greaterThanOrEqual(number) {
+                result = v.findViewById<EditText>(id).greaterThanOrEqual<ErrorMessage>(number) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -341,14 +341,14 @@ fun Fragment.greaterThanOrEqualList(
 }
 
 // Less Than
-fun Any.lessThanList(
+fun <ErrorMessage> Any.lessThanList(
     number: Number,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.lessThan(number) {
+        result = edittext.lessThan<ErrorMessage>(number) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -357,14 +357,14 @@ fun Any.lessThanList(
     return result
 }
 
-fun Activity.lessThanList(
+fun <ErrorMessage> Activity.lessThanList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).lessThan(number) {
+        result = findViewById<EditText>(id).lessThan<ErrorMessage>(number) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -373,16 +373,16 @@ fun Activity.lessThanList(
     return result
 }
 
-fun Fragment.lessThanList(
+fun <ErrorMessage> Fragment.lessThanList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).lessThan(number) {
+                result = v.findViewById<EditText>(id).lessThan<ErrorMessage>(number) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -394,14 +394,14 @@ fun Fragment.lessThanList(
 }
 
 // Less Than Or Equal
-fun Any.lessThanOrEqualnList(
+fun <ErrorMessage> Any.lessThanOrEqualnList(
     number: Number,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.lessThanOrEqual(number) {
+        result = edittext.lessThanOrEqual<ErrorMessage>(number) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -410,14 +410,14 @@ fun Any.lessThanOrEqualnList(
     return result
 }
 
-fun Activity.lessThanOrEqualList(
+fun <ErrorMessage> Activity.lessThanOrEqualList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).lessThanOrEqual(number) {
+        result = findViewById<EditText>(id).lessThanOrEqual<ErrorMessage>(number) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -426,16 +426,16 @@ fun Activity.lessThanOrEqualList(
     return result
 }
 
-fun Fragment.lessThanOrEqualList(
+fun <ErrorMessage> Fragment.lessThanOrEqualList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).lessThanOrEqual(number) {
+                result = v.findViewById<EditText>(id).lessThanOrEqual<ErrorMessage>(number) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -447,14 +447,14 @@ fun Fragment.lessThanOrEqualList(
 }
 
 // Number Equal To
-fun Any.numberEqualToList(
+fun <ErrorMessage> Any.numberEqualToList(
     number: Number,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.numberEqualTo(number) {
+        result = edittext.numberEqualTo<ErrorMessage>(number) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -463,14 +463,14 @@ fun Any.numberEqualToList(
     return result
 }
 
-fun Activity.numberEqualToList(
+fun <ErrorMessage> Activity.numberEqualToList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).numberEqualTo(number) {
+        result = findViewById<EditText>(id).numberEqualTo<ErrorMessage>(number) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -479,16 +479,16 @@ fun Activity.numberEqualToList(
     return result
 }
 
-fun Fragment.numberEqualToList(
+fun <ErrorMessage> Fragment.numberEqualToList(
     number: Number,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).numberEqualTo(number) {
+                result = v.findViewById<EditText>(id).numberEqualTo<ErrorMessage>(number) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -500,10 +500,10 @@ fun Fragment.numberEqualToList(
 }
 
 // All Upper Case
-fun Any.allUperCaseList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.allUperCaseList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.allUperCase {
+        result = edittext.allUperCase<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -512,10 +512,10 @@ fun Any.allUperCaseList(vararg editTextList: EditText, callback: (view: EditText
     return result
 }
 
-fun Activity.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).allUperCase {
+        result = findViewById<EditText>(id).allUperCase<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -524,12 +524,12 @@ fun Activity.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText,
     return result
 }
 
-fun Fragment.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).allUperCase {
+                result = v.findViewById<EditText>(id).allUperCase<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -541,10 +541,10 @@ fun Fragment.allUperCaseList(vararg editTextIds: Int, callback: (view: EditText,
 }
 
 // All Lower Case
-fun Any.allLowerCaseList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.allLowerCaseList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.allLowerCase {
+        result = edittext.allLowerCase<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -553,10 +553,10 @@ fun Any.allLowerCaseList(vararg editTextList: EditText, callback: (view: EditTex
     return result
 }
 
-fun Activity.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).allLowerCase {
+        result = findViewById<EditText>(id).allLowerCase<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -565,12 +565,12 @@ fun Activity.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText
     return result
 }
 
-fun Fragment.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).allLowerCase {
+                result = v.findViewById<EditText>(id).allLowerCase<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -582,13 +582,13 @@ fun Fragment.allLowerCaseList(vararg editTextIds: Int, callback: (view: EditText
 }
 
 // At least one upper Case
-fun Any.atleastOneUpperCaseList(
+fun <ErrorMessage> Any.atleastOneUpperCaseList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.atleastOneUpperCase {
+        result = edittext.atleastOneUpperCase<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -597,13 +597,13 @@ fun Any.atleastOneUpperCaseList(
     return result
 }
 
-fun Activity.atleastOneUpperCaseList(
+fun <ErrorMessage> Activity.atleastOneUpperCaseList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).atleastOneUpperCase {
+        result = findViewById<EditText>(id).atleastOneUpperCase<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -612,15 +612,15 @@ fun Activity.atleastOneUpperCaseList(
     return result
 }
 
-fun Fragment.atleastOneUpperCaseList(
+fun <ErrorMessage> Fragment.atleastOneUpperCaseList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).atleastOneUpperCase {
+                result = v.findViewById<EditText>(id).atleastOneUpperCase<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -632,13 +632,13 @@ fun Fragment.atleastOneUpperCaseList(
 }
 
 // At least one lower Case
-fun Any.atleastOneLowerCaseList(
+fun <ErrorMessage> Any.atleastOneLowerCaseList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.atleastOneLowerCase {
+        result = edittext.atleastOneLowerCase<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -647,13 +647,13 @@ fun Any.atleastOneLowerCaseList(
     return result
 }
 
-fun Activity.atleastOneLowerCaseList(
+fun <ErrorMessage> Activity.atleastOneLowerCaseList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).atleastOneLowerCase {
+        result = findViewById<EditText>(id).atleastOneLowerCase<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -662,15 +662,15 @@ fun Activity.atleastOneLowerCaseList(
     return result
 }
 
-fun Fragment.atleastOneLowerCaseList(
+fun <ErrorMessage> Fragment.atleastOneLowerCaseList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).atleastOneLowerCase {
+                result = v.findViewById<EditText>(id).atleastOneLowerCase<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -682,13 +682,13 @@ fun Fragment.atleastOneLowerCaseList(
 }
 
 // At least one number
-fun Any.atleastOneNumberList(
+fun <ErrorMessage> Any.atleastOneNumberList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.atleastOneNumber {
+        result = edittext.atleastOneNumber<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -697,13 +697,13 @@ fun Any.atleastOneNumberList(
     return result
 }
 
-fun Activity.atleastOneNumberList(
+fun <ErrorMessage> Activity.atleastOneNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).atleastOneNumber {
+        result = findViewById<EditText>(id).atleastOneNumber<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -712,15 +712,15 @@ fun Activity.atleastOneNumberList(
     return result
 }
 
-fun Fragment.atleastOneNumberList(
+fun <ErrorMessage> Fragment.atleastOneNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).atleastOneNumber {
+                result = v.findViewById<EditText>(id).atleastOneNumber<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -732,13 +732,13 @@ fun Fragment.atleastOneNumberList(
 }
 
 // Starts with number
-fun Any.startWithNumberList(
+fun <ErrorMessage> Any.startWithNumberList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.startWithNumber {
+        result = edittext.startWithNumber<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -747,13 +747,13 @@ fun Any.startWithNumberList(
     return result
 }
 
-fun Activity.startWithNumberList(
+fun <ErrorMessage> Activity.startWithNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).startWithNumber {
+        result = findViewById<EditText>(id).startWithNumber<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -762,15 +762,15 @@ fun Activity.startWithNumberList(
     return result
 }
 
-fun Fragment.startWithNumberList(
+fun <ErrorMessage> Fragment.startWithNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).startWithNumber {
+                result = v.findViewById<EditText>(id).startWithNumber<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -782,13 +782,13 @@ fun Fragment.startWithNumberList(
 }
 
 // Starts with non number
-fun Any.startWithNonNumberList(
+fun <ErrorMessage> Any.startWithNonNumberList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.startWithNonNumber {
+        result = edittext.startWithNonNumber<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -797,13 +797,13 @@ fun Any.startWithNonNumberList(
     return result
 }
 
-fun Activity.startWithNonNumberList(
+fun <ErrorMessage> Activity.startWithNonNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).startWithNonNumber {
+        result = findViewById<EditText>(id).startWithNonNumber<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -812,15 +812,15 @@ fun Activity.startWithNonNumberList(
     return result
 }
 
-fun Fragment.startWithNonNumberList(
+fun <ErrorMessage> Fragment.startWithNonNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).startWithNonNumber {
+                result = v.findViewById<EditText>(id).startWithNonNumber<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -832,10 +832,10 @@ fun Fragment.startWithNonNumberList(
 }
 
 // noNumbers
-fun Any.noNumbersList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.noNumbersList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.noNumbers {
+        result = edittext.noNumbers<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -844,10 +844,10 @@ fun Any.noNumbersList(vararg editTextList: EditText, callback: (view: EditText, 
     return result
 }
 
-fun Activity.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).noNumbers {
+        result = findViewById<EditText>(id).noNumbers<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -856,12 +856,12 @@ fun Activity.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, m
     return result
 }
 
-fun Fragment.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).noNumbers {
+                result = v.findViewById<EditText>(id).noNumbers<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -873,10 +873,10 @@ fun Fragment.noNumbersList(vararg editTextIds: Int, callback: (view: EditText, m
 }
 
 // only numbers
-fun Any.onlyNumbersList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.onlyNumbersList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.onlyNumbers {
+        result = edittext.onlyNumbers<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -885,10 +885,10 @@ fun Any.onlyNumbersList(vararg editTextList: EditText, callback: (view: EditText
     return result
 }
 
-fun Activity.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).onlyNumbers {
+        result = findViewById<EditText>(id).onlyNumbers<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -897,12 +897,12 @@ fun Activity.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText,
     return result
 }
 
-fun Fragment.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).onlyNumbers {
+                result = v.findViewById<EditText>(id).onlyNumbers<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -914,13 +914,13 @@ fun Fragment.onlyNumbersList(vararg editTextIds: Int, callback: (view: EditText,
 }
 
 // no special characters
-fun Any.noSpecialCharactersList(
+fun <ErrorMessage> Any.noSpecialCharactersList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.noSpecialCharacters {
+        result = edittext.noSpecialCharacters<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -929,13 +929,13 @@ fun Any.noSpecialCharactersList(
     return result
 }
 
-fun Activity.noSpecialCharactersList(
+fun <ErrorMessage> Activity.noSpecialCharactersList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).noSpecialCharacters {
+        result = findViewById<EditText>(id).noSpecialCharacters<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -944,15 +944,15 @@ fun Activity.noSpecialCharactersList(
     return result
 }
 
-fun Fragment.noSpecialCharactersList(
+fun <ErrorMessage> Fragment.noSpecialCharactersList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).noSpecialCharacters {
+                result = v.findViewById<EditText>(id).noSpecialCharacters<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -964,13 +964,13 @@ fun Fragment.noSpecialCharactersList(
 }
 
 // at least one special characters
-fun Any.atleastOneSpecialCharactersList(
+fun <ErrorMessage> Any.atleastOneSpecialCharactersList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.atleastOneSpecialCharacters {
+        result = edittext.atleastOneSpecialCharacters<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -979,13 +979,13 @@ fun Any.atleastOneSpecialCharactersList(
     return result
 }
 
-fun Activity.atleastOneSpecialCharactersList(
+fun <ErrorMessage> Activity.atleastOneSpecialCharactersList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).atleastOneSpecialCharacters {
+        result = findViewById<EditText>(id).atleastOneSpecialCharacters<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -994,15 +994,15 @@ fun Activity.atleastOneSpecialCharactersList(
     return result
 }
 
-fun Fragment.atleastOneSpecialCharactersList(
+fun <ErrorMessage> Fragment.atleastOneSpecialCharactersList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).atleastOneSpecialCharacters {
+                result = v.findViewById<EditText>(id).atleastOneSpecialCharacters<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1014,14 +1014,14 @@ fun Fragment.atleastOneSpecialCharactersList(
 }
 
 // text equal to
-fun Any.textEqualToList(
+fun <ErrorMessage> Any.textEqualToList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.textEqualTo(target) {
+        result = edittext.textEqualTo<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1030,14 +1030,14 @@ fun Any.textEqualToList(
     return result
 }
 
-fun Activity.textEqualToList(
+fun <ErrorMessage> Activity.textEqualToList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).textEqualTo(target) {
+        result = findViewById<EditText>(id).textEqualTo<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1046,16 +1046,16 @@ fun Activity.textEqualToList(
     return result
 }
 
-fun Fragment.textEqualToList(
+fun <ErrorMessage> Fragment.textEqualToList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).textEqualTo(target) {
+                result = v.findViewById<EditText>(id).textEqualTo<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1067,14 +1067,14 @@ fun Fragment.textEqualToList(
 }
 
 // text not equal to
-fun Any.textNotEqualToList(
+fun <ErrorMessage> Any.textNotEqualToList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.textNotEqualTo(target) {
+        result = edittext.textNotEqualTo<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1083,14 +1083,14 @@ fun Any.textNotEqualToList(
     return result
 }
 
-fun Activity.textNotEqualToList(
+fun <ErrorMessage> Activity.textNotEqualToList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).textNotEqualTo(target) {
+        result = findViewById<EditText>(id).textNotEqualTo<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1099,16 +1099,16 @@ fun Activity.textNotEqualToList(
     return result
 }
 
-fun Fragment.textNotEqualToList(
+fun <ErrorMessage> Fragment.textNotEqualToList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).textNotEqualTo(target) {
+                result = v.findViewById<EditText>(id).textNotEqualTo<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1120,14 +1120,14 @@ fun Fragment.textNotEqualToList(
 }
 
 // starts with
-fun Any.startsWithList(
+fun <ErrorMessage> Any.startsWithList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.startsWith(target) {
+        result = edittext.startsWith<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1136,14 +1136,14 @@ fun Any.startsWithList(
     return result
 }
 
-fun Activity.startsWithList(
+fun <ErrorMessage> Activity.startsWithList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).startsWith(target) {
+        result = findViewById<EditText>(id).startsWith<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1152,16 +1152,16 @@ fun Activity.startsWithList(
     return result
 }
 
-fun Fragment.startsWithList(
+fun <ErrorMessage> Fragment.startsWithList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).startsWith(target) {
+                result = v.findViewById<EditText>(id).startsWith<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1173,14 +1173,14 @@ fun Fragment.startsWithList(
 }
 
 // ends with
-fun Any.endssWithList(
+fun <ErrorMessage> Any.endssWithList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.endssWith(target) {
+        result = edittext.endssWith<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1189,14 +1189,14 @@ fun Any.endssWithList(
     return result
 }
 
-fun Activity.endssWithList(
+fun <ErrorMessage> Activity.endssWithList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).endssWith(target) {
+        result = findViewById<EditText>(id).endssWith<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1205,16 +1205,16 @@ fun Activity.endssWithList(
     return result
 }
 
-fun Fragment.endssWithList(
+fun <ErrorMessage> Fragment.endssWithList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).endssWith(target) {
+                result = v.findViewById<EditText>(id).endssWith<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1226,14 +1226,14 @@ fun Fragment.endssWithList(
 }
 
 // contains
-fun Any.containsList(
+fun <ErrorMessage> Any.containsList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.contains(target) {
+        result = edittext.contains<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1242,14 +1242,14 @@ fun Any.containsList(
     return result
 }
 
-fun Activity.containsList(
+fun <ErrorMessage> Activity.containsList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).contains(target) {
+        result = findViewById<EditText>(id).contains<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1258,16 +1258,16 @@ fun Activity.containsList(
     return result
 }
 
-fun Fragment.containsList(
+fun <ErrorMessage> Fragment.containsList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).contains(target) {
+                result = v.findViewById<EditText>(id).contains<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1279,14 +1279,14 @@ fun Fragment.containsList(
 }
 
 // not contains
-fun Any.notContainsList(
+fun <ErrorMessage> Any.notContainsList(
     target: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.notContains(target) {
+        result = edittext.notContains<ErrorMessage>(target) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1295,14 +1295,14 @@ fun Any.notContainsList(
     return result
 }
 
-fun Activity.notContainsList(
+fun <ErrorMessage> Activity.notContainsList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).notContains(target) {
+        result = findViewById<EditText>(id).notContains<ErrorMessage>(target) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1311,16 +1311,16 @@ fun Activity.notContainsList(
     return result
 }
 
-fun Fragment.notContainsList(
+fun <ErrorMessage> Fragment.notContainsList(
     target: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).notContains(target) {
+                result = v.findViewById<EditText>(id).notContains<ErrorMessage>(target) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1332,13 +1332,13 @@ fun Fragment.notContainsList(
 }
 
 // credit card number
-fun Any.creditCardNumberList(
+fun <ErrorMessage> Any.creditCardNumberList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.creditCardNumber {
+        result = edittext.creditCardNumber<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1347,13 +1347,13 @@ fun Any.creditCardNumberList(
     return result
 }
 
-fun Activity.creditCardNumberList(
+fun <ErrorMessage> Activity.creditCardNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).creditCardNumber {
+        result = findViewById<EditText>(id).creditCardNumber<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1362,15 +1362,15 @@ fun Activity.creditCardNumberList(
     return result
 }
 
-fun Fragment.creditCardNumberList(
+fun <ErrorMessage> Fragment.creditCardNumberList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).creditCardNumber {
+                result = v.findViewById<EditText>(id).creditCardNumber<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1382,13 +1382,13 @@ fun Fragment.creditCardNumberList(
 }
 
 // credit card number with spaces
-fun Any.creditCardNumberWithSpacesList(
+fun <ErrorMessage> Any.creditCardNumberWithSpacesList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.creditCardNumberWithSpaces {
+        result = edittext.creditCardNumberWithSpaces<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1397,13 +1397,13 @@ fun Any.creditCardNumberWithSpacesList(
     return result
 }
 
-fun Activity.creditCardNumberWithSpacesList(
+fun <ErrorMessage> Activity.creditCardNumberWithSpacesList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).creditCardNumberWithSpaces {
+        result = findViewById<EditText>(id).creditCardNumberWithSpaces<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1412,15 +1412,15 @@ fun Activity.creditCardNumberWithSpacesList(
     return result
 }
 
-fun Fragment.creditCardNumberWithSpacesList(
+fun <ErrorMessage> Fragment.creditCardNumberWithSpacesList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).creditCardNumberWithSpaces {
+                result = v.findViewById<EditText>(id).creditCardNumberWithSpaces<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1432,13 +1432,13 @@ fun Fragment.creditCardNumberWithSpacesList(
 }
 
 // credit card number with dashes
-fun Any.creditCardNumberWithDashesList(
+fun <ErrorMessage> Any.creditCardNumberWithDashesList(
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.creditCardNumberWithDashes {
+        result = edittext.creditCardNumberWithDashes<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1447,13 +1447,13 @@ fun Any.creditCardNumberWithDashesList(
     return result
 }
 
-fun Activity.creditCardNumberWithDashesList(
+fun <ErrorMessage> Activity.creditCardNumberWithDashesList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).creditCardNumberWithDashes {
+        result = findViewById<EditText>(id).creditCardNumberWithDashes<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1462,15 +1462,15 @@ fun Activity.creditCardNumberWithDashesList(
     return result
 }
 
-fun Fragment.creditCardNumberWithDashesList(
+fun <ErrorMessage> Fragment.creditCardNumberWithDashesList(
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).creditCardNumberWithDashes {
+                result = v.findViewById<EditText>(id).creditCardNumberWithDashes<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1482,10 +1482,10 @@ fun Fragment.creditCardNumberWithDashesList(
 }
 
 // valid url
-fun Any.validUrlList(vararg editTextList: EditText, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Any.validUrlList(vararg editTextList: EditText, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.validUrl {
+        result = edittext.validUrl<ErrorMessage> {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1494,10 +1494,10 @@ fun Any.validUrlList(vararg editTextList: EditText, callback: (view: EditText, m
     return result
 }
 
-fun Activity.validUrlList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Activity.validUrlList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).validUrl {
+        result = findViewById<EditText>(id).validUrl<ErrorMessage> {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1506,12 +1506,12 @@ fun Activity.validUrlList(vararg editTextIds: Int, callback: (view: EditText, me
     return result
 }
 
-fun Fragment.validUrlList(vararg editTextIds: Int, callback: (view: EditText, message: String?) -> Unit): Boolean {
+fun <ErrorMessage> Fragment.validUrlList(vararg editTextIds: Int, callback: (view: EditText, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).validUrl {
+                result = v.findViewById<EditText>(id).validUrl<ErrorMessage> {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)
@@ -1523,14 +1523,14 @@ fun Fragment.validUrlList(vararg editTextIds: Int, callback: (view: EditText, me
 }
 
 // regex pattern
-fun Any.regexList(
+fun <ErrorMessage> Any.regexList(
     pattern: String,
     vararg editTextList: EditText,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.regex(pattern) {
+        result = edittext.regex<ErrorMessage>(pattern) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -1539,14 +1539,14 @@ fun Any.regexList(
     return result
 }
 
-fun Activity.regexList(
+fun <ErrorMessage> Activity.regexList(
     pattern: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).regex(pattern) {
+        result = findViewById<EditText>(id).regex<ErrorMessage>(pattern) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -1555,16 +1555,16 @@ fun Activity.regexList(
     return result
 }
 
-fun Fragment.regexList(
+fun <ErrorMessage> Fragment.regexList(
     pattern: String,
     vararg editTextIds: Int,
-    callback: (view: EditText, message: String?) -> Unit
+    callback: (view: EditText, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).regex(pattern) {
+                result = v.findViewById<EditText>(id).regex<ErrorMessage>(pattern) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)

@@ -1,17 +1,28 @@
 package com.kotlinlibrary.validation.rules
 
-class NotContainsRule(val target: String, var errorMsg: String = "Should not contain $target") : BaseRule {
+import com.kotlinlibrary.R
+import com.kotlinlibrary.validation.MismatchErrorTypeException
 
+class NotContainsRule<ErrorMessage>(
+    val target: String,
+    var errorMsg: ErrorMessage? = null
+) : BaseRule<ErrorMessage> {
     override fun validate(text: String): Boolean {
         if (text.isEmpty())
             return false
-
         return !text.contains(target)
     }
 
-    override fun getErrorMessage(): String = errorMsg
+    override fun getErrorMessage(): ErrorMessage {
+        return when {
+            errorMsg != null -> errorMsg!!
+            errorMsg is String -> "Should not contain $target." as ErrorMessage
+            errorMsg is Int -> R.string.vald_should_not_contain_target as ErrorMessage
+            else -> throw MismatchErrorTypeException()
+        }
+    }
 
-    override fun setError(msg: String) {
+    override fun setError(msg: ErrorMessage) {
         errorMsg = msg
     }
 }
