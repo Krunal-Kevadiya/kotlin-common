@@ -32,8 +32,9 @@ class GreaterThanRule<ErrorMessage>(
         }
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should be greater than $target." as ErrorMessage
             errorMsg is Int -> R.string.vald_should_be_greater_than_target as ErrorMessage
@@ -41,7 +42,7 @@ class GreaterThanRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

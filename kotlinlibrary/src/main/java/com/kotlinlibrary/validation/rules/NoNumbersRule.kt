@@ -10,8 +10,9 @@ class NoNumbersRule<ErrorMessage>(
     override fun validate(text: String): Boolean =
         !ValidatedObservableField<ErrorMessage>(text).regex(".*\\d.*").check()
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should not contain any numbers!" as ErrorMessage
             errorMsg is Int -> R.string.vald_should_not_contain_any_numbers as ErrorMessage
@@ -19,7 +20,7 @@ class NoNumbersRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

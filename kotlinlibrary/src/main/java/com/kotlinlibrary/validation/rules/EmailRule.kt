@@ -18,16 +18,17 @@ class EmailRule<ErrorMessage>(
         ).check()
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
             errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Invalid Email Address!" as ErrorMessage
-            errorMsg is Int -> R.string.vald_invalid_email_address as ErrorMessage
+            errorMsg is String -> "Invalid Email Address!" as? ErrorMessage
+            errorMsg is Int -> R.string.vald_invalid_email_address as? ErrorMessage
+            errorMsg == null -> null
             else -> throw MismatchErrorTypeException()
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

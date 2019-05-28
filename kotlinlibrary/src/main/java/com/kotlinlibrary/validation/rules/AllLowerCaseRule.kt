@@ -8,16 +8,17 @@ class AllLowerCaseRule<ErrorMessage>(
 ) : BaseRule<ErrorMessage> {
     override fun validate(text: String): Boolean = text == text.toLowerCase()
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
             errorMsg != null -> errorMsg!!
-            errorMsg is String -> "All letters should be in lower case." as ErrorMessage
-            errorMsg is Int -> R.string.vald_all_letters_lower_case as ErrorMessage
+            errorMsg is String -> "All letters should be in lower case." as? ErrorMessage
+            errorMsg is Int -> R.string.vald_all_letters_lower_case as? ErrorMessage
+            errorMsg == null -> null
             else -> throw MismatchErrorTypeException()
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

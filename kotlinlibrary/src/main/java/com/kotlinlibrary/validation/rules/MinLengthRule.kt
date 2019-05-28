@@ -11,8 +11,9 @@ class MinLengthRule<ErrorMessage>(
         return text.length >= minLength
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Length should be greater than $minLength." as ErrorMessage
             errorMsg is Int -> R.string.vald_length_should_be_greater_than_min_length as ErrorMessage
@@ -20,7 +21,7 @@ class MinLengthRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

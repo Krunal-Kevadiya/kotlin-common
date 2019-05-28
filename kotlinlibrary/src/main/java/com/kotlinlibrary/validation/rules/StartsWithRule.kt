@@ -13,8 +13,9 @@ class StartsWithRule<ErrorMessage>(
         return text.startsWith(target)
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should start with $target." as ErrorMessage
             errorMsg is Int -> R.string.vald_should_start_with_target as ErrorMessage
@@ -22,7 +23,7 @@ class StartsWithRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

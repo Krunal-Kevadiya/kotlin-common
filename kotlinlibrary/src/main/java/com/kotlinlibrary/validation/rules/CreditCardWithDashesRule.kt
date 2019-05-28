@@ -31,8 +31,9 @@ class CreditCardWithDashesRule<ErrorMessage>(
         return false
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Invalid Credit Card Number!" as ErrorMessage
             errorMsg is Int -> R.string.vald_invalid_card_number as ErrorMessage
@@ -40,7 +41,7 @@ class CreditCardWithDashesRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

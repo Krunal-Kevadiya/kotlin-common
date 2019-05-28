@@ -13,8 +13,9 @@ class ValidUrlRule<ErrorMessage>(
         return Patterns.WEB_URL.matcher(text).matches()
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Invalid web URL" as ErrorMessage
             errorMsg is Int -> R.string.vald_invalid_web_url as ErrorMessage
@@ -22,7 +23,7 @@ class ValidUrlRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

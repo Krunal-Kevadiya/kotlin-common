@@ -32,8 +32,9 @@ class LessThanRule<ErrorMessage>(
         }
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should be less than $target." as ErrorMessage
             errorMsg is Int -> R.string.vald_should_be_less_than_target as ErrorMessage
@@ -41,7 +42,7 @@ class LessThanRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

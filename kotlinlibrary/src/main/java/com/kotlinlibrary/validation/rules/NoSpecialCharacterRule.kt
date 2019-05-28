@@ -13,8 +13,9 @@ class NoSpecialCharacterRule<ErrorMessage>(
         return ValidatedObservableField<ErrorMessage>(text).regex("[A-Za-z0-9]+").check()
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should not contain any special characters." as ErrorMessage
             errorMsg is Int -> R.string.vald_should_not_contain_any_special_characters as ErrorMessage
@@ -22,7 +23,7 @@ class NoSpecialCharacterRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

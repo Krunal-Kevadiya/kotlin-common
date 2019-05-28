@@ -13,8 +13,9 @@ class AtLeastOneSpecialCharacterRule<ErrorMessage>(
         return !ValidatedObservableField<ErrorMessage>(text).regex("[A-Za-z0-9]+").check()
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should contain at least 1 special characters." as ErrorMessage
             errorMsg is Int -> R.string.vald_at_least_one_special_characters as ErrorMessage
@@ -22,7 +23,7 @@ class AtLeastOneSpecialCharacterRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

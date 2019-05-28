@@ -32,8 +32,9 @@ class NumberEqualToRule<ErrorMessage>(
         }
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "Should be equal to $target." as ErrorMessage
             errorMsg is Int -> R.string.vald_should_be_equal_to_target as ErrorMessage
@@ -41,7 +42,7 @@ class NumberEqualToRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

@@ -11,8 +11,9 @@ class RegexRule<ErrorMessage>(
         return text.matches(Regex(pattern))
     }
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "RegEx pattern doesn't match!" as ErrorMessage
             errorMsg is Int -> R.string.vald_regex_pattern_does_not_match as ErrorMessage
@@ -20,7 +21,7 @@ class RegexRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

@@ -8,8 +8,9 @@ class AllUpperCaseRule<ErrorMessage>(
 ) : BaseRule<ErrorMessage> {
     override fun validate(text: String): Boolean = text == text.toUpperCase()
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "All letters should be in upper case." as ErrorMessage
             errorMsg is Int -> R.string.vald_all_letters_upper_case as ErrorMessage
@@ -17,7 +18,7 @@ class AllUpperCaseRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

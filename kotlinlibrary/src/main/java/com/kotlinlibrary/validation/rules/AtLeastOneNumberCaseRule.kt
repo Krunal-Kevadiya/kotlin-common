@@ -10,8 +10,9 @@ class AtLeastOneNumberCaseRule<ErrorMessage>(
     override fun validate(text: String): Boolean =
         ValidatedObservableField<ErrorMessage>(text).regex(".*\\d.*").check()
 
-    override fun getErrorMessage(): ErrorMessage {
+    override fun getErrorMessage(): ErrorMessage? {
         return when {
+            errorMsg == null -> null
             errorMsg != null -> errorMsg!!
             errorMsg is String -> "At least one letter should be a number." as ErrorMessage
             errorMsg is Int -> R.string.vald_at_least_one_number_case as ErrorMessage
@@ -19,7 +20,7 @@ class AtLeastOneNumberCaseRule<ErrorMessage>(
         }
     }
 
-    override fun setError(msg: ErrorMessage) {
+    override fun setError(msg: ErrorMessage?) {
         errorMsg = msg
     }
 }

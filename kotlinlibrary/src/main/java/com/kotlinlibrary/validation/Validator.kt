@@ -56,7 +56,7 @@ class Validator<D>(val text: String) {
         return isValid
     }
 
-    fun setError(message: D) {
+    fun setError(message: D?) {
         isValid = false
         errorMessage = message
     }
