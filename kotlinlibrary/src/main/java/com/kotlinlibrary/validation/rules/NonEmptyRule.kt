@@ -4,16 +4,16 @@ import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
 
 class NonEmptyRule<ErrorMessage>(
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean = text.isNotEmpty()
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Can't be empty!" as? ErrorMessage
-            errorMsg is Int -> R.string.vald_can_not_be_empty as? ErrorMessage
-            errorMsg == null -> null
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Can't be empty!" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_can_not_be_empty as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

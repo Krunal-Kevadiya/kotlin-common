@@ -2,20 +2,18 @@ package com.kotlinlibrary.validation.rules
 
 import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
-import com.kotlinlibrary.validation.ValidatedObservableField
 
 class NoNumbersRule<ErrorMessage>(
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
-    override fun validate(text: String): Boolean =
-        !ValidatedObservableField<ErrorMessage>(text).regex(".*\\d.*").check()
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
+    override fun validate(text: String): Boolean = !text.matches(Regex(".*\\d.*"))
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Should not contain any numbers!" as ErrorMessage
-            errorMsg is Int -> R.string.vald_should_not_contain_any_numbers as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Should not contain any numbers!" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_should_not_contain_any_numbers as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

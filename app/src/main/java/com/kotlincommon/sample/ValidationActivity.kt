@@ -9,13 +9,12 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.textfield.TextInputLayout
 import com.kotlincommon.sample.databinding.ActivityValidationBinding
-import com.kotlinlibrary.validation.ValidatedObservableField
+import com.kotlinlibrary.validation.bindValidator
 
 class ValidationActivity : AppCompatActivity() {
-
-    val editTextEmail: ValidatedObservableField<Int> = ValidatedObservableField<Int>("", false)
-        .nonEmpty()
-        .validEmail()
+    val editTextEmail = bindValidator<Int>("", false)
+        .nonEmpty(R.string.vald_email_address_empty)
+        .validEmail(R.string.vald_email_address_invalid)
         .addErrorCallback { error ->
             findViewById<EditText>(R.id.editText)?.let {
                 if(error != null) {
@@ -26,7 +25,7 @@ class ValidationActivity : AppCompatActivity() {
             }
         }
 
-    val editTextPassword: ValidatedObservableField<String> = ValidatedObservableField<String>("", true)
+    val editTextPassword = bindValidator<String>("", true)
         .nonEmpty("Please enter your password.")
         .regex(".*[A-Z]+.*", "Must contain capital letters.")
         .regex(".*[0-9]+.*", "Must contain digits.")

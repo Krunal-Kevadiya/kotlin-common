@@ -1,13 +1,13 @@
-package com.kotlinlibrary.validation.datatype
+package com.kotlinlibrary.validation.collection
 
 import android.app.Activity
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.kotlinlibrary.validation.views.*
 
-fun <ErrorMessage> Any.nonEmptyList(
+inline fun <reified ErrorMessage : Any> Any.nonEmptyList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -20,9 +20,9 @@ fun <ErrorMessage> Any.nonEmptyList(
     return result
 }
 
-fun <ErrorMessage> Activity.nonEmptyList(
+inline fun <reified ErrorMessage : Any> Activity.nonEmptyList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -35,9 +35,9 @@ fun <ErrorMessage> Activity.nonEmptyList(
     return result
 }
 
-fun <ErrorMessage> Fragment.nonEmptyList(
+inline fun <reified ErrorMessage : Any> Fragment.nonEmptyList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -55,10 +55,10 @@ fun <ErrorMessage> Fragment.nonEmptyList(
 }
 
 // Min Length
-fun <ErrorMessage> Any.minLengthList(
+inline fun <reified ErrorMessage : Any> Any.minLengthList(
     minLength: Int,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -71,10 +71,10 @@ fun <ErrorMessage> Any.minLengthList(
     return result
 }
 
-fun <ErrorMessage> Activity.minLengthList(
+inline fun <reified ErrorMessage : Any> Activity.minLengthList(
     minLength: Int,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -87,10 +87,10 @@ fun <ErrorMessage> Activity.minLengthList(
     return result
 }
 
-fun <ErrorMessage> Fragment.minLengthList(
+inline fun <reified ErrorMessage : Any> Fragment.minLengthList(
     minLength: Int,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -109,10 +109,10 @@ fun <ErrorMessage> Fragment.minLengthList(
 
 
 // Max Length
-fun <ErrorMessage> Any.maxLengthList(
+inline fun <reified ErrorMessage : Any> Any.maxLengthList(
     maxLength: Int,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -125,10 +125,10 @@ fun <ErrorMessage> Any.maxLengthList(
     return result
 }
 
-fun <ErrorMessage> Activity.maxLengthList(
+inline fun <reified ErrorMessage : Any> Activity.maxLengthList(
     maxLength: Int,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -141,10 +141,10 @@ fun <ErrorMessage> Activity.maxLengthList(
     return result
 }
 
-fun <ErrorMessage> Fragment.maxLengthList(
+inline fun <reified ErrorMessage : Any> Fragment.maxLengthList(
     maxLength: Int,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -162,9 +162,9 @@ fun <ErrorMessage> Fragment.maxLengthList(
 }
 
 // Valid Email
-fun <ErrorMessage> Any.validEmailList(
+inline fun <reified ErrorMessage : Any> Any.validEmailList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -177,9 +177,9 @@ fun <ErrorMessage> Any.validEmailList(
     return result
 }
 
-fun <ErrorMessage> Activity.validEmailList(
+inline fun <reified ErrorMessage : Any> Activity.validEmailList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -192,9 +192,9 @@ fun <ErrorMessage> Activity.validEmailList(
     return result
 }
 
-fun <ErrorMessage> Fragment.validEmailList(
+inline fun <reified ErrorMessage : Any> Fragment.validEmailList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -213,9 +213,9 @@ fun <ErrorMessage> Fragment.validEmailList(
 
 // Valid Number
 
-fun <ErrorMessage> Any.validNumberList(
+inline fun <reified ErrorMessage : Any> Any.validNumberList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -228,9 +228,9 @@ fun <ErrorMessage> Any.validNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.validNumberList(
+inline fun <reified ErrorMessage : Any> Activity.validNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -243,9 +243,9 @@ fun <ErrorMessage> Activity.validNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.validNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.validNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -264,10 +264,10 @@ fun <ErrorMessage> Fragment.validNumberList(
 
 // Greater Than
 
-fun <ErrorMessage> Any.greaterThanList(
+inline fun <reified ErrorMessage : Any> Any.greaterThanList(
     number: Number,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -280,10 +280,10 @@ fun <ErrorMessage> Any.greaterThanList(
     return result
 }
 
-fun <ErrorMessage> Activity.greaterThanList(
+inline fun <reified ErrorMessage : Any> Activity.greaterThanList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -296,10 +296,10 @@ fun <ErrorMessage> Activity.greaterThanList(
     return result
 }
 
-fun <ErrorMessage> Fragment.greaterThanList(
+inline fun <reified ErrorMessage : Any> Fragment.greaterThanList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -318,10 +318,10 @@ fun <ErrorMessage> Fragment.greaterThanList(
 
 // Greater Than Or Equal
 
-fun <ErrorMessage> Any.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Any.greaterThanOrEqualList(
     number: Number,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -334,10 +334,10 @@ fun <ErrorMessage> Any.greaterThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Activity.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Activity.greaterThanOrEqualList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -350,10 +350,10 @@ fun <ErrorMessage> Activity.greaterThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Fragment.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Fragment.greaterThanOrEqualList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -372,10 +372,10 @@ fun <ErrorMessage> Fragment.greaterThanOrEqualList(
 
 // Less Than
 
-fun <ErrorMessage> Any.lessThanList(
+inline fun <reified ErrorMessage : Any> Any.lessThanList(
     number: Number,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -388,10 +388,10 @@ fun <ErrorMessage> Any.lessThanList(
     return result
 }
 
-fun <ErrorMessage> Activity.lessThanList(
+inline fun <reified ErrorMessage : Any> Activity.lessThanList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -404,10 +404,10 @@ fun <ErrorMessage> Activity.lessThanList(
     return result
 }
 
-fun <ErrorMessage> Fragment.lessThanList(
+inline fun <reified ErrorMessage : Any> Fragment.lessThanList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -425,10 +425,10 @@ fun <ErrorMessage> Fragment.lessThanList(
 }
 
 // Less Than Or Equal
-fun <ErrorMessage> Any.lessThanOrEqualnList(
+inline fun <reified ErrorMessage : Any> Any.lessThanOrEqualnList(
     number: Number,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -441,10 +441,10 @@ fun <ErrorMessage> Any.lessThanOrEqualnList(
     return result
 }
 
-fun <ErrorMessage> Activity.lessThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Activity.lessThanOrEqualList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -457,10 +457,10 @@ fun <ErrorMessage> Activity.lessThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Fragment.lessThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Fragment.lessThanOrEqualList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -478,10 +478,10 @@ fun <ErrorMessage> Fragment.lessThanOrEqualList(
 }
 
 // Number Equal To
-fun <ErrorMessage> Any.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Any.numberEqualToList(
     number: Number,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -494,10 +494,10 @@ fun <ErrorMessage> Any.numberEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.numberEqualToList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -510,10 +510,10 @@ fun <ErrorMessage> Activity.numberEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.numberEqualToList(
     number: Number,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -531,9 +531,9 @@ fun <ErrorMessage> Fragment.numberEqualToList(
 }
 
 // All Upper Case
-fun <ErrorMessage> Any.allUperCaseList(
+inline fun <reified ErrorMessage : Any> Any.allUperCaseList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -546,9 +546,9 @@ fun <ErrorMessage> Any.allUperCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.allUperCaseList(
+inline fun <reified ErrorMessage : Any> Activity.allUperCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -561,9 +561,9 @@ fun <ErrorMessage> Activity.allUperCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.allUperCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.allUperCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -581,9 +581,9 @@ fun <ErrorMessage> Fragment.allUperCaseList(
 }
 
 // All Lower Case
-fun <ErrorMessage> Any.allLowerCaseList(
+inline fun <reified ErrorMessage : Any> Any.allLowerCaseList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -596,9 +596,9 @@ fun <ErrorMessage> Any.allLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.allLowerCaseList(
+inline fun <reified ErrorMessage : Any> Activity.allLowerCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -611,9 +611,9 @@ fun <ErrorMessage> Activity.allLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.allLowerCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.allLowerCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -631,9 +631,9 @@ fun <ErrorMessage> Fragment.allLowerCaseList(
 }
 
 // At least one upper Case
-fun <ErrorMessage> Any.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneUpperCaseList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -646,9 +646,9 @@ fun <ErrorMessage> Any.atleastOneUpperCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneUpperCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -661,9 +661,9 @@ fun <ErrorMessage> Activity.atleastOneUpperCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneUpperCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -681,9 +681,9 @@ fun <ErrorMessage> Fragment.atleastOneUpperCaseList(
 }
 
 // At least one lower Case
-fun <ErrorMessage> Any.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneLowerCaseList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -696,9 +696,9 @@ fun <ErrorMessage> Any.atleastOneLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneLowerCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -711,9 +711,9 @@ fun <ErrorMessage> Activity.atleastOneLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneLowerCaseList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -731,9 +731,9 @@ fun <ErrorMessage> Fragment.atleastOneLowerCaseList(
 }
 
 // At least one number
-fun <ErrorMessage> Any.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneNumberList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -746,9 +746,9 @@ fun <ErrorMessage> Any.atleastOneNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -761,9 +761,9 @@ fun <ErrorMessage> Activity.atleastOneNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -781,9 +781,9 @@ fun <ErrorMessage> Fragment.atleastOneNumberList(
 }
 
 // Starts with number
-fun <ErrorMessage> Any.startWithNumberList(
+inline fun <reified ErrorMessage : Any> Any.startWithNumberList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -796,9 +796,9 @@ fun <ErrorMessage> Any.startWithNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.startWithNumberList(
+inline fun <reified ErrorMessage : Any> Activity.startWithNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -811,9 +811,9 @@ fun <ErrorMessage> Activity.startWithNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.startWithNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.startWithNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -831,9 +831,9 @@ fun <ErrorMessage> Fragment.startWithNumberList(
 }
 
 // Starts with non number
-fun <ErrorMessage> Any.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Any.startWithNonNumberList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -846,9 +846,9 @@ fun <ErrorMessage> Any.startWithNonNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Activity.startWithNonNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -861,9 +861,9 @@ fun <ErrorMessage> Activity.startWithNonNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.startWithNonNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -881,9 +881,9 @@ fun <ErrorMessage> Fragment.startWithNonNumberList(
 }
 
 // noNumbers
-fun <ErrorMessage> Any.noNumbersList(
+inline fun <reified ErrorMessage : Any> Any.noNumbersList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -896,9 +896,9 @@ fun <ErrorMessage> Any.noNumbersList(
     return result
 }
 
-fun <ErrorMessage> Activity.noNumbersList(
+inline fun <reified ErrorMessage : Any> Activity.noNumbersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -911,9 +911,9 @@ fun <ErrorMessage> Activity.noNumbersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.noNumbersList(
+inline fun <reified ErrorMessage : Any> Fragment.noNumbersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -931,9 +931,9 @@ fun <ErrorMessage> Fragment.noNumbersList(
 }
 
 // only numbers
-fun <ErrorMessage> Any.onlyNumbersList(
+inline fun <reified ErrorMessage : Any> Any.onlyNumbersList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -946,9 +946,9 @@ fun <ErrorMessage> Any.onlyNumbersList(
     return result
 }
 
-fun <ErrorMessage> Activity.onlyNumbersList(
+inline fun <reified ErrorMessage : Any> Activity.onlyNumbersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -961,9 +961,9 @@ fun <ErrorMessage> Activity.onlyNumbersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.onlyNumbersList(
+inline fun <reified ErrorMessage : Any> Fragment.onlyNumbersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -981,9 +981,9 @@ fun <ErrorMessage> Fragment.onlyNumbersList(
 }
 
 // no special characters
-fun <ErrorMessage> Any.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Any.noSpecialCharactersList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -996,9 +996,9 @@ fun <ErrorMessage> Any.noSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Activity.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Activity.noSpecialCharactersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1011,9 +1011,9 @@ fun <ErrorMessage> Activity.noSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Fragment.noSpecialCharactersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1031,9 +1031,9 @@ fun <ErrorMessage> Fragment.noSpecialCharactersList(
 }
 
 // at least one special characters
-fun <ErrorMessage> Any.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneSpecialCharactersList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1046,9 +1046,9 @@ fun <ErrorMessage> Any.atleastOneSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneSpecialCharactersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1061,9 +1061,9 @@ fun <ErrorMessage> Activity.atleastOneSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneSpecialCharactersList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1081,10 +1081,10 @@ fun <ErrorMessage> Fragment.atleastOneSpecialCharactersList(
 }
 
 // text equal to
-fun <ErrorMessage> Any.textEqualToList(
+inline fun <reified ErrorMessage : Any> Any.textEqualToList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1097,10 +1097,10 @@ fun <ErrorMessage> Any.textEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.textEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.textEqualToList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1113,10 +1113,10 @@ fun <ErrorMessage> Activity.textEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.textEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.textEqualToList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1134,10 +1134,10 @@ fun <ErrorMessage> Fragment.textEqualToList(
 }
 
 // text not equal to
-fun <ErrorMessage> Any.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Any.textNotEqualToList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1150,10 +1150,10 @@ fun <ErrorMessage> Any.textNotEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.textNotEqualToList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1166,10 +1166,10 @@ fun <ErrorMessage> Activity.textNotEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.textNotEqualToList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1187,10 +1187,10 @@ fun <ErrorMessage> Fragment.textNotEqualToList(
 }
 
 // starts with
-fun <ErrorMessage> Any.startsWithList(
+inline fun <reified ErrorMessage : Any> Any.startsWithList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1203,10 +1203,10 @@ fun <ErrorMessage> Any.startsWithList(
     return result
 }
 
-fun <ErrorMessage> Activity.startsWithList(
+inline fun <reified ErrorMessage : Any> Activity.startsWithList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1219,10 +1219,10 @@ fun <ErrorMessage> Activity.startsWithList(
     return result
 }
 
-fun <ErrorMessage> Fragment.startsWithList(
+inline fun <reified ErrorMessage : Any> Fragment.startsWithList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1240,10 +1240,10 @@ fun <ErrorMessage> Fragment.startsWithList(
 }
 
 // ends with
-fun <ErrorMessage> Any.endssWithList(
+inline fun <reified ErrorMessage : Any> Any.endssWithList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1256,10 +1256,10 @@ fun <ErrorMessage> Any.endssWithList(
     return result
 }
 
-fun <ErrorMessage> Activity.endssWithList(
+inline fun <reified ErrorMessage : Any> Activity.endssWithList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1272,10 +1272,10 @@ fun <ErrorMessage> Activity.endssWithList(
     return result
 }
 
-fun <ErrorMessage> Fragment.endssWithList(
+inline fun <reified ErrorMessage : Any> Fragment.endssWithList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1293,10 +1293,10 @@ fun <ErrorMessage> Fragment.endssWithList(
 }
 
 // contains
-fun <ErrorMessage> Any.containsList(
+inline fun <reified ErrorMessage : Any> Any.containsList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1309,10 +1309,10 @@ fun <ErrorMessage> Any.containsList(
     return result
 }
 
-fun <ErrorMessage> Activity.containsList(
+inline fun <reified ErrorMessage : Any> Activity.containsList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1325,10 +1325,10 @@ fun <ErrorMessage> Activity.containsList(
     return result
 }
 
-fun <ErrorMessage> Fragment.containsList(
+inline fun <reified ErrorMessage : Any> Fragment.containsList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1346,10 +1346,10 @@ fun <ErrorMessage> Fragment.containsList(
 }
 
 // not contains
-fun <ErrorMessage> Any.notContainsList(
+inline fun <reified ErrorMessage : Any> Any.notContainsList(
     target: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1362,10 +1362,10 @@ fun <ErrorMessage> Any.notContainsList(
     return result
 }
 
-fun <ErrorMessage> Activity.notContainsList(
+inline fun <reified ErrorMessage : Any> Activity.notContainsList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1378,10 +1378,10 @@ fun <ErrorMessage> Activity.notContainsList(
     return result
 }
 
-fun <ErrorMessage> Fragment.notContainsList(
+inline fun <reified ErrorMessage : Any> Fragment.notContainsList(
     target: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1399,9 +1399,9 @@ fun <ErrorMessage> Fragment.notContainsList(
 }
 
 // credit card number
-fun <ErrorMessage> Any.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1414,9 +1414,9 @@ fun <ErrorMessage> Any.creditCardNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1429,9 +1429,9 @@ fun <ErrorMessage> Activity.creditCardNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1449,9 +1449,9 @@ fun <ErrorMessage> Fragment.creditCardNumberList(
 }
 
 // credit card number with spaces
-fun <ErrorMessage> Any.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberWithSpacesList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1464,9 +1464,9 @@ fun <ErrorMessage> Any.creditCardNumberWithSpacesList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberWithSpacesList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1479,9 +1479,9 @@ fun <ErrorMessage> Activity.creditCardNumberWithSpacesList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberWithSpacesList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1499,9 +1499,9 @@ fun <ErrorMessage> Fragment.creditCardNumberWithSpacesList(
 }
 
 // credit card number with dashes
-fun <ErrorMessage> Any.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberWithDashesList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1514,9 +1514,9 @@ fun <ErrorMessage> Any.creditCardNumberWithDashesList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberWithDashesList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1529,9 +1529,9 @@ fun <ErrorMessage> Activity.creditCardNumberWithDashesList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberWithDashesList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1549,9 +1549,9 @@ fun <ErrorMessage> Fragment.creditCardNumberWithDashesList(
 }
 
 // valid url
-fun <ErrorMessage> Any.validUrlList(
+inline fun <reified ErrorMessage : Any> Any.validUrlList(
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1564,9 +1564,9 @@ fun <ErrorMessage> Any.validUrlList(
     return result
 }
 
-fun <ErrorMessage> Activity.validUrlList(
+inline fun <reified ErrorMessage : Any> Activity.validUrlList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1579,9 +1579,9 @@ fun <ErrorMessage> Activity.validUrlList(
     return result
 }
 
-fun <ErrorMessage> Fragment.validUrlList(
+inline fun <reified ErrorMessage : Any> Fragment.validUrlList(
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1599,10 +1599,10 @@ fun <ErrorMessage> Fragment.validUrlList(
 }
 
 // regex pattern
-fun <ErrorMessage> Any.regexList(
+inline fun <reified ErrorMessage : Any> Any.regexList(
     pattern: String,
     vararg autoCompletesList: AutoCompleteTextView,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
@@ -1615,10 +1615,10 @@ fun <ErrorMessage> Any.regexList(
     return result
 }
 
-fun <ErrorMessage> Activity.regexList(
+inline fun <reified ErrorMessage : Any> Activity.regexList(
     pattern: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
@@ -1631,10 +1631,10 @@ fun <ErrorMessage> Activity.regexList(
     return result
 }
 
-fun <ErrorMessage> Fragment.regexList(
+inline fun <reified ErrorMessage : Any> Fragment.regexList(
     pattern: String,
     vararg autoCompletesIds: Int,
-    callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: AutoCompleteTextView, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {

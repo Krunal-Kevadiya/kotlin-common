@@ -1,11 +1,11 @@
-package com.kotlinlibrary.validation.datatype
+package com.kotlinlibrary.validation.collection
 
 import android.app.Activity
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.kotlinlibrary.validation.views.*
 
-fun <ErrorMessage> Any.nonEmptyList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.nonEmptyList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.nonEmpty<ErrorMessage> {
@@ -17,7 +17,7 @@ fun <ErrorMessage> Any.nonEmptyList(vararg spinnersList: Spinner, callback: (vie
     return result
 }
 
-fun <ErrorMessage> Activity.nonEmptyList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.nonEmptyList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).nonEmpty<ErrorMessage> {
@@ -29,7 +29,7 @@ fun <ErrorMessage> Activity.nonEmptyList(vararg spinnerIds: Int, callback: (view
     return result
 }
 
-fun <ErrorMessage> Fragment.nonEmptyList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.nonEmptyList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -46,10 +46,10 @@ fun <ErrorMessage> Fragment.nonEmptyList(vararg spinnerIds: Int, callback: (view
 }
 
 // Min Length
-fun <ErrorMessage> Any.minLengthList(
+inline fun <reified ErrorMessage : Any> Any.minLengthList(
     minLength: Int,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -62,10 +62,10 @@ fun <ErrorMessage> Any.minLengthList(
     return result
 }
 
-fun <ErrorMessage> Activity.minLengthList(
+inline fun <reified ErrorMessage : Any> Activity.minLengthList(
     minLength: Int,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -78,10 +78,10 @@ fun <ErrorMessage> Activity.minLengthList(
     return result
 }
 
-fun <ErrorMessage> Fragment.minLengthList(
+inline fun <reified ErrorMessage : Any> Fragment.minLengthList(
     minLength: Int,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -99,10 +99,10 @@ fun <ErrorMessage> Fragment.minLengthList(
 }
 
 // Max Length
-fun <ErrorMessage> Any.maxLengthList(
+inline fun <reified ErrorMessage : Any> Any.maxLengthList(
     maxLength: Int,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -115,10 +115,10 @@ fun <ErrorMessage> Any.maxLengthList(
     return result
 }
 
-fun <ErrorMessage> Activity.maxLengthList(
+inline fun <reified ErrorMessage : Any> Activity.maxLengthList(
     maxLength: Int,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -131,10 +131,10 @@ fun <ErrorMessage> Activity.maxLengthList(
     return result
 }
 
-fun <ErrorMessage> Fragment.maxLengthList(
+inline fun <reified ErrorMessage : Any> Fragment.maxLengthList(
     maxLength: Int,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -152,7 +152,7 @@ fun <ErrorMessage> Fragment.maxLengthList(
 }
 
 // Valid Email
-fun <ErrorMessage> Any.validEmailList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.validEmailList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.validEmail<ErrorMessage> {
@@ -164,7 +164,7 @@ fun <ErrorMessage> Any.validEmailList(vararg spinnersList: Spinner, callback: (v
     return result
 }
 
-fun <ErrorMessage> Activity.validEmailList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.validEmailList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).validEmail<ErrorMessage> {
@@ -176,7 +176,7 @@ fun <ErrorMessage> Activity.validEmailList(vararg spinnerIds: Int, callback: (vi
     return result
 }
 
-fun <ErrorMessage> Fragment.validEmailList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.validEmailList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -193,7 +193,7 @@ fun <ErrorMessage> Fragment.validEmailList(vararg spinnerIds: Int, callback: (vi
 }
 
 // Valid Number
-fun <ErrorMessage> Any.validNumberList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.validNumberList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.validNumber<ErrorMessage> {
@@ -205,7 +205,7 @@ fun <ErrorMessage> Any.validNumberList(vararg spinnersList: Spinner, callback: (
     return result
 }
 
-fun <ErrorMessage> Activity.validNumberList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.validNumberList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).validNumber<ErrorMessage> {
@@ -217,7 +217,7 @@ fun <ErrorMessage> Activity.validNumberList(vararg spinnerIds: Int, callback: (v
     return result
 }
 
-fun <ErrorMessage> Fragment.validNumberList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.validNumberList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -234,10 +234,10 @@ fun <ErrorMessage> Fragment.validNumberList(vararg spinnerIds: Int, callback: (v
 }
 
 // Greater Than
-fun <ErrorMessage> Any.greaterThanList(
+inline fun <reified ErrorMessage : Any> Any.greaterThanList(
     number: Number,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -250,10 +250,10 @@ fun <ErrorMessage> Any.greaterThanList(
     return result
 }
 
-fun <ErrorMessage> Activity.greaterThanList(
+inline fun <reified ErrorMessage : Any> Activity.greaterThanList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -266,10 +266,10 @@ fun <ErrorMessage> Activity.greaterThanList(
     return result
 }
 
-fun <ErrorMessage> Fragment.greaterThanList(
+inline fun <reified ErrorMessage : Any> Fragment.greaterThanList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -287,10 +287,10 @@ fun <ErrorMessage> Fragment.greaterThanList(
 }
 
 // Greater Than Or Equal
-fun <ErrorMessage> Any.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Any.greaterThanOrEqualList(
     number: Number,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -303,10 +303,10 @@ fun <ErrorMessage> Any.greaterThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Activity.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Activity.greaterThanOrEqualList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -319,10 +319,10 @@ fun <ErrorMessage> Activity.greaterThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Fragment.greaterThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Fragment.greaterThanOrEqualList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -340,10 +340,10 @@ fun <ErrorMessage> Fragment.greaterThanOrEqualList(
 }
 
 // Less Than
-fun <ErrorMessage> Any.lessThanList(
+inline fun <reified ErrorMessage : Any> Any.lessThanList(
     number: Number,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -356,10 +356,10 @@ fun <ErrorMessage> Any.lessThanList(
     return result
 }
 
-fun <ErrorMessage> Activity.lessThanList(
+inline fun <reified ErrorMessage : Any> Activity.lessThanList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -372,10 +372,10 @@ fun <ErrorMessage> Activity.lessThanList(
     return result
 }
 
-fun <ErrorMessage> Fragment.lessThanList(
+inline fun <reified ErrorMessage : Any> Fragment.lessThanList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -393,10 +393,10 @@ fun <ErrorMessage> Fragment.lessThanList(
 }
 
 // Less Than Or Equal
-fun <ErrorMessage> Any.lessThanOrEqualnList(
+inline fun <reified ErrorMessage : Any> Any.lessThanOrEqualnList(
     number: Number,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -409,10 +409,10 @@ fun <ErrorMessage> Any.lessThanOrEqualnList(
     return result
 }
 
-fun <ErrorMessage> Activity.lessThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Activity.lessThanOrEqualList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -425,10 +425,10 @@ fun <ErrorMessage> Activity.lessThanOrEqualList(
     return result
 }
 
-fun <ErrorMessage> Fragment.lessThanOrEqualList(
+inline fun <reified ErrorMessage : Any> Fragment.lessThanOrEqualList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -446,10 +446,10 @@ fun <ErrorMessage> Fragment.lessThanOrEqualList(
 }
 
 // Number Equal To
-fun <ErrorMessage> Any.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Any.numberEqualToList(
     number: Number,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -462,10 +462,10 @@ fun <ErrorMessage> Any.numberEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.numberEqualToList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -478,10 +478,10 @@ fun <ErrorMessage> Activity.numberEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.numberEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.numberEqualToList(
     number: Number,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -499,7 +499,7 @@ fun <ErrorMessage> Fragment.numberEqualToList(
 }
 
 // All Upper Case
-fun <ErrorMessage> Any.allUperCaseList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.allUperCaseList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.allUperCase<ErrorMessage> {
@@ -511,7 +511,7 @@ fun <ErrorMessage> Any.allUperCaseList(vararg spinnersList: Spinner, callback: (
     return result
 }
 
-fun <ErrorMessage> Activity.allUperCaseList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.allUperCaseList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).allUperCase<ErrorMessage> {
@@ -523,7 +523,7 @@ fun <ErrorMessage> Activity.allUperCaseList(vararg spinnerIds: Int, callback: (v
     return result
 }
 
-fun <ErrorMessage> Fragment.allUperCaseList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.allUperCaseList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -540,7 +540,7 @@ fun <ErrorMessage> Fragment.allUperCaseList(vararg spinnerIds: Int, callback: (v
 }
 
 // All Lower Case
-fun <ErrorMessage> Any.allLowerCaseList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.allLowerCaseList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.allLowerCase<ErrorMessage> {
@@ -552,7 +552,7 @@ fun <ErrorMessage> Any.allLowerCaseList(vararg spinnersList: Spinner, callback: 
     return result
 }
 
-fun <ErrorMessage> Activity.allLowerCaseList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.allLowerCaseList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).allLowerCase<ErrorMessage> {
@@ -564,7 +564,7 @@ fun <ErrorMessage> Activity.allLowerCaseList(vararg spinnerIds: Int, callback: (
     return result
 }
 
-fun <ErrorMessage> Fragment.allLowerCaseList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.allLowerCaseList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -581,9 +581,9 @@ fun <ErrorMessage> Fragment.allLowerCaseList(vararg spinnerIds: Int, callback: (
 }
 
 // At least one upper Case
-fun <ErrorMessage> Any.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneUpperCaseList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -596,9 +596,9 @@ fun <ErrorMessage> Any.atleastOneUpperCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneUpperCaseList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -611,9 +611,9 @@ fun <ErrorMessage> Activity.atleastOneUpperCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneUpperCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneUpperCaseList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -631,9 +631,9 @@ fun <ErrorMessage> Fragment.atleastOneUpperCaseList(
 }
 
 // At least one lower Case
-fun <ErrorMessage> Any.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneLowerCaseList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -646,9 +646,9 @@ fun <ErrorMessage> Any.atleastOneLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneLowerCaseList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -661,9 +661,9 @@ fun <ErrorMessage> Activity.atleastOneLowerCaseList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneLowerCaseList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneLowerCaseList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -681,9 +681,9 @@ fun <ErrorMessage> Fragment.atleastOneLowerCaseList(
 }
 
 // At least one number
-fun <ErrorMessage> Any.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneNumberList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -696,9 +696,9 @@ fun <ErrorMessage> Any.atleastOneNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -711,9 +711,9 @@ fun <ErrorMessage> Activity.atleastOneNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -731,9 +731,9 @@ fun <ErrorMessage> Fragment.atleastOneNumberList(
 }
 
 // Starts with number
-fun <ErrorMessage> Any.startWithNumberList(
+inline fun <reified ErrorMessage : Any> Any.startWithNumberList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -746,7 +746,7 @@ fun <ErrorMessage> Any.startWithNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.startWithNumberList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.startWithNumberList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).startWithNumber<ErrorMessage> {
@@ -758,7 +758,7 @@ fun <ErrorMessage> Activity.startWithNumberList(vararg spinnerIds: Int, callback
     return result
 }
 
-fun <ErrorMessage> Fragment.startWithNumberList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.startWithNumberList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -775,9 +775,9 @@ fun <ErrorMessage> Fragment.startWithNumberList(vararg spinnerIds: Int, callback
 }
 
 // Starts with non number
-fun <ErrorMessage> Any.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Any.startWithNonNumberList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -790,9 +790,9 @@ fun <ErrorMessage> Any.startWithNonNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Activity.startWithNonNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -805,9 +805,9 @@ fun <ErrorMessage> Activity.startWithNonNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.startWithNonNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.startWithNonNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -825,7 +825,7 @@ fun <ErrorMessage> Fragment.startWithNonNumberList(
 }
 
 // noNumbers
-fun <ErrorMessage> Any.noNumbersList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.noNumbersList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.noNumbers<ErrorMessage> {
@@ -837,7 +837,7 @@ fun <ErrorMessage> Any.noNumbersList(vararg spinnersList: Spinner, callback: (vi
     return result
 }
 
-fun <ErrorMessage> Activity.noNumbersList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.noNumbersList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).noNumbers<ErrorMessage> {
@@ -849,7 +849,7 @@ fun <ErrorMessage> Activity.noNumbersList(vararg spinnerIds: Int, callback: (vie
     return result
 }
 
-fun <ErrorMessage> Fragment.noNumbersList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.noNumbersList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -866,7 +866,7 @@ fun <ErrorMessage> Fragment.noNumbersList(vararg spinnerIds: Int, callback: (vie
 }
 
 // only numbers
-fun <ErrorMessage> Any.onlyNumbersList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.onlyNumbersList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.onlyNumbers<ErrorMessage> {
@@ -878,7 +878,7 @@ fun <ErrorMessage> Any.onlyNumbersList(vararg spinnersList: Spinner, callback: (
     return result
 }
 
-fun <ErrorMessage> Activity.onlyNumbersList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.onlyNumbersList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).onlyNumbers<ErrorMessage> {
@@ -890,7 +890,7 @@ fun <ErrorMessage> Activity.onlyNumbersList(vararg spinnerIds: Int, callback: (v
     return result
 }
 
-fun <ErrorMessage> Fragment.onlyNumbersList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.onlyNumbersList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -907,9 +907,9 @@ fun <ErrorMessage> Fragment.onlyNumbersList(vararg spinnerIds: Int, callback: (v
 }
 
 // no special characters
-fun <ErrorMessage> Any.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Any.noSpecialCharactersList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -922,9 +922,9 @@ fun <ErrorMessage> Any.noSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Activity.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Activity.noSpecialCharactersList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -937,9 +937,9 @@ fun <ErrorMessage> Activity.noSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.noSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Fragment.noSpecialCharactersList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -957,9 +957,9 @@ fun <ErrorMessage> Fragment.noSpecialCharactersList(
 }
 
 // at least one special characters
-fun <ErrorMessage> Any.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Any.atleastOneSpecialCharactersList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -972,9 +972,9 @@ fun <ErrorMessage> Any.atleastOneSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Activity.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Activity.atleastOneSpecialCharactersList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -987,9 +987,9 @@ fun <ErrorMessage> Activity.atleastOneSpecialCharactersList(
     return result
 }
 
-fun <ErrorMessage> Fragment.atleastOneSpecialCharactersList(
+inline fun <reified ErrorMessage : Any> Fragment.atleastOneSpecialCharactersList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1007,10 +1007,10 @@ fun <ErrorMessage> Fragment.atleastOneSpecialCharactersList(
 }
 
 // text equal to
-fun <ErrorMessage> Any.textEqualToList(
+inline fun <reified ErrorMessage : Any> Any.textEqualToList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1023,10 +1023,10 @@ fun <ErrorMessage> Any.textEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.textEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.textEqualToList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1039,10 +1039,10 @@ fun <ErrorMessage> Activity.textEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.textEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.textEqualToList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1060,10 +1060,10 @@ fun <ErrorMessage> Fragment.textEqualToList(
 }
 
 // text not equal to
-fun <ErrorMessage> Any.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Any.textNotEqualToList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1076,10 +1076,10 @@ fun <ErrorMessage> Any.textNotEqualToList(
     return result
 }
 
-fun <ErrorMessage> Activity.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Activity.textNotEqualToList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1092,10 +1092,10 @@ fun <ErrorMessage> Activity.textNotEqualToList(
     return result
 }
 
-fun <ErrorMessage> Fragment.textNotEqualToList(
+inline fun <reified ErrorMessage : Any> Fragment.textNotEqualToList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1113,10 +1113,10 @@ fun <ErrorMessage> Fragment.textNotEqualToList(
 }
 
 // starts with
-fun <ErrorMessage> Any.startsWithList(
+inline fun <reified ErrorMessage : Any> Any.startsWithList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1129,10 +1129,10 @@ fun <ErrorMessage> Any.startsWithList(
     return result
 }
 
-fun <ErrorMessage> Activity.startsWithList(
+inline fun <reified ErrorMessage : Any> Activity.startsWithList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1145,10 +1145,10 @@ fun <ErrorMessage> Activity.startsWithList(
     return result
 }
 
-fun <ErrorMessage> Fragment.startsWithList(
+inline fun <reified ErrorMessage : Any> Fragment.startsWithList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1166,10 +1166,10 @@ fun <ErrorMessage> Fragment.startsWithList(
 }
 
 // ends with
-fun <ErrorMessage> Any.endssWithList(
+inline fun <reified ErrorMessage : Any> Any.endssWithList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1182,10 +1182,10 @@ fun <ErrorMessage> Any.endssWithList(
     return result
 }
 
-fun <ErrorMessage> Activity.endssWithList(
+inline fun <reified ErrorMessage : Any> Activity.endssWithList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1198,10 +1198,10 @@ fun <ErrorMessage> Activity.endssWithList(
     return result
 }
 
-fun <ErrorMessage> Fragment.endssWithList(
+inline fun <reified ErrorMessage : Any> Fragment.endssWithList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1219,10 +1219,10 @@ fun <ErrorMessage> Fragment.endssWithList(
 }
 
 // contains
-fun <ErrorMessage> Any.containsList(
+inline fun <reified ErrorMessage : Any> Any.containsList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1235,10 +1235,10 @@ fun <ErrorMessage> Any.containsList(
     return result
 }
 
-fun <ErrorMessage> Activity.containsList(
+inline fun <reified ErrorMessage : Any> Activity.containsList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1251,10 +1251,10 @@ fun <ErrorMessage> Activity.containsList(
     return result
 }
 
-fun <ErrorMessage> Fragment.containsList(
+inline fun <reified ErrorMessage : Any> Fragment.containsList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1272,10 +1272,10 @@ fun <ErrorMessage> Fragment.containsList(
 }
 
 // not contains
-fun <ErrorMessage> Any.notContainsList(
+inline fun <reified ErrorMessage : Any> Any.notContainsList(
     target: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1288,10 +1288,10 @@ fun <ErrorMessage> Any.notContainsList(
     return result
 }
 
-fun <ErrorMessage> Activity.notContainsList(
+inline fun <reified ErrorMessage : Any> Activity.notContainsList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1304,10 +1304,10 @@ fun <ErrorMessage> Activity.notContainsList(
     return result
 }
 
-fun <ErrorMessage> Fragment.notContainsList(
+inline fun <reified ErrorMessage : Any> Fragment.notContainsList(
     target: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1325,9 +1325,9 @@ fun <ErrorMessage> Fragment.notContainsList(
 }
 
 // credit card number
-fun <ErrorMessage> Any.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1340,9 +1340,9 @@ fun <ErrorMessage> Any.creditCardNumberList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1355,9 +1355,9 @@ fun <ErrorMessage> Activity.creditCardNumberList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1375,9 +1375,9 @@ fun <ErrorMessage> Fragment.creditCardNumberList(
 }
 
 // credit card number with spaces
-fun <ErrorMessage> Any.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberWithSpacesList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1390,9 +1390,9 @@ fun <ErrorMessage> Any.creditCardNumberWithSpacesList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberWithSpacesList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1405,9 +1405,9 @@ fun <ErrorMessage> Activity.creditCardNumberWithSpacesList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberWithSpacesList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberWithSpacesList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1425,9 +1425,9 @@ fun <ErrorMessage> Fragment.creditCardNumberWithSpacesList(
 }
 
 // credit card number with dashes
-fun <ErrorMessage> Any.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Any.creditCardNumberWithDashesList(
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1440,9 +1440,9 @@ fun <ErrorMessage> Any.creditCardNumberWithDashesList(
     return result
 }
 
-fun <ErrorMessage> Activity.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Activity.creditCardNumberWithDashesList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1455,9 +1455,9 @@ fun <ErrorMessage> Activity.creditCardNumberWithDashesList(
     return result
 }
 
-fun <ErrorMessage> Fragment.creditCardNumberWithDashesList(
+inline fun <reified ErrorMessage : Any> Fragment.creditCardNumberWithDashesList(
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
@@ -1475,7 +1475,7 @@ fun <ErrorMessage> Fragment.creditCardNumberWithDashesList(
 }
 
 // valid url
-fun <ErrorMessage> Any.validUrlList(vararg spinnersList: Spinner, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Any.validUrlList(vararg spinnersList: Spinner, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (spinner in spinnersList) {
         result = spinner.validUrl<ErrorMessage> {
@@ -1487,7 +1487,7 @@ fun <ErrorMessage> Any.validUrlList(vararg spinnersList: Spinner, callback: (vie
     return result
 }
 
-fun <ErrorMessage> Activity.validUrlList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Activity.validUrlList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     for (id in spinnerIds) {
         result = findViewById<Spinner>(id).validUrl<ErrorMessage> {
@@ -1499,7 +1499,7 @@ fun <ErrorMessage> Activity.validUrlList(vararg spinnerIds: Int, callback: (view
     return result
 }
 
-fun <ErrorMessage> Fragment.validUrlList(vararg spinnerIds: Int, callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
+inline fun <reified ErrorMessage : Any> Fragment.validUrlList(vararg spinnerIds: Int, crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit): Boolean {
     var result = false
     if (view != null) {
         view?.let { v ->
@@ -1516,10 +1516,10 @@ fun <ErrorMessage> Fragment.validUrlList(vararg spinnerIds: Int, callback: (view
 }
 
 // regex pattern
-fun <ErrorMessage> Any.regexList(
+inline fun <reified ErrorMessage : Any> Any.regexList(
     pattern: String,
     vararg spinnersList: Spinner,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
@@ -1532,10 +1532,10 @@ fun <ErrorMessage> Any.regexList(
     return result
 }
 
-fun <ErrorMessage> Activity.regexList(
+inline fun <reified ErrorMessage : Any> Activity.regexList(
     pattern: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
@@ -1548,10 +1548,10 @@ fun <ErrorMessage> Activity.regexList(
     return result
 }
 
-fun <ErrorMessage> Fragment.regexList(
+inline fun <reified ErrorMessage : Any> Fragment.regexList(
     pattern: String,
     vararg spinnerIds: Int,
-    callback: (view: Spinner, message: ErrorMessage?) -> Unit
+    crossinline callback: (view: Spinner, message: ErrorMessage?) -> Unit
 ): Boolean {
     var result = false
     if (view != null) {
