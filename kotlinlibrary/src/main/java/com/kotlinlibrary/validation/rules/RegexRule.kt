@@ -5,18 +5,18 @@ import com.kotlinlibrary.validation.MismatchErrorTypeException
 
 class RegexRule<ErrorMessage>(
     val pattern: String,
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean {
         return text.matches(Regex(pattern))
     }
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "RegEx pattern doesn't match!" as ErrorMessage
-            errorMsg is Int -> R.string.vald_regex_pattern_does_not_match as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "RegEx pattern doesn't match!" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_regex_pattern_does_not_match as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

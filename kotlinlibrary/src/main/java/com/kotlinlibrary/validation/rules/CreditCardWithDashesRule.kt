@@ -5,8 +5,9 @@ import com.kotlinlibrary.validation.MismatchErrorTypeException
 import java.util.*
 
 class CreditCardWithDashesRule<ErrorMessage>(
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean {
         val listOfPattern = ArrayList<String>()
         val ptVisa = "^4[0-9]{6,}$"
@@ -33,10 +34,9 @@ class CreditCardWithDashesRule<ErrorMessage>(
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Invalid Credit Card Number!" as ErrorMessage
-            errorMsg is Int -> R.string.vald_invalid_card_number as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Invalid Credit Card Number!" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_invalid_card_number as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

@@ -5,18 +5,18 @@ import com.kotlinlibrary.validation.MismatchErrorTypeException
 
 class MinLengthRule<ErrorMessage>(
     val minLength: Int,
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean {
         return text.length >= minLength
     }
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Length should be greater than $minLength." as ErrorMessage
-            errorMsg is Int -> R.string.vald_length_should_be_greater_than_min_length as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Length should be greater than $minLength." as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_length_should_be_greater_than_min_length as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

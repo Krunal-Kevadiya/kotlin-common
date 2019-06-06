@@ -5,8 +5,9 @@ import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
 
 class ValidUrlRule<ErrorMessage>(
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean {
         if (text.isEmpty())
             return false
@@ -15,10 +16,9 @@ class ValidUrlRule<ErrorMessage>(
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Invalid web URL" as ErrorMessage
-            errorMsg is Int -> R.string.vald_invalid_web_url as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Invalid web URL" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_invalid_web_url as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

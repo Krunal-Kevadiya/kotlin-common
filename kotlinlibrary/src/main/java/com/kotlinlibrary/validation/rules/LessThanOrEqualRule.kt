@@ -2,20 +2,33 @@ package com.kotlinlibrary.validation.rules
 
 import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
-import com.kotlinlibrary.validation.datatype.validNumber
 import java.text.NumberFormat
 
 class LessThanOrEqualRule<ErrorMessage>(
     val target: Number,
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
+    var isValidNumber: Boolean = false
+    private fun validNumber(text: String): Boolean {
+        isValidNumber = when {
+            text.isEmpty() -> false
+            text.startsWith("-") -> {
+                val txtNum = text.substringAfter("-")
+                txtNum.matches(Regex("^[0-9]\\d*(\\.\\d+)?$"))
+            }
+            else -> text.matches(Regex("^[0-9]\\d*(\\.\\d+)?$"))
+        }
+        return isValidNumber
+    }
+
     override fun validate(text: String): Boolean {
         if (text.isEmpty())
             return false
         // Negative
         if (text.startsWith("-")) {
             val txtNum = text.substringAfter("-")
-            if (txtNum.validNumber<ErrorMessage>()) {
+            if (validNumber(txtNum)) {
                 var number = NumberFormat.getNumberInstance().parse(txtNum)
                 number = number.toFloat() * -1
                 return (number.toFloat() <= target.toFloat())
@@ -24,7 +37,7 @@ class LessThanOrEqualRule<ErrorMessage>(
         }
         // Positive
         else {
-            if (text.validNumber<ErrorMessage>()) {
+            if (validNumber(text)) {
                 val number = NumberFormat.getNumberInstance().parse(text)
                 return (number.toFloat() <= target.toFloat())
             }
@@ -34,10 +47,14 @@ class LessThanOrEqualRule<ErrorMessage>(
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Should be less than or equal to $target." as ErrorMessage
-            errorMsg is Int -> R.string.vald_should_be_less_than_or_equal_to_target as ErrorMessage
+            !isValidNumber -> return when {
+                typed(kotlin.String::class.java, java.lang.String::class.java) -> "Invalid Number!" as ErrorMessage
+                typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_invalid_number as ErrorMessage
+                else -> throw MismatchErrorTypeException()
+            }
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Should be less than or equal to $target." as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_should_be_less_than_or_equal_to_target as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }

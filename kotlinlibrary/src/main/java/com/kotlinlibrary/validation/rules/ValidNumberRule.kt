@@ -2,28 +2,27 @@ package com.kotlinlibrary.validation.rules
 
 import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
-import com.kotlinlibrary.validation.ValidatedObservableField
 
 class ValidNumberRule<ErrorMessage>(
-    var errorMsg: ErrorMessage? = null
-) : BaseRule<ErrorMessage> {
+    var errorMsg: ErrorMessage? = null,
+    clazz: Class<ErrorMessage>
+) : BaseRule<ErrorMessage>(clazz) {
     override fun validate(text: String): Boolean {
         if (text.isEmpty())
             return false
         return if (text.startsWith("-")) {
             val txtNum = text.substringAfter("-")
-            ValidatedObservableField<ErrorMessage>(txtNum).regex("^[0-9]\\d*(\\.\\d+)?$").check()
+            txtNum.matches(Regex("^[0-9]\\d*(\\.\\d+)?$"))
         } else {
-            ValidatedObservableField<ErrorMessage>(text).regex("^[0-9]\\d*(\\.\\d+)?$").check()
+            text.matches(Regex("^[0-9]\\d*(\\.\\d+)?$"))
         }
     }
 
     override fun getErrorMessage(): ErrorMessage? {
         return when {
-            errorMsg == null -> null
-            errorMsg != null -> errorMsg!!
-            errorMsg is String -> "Invalid Number!" as ErrorMessage
-            errorMsg is Int -> R.string.vald_invalid_number as ErrorMessage
+            errorMsg != null -> errorMsg
+            typed(kotlin.String::class.java, java.lang.String::class.java) -> "Invalid Number!" as ErrorMessage
+            typed(kotlin.Int::class.java, java.lang.Integer::class.java) -> R.string.vald_invalid_number as ErrorMessage
             else -> throw MismatchErrorTypeException()
         }
     }
