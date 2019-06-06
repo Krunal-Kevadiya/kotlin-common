@@ -12,6 +12,7 @@ import com.kotlincommon.sample.databinding.ActivityValidationBinding
 import com.kotlinlibrary.validation.ValidatedObservableField
 
 class ValidationActivity : AppCompatActivity() {
+    val temp = MutableList<Int>
 
     val editTextEmail: ValidatedObservableField<Int> = ValidatedObservableField<Int>("", false)
         .nonEmpty()

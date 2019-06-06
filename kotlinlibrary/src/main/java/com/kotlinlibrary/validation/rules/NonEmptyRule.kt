@@ -1,5 +1,6 @@
 package com.kotlinlibrary.validation.rules
 
+import android.util.Log
 import com.kotlinlibrary.R
 import com.kotlinlibrary.validation.MismatchErrorTypeException
 
@@ -15,6 +16,14 @@ class NonEmptyRule<ErrorMessage>(
             errorMsg is Int -> R.string.vald_can_not_be_empty as? ErrorMessage
             errorMsg == null -> null
             else -> throw MismatchErrorTypeException()
+        }
+    }
+
+    inline fun <reified T> handleList(l: T?) {
+        when (T::class) {
+            Int::class -> Log.e("ABC", "Int")
+            Double::class -> Log.e("ABC", "Double")
+            String::class -> Log.e("ABC", "String")
         }
     }
 

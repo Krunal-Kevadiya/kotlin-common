@@ -64,6 +64,52 @@
         <attr name="rb_shadow_margin_bottom" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="ProgressButton">
+        <attr name="pb_gradient_angle" format="integer|reference"/>
+        <attr name="pb_gradient_colors" format="color|reference"/>
+        <attr name="pb_gradient_positions" format="string|reference"/>
+        <attr name="pb_normal_color" format="color|reference"/>
+        <attr name="pb_corner_topLeftRadius" format="integer|reference"/>
+        <attr name="pb_corner_topRightRadius" format="integer|reference"/>
+        <attr name="pb_corner_bottomLeftRadius" format="integer|reference"/>
+        <attr name="pb_corner_bottomRightRadius" format="integer|reference"/>
+        <attr name="pb_state_success_backgroundColor" format="color|reference"/>
+        <attr name="pb_state_success_drawable" format="reference"/>
+        <attr name="pb_state_success_drawableTint" format="color|reference"/>
+        <attr name="pb_state_failure_backgroundColor" format="color|reference"/>
+        <attr name="pb_state_failure_drawable" format="reference"/>
+        <attr name="pb_state_failure_drawableTint" format="color|reference"/>
+        <attr name="pb_image_drawable" format="reference"/>
+        <attr name="pb_image_drawableTint" format="color|reference"/>
+        <attr name="pb_anim_duration" format="integer|reference"/>
+        <attr name="pb_anim_corner_radius" format="integer|reference"/>
+        <attr name="pb_anim_alpha_morphing" format="boolean|reference"/>
+        <attr name="pb_progress_style" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="dots" value="1" />
+            <enum name="custom" value="2" />
+        </attr>
+        <attr name="pb_progress_color" format="color|reference"/>
+        <attr name="pb_button_style" format="enum">
+            <enum name="oval" value="0" />
+            <enum name="rect" value="1" />
+            <enum name="roundedRect" value="2" />
+            <enum name="circle" value="3" />
+            <enum name="undefined" value="4" />
+        </attr>
+        <attr name="pb_stroke_width" format="integer|reference"/>
+        <attr name="pb_stroke_color" format="color|reference"/>
+        <attr name="pb_state_with_stroke" format="boolean|reference"/>
+        <attr name="pb_state_with_revert" format="boolean|reference"/>
+        <attr name="pb_state_revert_duration" format="integer|reference"/>
+        <attr name="pb_button_shape" format="enum">
+            <enum name="solid" value="0" />
+            <enum name="stroke" value="1" />
+            <enum name="both" value="2" />
+        </attr>
+        <attr name="pb_progress_dots_count" format="integer|reference"/>
+    </declare-styleable>
+
     <!-- Layout -->
     <declare-styleable name="AspectRatioLayout">
         <attr name="width_ratio" format="integer" />
