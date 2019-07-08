@@ -18,13 +18,12 @@ class CustomAnimatedDrawable(
     private val color: Int
 ) : BaseAnimatedDrawable() {
     private var mBounds = Rect()
-
     private var mRunning: Boolean = false
 
-    private var animateDrawable: AnimatedVectorDrawableCompat? = null
-    private val callback = object : Animatable2Compat.AnimationCallback() {
+    private var mAnimateDrawable: AnimatedVectorDrawableCompat? = null
+    private val mCallback = object : Animatable2Compat.AnimationCallback() {
         override fun onAnimationEnd(drawable: Drawable?) {
-            animateDrawable?.start()
+            mAnimateDrawable?.start()
             view.invalidate()
         }
     }
@@ -42,8 +41,8 @@ class CustomAnimatedDrawable(
 
         mRunning = true
 
-        animateDrawable?.registerAnimationCallback(callback)
-        animateDrawable?.start()
+        mAnimateDrawable?.registerAnimationCallback(mCallback)
+        mAnimateDrawable?.start()
     }
 
     override fun stop() {
@@ -52,9 +51,8 @@ class CustomAnimatedDrawable(
         }
 
         mRunning = false
-
-        animateDrawable?.unregisterAnimationCallback(callback)
-        animateDrawable?.stop()
+        mAnimateDrawable?.unregisterAnimationCallback(mCallback)
+        mAnimateDrawable?.stop()
     }
 
     override fun isRunning(): Boolean {
@@ -62,26 +60,30 @@ class CustomAnimatedDrawable(
     }
 
     override fun draw(canvas: Canvas) {
-        animateDrawable?.draw(canvas)
+        mAnimateDrawable?.draw(canvas)
     }
 
-    override fun setAlpha(alpha: Int) {}
+    override fun setAlpha(alpha: Int) {
+        throw NotImplementedError()
+    }
 
-    override fun setColorFilter(colorFilter: ColorFilter?) {}
+    override fun setColorFilter(colorFilter: ColorFilter?) {
+        throw NotImplementedError()
+    }
 
     override fun getOpacity(): Int {
         return PixelFormat.TRANSPARENT
     }
 
     override fun setupAnimations() {
-        animateDrawable = AnimatedVectorDrawableCompat.create(view.context, resource)
-        if (animateDrawable != null) {
-            DrawableCompat.setTint(animateDrawable!!, color)
-            animateDrawable?.bounds = mBounds
+        mAnimateDrawable = AnimatedVectorDrawableCompat.create(view.context, resource)
+        mAnimateDrawable?.run {
+            DrawableCompat.setTint(this, color)
+            mAnimateDrawable?.bounds = mBounds
         }
     }
 
     override fun dispose() {
-        animateDrawable = null
+        mAnimateDrawable = null
     }
 }

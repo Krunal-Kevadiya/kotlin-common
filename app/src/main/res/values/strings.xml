@@ -8,4 +8,6 @@
     <string name="vald_contain_small_letters">Must contain small letters.</string>
     <string name="vald_eight_or_more_characters">Eight or more characters.</string>
     <string name="vald_less_than_sixteen">No more then sixteen characters.</string>
+
+    <string name="btn_normal">normal</string>
 </resources>

@@ -2,118 +2,247 @@
 <resources>
     <!-- Snack Bar -->
     <declare-styleable name="SbProgress">
-        <attr name="sbp_progressIndeterminate" format="boolean" />
-        <attr name="sbp_barColor" format="color" />
-        <attr name="sbp_rimColor" format="color" />
-        <attr name="sbp_rimWidth" format="dimension" />
-        <attr name="sbp_spinSpeed" format="float" />
-        <attr name="sbp_barSpinCycleTime" format="integer" />
-        <attr name="sbp_circleRadius" format="dimension" />
-        <attr name="sbp_fillRadius" format="boolean" />
-        <attr name="sbp_barWidth" format="dimension" />
-        <attr name="sbp_linearProgress" format="boolean" />
+        <attr name="sbp_progressIndeterminate" format="boolean"/>
+        <attr name="sbp_barColor" format="color"/>
+        <attr name="sbp_rimColor" format="color"/>
+        <attr name="sbp_rimWidth" format="dimension"/>
+        <attr name="sbp_spinSpeed" format="float"/>
+        <attr name="sbp_barSpinCycleTime" format="integer"/>
+        <attr name="sbp_circleRadius" format="dimension"/>
+        <attr name="sbp_fillRadius" format="boolean"/>
+        <attr name="sbp_barWidth" format="dimension"/>
+        <attr name="sbp_linearProgress" format="boolean"/>
     </declare-styleable>
 
     <!-- Rounded Button with ProgressBar -->
-    <declare-styleable name="RoundButton">
-        <attr name="rb_animation_duration" format="integer" />
-        <attr name="rb_animation_corner_radius" format="dimension" />
-        <attr name="rb_animation_alpha" format="boolean" />
-        <attr name="rb_animation_progress_color" format="color" />
-        <attr name="rb_animation_progress_padding" format="dimension" />
-        <attr name="rb_animation_progress_width" format="dimension" />
-        <attr name="rb_animation_progress_style" format="enum">
-            <enum name="circle" value="0" />
-            <enum name="dots" value="1" />
-            <enum name="custom" value="2" />
-        </attr>
-        <attr name="rb_animation_custom_resource" format="reference" />
-        <attr name="rb_animation_inner_resource" format="reference" />
-        <attr name="rb_animation_inner_resource_color" format="color" />
-
-        <attr name="rb_drawable_color" format="color" />
-        <attr name="rb_drawable_resource" format="reference" />
-        <attr name="rb_success_color" format="color" />
-        <attr name="rb_success_resource" format="reference" />
-        <attr name="rb_failure_color" format="color" />
-        <attr name="rb_failure_resource" format="reference" />
-
-        <attr name="rb_corner_radius" format="dimension" />
-        <attr name="rb_corner_width" format="dimension" />
-        <attr name="rb_corner_color" format="color" />
-        <attr name="rb_corner_color_pressed" format="color" />
-        <attr name="rb_corner_color_disabled" format="color" />
-
-        <attr name="rb_background_color" format="color" />
-        <attr name="rb_background_color_pressed" format="color" />
-        <attr name="rb_background_color_disabled" format="color" />
-        <attr name="rb_text_color" format="color" />
-        <attr name="rb_text_color_pressed" format="color" />
-        <attr name="rb_text_color_disabled" format="color" />
-
-        <attr name="rb_padding" format="dimension"/>
-        <attr name="rb_padding_top" format="dimension"/>
-        <attr name="rb_padding_left" format="dimension"/>
-        <attr name="rb_padding_right" format="dimension"/>
-        <attr name="rb_padding_bottom" format="dimension"/>
-
-        <attr name="rb_shadow_margin" format="dimension"/>
-        <attr name="rb_shadow_margin_top" format="dimension"/>
-        <attr name="rb_shadow_margin_left" format="dimension"/>
-        <attr name="rb_shadow_margin_right" format="dimension"/>
-        <attr name="rb_shadow_margin_bottom" format="dimension"/>
-    </declare-styleable>
-
     <declare-styleable name="ProgressButton">
+        <attr name="pb_gradient_name" format="enum">
+            <enum name="WarmFlame" value="0"/>
+            <enum name="NightFade" value="1"/>
+            <enum name="SpringWarmth" value="2"/>
+            <enum name="JuicyPeach" value="3"/>
+            <enum name="YoungPassion" value="4"/>
+            <enum name="LadyLips" value="5"/>
+            <enum name="SunnyMorning" value="6"/>
+            <enum name="RainyAshville" value="7"/>
+            <enum name="FrozenDreams" value="8"/>
+            <enum name="WinterNeva" value="9"/>
+            <enum name="DustyGrass" value="10"/>
+            <enum name="TemptingAzure" value="11"/>
+            <enum name="HeavyRain" value="12"/>
+            <enum name="AmyCrisp" value="13"/>
+            <enum name="MeanFruit" value="14"/>
+            <enum name="DeepBlue" value="15"/>
+            <enum name="RipeMalinka" value="16"/>
+            <enum name="CloudyKnoxville" value="17"/>
+            <enum name="MalibuBeach" value="18"/>
+            <enum name="NewLife" value="19"/>
+            <enum name="TrueSunset" value="20"/>
+            <enum name="MorpheusDen" value="21"/>
+            <enum name="RareWind" value="22"/>
+            <enum name="NearMoon" value="23"/>
+            <enum name="WildApple" value="24"/>
+            <enum name="SaintPetersburg" value="25"/>
+            <enum name="PlumPlate" value="26"/>
+            <enum name="EverlastingSky" value="27"/>
+            <enum name="HappyFisher" value="28"/>
+            <enum name="Blessing" value="29"/>
+            <enum name="SharpeyeEagle" value="30"/>
+            <enum name="LadogaBottom" value="31"/>
+            <enum name="LemonGate" value="32"/>
+            <enum name="ItmeoBranding" value="33"/>
+            <enum name="ZeusMiracle" value="34"/>
+            <enum name="OldHat" value="35"/>
+            <enum name="StarWine" value="36"/>
+            <enum name="HappyAcid" value="37"/>
+            <enum name="AwesomePine" value="38"/>
+            <enum name="NewYork" value="39"/>
+            <enum name="ShyRainbow" value="40"/>
+            <enum name="MixedHopes" value="41"/>
+            <enum name="FlyHigh" value="42"/>
+            <enum name="StrongBliss" value="43"/>
+            <enum name="FreshMilk" value="44"/>
+            <enum name="SnowAgain" value="45"/>
+            <enum name="FebruaryInk" value="46"/>
+            <enum name="KindSteel" value="47"/>
+            <enum name="SoftGrass" value="48"/>
+            <enum name="GrownEarly" value="49"/>
+            <enum name="SharpBlues" value="50"/>
+            <enum name="ShadyWater" value="51"/>
+            <enum name="DirtyBeauty" value="52"/>
+            <enum name="GreatWhale" value="53"/>
+            <enum name="TeenNotebook" value="54"/>
+            <enum name="PoliteRumors" value="55"/>
+            <enum name="SweetPeriod" value="56"/>
+            <enum name="WideMatrix" value="57"/>
+            <enum name="SoftCherish" value="58"/>
+            <enum name="RedSalvation" value="59"/>
+            <enum name="BurningSpring" value="60"/>
+            <enum name="NightParty" value="61"/>
+            <enum name="SkyGlider" value="62"/>
+            <enum name="HeavenPeach" value="63"/>
+            <enum name="PurpleDivision" value="64"/>
+            <enum name="AquaSplash" value="65"/>
+            <enum name="SpikyNaga" value="66"/>
+            <enum name="LoveKiss" value="67"/>
+            <enum name="CleanMirror" value="68"/>
+            <enum name="PremiumDark" value="69"/>
+            <enum name="ColdEvening" value="70"/>
+            <enum name="CochitiLake" value="71"/>
+            <enum name="SummerGames" value="72"/>
+            <enum name="PassionateBed" value="73"/>
+            <enum name="MountainRock" value="74"/>
+            <enum name="DesertHump" value="75"/>
+            <enum name="JungleDay" value="76"/>
+            <enum name="PhoenixStart" value="77"/>
+            <enum name="OctoberSilence" value="78"/>
+            <enum name="FarawayRiver" value="79"/>
+            <enum name="AlchemistLab" value="80"/>
+            <enum name="OverSun" value="81"/>
+            <enum name="PremiumWhite" value="82"/>
+            <enum name="MarsParty" value="83"/>
+            <enum name="EternalConstance" value="84"/>
+            <enum name="JapanBlush" value="85"/>
+            <enum name="SmilingRain" value="86"/>
+            <enum name="CloudyApple" value="87"/>
+            <enum name="BigMango" value="88"/>
+            <enum name="HealthyWater" value="89"/>
+            <enum name="AmourAmour" value="90"/>
+            <enum name="RiskyConcrete" value="91"/>
+            <enum name="StrongStick" value="92"/>
+            <enum name="ViciousStance" value="93"/>
+            <enum name="PaloAlto" value="94"/>
+            <enum name="HappyMemories" value="95"/>
+            <enum name="MidnightBloom" value="96"/>
+            <enum name="Crystalline" value="97"/>
+            <enum name="PartyBliss" value="98"/>
+            <enum name="ConfidentCloud" value="99"/>
+            <enum name="LeCocktail" value="100"/>
+            <enum name="RiverCity" value="101"/>
+            <enum name="FrozenBerry" value="102"/>
+            <enum name="ChildCare" value="103"/>
+            <enum name="FlyingLemon" value="104"/>
+            <enum name="NewRetrowave" value="105"/>
+            <enum name="HiddenJaguar" value="106"/>
+            <enum name="AboveTheSky" value="107"/>
+            <enum name="Nega" value="108"/>
+            <enum name="DenseWater" value="109"/>
+            <enum name="Seashore" value="110"/>
+            <enum name="MarbleWall" value="111"/>
+            <enum name="CheerfulCaramel" value="112"/>
+            <enum name="NightSky" value="113"/>
+            <enum name="MagicLake" value="114"/>
+            <enum name="YoungGrass" value="115"/>
+            <enum name="ColorfulPeach" value="116"/>
+            <enum name="GentleCare" value="117"/>
+            <enum name="PlumBath" value="118"/>
+            <enum name="HappyUnicorn" value="119"/>
+            <enum name="AfricanField" value="120"/>
+            <enum name="SolidStone" value="121"/>
+            <enum name="OrangeJuice" value="122"/>
+            <enum name="GlassWater" value="123"/>
+            <enum name="NorthMiracle" value="124"/>
+            <enum name="FruitBlend" value="125"/>
+            <enum name="MillenniumPine" value="126"/>
+            <enum name="HighFlight" value="127"/>
+            <enum name="MoleHall" value="128"/>
+            <enum name="SpaceShift" value="129"/>
+            <enum name="ForestInei" value="130"/>
+            <enum name="RoyalGarden" value="131"/>
+            <enum name="RichMetal" value="132"/>
+            <enum name="JuicyCake" value="133"/>
+            <enum name="SmartIndigo" value="134"/>
+            <enum name="SandStrike" value="135"/>
+            <enum name="NorseBeauty" value="136"/>
+            <enum name="AquaGuidance" value="137"/>
+            <enum name="SunVeggie" value="138"/>
+            <enum name="SeaLord" value="139"/>
+            <enum name="BlackSea" value="140"/>
+            <enum name="GrassShampoo" value="141"/>
+            <enum name="LandingAircraft" value="142"/>
+            <enum name="WitchDance" value="143"/>
+            <enum name="SleeplessNight" value="144"/>
+            <enum name="AngelCare" value="145"/>
+            <enum name="CrystalRiver" value="146"/>
+            <enum name="SoftLipstick" value="147"/>
+            <enum name="SaltMountain" value="148"/>
+            <enum name="PerfectWhite" value="149"/>
+            <enum name="FreshOasis" value="150"/>
+            <enum name="StrictNovember" value="151"/>
+            <enum name="MorningSalad" value="152"/>
+            <enum name="DeepRelief" value="153"/>
+            <enum name="SeaStrike" value="154"/>
+            <enum name="NightCall" value="155"/>
+            <enum name="SupremeSky" value="156"/>
+            <enum name="LightBlue" value="157"/>
+            <enum name="MindCrawl" value="158"/>
+            <enum name="LilyMeadow" value="159"/>
+            <enum name="SugarLollipop" value="160"/>
+            <enum name="SweetDessert" value="161"/>
+            <enum name="MagicRay" value="162"/>
+            <enum name="TeenParty" value="163"/>
+            <enum name="FrozenHeat" value="164"/>
+            <enum name="GagarinView" value="165"/>
+            <enum name="FabledSunset" value="167"/>
+            <enum name="PerfectBlue" value="168"/>
+        </attr>
+        <attr name="pb_gradient_type" format="enum">
+            <enum name="Linear" value="0"/>
+            <enum name="Radial" value="1"/>
+            <enum name="Sweep" value="2"/>
+        </attr>
+        <attr name="pb_radial_radius" format="dimension|reference"/>
         <attr name="pb_gradient_angle" format="integer|reference"/>
-        <attr name="pb_gradient_colors" format="color|reference"/>
-        <attr name="pb_gradient_positions" format="string|reference"/>
+        <attr name="pb_gradient_colors" format="reference"/>
+        <attr name="pb_gradient_positions" format="reference"/>
         <attr name="pb_normal_color" format="color|reference"/>
-        <attr name="pb_corner_topLeftRadius" format="integer|reference"/>
-        <attr name="pb_corner_topRightRadius" format="integer|reference"/>
-        <attr name="pb_corner_bottomLeftRadius" format="integer|reference"/>
-        <attr name="pb_corner_bottomRightRadius" format="integer|reference"/>
+
+        <attr name="pb_corner_radius" format="dimension|reference"/>
+        <attr name="pb_corner_topLeftRadius" format="dimension|reference"/>
+        <attr name="pb_corner_topRightRadius" format="dimension|reference"/>
+        <attr name="pb_corner_bottomLeftRadius" format="dimension|reference"/>
+        <attr name="pb_corner_bottomRightRadius" format="dimension|reference"/>
+
         <attr name="pb_state_success_backgroundColor" format="color|reference"/>
         <attr name="pb_state_success_drawable" format="reference"/>
         <attr name="pb_state_success_drawableTint" format="color|reference"/>
         <attr name="pb_state_failure_backgroundColor" format="color|reference"/>
         <attr name="pb_state_failure_drawable" format="reference"/>
         <attr name="pb_state_failure_drawableTint" format="color|reference"/>
+        <attr name="pb_state_with_stroke" format="boolean|reference"/>
+        <attr name="pb_state_revert_delay" format="integer|reference"/>
+
+        <attr name="android:drawablePadding" />
         <attr name="pb_image_drawable" format="reference"/>
         <attr name="pb_image_drawableTint" format="color|reference"/>
+
         <attr name="pb_anim_duration" format="integer|reference"/>
-        <attr name="pb_anim_corner_radius" format="integer|reference"/>
+        <attr name="pb_anim_corner_radius" format="dimension|reference"/>
         <attr name="pb_anim_alpha_morphing" format="boolean|reference"/>
+
         <attr name="pb_progress_style" format="enum">
-            <enum name="circle" value="0" />
-            <enum name="dots" value="1" />
-            <enum name="custom" value="2" />
+            <enum name="circle" value="0"/>
+            <enum name="dots" value="1"/>
+            <enum name="custom" value="2"/>
         </attr>
+        <attr name="pb_progress_drawable" format="reference"/>
+        <attr name="pb_progress_inner_drawable" format="reference"/>
+        <attr name="pb_progress_inner_drawableTint" format="color|reference"/>
+        <attr name="pb_progress_width" format="dimension|reference"/>
+        <attr name="pb_progress_padding" format="dimension|reference"/>
         <attr name="pb_progress_color" format="color|reference"/>
-        <attr name="pb_button_style" format="enum">
-            <enum name="oval" value="0" />
-            <enum name="rect" value="1" />
-            <enum name="roundedRect" value="2" />
-            <enum name="circle" value="3" />
-            <enum name="undefined" value="4" />
-        </attr>
-        <attr name="pb_stroke_width" format="integer|reference"/>
-        <attr name="pb_stroke_color" format="color|reference"/>
-        <attr name="pb_state_with_stroke" format="boolean|reference"/>
-        <attr name="pb_state_with_revert" format="boolean|reference"/>
-        <attr name="pb_state_revert_duration" format="integer|reference"/>
-        <attr name="pb_button_shape" format="enum">
-            <enum name="solid" value="0" />
-            <enum name="stroke" value="1" />
-            <enum name="both" value="2" />
-        </attr>
         <attr name="pb_progress_dots_count" format="integer|reference"/>
+
+        <attr name="pb_stroke_width" format="dimension|reference"/>
+        <attr name="pb_stroke_color" format="color|reference"/>
+        <attr name="pb_stroke_dash_width" format="dimension|reference" />
+        <attr name="pb_stroke_dash_gap" format="dimension|reference" />
     </declare-styleable>
 
     <!-- Layout -->
     <declare-styleable name="AspectRatioLayout">
-        <attr name="width_ratio" format="integer" />
-        <attr name="height_ratio" format="integer" />
+        <attr name="width_ratio" format="integer"/>
+        <attr name="height_ratio" format="integer"/>
     </declare-styleable>
 
     <!-- Skeleton Layout -->

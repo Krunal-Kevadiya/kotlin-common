@@ -11,32 +11,34 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.kotlinlibrary.buttonview.RoundButtonHelper
+import com.kotlinlibrary.buttonview.utils.ResourceUtil
 
 class CircularAnimatedDrawable @JvmOverloads constructor(
-    private val mAnimatedView: View, private val mBorderWidth: Float, arcColor: Int,
-    @DrawableRes innerResource: Int = 0, @ColorInt innerResourceColorFilter: Int = Color.BLACK
+    private val animatedView: View,
+    private val borderWidth: Float, arcColor: Int,
+    @DrawableRes innerResource: Int = 0,
+    @ColorInt innerResourceColorFilter: Int = Color.TRANSPARENT,
+    private val drawablePadding: Int
 ) : BaseAnimatedDrawable() {
-    private val fBounds = RectF()
+    private val mFBounds = RectF()
     private var mValueAnimatorAngle: ValueAnimator? = null
     private var mValueAnimatorSweep: ValueAnimator? = null
     private val mAnimatorSet: AnimatorSet?
+
     private val mPaint: Paint
     private var mCurrentGlobalAngle: Float = 0f
     private var mCurrentSweepAngle: Float = 0f
     private var mCurrentGlobalAngleOffset: Float = 0f
 
-    private var mModeAppearing: Boolean = false
     private var mRunning: Boolean = false
+    private var mShouldDraw: Boolean = false
+    private var mModeAppearing: Boolean = false
 
-    private var shouldDraw: Boolean = false
-
-    private val innerBounds = RectF()
-    private var innerPaint: Paint? = null
-    private var innerImage: Bitmap? = null
+    private val mInnerBounds = RectF()
+    private var mInnerPaint: Paint? = null
+    private var mInnerImage: Bitmap? = null
 
     init {
-
         if (innerResource != 0) {
             setInnerResource(innerResource)
             setInnerResourceColorFilter(innerResourceColorFilter)
@@ -45,41 +47,44 @@ class CircularAnimatedDrawable @JvmOverloads constructor(
         mPaint = Paint()
         mPaint.isAntiAlias = true
         mPaint.style = Paint.Style.STROKE
-        mPaint.strokeWidth = mBorderWidth
+        mPaint.strokeWidth = borderWidth
         mPaint.color = arcColor
 
         setupAnimations()
-
-        shouldDraw = true
+        mShouldDraw = true
         mAnimatorSet = AnimatorSet()
     }
 
-    fun setInnerResource(@DrawableRes innerResource: Int) {
-        innerImage = RoundButtonHelper.getBitmap(ContextCompat.getDrawable(mAnimatedView.context, innerResource)!!)
+    private fun setInnerResource(@DrawableRes innerResource: Int) {
+        ContextCompat.getDrawable(animatedView.context, innerResource)?.run {
+            mInnerImage = ResourceUtil.getBitmap(this)
+        }
     }
 
-    fun setInnerResourceColorFilter(@ColorInt resourceColorFilter: Int) {
-        innerPaint = Paint()
-        innerPaint?.isAntiAlias = true
-        innerPaint?.colorFilter = PorterDuffColorFilter(resourceColorFilter, PorterDuff.Mode.SRC_IN)
+    private fun setInnerResourceColorFilter(@ColorInt resourceColorFilter: Int) {
+        mInnerPaint = Paint()
+        mInnerPaint?.isAntiAlias = true
+        if(resourceColorFilter != Color.TRANSPARENT) {
+            mInnerPaint?.colorFilter = PorterDuffColorFilter(resourceColorFilter, PorterDuff.Mode.SRC_IN)
+        }
     }
 
     override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
-        fBounds.left = bounds.left.toFloat() + mBorderWidth / 2f + .5f
-        fBounds.right = bounds.right.toFloat() - mBorderWidth / 2f - .5f
-        fBounds.top = bounds.top.toFloat() + mBorderWidth / 2f + .5f
-        fBounds.bottom = bounds.bottom.toFloat() - mBorderWidth / 2f - .5f
+        mFBounds.left = bounds.left.toFloat() + borderWidth / 2f + .5f
+        mFBounds.right = bounds.right.toFloat() - borderWidth / 2f - .5f
+        mFBounds.top = bounds.top.toFloat() + borderWidth / 2f + .5f
+        mFBounds.bottom = bounds.bottom.toFloat() - borderWidth / 2f - .5f
 
-        innerBounds.left = fBounds.left + 2.5f
-        innerBounds.right = fBounds.right - 2.5f
-        innerBounds.top = fBounds.top + 2.5f
-        innerBounds.bottom = fBounds.bottom - 2.5f
+        mInnerBounds.left = mFBounds.left + 2.5f + drawablePadding
+        mInnerBounds.right = mFBounds.right - 2.5f - drawablePadding
+        mInnerBounds.top = mFBounds.top + 2.5f + drawablePadding
+        mInnerBounds.bottom = mFBounds.bottom - 2.5f - drawablePadding
 
-        if (innerImage != null) {
-            val bitMapWidth = (innerBounds.right - innerBounds.left).toInt()
-            val bitMapHeight = (innerBounds.bottom - innerBounds.top).toInt()
-            innerImage = Bitmap.createScaledBitmap(innerImage!!, bitMapWidth, bitMapHeight, false)
+        mInnerImage?.let {
+            val bitMapWidth = (mInnerBounds.right - mInnerBounds.left).toInt()
+            val bitMapHeight = (mInnerBounds.bottom - mInnerBounds.top).toInt()
+            mInnerImage = Bitmap.createScaledBitmap(it, bitMapWidth, bitMapHeight, false)
         }
     }
 
@@ -118,10 +123,9 @@ class CircularAnimatedDrawable @JvmOverloads constructor(
             sweepAngle += MIN_SWEEP_ANGLE
         }
 
-        canvas.drawArc(fBounds, startAngle, sweepAngle, false, mPaint)
-
-        if (innerImage != null) {
-            canvas.drawBitmap(innerImage!!, null, innerBounds, innerPaint)
+        canvas.drawArc(mFBounds, startAngle, sweepAngle, false, mPaint)
+        mInnerImage?.run {
+            canvas.drawBitmap(this, null, mInnerBounds, mInnerPaint)
         }
     }
 
@@ -151,7 +155,7 @@ class CircularAnimatedDrawable @JvmOverloads constructor(
         mValueAnimatorSweep?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationRepeat(animation: Animator) {
                 toggleAppearingMode()
-                shouldDraw = false
+                mShouldDraw = false
             }
         })
 
@@ -159,11 +163,11 @@ class CircularAnimatedDrawable @JvmOverloads constructor(
             mCurrentSweepAngle = animation.animatedValue as Float
 
             if (mCurrentSweepAngle < 5) {
-                shouldDraw = true
+                mShouldDraw = true
             }
 
-            if (shouldDraw) {
-                mAnimatedView.invalidate()
+            if (mShouldDraw) {
+                animatedView.invalidate()
             }
         }
     }
@@ -194,7 +198,6 @@ class CircularAnimatedDrawable @JvmOverloads constructor(
     }
 
     companion object {
-
         private val ANGLE_INTERPOLATOR = LinearInterpolator()
         private val SWEEP_INTERPOLATOR = AccelerateDecelerateInterpolator()
         private const val ANGLE_ANIMATOR_DURATION = 2000

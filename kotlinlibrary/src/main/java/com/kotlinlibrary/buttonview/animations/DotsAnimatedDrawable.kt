@@ -7,13 +7,13 @@ import android.view.View
 import java.util.ArrayList
 
 class DotsAnimatedDrawable @JvmOverloads constructor(
-    private val mAnimatedView: View,
+    private val animatedView: View,
     color: Int,
     count: Int = DEFAULT_DOTS_COUNT,
-    private val mLoopDuration: Int = DEFAULT_LOOP_DURATION,
-    private val mJumpDuration: Int = DEFAULT_JUMP_DURATION
+    private val loopDuration: Int = DEFAULT_LOOP_DURATION,
+    private val jumpDuration: Int = DEFAULT_JUMP_DURATION
 ) : BaseAnimatedDrawable() {
-    private val fBounds = RectF()
+    private val mFBounds = RectF()
     private var mValueAnimator: ValueAnimator? = null
     private val mPaint: Paint = Paint()
 
@@ -36,10 +36,11 @@ class DotsAnimatedDrawable @JvmOverloads constructor(
 
     override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
-        fBounds.left = bounds.left.toFloat()
-        fBounds.right = bounds.right.toFloat()
-        fBounds.top = bounds.top.toFloat()
-        fBounds.bottom = bounds.bottom.toFloat()
+        val centerY = (bounds.bottom.toFloat() - bounds.top.toFloat()) / 4
+        mFBounds.left = bounds.left.toFloat()
+        mFBounds.right = bounds.right.toFloat()
+        mFBounds.top = bounds.top.toFloat()
+        mFBounds.bottom = bounds.bottom.toFloat() - centerY
 
         setupAnimations()
     }
@@ -86,48 +87,48 @@ class DotsAnimatedDrawable @JvmOverloads constructor(
 
     override fun setupAnimations() {
         val count = mDots.size
-        val startOffset = (mLoopDuration - mJumpDuration) / (count - 1)
+        val startOffset = (loopDuration - jumpDuration) / (count - 1)
 
-        mJumpHalfTime = mJumpDuration / 2
-        val dotSize = fBounds.width() / count
+        mJumpHalfTime = jumpDuration / 2
+        val dotSize = mFBounds.width() / count
 
         for (i in 0 until count) {
             val dot = mDots[i]
-            dot.x = fBounds.left + dotSize / 2 + i * dotSize
-            dot.y = fBounds.bottom - dotSize / 2
-            dot.radius = dotSize / 2 - dotSize / 8
-            dot.paint = Paint(mPaint)
+            dot.mX = mFBounds.left + dotSize / 2 + i * dotSize
+            dot.mY = mFBounds.bottom - dotSize / 2
+            dot.mRadius = dotSize / 2 - dotSize / 8
+            dot.mPaint = Paint(mPaint)
 
             val startTime = startOffset * i
-            dot.startTime = startTime
-            dot.jumpUpEndTime = startTime + mJumpHalfTime
-            dot.jumpDownEndTime = startTime + mJumpDuration
+            dot.mStartTime = startTime
+            dot.mJumpUpEndTime = startTime + mJumpHalfTime
+            dot.mJumpDownEndTime = startTime + jumpDuration
         }
 
-        mJumpHeight = (fBounds.height() - dotSize / 2).toInt()
+        mJumpHeight = (mFBounds.height() - dotSize / 2).toInt()
 
-        mValueAnimator = ValueAnimator.ofInt(0, mLoopDuration)
-        mValueAnimator?.duration = mLoopDuration.toLong()
+        mValueAnimator = ValueAnimator.ofInt(0, loopDuration)
+        mValueAnimator?.duration = loopDuration.toLong()
         mValueAnimator?.repeatCount = ValueAnimator.INFINITE
         mValueAnimator?.addUpdateListener { animation ->
             val animationValue = animation.animatedValue as Int
 
             for (i in mDots.indices) {
                 val dot = mDots[i]
-                val dotStartTime = dot.startTime
+                val dotStartTime = dot.mStartTime
 
                 var animationFactor = 0f
                 if (animationValue >= dotStartTime) {
-                    if (animationValue < dot.jumpUpEndTime) {
+                    if (animationValue < dot.mJumpUpEndTime) {
                         animationFactor = (animationValue - dotStartTime).toFloat() / mJumpHalfTime
-                    } else if (animationValue < dot.jumpDownEndTime) {
+                    } else if (animationValue < dot.mJumpDownEndTime) {
                         animationFactor = 1 - (animationValue - dotStartTime - mJumpHalfTime).toFloat() / mJumpHalfTime
                     }
                 }
 
                 val translationY = mJumpHeight * animationFactor
-                dot.y = fBounds.bottom - dot.radius - translationY
-                mAnimatedView.invalidate()
+                dot.mY = mFBounds.bottom - dot.mRadius - translationY
+                animatedView.invalidate()
             }
         }
     }
@@ -140,21 +141,21 @@ class DotsAnimatedDrawable @JvmOverloads constructor(
     }
 
     private inner class Dot {
-        internal var x: Float = 0f
-        internal var y: Float = 0f
-        internal var paint: Paint? = null
-        internal var radius: Float = 0f
-        internal var startTime: Int = 0
-        internal var jumpUpEndTime: Int = 0
-        internal var jumpDownEndTime: Int = 0
+        internal var mX: Float = 0f
+        internal var mY: Float = 0f
+        internal var mPaint: Paint? = null
+        internal var mRadius: Float = 0f
+        internal var mStartTime: Int = 0
+        internal var mJumpUpEndTime: Int = 0
+        internal var mJumpDownEndTime: Int = 0
 
         internal fun draw(canvas: Canvas) {
-            canvas.drawCircle(x, y, radius, paint!!)
+            canvas.drawCircle(mX, mY, mRadius, mPaint!!)
         }
     }
 
     companion object {
-        private const val DEFAULT_DOTS_COUNT = 3
+        const val DEFAULT_DOTS_COUNT = 3
         private const val DEFAULT_LOOP_DURATION = 600
         private const val DEFAULT_JUMP_DURATION = 400
     }

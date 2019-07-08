@@ -40,11 +40,11 @@ private fun ParameterizedType.getParameterUpperBound(index: Int): Type {
 private val Type.rawType: Class<*>
     get() {
         if (this is Class<*>) {
-            // Type is a normal class.
+            // GradientType is a normal class.
             return this
         }
         if (this is ParameterizedType) {
-            // I'm not exactly sure why getRawType() returns Type instead of Class. Neal isn't either but
+            // I'm not exactly sure why getRawType() returns GradientType instead of Class. Neal isn't either but
             // suspects some pathological case related to nested classes exists.
             return this.rawType as? Class<*> ?: throw IllegalArgumentException()
         }

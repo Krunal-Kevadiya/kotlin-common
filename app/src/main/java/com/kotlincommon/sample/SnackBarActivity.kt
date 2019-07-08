@@ -210,7 +210,7 @@ class SnackBarActivity : AppCompatActivity() {
         return Snackbar.Builder(this)
             .gravity(Snackbar.Gravity.TOP)
             .title("Hello World!")
-            .message("You can have gradients by setting background Drawable.")
+            .message("You can have gradientDrawables by setting background Drawable.")
             .backgroundDrawable(R.drawable.bg_gradient)
             .build()
     }

@@ -7,6 +7,15 @@
     <color name="green">#2AB63A</color>
     <color name="red">#F50B1A</color>
 
-
     <color name="colorLine">#dfdfdf</color>
+    <array name="colors">
+        <item>#008577</item>
+        <item>#D81B60</item>
+        <item>#2AB63A</item>
+    </array>
+    <string-array name="positions">
+        <item>0.0</item>
+        <item>0.99</item>
+        <item>1.0</item>
+    </string-array>
 </resources>
