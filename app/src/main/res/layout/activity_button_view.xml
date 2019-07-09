@@ -26,7 +26,7 @@
                 app:pb_anim_corner_radius="@dimen/_25sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_normal_with_stroke"
@@ -48,7 +48,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_normal"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_gradient"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_normal_with_stroke"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_gradient_rect"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_gradient"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_normal_icon"
@@ -104,7 +104,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_gradient_rect"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_normal_icon_stroke"
@@ -127,7 +127,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_normal_icon"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_normal_state"
@@ -150,7 +150,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_normal_icon_stroke"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_gradient_state_revert"
@@ -172,7 +172,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_normal_state"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
         <com.kotlinlibrary.buttonview.ProgressButton
                 android:id="@+id/btn_stroke"
@@ -190,7 +190,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_gradient_state_revert"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

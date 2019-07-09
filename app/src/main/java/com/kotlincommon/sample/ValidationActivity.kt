@@ -10,6 +10,9 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.textfield.TextInputLayout
 import com.kotlincommon.sample.databinding.ActivityValidationBinding
 import com.kotlinlibrary.validation.bindValidator
+import com.kotlinlibrary.validation.collection.nonEmptyList
+import com.kotlinlibrary.validation.validator
+import com.kotlinlibrary.validation.views.validEmail
 
 class ValidationActivity : AppCompatActivity() {
     val editTextEmail = bindValidator<Int>("", false)
