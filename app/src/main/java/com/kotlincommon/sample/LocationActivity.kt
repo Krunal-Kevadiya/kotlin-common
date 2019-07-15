@@ -26,7 +26,7 @@ class LocationActivity : AppCompatActivity() {
     private val geoLocation = GeoLocation()
 
     private val textView: TextView by lazy {
-        findViewById(R.id.textView)
+        findViewById<TextView>(R.id.textView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
