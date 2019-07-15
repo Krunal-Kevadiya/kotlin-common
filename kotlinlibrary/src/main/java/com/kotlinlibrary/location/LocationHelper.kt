@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
@@ -17,29 +16,31 @@ import android.os.Looper
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.kotlinlibrary.R
-import com.kotlinlibrary.utils.ktx.logs
 
 /**
  * Helper headless fragment to handle permission model and location retrieval process.
- *
  * */
-class LocationHelper : Fragment() {
+internal class LocationHelper : Fragment() {
     private var isOneTime = false
     private var isRationaleDisplayed = false
     private var isJustBlocked = true
     private var options: LocationOptions = LocationOptions()
+    internal val locationLiveData = MutableLiveData<GeoLocationResult>()
+    private var isDisposed = false
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
             super.onLocationResult(locationResult)
-            locationResult?.let {
-                if (it.locations.isNotEmpty()) {
-                    success(it.locations.first())
+            locationResult?.let { result ->
+                if (result.locations.isNotEmpty()) {
+                    sendResult(GeoLocationResult.Success(result.locations.first()))
                     if (isOneTime) {
+                        isDisposed = true
                         stopContinuousLocation()
                     }
                 }
@@ -48,21 +49,20 @@ class LocationHelper : Fragment() {
     }
 
     companion object {
-        val TAG: String = this::class.java.simpleName
         private const val REQUEST_CODE_LOCATION_SETTINGS = 123
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
         private const val REQUEST_LOCATION_CODE = 7
+        const val TAG = "LocationHelper"
 
         /**
          * Creates a new instance o this class and returns it.
          * */
-        fun newInstance(): LocationHelper {
-            return LocationHelper()
+        fun newInstance(options: LocationOptions): LocationHelper {
+            return LocationHelper().apply {
+                this.options = options
+            }
         }
     }
-
-    var success: (Location) -> Unit = {}
-    var failure: (LocationError) -> Unit = {}
 
     /**
      * retainInstance if set to true, makes sure that this fragment instance persist though configuration changes.
@@ -70,35 +70,42 @@ class LocationHelper : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
+        arguments?.let { args ->
+            if (args.containsKey(Constants.IS_ONE_TIME_BUNDLE_KEY)) {
+                isOneTime = args.getBoolean(Constants.IS_ONE_TIME_BUNDLE_KEY)
+            }
+        }
     }
 
-    /**
-     * Initiates main location process by initiating permission model.
-     *
-     * @param options provides the dialog messages and LocationRequest instance to configure location request process.
-     * @param success is a function which will be called when the location is retrieved successfully.
-     * @param failure is a function which will be called when the user denies the permission or if there's any error
-     * getting location.
-     * @param isOneTime is a flag that indicates whether the location update should be sent only once or continuous.
-     *
-     * */
-    fun startLocationProcess(
-        options: LocationOptions = LocationOptions(),
-        success: (Location) -> Unit,
-        failure: (LocationError) -> Unit,
-        isOneTime: Boolean
-    ) {
-        this.options = options
-        this.success = success
-        this.failure = failure
-        this.isOneTime = isOneTime
-        initPermissionModel()
+    override fun onStart() {
+        super.onStart()
+        if (isDisposed) return
+        if (hasPermissionsNotDefinedInManifest()) {
+            locationLiveData.value =
+                GeoLocationResult.Failure(
+                    Throwable(
+                        """No location permission is defined in manifest.
+                            Please make sure that location permission is added to the manifest"""
+                    )
+                )
+            return
+        }
     }
+
+    private fun hasPermissionsNotDefinedInManifest(): Boolean =
+        requireContext().packageManager
+            .getPackageInfo(
+                requireContext().packageName,
+                PackageManager.GET_PERMISSIONS
+            )?.requestedPermissions?.run {
+            !contains(Manifest.permission.ACCESS_FINE_LOCATION)
+                    && !contains(Manifest.permission.ACCESS_COARSE_LOCATION)
+        } ?: true
 
     /**
      * Initiates permission model to request location permission in order to retrieve location successfully.=
      * */
-    private fun initPermissionModel() {
+    fun initPermissionModel() {
         when (hasLocationPermission()) {
             //has permission to access location
             true -> initLocationTracking()
@@ -122,60 +129,46 @@ class LocationHelper : Fragment() {
      * */
     private fun displayRationale() {
         AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.permission_required_title))
+            .setTitle(options.rationaleTitle)
             .setMessage(options.rationaleText)
             .setPositiveButton(getString(R.string.grant)) { dialog, _ ->
-                requestLocationPermission()
                 dialog.dismiss()
+                requestLocationPermission()
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
-                failure(LocationError(true))
-            }.create().show()
+                sendResult(GeoLocationResult.Failure(Throwable(Constants.DENIED)))
+            }.create().takeIf { !requireActivity().isFinishing }?.show()
     }
 
     /**
      * Requests user for location permission
      * */
-    private fun requestLocationPermission() {
-        requestPermissions(arrayOf(LOCATION_PERMISSION), REQUEST_LOCATION_CODE)
-    }
+    private fun requestLocationPermission() = requestPermissions(arrayOf(LOCATION_PERMISSION), REQUEST_LOCATION_CODE)
 
     /**
      * Checks whether the location permission is requested for the first time or not.
-     *
      * @return true if the location permission is requested for the first time, false otherwise.
-     *
      * */
-    private fun isFirstRequest(): Boolean {
-        return if (isApiLevelAbove23())
-            !requireActivity().shouldShowRequestPermissionRationale(LOCATION_PERMISSION)
-        else
-            false
-    }
+    private fun isFirstRequest(): Boolean = if (isApiLevelAbove23())
+        !requireActivity().shouldShowRequestPermissionRationale(LOCATION_PERMISSION)
+    else
+        false
 
     /**
      * Checks whether the app has location permission or not
-     *
      * @return true is the app has location permission, false otherwise.
-     *
      * */
-    private fun hasLocationPermission(): Boolean {
-        return if (isApiLevelAbove23())
-            requireActivity().checkSelfPermission(LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED
-        else
-            true
-    }
+    private fun hasLocationPermission(): Boolean = if (isApiLevelAbove23())
+        requireActivity().checkSelfPermission(LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED
+    else
+        true
 
     /**
      * Checks whether the android os version is 23+ or not.
-     *
      * @return true is the android version is 23 or above, false otherwise.
-     *
      * */
-    private fun isApiLevelAbove23(): Boolean {
-        return Build.VERSION.SDK_INT >= 23
-    }
+    private fun isApiLevelAbove23(): Boolean = Build.VERSION.SDK_INT >= 23
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
@@ -184,13 +177,14 @@ class LocationHelper : Fragment() {
                     initLocationTracking()
                 } else {
                     if (!shouldShowRequestPermissionRationale(LOCATION_PERMISSION)) {
-                        //means permission is permanently blockedText by user
+                        //means permission is permanently blocked by user
                         if (!isJustBlocked) {
+                            sendResult(GeoLocationResult.Failure(Throwable(Constants.PERMANENTLY_DENIED)))
                             showPermissionBlockedDialog()
                         } else
                             isJustBlocked = false
                     }
-                    failure(LocationError(true))
+                    sendResult(GeoLocationResult.Failure(Throwable(Constants.DENIED)))
                 }
             }
         }
@@ -201,7 +195,7 @@ class LocationHelper : Fragment() {
      * */
     private fun showPermissionBlockedDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.permission_blocked_title))
+            .setTitle(options.blockedTitle)
             .setMessage(options.blockedText)
             .setPositiveButton(getString(R.string.enable)) { dialog, _ ->
                 dialog.dismiss()
@@ -209,7 +203,8 @@ class LocationHelper : Fragment() {
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
-            }.create().show()
+            }.create()
+            .takeIf { !requireActivity().isFinishing }?.show()
     }
 
     /**
@@ -239,10 +234,8 @@ class LocationHelper : Fragment() {
 
     /**
      * Called when resolution of location setting is cancelled
-     *
      * @param locationSettingsStates a settings state instance that determines if the current location settings are
      * usable or not.
-     *
      * */
     private fun onResolveLocationSettingCancelled(locationSettingsStates: LocationSettingsStates) {
         if (locationSettingsStates.isLocationPresent && locationSettingsStates.isLocationUsable) {
@@ -252,7 +245,6 @@ class LocationHelper : Fragment() {
 
     /**
      * This function initiates location tracking if the permission model succeeds.
-     *
      * */
     private fun initLocationTracking() {
         //init location here
@@ -270,7 +262,6 @@ class LocationHelper : Fragment() {
     /**
      * Checks whether the current location settings allows retrieval of location or not.
      * If settings are enabled then retrieves the location, otherwise initiate the process of settings resolution
-     *
      * */
     private fun checkIfLocationSettingsAreEnabled() {
         if (checkIfRequiredLocationSettingsAreEnabled()) {
@@ -291,7 +282,7 @@ class LocationHelper : Fragment() {
                 if (exception is ResolvableApiException) {
                     onResolutionNeeded(exception)
                 } else {
-                    failure(LocationError(false, exception))
+                    sendResult(GeoLocationResult.Failure(exception))
                 }
             }
         }
@@ -300,32 +291,31 @@ class LocationHelper : Fragment() {
     /**
      * This function is called when resolution of location settings is needed.
      * Shows a dialog that location resolution is needed.
-     *
      * @param exception is an instance of ResolvableApiException which determines whether the resolution
      * is possible or not
-     *
      * */
     private fun onResolutionNeeded(exception: ResolvableApiException) {
         exception.printStackTrace()
         if (!shouldBeAllowedToProceed()) return
         if (!requireActivity().isFinishing) {
             AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.location_is_currently_disabled))
-                .setMessage(getString(R.string.please_enable_access_to_location))
-                .setPositiveButton(getString(R.string.btn_settings)) { dialog, _ ->
+                .setTitle(R.string.location_is_currently_disabled)
+                .setMessage(R.string.please_enable_access_to_location)
+                .setPositiveButton(
+                    R.string.btn_settings
+                ) { dialog, _ ->
                     resolveLocationSettings(exception)
                     dialog.dismiss()
                 }
-                .setNegativeButton(getString(R.string.btn_cancel)) { _, _ ->
-                }.create().show()
+                .setNegativeButton(R.string.btn_cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }.create().takeIf { !requireActivity().isFinishing }?.show()
         }
     }
 
     /**
      * Initiates location settings resolution process.
-     *
      * @param exception is used to resolve location settings
-     *
      * */
     private fun resolveLocationSettings(exception: Exception) {
         val resolvable = exception as ResolvableApiException
@@ -340,23 +330,18 @@ class LocationHelper : Fragment() {
                 null
             )
         } catch (e1: IntentSender.SendIntentException) {
-            logs(e1)
+            e1.printStackTrace()
         }
     }
 
     /**
      * Checks whether to continue the process or not. Makes sure the fragment is in foreground.
-     *
      * */
-    private fun shouldBeAllowedToProceed(): Boolean {
-        return lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
-    }
+    private fun shouldBeAllowedToProceed(): Boolean = lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
 
     /**
      * Checks whether the device location settings match with what the user requested
-     *
      * @return true is the current location settings satisfies the requirement, false otherwise.
-     *
      * */
     private fun checkIfRequiredLocationSettingsAreEnabled(): Boolean {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -368,7 +353,6 @@ class LocationHelper : Fragment() {
     /**
      * Retrieves the last known location using FusedLocationProviderClient.
      * In case of no last known location, initiates continues location to get a result.
-     *
      * */
     @SuppressLint("MissingPermission")
     private fun getLastKnownLocation() {
@@ -379,18 +363,18 @@ class LocationHelper : Fragment() {
         mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
             // Got last known location. In some rare situations this can be null.
             if (location != null) {
-                success(location)
+                sendResult(GeoLocationResult.Success(location))
+                isDisposed = true
             } else {
                 startContinuousLocation()
             }
         }?.addOnFailureListener { exception ->
-            failure(LocationError(false, exception))
+            sendResult(GeoLocationResult.Failure(exception))
         }
     }
 
     /**
      * Starts continuous location tracking using FusedLocationProviderClient
-     *
      * */
     @SuppressLint("MissingPermission")
     private fun startContinuousLocation() {
@@ -399,7 +383,7 @@ class LocationHelper : Fragment() {
             mLocationCallback,
             Looper.getMainLooper()
         )?.addOnFailureListener { exception ->
-            failure(LocationError(false, exception))
+            sendResult(GeoLocationResult.Failure(exception))
         }
     }
 
@@ -409,9 +393,20 @@ class LocationHelper : Fragment() {
     internal fun stopContinuousLocation() {
         mFusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
     }
-}
 
-/**
- * Helper class to handle errors which can be passed to the top abstraction layer.
- * */
-class LocationError(val isPermissionDenied: Boolean, val throwable: Throwable? = null)
+    /**
+     * Sets result into live data synchronously
+     * */
+    private fun sendResult(result: GeoLocationResult) {
+        locationLiveData.value = result
+    }
+
+    /**
+     * Sets result into live data asynchronously
+     * */
+    private fun sendResultAsync(result: GeoLocationResult) = locationLiveData.postValue(result)
+
+    fun reset() {
+        isDisposed = false
+    }
+}

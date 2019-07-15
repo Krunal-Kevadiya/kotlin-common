@@ -225,7 +225,7 @@ ext {
                     auth     : "16.0.1",
                     ads      : "16.0.0",
                     identity : "16.0.0",
-                    location : "16.0.0",
+                    location : "17.0.0",
                     base     : "16.0.1",
                     analytics: "16.0.4",
                     gcm      : "16.0.0",
