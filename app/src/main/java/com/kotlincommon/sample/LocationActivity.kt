@@ -20,6 +20,7 @@ package com.kotlincommon.sample
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.kotlinlibrary.location.Configuration
 import com.kotlinlibrary.location.GeoLocation
 
 class LocationActivity : AppCompatActivity() {
@@ -38,7 +39,7 @@ class LocationActivity : AppCompatActivity() {
     fun checkLocation() {
         geoLocation.listenForLocation(this) {
             textView.text = "Latitude: $latitude\tLongitude: $longitude"
-        }.failure {
+        } failure {
             textView.text = "Permission Denied: $message"
         }
     }

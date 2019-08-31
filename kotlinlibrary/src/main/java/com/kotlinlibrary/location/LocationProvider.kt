@@ -1,19 +1,33 @@
 package com.kotlinlibrary.location
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.Context
-import android.location.LocationManager
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
+import java.util.concurrent.atomic.AtomicBoolean
 
-class LocationProvider(context: Context, val options: LocationOptions, val isOneTime: Boolean) {
+/**
+ * Responsible for starting and stopping location updates=
+ * @property isRequestOngoing AtomicBoolean which indicates that whether a location request is ongoing or not
+ * @property mFusedLocationProviderClient (com.google.android.gms.location.FusedLocationProviderClient..com.google.android.gms.location.FusedLocationProviderClient?) used to request location
+ * @property locationLiveData MutableLiveData<GeoLocationResult> contains location results
+ * @property mLocationCallback <no name provided>
+ * @constructor
+ */
+internal class LocationProvider(context: Context) {
+
+    private val pendingIntent: PendingIntent by lazy {
+        LocationBroadcastReceiver.getPendingIntent(context)
+    }
+    private val isRequestOngoing = AtomicBoolean().apply { set(false) }
 
     private var mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-    internal val locationLiveData = MutableLiveData<GeoLocationResult>()
+    internal var locationLiveData = MutableLiveData<GeoLocationResult>()
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -21,89 +35,55 @@ class LocationProvider(context: Context, val options: LocationOptions, val isOne
             locationResult?.let { result ->
                 if (result.locations.isNotEmpty()) {
                     sendResult(GeoLocationResult.Success(result.locations.first()))
-                    if (isOneTime) {
-                        stopContinuousLocation()
-                        locationLiveData.value = null
-                    }
                 }
             }
         }
     }
 
-    init {
-        checkIfLocationSettingsAreEnabled(context, options)
-    }
-
     /**
-     * Checks whether the current location settings allows retrieval of location or not.
-     * If settings are enabled then retrieves the location, otherwise initiate the process of settings resolution
-     * */
-    private fun checkIfLocationSettingsAreEnabled(context: Context, options: LocationOptions) {
-        if (checkIfRequiredLocationSettingsAreEnabled(context)) {
-            getLastKnownLocation()
-        } else {
-            val builder = LocationSettingsRequest.Builder()
-            builder.addLocationRequest(options.locationRequest)
-            builder.setAlwaysShow(true)
-
-            val client = LocationServices.getSettingsClient(context)
-            val locationSettingsResponseTask = client.checkLocationSettings(builder.build())
-            locationSettingsResponseTask.addOnSuccessListener {
-                // All location settings are satisfied. The client can initialize
-                // location requests here.
-                getLastKnownLocation()
-            }
-            locationSettingsResponseTask.addOnFailureListener { exception ->
-                sendResult(GeoLocationResult.Failure(exception))
-            }
-        }
-    }
-
-    /**
-     * Checks whether the device location settings match with what the user requested
-     * @return true is the current location settings satisfies the requirement, false otherwise.
-     * */
-    private fun checkIfRequiredLocationSettingsAreEnabled(context: Context): Boolean {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    /**
-     * Retrieves the last known location using FusedLocationProviderClient.
-     * In case of no last known location, initiates continues location to get a result.
+     * Starts continuous location tracking using FusedLocationProviderClient
+     *
+     * If somehow continuous location retrieval fails then it tries to retrieve last known location.
      * */
     @SuppressLint("MissingPermission")
-    private fun getLastKnownLocation() {
-        if (!isOneTime) {
-            startContinuousLocation()
-            return
-        }
-        mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                sendResult(GeoLocationResult.Success(location))
-                stopContinuousLocation()
-            } else {
-                startContinuousLocation()
+    internal fun startContinuousLocation(request: LocationRequest) {
+        if (isRequestOngoing.getAndSet(true)) return
+        mFusedLocationProviderClient?.requestLocationUpdates(
+            request,
+            mLocationCallback,
+            Looper.getMainLooper()
+        )?.addOnFailureListener {
+            mFusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
+                if (!it.isSuccessful) return@addOnCompleteListener
+                it.result?.let { location ->
+                    sendResult(GeoLocationResult.Success(location))
+                }
+            }?.addOnFailureListener {
+                sendResult(GeoLocationResult.Failure(it))
             }
-        }?.addOnFailureListener { exception ->
-            sendResult(GeoLocationResult.Failure(exception))
         }
     }
 
     /**
      * Starts continuous location tracking using FusedLocationProviderClient
+     *
+     * If somehow continuous location retrieval fails then it tries to retrieve last known location.
      * */
     @SuppressLint("MissingPermission")
-    private fun startContinuousLocation() {
+    internal fun startBackgroundLocationUpdates(context: Context, request: LocationRequest) {
+        if (isRequestOngoing.getAndSet(true)) return
         mFusedLocationProviderClient?.requestLocationUpdates(
-            options.locationRequest,
-            mLocationCallback,
-            Looper.getMainLooper()
-        )?.addOnFailureListener { exception ->
-            sendResult(GeoLocationResult.Failure(exception))
+            request,
+            pendingIntent
+        )?.addOnFailureListener {
+            mFusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
+                if (!it.isSuccessful) return@addOnCompleteListener
+                it.result?.let { location ->
+                    backgroundLocationLiveData.postValue(GeoLocationResult.Success(location))
+                }
+            }?.addOnFailureListener {
+                backgroundLocationLiveData.postValue(GeoLocationResult.Failure(it))
+            }
         }
     }
 
@@ -111,13 +91,25 @@ class LocationProvider(context: Context, val options: LocationOptions, val isOne
      * Sets result into live data synchronously
      * */
     private fun sendResult(result: GeoLocationResult) {
-        locationLiveData.value = result
+        locationLiveData.postValue(result)
     }
 
     /**
      * Stops location tracking by removing location callback from FusedLocationProviderClient
      * */
     internal fun stopContinuousLocation() {
+        isRequestOngoing.set(false)
+        locationLiveData.postValue(null)
+        locationLiveData = MutableLiveData()
         mFusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+    }
+
+    /**
+     * Stops location tracking by removing location callback from FusedLocationProviderClient
+     * */
+    internal fun stopBackgroundLocation() {
+        isRequestOngoing.set(false)
+        backgroundLocationLiveData = MutableLiveData()
+        mFusedLocationProviderClient?.removeLocationUpdates(pendingIntent)
     }
 }
