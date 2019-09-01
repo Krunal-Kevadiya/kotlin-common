@@ -21,7 +21,7 @@ fun Any.launchActivity(
     applyAnimation: Boolean = true,
     flags: Int? = null,
     resultCode: Int? = null,
-    vararg params: Pair<String, Any>
+    vararg params: Pair<String, Any?>
 ) {
     val activity = getActivityFromSource(this)
     if (finishCurrent)
