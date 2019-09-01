@@ -84,7 +84,7 @@ fun <T> createIntent(
 private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, Any?>>) {
     params.forEach {
         when (val value = it.second) {
-            null -> intent.putExtra(it.first, null as Serializable?)
+            null -> {}
             is Int -> intent.putExtra(it.first, value)
             is Long -> intent.putExtra(it.first, value)
             is CharSequence -> intent.putExtra(it.first, value)
