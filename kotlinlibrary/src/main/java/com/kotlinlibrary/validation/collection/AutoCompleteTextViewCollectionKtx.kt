@@ -116,7 +116,7 @@ inline fun <reified ErrorMessage : Any> Any.maxLengthList(
 ): Boolean {
     var result = false
     for (autocomplete in autoCompletesList) {
-        result = autocomplete.maxLength<ErrorMessage>(maxLength) {
+        result = autocomplete.maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(autocomplete, it)
         }
         if (!result)
@@ -132,7 +132,7 @@ inline fun <reified ErrorMessage : Any> Activity.maxLengthList(
 ): Boolean {
     var result = false
     for (id in autoCompletesIds) {
-        result = findViewById<AutoCompleteTextView>(id).maxLength<ErrorMessage>(maxLength) {
+        result = findViewById<AutoCompleteTextView>(id).maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -150,7 +150,7 @@ inline fun <reified ErrorMessage : Any> Fragment.maxLengthList(
     if (view != null) {
         view?.let { v ->
             for (id in autoCompletesIds) {
-                result = v.findViewById<AutoCompleteTextView>(id).maxLength<ErrorMessage>(maxLength) {
+                result = v.findViewById<AutoCompleteTextView>(id).maxLengths<ErrorMessage>(maxLength) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)

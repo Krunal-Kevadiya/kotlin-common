@@ -107,7 +107,7 @@ inline fun <reified ErrorMessage : Any> Any.maxLengthList(
 ): Boolean {
     var result = false
     for (edittext in editTextList) {
-        result = edittext.maxLength<ErrorMessage>(maxLength) {
+        result = edittext.maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(edittext, it)
         }
         if (!result)
@@ -123,7 +123,7 @@ inline fun <reified ErrorMessage : Any> Activity.maxLengthList(
 ): Boolean {
     var result = false
     for (id in editTextIds) {
-        result = findViewById<EditText>(id).maxLength<ErrorMessage>(maxLength) {
+        result = findViewById<EditText>(id).maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -141,7 +141,7 @@ inline fun <reified ErrorMessage : Any> Fragment.maxLengthList(
     if (view != null) {
         view?.let { v ->
             for (id in editTextIds) {
-                result = v.findViewById<EditText>(id).maxLength<ErrorMessage>(maxLength) {
+                result = v.findViewById<EditText>(id).maxLengths<ErrorMessage>(maxLength) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)

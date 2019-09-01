@@ -92,7 +92,7 @@ class Validator<ErrorMessage>(
         return this
     }
 
-    fun maxLength(length: Int, errorMsg: ErrorMessage? = null): Validator<ErrorMessage> {
+    fun maxLengths(length: Int, errorMsg: ErrorMessage? = null): Validator<ErrorMessage> {
         val rule = errorMsg?.let { MaxLengthRule(length, errorMsg, clazz) } ?: MaxLengthRule(length, clazz = clazz)
         addRule(rule)
         return this

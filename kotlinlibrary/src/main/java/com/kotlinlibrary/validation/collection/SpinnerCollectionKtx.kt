@@ -106,7 +106,7 @@ inline fun <reified ErrorMessage : Any> Any.maxLengthList(
 ): Boolean {
     var result = false
     for (spinner in spinnersList) {
-        result = spinner.maxLength<ErrorMessage>(maxLength) {
+        result = spinner.maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(spinner, it)
         }
         if (!result)
@@ -122,7 +122,7 @@ inline fun <reified ErrorMessage : Any> Activity.maxLengthList(
 ): Boolean {
     var result = false
     for (id in spinnerIds) {
-        result = findViewById<Spinner>(id).maxLength<ErrorMessage>(maxLength) {
+        result = findViewById<Spinner>(id).maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(findViewById(id), it)
         }
         if (!result)
@@ -140,7 +140,7 @@ inline fun <reified ErrorMessage : Any> Fragment.maxLengthList(
     if (view != null) {
         view?.let { v ->
             for (id in spinnerIds) {
-                result = v.findViewById<Spinner>(id).maxLength<ErrorMessage>(maxLength) {
+                result = v.findViewById<Spinner>(id).maxLengths<ErrorMessage>(maxLength) {
                     callback.invoke(v.findViewById(id), it)
                 }
                 if (!result)

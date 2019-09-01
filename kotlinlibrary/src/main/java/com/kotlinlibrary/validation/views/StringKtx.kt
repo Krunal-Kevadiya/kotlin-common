@@ -40,19 +40,19 @@ inline fun <reified ErrorMessage : Any> String.minLength(minLength: Int, crossin
             }.check()
 }
 
-inline fun <reified ErrorMessage : Any> String.maxLength(maxLength: Int, errorMsg: ErrorMessage? = null): Boolean {
-    return validator<ErrorMessage>().maxLength(maxLength, errorMsg).check()
+inline fun <reified ErrorMessage : Any> String.maxLengths(maxLength: Int, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().maxLengths(maxLength, errorMsg).check()
 }
 
-inline fun <reified ErrorMessage : Any> String.maxLength(maxLength: Int, crossinline callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
-    return validator<ErrorMessage>().maxLength(maxLength, errorMsg)
+inline fun <reified ErrorMessage : Any> String.maxLengths(maxLength: Int, crossinline callback: (message: ErrorMessage?) -> Unit, errorMsg: ErrorMessage? = null): Boolean {
+    return validator<ErrorMessage>().maxLengths(maxLength, errorMsg)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()
 }
 
-inline fun <reified ErrorMessage : Any> String.maxLength(maxLength: Int, crossinline callback: (message: ErrorMessage?) -> Unit): Boolean {
-    return validator<ErrorMessage>().maxLength(maxLength)
+inline fun <reified ErrorMessage : Any> String.maxLengths(maxLength: Int, crossinline callback: (message: ErrorMessage?) -> Unit): Boolean {
+    return validator<ErrorMessage>().maxLengths(maxLength)
             .addErrorCallback {
                 callback.invoke(it)
             }.check()

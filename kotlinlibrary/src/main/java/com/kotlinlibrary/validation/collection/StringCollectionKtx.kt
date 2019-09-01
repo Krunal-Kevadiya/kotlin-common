@@ -42,7 +42,7 @@ inline fun <reified ErrorMessage : Any> Any.maxLengthList(
 ): Boolean {
     var result = false
     for (str in strsList) {
-        result = str.maxLength<ErrorMessage>(maxLength) {
+        result = str.maxLengths<ErrorMessage>(maxLength) {
             callback.invoke(str, it)
         }
 

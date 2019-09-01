@@ -34,7 +34,7 @@ class ValidationActivity : AppCompatActivity() {
         .regex(".*[0-9]+.*", "Must contain digits.")
         .regex(".*[a-z]+.*", "Must contain small letters.")
         .minLength(8, "Eight or more characters.")
-        .maxLength(16, "No more then sixteen characters.")
+        .maxLengths(16, "No more then sixteen characters.")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
