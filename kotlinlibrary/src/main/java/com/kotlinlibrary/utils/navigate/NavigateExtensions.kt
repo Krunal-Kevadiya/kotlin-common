@@ -15,12 +15,35 @@ import com.kotlinlibrary.utils.getActivityFromSource
 import com.kotlinlibrary.utils.getAppCompatActivityFromSource
 
 //For Activity
-inline fun <reified T : Activity> Any.launchActivity(
+fun Any.launchActivity(
+    intent: Intent,
     finishCurrent: Boolean = false,
     applyAnimation: Boolean = true,
     flags: Int? = null,
     resultCode: Int? = null,
     vararg params: Pair<String, Any>
+) {
+    val activity = getActivityFromSource(this)
+    if (finishCurrent)
+        finishCurrentActivity()
+    if (params.isNotEmpty())
+        fillIntentArguments(intent, params)
+    if(flags != null)
+        intent.addFlags(flags)
+    if (resultCode != null)
+        activity.startActivityForResult(intent, resultCode)
+    else
+        activity.startActivity(intent)
+    if (applyAnimation)
+        activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+}
+
+inline fun <reified T : Activity> Any.launchActivity(
+    finishCurrent: Boolean = false,
+    applyAnimation: Boolean = true,
+    flags: Int? = null,
+    resultCode: Int? = null,
+    vararg params: Pair<String, Any?>
 ) {
     internalStartActivity(finishCurrent, applyAnimation, flags, T::class.java, resultCode, params)
 }
@@ -31,7 +54,7 @@ fun Any.internalStartActivity(
     flags: Int? = null,
     activityClass: Class<out Activity>,
     resultCode: Int? = null,
-    params: Array<out Pair<String, Any>>
+    params: Array<out Pair<String, Any?>>
 ) {
     val activity = getActivityFromSource(this)
     if (finishCurrent)
