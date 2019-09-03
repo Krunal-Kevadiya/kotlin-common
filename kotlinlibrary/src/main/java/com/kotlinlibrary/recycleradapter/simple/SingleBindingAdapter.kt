@@ -122,7 +122,7 @@ open class SingleBindingAdapter<T> (
         } else {
             val size = itemList.size - index
             val list = getDistinctList(items)
-            itemList.addAll(list)
+            itemList.addAll(index, list)
             notifyItemRangeInserted(index, list.size + size)
         }
         return this
@@ -147,7 +147,7 @@ open class SingleBindingAdapter<T> (
         } else {
             val size = this.itemList.size - index
             val list = getDistinctList(itemList)
-            this.itemList.addAll(list)
+            this.itemList.addAll(index, list)
             notifyItemRangeInserted(index, list.size + size)
         }
         return this
