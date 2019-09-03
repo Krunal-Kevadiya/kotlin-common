@@ -16,7 +16,7 @@ class NavigationOptions internal constructor() {
     }
 
     internal var targetOption: TargetOption = TargetOption()
-    fun dtargetRequest(func: TargetOption.() -> Unit) {
+    fun targetRequest(func: TargetOption.() -> Unit) {
         targetOption = TargetOption().apply(func)
     }
 

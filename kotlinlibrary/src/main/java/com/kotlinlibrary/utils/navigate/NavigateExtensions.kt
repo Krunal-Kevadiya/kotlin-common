@@ -134,42 +134,17 @@ fun Any.finishAllCurrentActivity(applyAnimation: Boolean = true) {
 fun Any.showFragment(
     @IdRes frameId: Int,
     fragment: Fragment,
+    isChildFragment: Boolean = false,
     func: NavigationOptions.() -> Unit = {}
 ) {
-    val activity = getAppCompatActivityFromSource(this)
     val options = NavigationOptions()
     func.invoke(options)
-    val fragmentManager = activity.supportFragmentManager
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    if (options.addToBackStack)
-        fragmentTransaction.addToBackStack(null)
-
-    if (options.targetOption.fragmentToTarget != null)
-        fragment.setTargetFragment(options.targetOption.fragmentToTarget, options.targetOption.requestCode)
-
-    if (options.animOption.animEnter != 0 || options.animOption.animExit != 0)
-        fragmentTransaction.setCustomAnimations(options.animOption.animEnter, options.animOption.animExit)
-
-    options.animOption.views?.forEach { view ->
-        fragmentTransaction.addSharedElement(view.first, view.second)
+    val fragmentManager = if(isChildFragment) {
+        options.childFragmentOption.parentFragment!!.childFragmentManager
+    } else {
+        val activity = getAppCompatActivityFromSource(this)
+        activity.supportFragmentManager
     }
-
-    if (options.transactionType == TransactionType.FragmentType.Add)
-        fragmentTransaction.add(frameId, fragment, options.tag)
-    else
-        fragmentTransaction.replace(frameId, fragment, options.tag)
-    fragmentTransaction.commitAllowingStateLoss()
-}
-
-fun Any.showChildFragment(
-    @IdRes frameId: Int,
-    fragment: Fragment,
-    func: NavigationOptions.() -> Unit = {}
-) {
-    //val activity = getAppCompatActivityFrom(this)
-    val options = NavigationOptions()
-    func.invoke(options)
-    val fragmentManager = options.childFragmentOption.parentFragment!!.childFragmentManager
     val fragmentTransaction = fragmentManager.beginTransaction()
     if (options.addToBackStack)
         fragmentTransaction.addToBackStack(null)
@@ -193,12 +168,19 @@ fun Any.showChildFragment(
 
 fun Any.showDialogFragment(
     dialogFragment: DialogFragment,
+    isChildFragment: Boolean = false,
     func: NavigationOptions.() -> Unit = {}
 ) {
-    val activity = getAppCompatActivityFromSource(this)
     val options = NavigationOptions()
+    options.transactionType = TransactionType.DialogFragmentType.Show
     func.invoke(options)
-    val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
+    val fragmentManager = if(isChildFragment) {
+        options.childFragmentOption.parentFragment!!.childFragmentManager
+    } else {
+        val activity = getAppCompatActivityFromSource(this)
+        activity.supportFragmentManager
+    }
+    val fragmentTransaction = fragmentManager.beginTransaction()
     if (options.addToBackStack)
         fragmentTransaction.addToBackStack(null)
 
