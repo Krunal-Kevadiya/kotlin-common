@@ -180,6 +180,7 @@ fun Any.showDialogFragment(
         val activity = getAppCompatActivityFromSource(this)
         activity.supportFragmentManager
     }
+
     val fragmentTransaction = fragmentManager.beginTransaction()
     if (options.addToBackStack)
         fragmentTransaction.addToBackStack(null)
@@ -190,18 +191,14 @@ fun Any.showDialogFragment(
     if (options.targetOption.targetDialogFragment != null)
         dialogFragment.setTargetFragment(options.targetOption.targetDialogFragment, options.targetOption.requestCode)
 
-    if (options.animOption.animEnter != 0 || options.animOption.animExit != 0)
-        fragmentTransaction.setCustomAnimations(options.animOption.animEnter, options.animOption.animExit)
-
     options.animOption.views?.forEach { view ->
         fragmentTransaction.addSharedElement(view.first, view.second)
     }
 
-    if (options.transactionType == TransactionType.DialogFragmentType.Show)
-        fragmentTransaction.show(dialogFragment)
+    if(options.transactionType == TransactionType.DialogFragmentType.Show)
+        dialogFragment.show(fragmentTransaction, options.tag)
     else
-        fragmentTransaction.hide(dialogFragment)
-    fragmentTransaction.commitAllowingStateLoss()
+        dialogFragment.dismissAllowingStateLoss()
 }
 
 fun Any.getCurrentFragmentManager(): FragmentManager? {
