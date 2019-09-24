@@ -88,7 +88,7 @@ fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
 private fun Context.getOutputMediaFile() :File {
     val picName = UUID.randomUUID().toString().replace("-".toRegex(), "") + ".jpg"
     val folder = this.getExternalFilesDir(null)
-    if(!folder.isDirectory) {
+    if(folder != null && !folder.isDirectory) {
         folder.mkdirs()
     }
 

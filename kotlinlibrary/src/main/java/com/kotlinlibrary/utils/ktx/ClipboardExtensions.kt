@@ -7,17 +7,17 @@ import com.kotlinlibrary.utils.getContextFromSource
 
 fun Any.copyTextToClipboard(value: String) =
     ClipData.newPlainText("text", value).let {
-        this@copyTextToClipboard.clipboardManager?.primaryClip = it
+        this@copyTextToClipboard.clipboardManager?.setPrimaryClip(it)
     }
 
 fun Any.copyUriToClipboard(uri: Uri) =
     ClipData.newUri(getContextFromSource(this).contentResolver, "uri", uri).let {
-        this@copyUriToClipboard.clipboardManager?.primaryClip = it
+        this@copyUriToClipboard.clipboardManager?.setPrimaryClip(it)
     }
 
 fun String.copyToClipboard(context: Context, label: String) =
     ClipData.newPlainText(label, this).let {
-        context.clipboardManager?.primaryClip = it
+        context.clipboardManager?.setPrimaryClip(it)
     }
 
 fun Any.getTextFromClipboard(): CharSequence {

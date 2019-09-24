@@ -5,16 +5,12 @@ import android.location.Location
 /**
  * Represents states of GeoLocationResult library
  * */
-sealed class GeoLocationResult {
-
-    /**
-     * Represents success state for retrieving location
-     * */
-    data class Success internal constructor(val location: Location) : GeoLocationResult()
-
-    /**
-     * Represents failure state for location process
-     * */
-    data class Failure internal constructor(val error: Throwable) : GeoLocationResult()
-
+class GeoLocationResult private constructor(
+    val location: Location? = null,
+    val error: Throwable? = null
+) {
+    companion object {
+        internal fun error(error: Throwable) = GeoLocationResult(error = error)
+        internal fun success(location: Location) = GeoLocationResult(location = location)
+    }
 }

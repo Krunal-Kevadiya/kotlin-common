@@ -4,10 +4,10 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.MutableLiveData
+import android.location.Location
+import android.location.LocationManager
 import com.google.android.gms.location.LocationResult
-
-internal var backgroundLocationLiveData = MutableLiveData<GeoLocationResult>()
+import com.kotlinlibrary.utils.ktx.logs
 
 class LocationBroadcastReceiver : BroadcastReceiver() {
 
@@ -23,11 +23,18 @@ class LocationBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        intent ?: return
-        if (intent.action == ACTION_PROCESS_UPDATES) {
-            LocationResult.extractResult(intent)?.let { result ->
-                if (result.locations.isNotEmpty()) {
-                    backgroundLocationLiveData.postValue(GeoLocationResult.Success(result.lastLocation))
+        logs("onReceive -> ${intent?.extras}")
+        if (intent != null && intent.action == ACTION_PROCESS_UPDATES) {
+            if(intent.hasExtra(LocationManager.KEY_LOCATION_CHANGED)) {
+                val location = intent.extras?.get(LocationManager.KEY_LOCATION_CHANGED) as? Location
+                location?.let {
+                    locationLiveData.postValue(GeoLocationResult.success(it))
+                }
+            } else {
+                LocationResult.extractResult(intent)?.let { result ->
+                    if (result.locations.isNotEmpty()) {
+                        locationLiveData.postValue(GeoLocationResult.success(result.lastLocation))
+                    }
                 }
             }
         }

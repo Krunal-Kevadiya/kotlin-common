@@ -246,7 +246,7 @@ private class EnumAdapter(val clazz: Class<Enum<*>>) : Adapter<Enum<*>> {
     }
 
     override operator fun get(bundle: Bundle, name: String): Enum<*> {
-        return clazz.enumConstants.firstOrNull {
+        return clazz.enumConstants?.firstOrNull {
             it.name == bundle.getString(name)
         } ?: throw IllegalArgumentException("\"$name\" is not a constant in \"${clazz.name}\"")
     }

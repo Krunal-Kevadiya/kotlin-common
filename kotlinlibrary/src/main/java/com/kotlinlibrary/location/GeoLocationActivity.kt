@@ -1,57 +1,62 @@
 package com.kotlinlibrary.location
 
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.logs
 
+/**
+ * Activity that handles permission model as well as location settings resolution process
+ * @property localBroadcastManager Used to send permission related broadcasts
+ * @property config Current configuration to be used for the library
+ * @property pref SharedPreferences instance to managed permission model
+ * @property permissions Permissions that needs to be requested based on the [config]
+ */
 class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     companion object {
-        private const val REQUEST_CODE_LOCATION_SETTINGS = 123
-        private const val COARSE_LOCATION_PERMISSION = android.Manifest.permission.ACCESS_COARSE_LOCATION
-        private const val FINE_LOCATION_PERMISSION = android.Manifest.permission.ACCESS_FINE_LOCATION
+        private const val REQUEST_CODE_LOCATION_SETTINGS = 545
         private const val PERMISSION_REQUEST_CODE = 777
         private const val SETTINGS_ACTIVITY_REQUEST_CODE = 659
         private const val PREF_NAME = "geo_location_pref"
     }
 
-    private val localBroadcastManager: LocalBroadcastManager by lazy {
-        LocalBroadcastManager.getInstance(this)
-    }
-    private var configuration: Configuration = Configuration()
-    private var isResolutionEnabled: Boolean = false
+    private var config: Configuration = Configuration()
     private val pref: SharedPreferences by lazy {
         getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
-    private var isBackground = false
+    private var permissions: Array<String> = arrayOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_permission)
 
-        isResolutionEnabled =
-            intent?.getParcelableExtra<Configuration>(Constants.INTENT_EXTRA_CONFIGURATION)?.let {
-                configuration = it
-                configuration.shouldResolveRequest
-            } ?: false
-        isBackground = intent?.getBooleanExtra(Constants.INTENT_EXTRA_IS_BACKGROUND, false) ?: false
+
+        intent?.getParcelableExtra<Configuration>(Constants.INTENT_EXTRA_CONFIGURATION)?.let {
+            config = it
+        } ?: logs("No config is sent to the permission activity")
+        val isSingleUpdate =
+            intent?.getBooleanExtra(Constants.INTENT_EXTRA_IS_SINGLE_UPDATE, false) ?: false
+        permissions =
+            if (config.enableBackgroundUpdates && !isSingleUpdate) locationPermissions + backgroundPermission else locationPermissions
         initPermissionModel()
     }
 
@@ -67,16 +72,16 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * 5. If not, then the permission is permanently denied.
      */
     private fun initPermissionModel() {
-        if (!hasPermission()) {
-            //doesn't have permission, checking if user has been asked for permission earlier
-            if (shouldShowRationale()) {
-                // should show rationale
+        if (!hasAllPermissions()) {
+            //doesn't have all the permission, checking if user has been asked for permission earlier
+            if (needToShowRationale()) {
+                // User has been asked for the permission
                 showPermissionRationale()
             } else {
-                if (isPermissionAskedFirstTime()) {
+                if (isAnyPermissionAskedFirstTime()) {
                     // request permission
                     setPermissionAsked()
-                    requestPermission()
+                    requestForPermissions()
                 } else {
                     // permanently denied
                     showPermanentlyDeniedDialog()
@@ -89,32 +94,31 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
     }
 
     /**
-     * Determines whether the rationale needs to be shown or not
-     * @return Boolean true if needs to be shown, false otherwise
+     * Checks whether the requested permission is asked for the first time or not.
+     *
+     * The value is stored in the shared preferences.
+     * @receiver Fragment is used to get context.
+     * @return Boolean true if the permission is asked for the first time, false otherwise.
      */
-    private fun shouldShowRationale(): Boolean {
-        return ActivityCompat.shouldShowRequestPermissionRationale(
-            this,
-            COARSE_LOCATION_PERMISSION
-        ) || ActivityCompat.shouldShowRequestPermissionRationale(this, FINE_LOCATION_PERMISSION)
-    }
+    private fun isAnyPermissionAskedFirstTime(): Boolean =
+        permissions.any { pref.getBoolean(it, true) }
 
-    /**
-     * Checks whether the app has location permission or not
-     * @return true is the app has location permission, false otherwise.
-     * */
-    private fun hasPermission(): Boolean =
-        ContextCompat.checkSelfPermission(this, COARSE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED
+    private fun requestForPermissions() =
+        ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE)
+
+    private fun hasAllPermissions(): Boolean = permissions.all(::hasPermission)
+
+    private fun needToShowRationale(): Boolean = permissions.any(::shouldShowRationale)
 
     /**
      * Displays a permission rationale dialog
      */
     private fun showPermissionRationale() {
         AlertDialog.Builder(this)
-            .setTitle(configuration.rationaleTitle)
-            .setMessage(configuration.rationaleText)
+            .setTitle(config.rationaleTitle)
+            .setMessage(config.rationaleText)
             .setPositiveButton(R.string.grant) { dialog, _ ->
-                requestPermission()
+                requestForPermissions()
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.deny) { dialog, _ ->
@@ -127,46 +131,45 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
     }
 
     /**
-     * Checks whether the requested permission is asked for the first time or not.
-     *
-     * The value is stored in the shared preferences.
-     * @receiver Fragment is used to get context.
-     * @return Boolean true if the permission is asked for the first time, false otherwise.
-     */
-    private fun isPermissionAskedFirstTime(): Boolean = pref.getBoolean(FINE_LOCATION_PERMISSION, true)
-
-    /**
      * Writes the false value into shared preferences which indicates that the location permission has been requested previously.
      * @receiver Fragment is used to get context.
      */
-    private fun setPermissionAsked() = pref.edit().putBoolean(FINE_LOCATION_PERMISSION, false).commit()
+    private fun setPermissionAsked() {
+        with(pref.edit()) {
+            permissions.forEach { permission -> putBoolean(permission, false) }
+            commit()
+        }
+    }
 
-    /**
-     * Actual request for the permission
-     * */
-    private fun requestPermission() =
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(FINE_LOCATION_PERMISSION, COARSE_LOCATION_PERMISSION),
-            PERMISSION_REQUEST_CODE
-        )
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val perms = if (config.enableBackgroundUpdates && config.forceBackgroundUpdates) {
+            locationPermissions + backgroundPermission
+        } else {
+            locationPermissions
+        }
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
-                onPermissionGranted()
-            } else {
-                onPermissionDenied()
+            when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request is cancelled and you
+                    // receive empty arrays.
+                    logs("User interaction was cancelled.")
+                grantResults.all { it == PackageManager.PERMISSION_GRANTED } -> onPermissionGranted()
+                perms.all { grantResults[permissions.indexOf(it)] == PackageManager.PERMISSION_GRANTED } -> onPermissionGranted()
+                else -> onPermissionDenied()
             }
         }
     }
 
     /**
-     * handles the flow when the permission is granted successfully.
-     * It either sends success broadcast if the permission is granted and location setting resolution is disabled or proceeds for checking location settings
+     * handles the flow when the permission is granted successfully. It either sends success broadcast if the permission is granted and location setting resolution is disabled or proceeds for checking location settings
      */
     private fun onPermissionGranted() {
-        if (isResolutionEnabled) {
+        if (config.shouldResolveRequest) {
             checkIfLocationSettingsAreEnabled()
         } else {
             shouldProceedForLocation()
@@ -177,7 +180,7 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * Sends denied broadcast when user denies to grant location permission
      */
     private fun onPermissionDenied() {
-        sendResultBroadcast(Intent(packageName).putExtra(Constants.INTENT_EXTRA_PERMISSION_RESULT, Constants.DENIED))
+        postResult(Constants.DENIED)
     }
 
     /**
@@ -185,8 +188,8 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      */
     private fun showPermanentlyDeniedDialog() {
         AlertDialog.Builder(this)
-            .setTitle(configuration.blockedTitle)
-            .setMessage(configuration.blockedText)
+            .setTitle(config.blockedTitle)
+            .setMessage(config.blockedText)
             .setPositiveButton(R.string.open_settings) { dialog, _ ->
                 openSettings()
                 dialog.dismiss()
@@ -204,12 +207,7 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * Sends broadcast indicating permanent denial of location permission
      */
     private fun onPermissionPermanentlyDenied() {
-        sendResultBroadcast(
-            Intent(packageName).putExtra(
-                Constants.INTENT_EXTRA_PERMISSION_RESULT,
-                Constants.PERMANENTLY_DENIED
-            )
-        )
+        postResult(Constants.PERMANENTLY_DENIED)
     }
 
     /**
@@ -228,28 +226,40 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * If settings are isLoggingEnabled then retrieves the location, otherwise initiate the process of settings resolution
      * */
     private fun checkIfLocationSettingsAreEnabled() {
-        if (checkIfRequiredLocationSettingsAreEnabled()) {
-            shouldProceedForLocation()
-        } else {
-            val builder = LocationSettingsRequest.Builder()
-            builder.addLocationRequest(configuration.locationRequest)
-            builder.setAlwaysShow(true)
-
-            val client = LocationServices.getSettingsClient(this)
-            val locationSettingsResponseTask = client.checkLocationSettings(builder.build())
-            locationSettingsResponseTask.addOnSuccessListener {
-                // All location settings are satisfied. The client can initialize
-                // location requests here.
-                shouldProceedForLocation()
-            }
-            locationSettingsResponseTask.addOnFailureListener { exception ->
-                if (exception is ResolvableApiException) {
-                    onResolutionNeeded(exception)
-                } else {
-                    // resolution failed somehow
-                    onResolutionDenied()
+        checkSettings(success = { shouldProceedForLocation() }) { exception ->
+            if (exception is ApiException) {
+                when (exception.statusCode) {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                        onResolutionNeeded(exception)
+                    }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                        shouldProceedForLocation()
+                    }
+                    else -> logs("something went wrong while processing location settings resolution request: $exception")
                 }
+            } else {
+                // resolution failed somehow
+                onResolutionDenied()
             }
+        }
+    }
+
+    private fun checkSettings(
+        success: (LocationSettingsResponse) -> Unit,
+        failure: (Exception) -> Unit
+    ) {
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(config.locationRequest)
+        builder.setAlwaysShow(true)
+
+        val client = LocationServices.getSettingsClient(this)
+        val locationSettingsResponseTask = client.checkLocationSettings(builder.build())
+        locationSettingsResponseTask.addOnSuccessListener {
+            // All location settings are satisfied. The client can initialize
+            // location requests here.
+            success(it)
+        }.addOnFailureListener { exception ->
+            failure(exception)
         }
     }
 
@@ -257,18 +267,14 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * Sends success broadcast so that location retrieval process can be initiated
      */
     private fun shouldProceedForLocation() {
-        sendResultBroadcast(Intent(packageName).putExtra(Constants.INTENT_EXTRA_PERMISSION_RESULT, Constants.GRANTED))
+        clearPermissionNotificationIfAny()
+        postResult(Constants.GRANTED)
     }
 
-    /**
-     * Checks whether the device location settings match with what the user requested
-     * @return true is the current location settings satisfies the requirement, false otherwise.
-     * */
-    private fun checkIfRequiredLocationSettingsAreEnabled(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
+    private fun clearPermissionNotificationIfAny() {
+        val manager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
+        manager.cancel(Constants.PERMISSION_NOTIFICATION_ID)
     }
 
     /**
@@ -277,37 +283,30 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * @param exception is an instance of ResolvableApiException which determines whether the resolution
      * is possible or not
      * */
-    private fun onResolutionNeeded(exception: ResolvableApiException) {
+    private fun onResolutionNeeded(exception: Exception) {
         exception.printStackTrace()
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
-        if (!isFinishing) {
-            AlertDialog.Builder(this)
-                .setTitle(configuration.resolutionTitle)
-                .setMessage(configuration.resolutionText)
-                .setPositiveButton(R.string.enable) { dialog, _ ->
-                    resolveLocationSettings(exception)
-                    dialog.dismiss()
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                    dialog.dismiss()
-                    onResolutionDenied()
-                }
-                .setCancelable(false)
-                .create()
-                .takeIf { !isFinishing }?.show()
-        }
+        AlertDialog.Builder(this)
+            .setTitle(config.resolutionTitle)
+            .setMessage(config.resolutionText)
+            .setPositiveButton(R.string.enable) { dialog, _ ->
+                resolveLocationSettings(exception)
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                onResolutionDenied()
+            }
+            .setCancelable(false)
+            .create()
+            .show()
     }
 
     /**
      * Sends broadcast indicating the denial of user for resolving location settings
      */
     private fun onResolutionDenied() {
-        sendResultBroadcast(
-            Intent(packageName).putExtra(
-                Constants.INTENT_EXTRA_PERMISSION_RESULT,
-                Constants.RESOLUTION_FAILED
-            )
-        )
+        postResult(Constants.RESOLUTION_FAILED)
     }
 
     /**
@@ -315,36 +314,39 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
      * @param exception is used to resolve location settings
      * */
     private fun resolveLocationSettings(exception: Exception) {
-        val resolvable = exception as ResolvableApiException
+        val resolvable = exception as? ResolvableApiException ?: return
         try {
-            startIntentSenderForResult(
-                resolvable.resolution.intentSender,
-                REQUEST_CODE_LOCATION_SETTINGS,
-                null,
-                0,
-                0,
-                0,
-                null
-            )
+            resolvable.startResolutionForResult(this, REQUEST_CODE_LOCATION_SETTINGS)
         } catch (e1: IntentSender.SendIntentException) {
             e1.printStackTrace()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_LOCATION_SETTINGS) {
-            if (resultCode == RESULT_OK) {
+            /*if (resultCode == RESULT_OK) {
                 shouldProceedForLocation()
             } else {
-                sendResultBroadcast(
+                postResult(
                     Intent(packageName).putExtra(
                         Constants.INTENT_EXTRA_PERMISSION_RESULT,
                         Constants.LOCATION_SETTINGS_DENIED
                     )
                 )
+            }*/
+
+            // Note: This is a workaround for Android Q as in Android Q,
+            // when location settings resolution dialog is displayed, No matter whether user
+            // chooses "ok" or "cancel", the returned result is always cancelled. This might be
+            // issue of google api. So to overcome this issue, we're checking again if
+            // location settings are enabled or not.
+
+            checkSettings(success = { shouldProceedForLocation() }) {
+                postResult(Constants.LOCATION_SETTINGS_DENIED)
             }
         } else if (requestCode == SETTINGS_ACTIVITY_REQUEST_CODE) {
-            if (hasPermission()) {
+            if (hasAllPermissions()) {
                 onPermissionGranted()
             } else {
                 onPermissionPermanentlyDenied()
@@ -353,13 +355,11 @@ class GeoLocationActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
     }
 
     /**
-     * Sends local broadcast with provided [intent]
-     * @param intent Intent contains data that needs to be sent into the broadcast
+     * Posts results on [permissionLiveData]
+     * @param status Status of the permission model and location resolution process
      */
-    private fun sendResultBroadcast(intent: Intent) {
-        intent.action = packageName
-        intent.putExtra(Constants.INTENT_EXTRA_IS_BACKGROUND, isBackground)
-        localBroadcastManager.sendBroadcast(intent)
+    private fun postResult(status: String) {
+        permissionLiveData.postValue(status)
         isRequestingPermission.set(false)
         finish()
     }

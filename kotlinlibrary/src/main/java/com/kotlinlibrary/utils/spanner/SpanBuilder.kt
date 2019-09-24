@@ -216,7 +216,7 @@ open class SpanBuilder {
     fun clickable(
         onClick: (ClickableSpan) -> Unit,
         span: ClickableSpan = object : ClickableSpan() {
-            override fun onClick(view: View?) {
+            override fun onClick(view: View) {
                 onClick(this)
             }
         },
@@ -227,11 +227,9 @@ open class SpanBuilder {
         url: String,
         onClick: (URLSpan) -> Boolean,
         span: URLSpan = object : URLSpan(url) {
-            override fun onClick(widget: View?) {
+            override fun onClick(widget: View) {
                 if (onClick(this)) {
-                    widget?.let {
-                        super.onClick(it)
-                    }
+                    super.onClick(widget)
                 }
             }
         },

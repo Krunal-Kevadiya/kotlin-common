@@ -20,16 +20,18 @@ package com.kotlincommon.sample
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.kotlinlibrary.location.Configuration
 import com.kotlinlibrary.location.GeoLocation
 
 class LocationActivity : AppCompatActivity() {
-    private val geoLocation = GeoLocation()
-
     private val textView: TextView by lazy {
         findViewById<TextView>(R.id.textView)
     }
 
+    init {
+        GeoLocation.configure {
+            fusedLocationApiUse = true
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)
@@ -37,16 +39,15 @@ class LocationActivity : AppCompatActivity() {
     }
 
     fun checkLocation() {
-        geoLocation.listenForLocation(this) {
-            textView.text = "Latitude: $latitude\tLongitude: $longitude"
-        } failure {
-            textView.text = "Permission Denied: $message"
+        GeoLocation.getCurrentLocation(this) {result ->
+            result.location?.let { textView.text = "Latitude: ${it.latitude}\tLongitude: ${it.longitude}" }
+            result.error?.let { textView.text = "Permission Denied: ${it.message}" }
         }
     }
 
     override fun onPause() {
         super.onPause()
         //stop receiving location when app is not in foreground.
-        geoLocation.stopTrackingLocation(this)
+        GeoLocation.stopLocationUpdates()
     }
 }

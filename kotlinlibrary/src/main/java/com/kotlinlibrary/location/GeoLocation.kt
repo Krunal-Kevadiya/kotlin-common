@@ -1,25 +1,20 @@
 package com.kotlinlibrary.location
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresPermission
+import android.os.Looper
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.lifecycle.*
+import com.kotlinlibrary.location.GeoLocation.config
+import com.kotlinlibrary.location.GeoLocation.locationProvider
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.kotlinlibrary.R
 import com.kotlinlibrary.utils.ktx.logs
 import java.util.concurrent.atomic.AtomicBoolean
@@ -29,6 +24,16 @@ internal val isRequestingPermission = AtomicBoolean().apply {
 }
 
 /**
+ * Holds Location updates
+ */
+internal var locationLiveData = MutableLiveData<GeoLocationResult>()
+
+/**
+ * Holds permission results
+ */
+internal var permissionLiveData = MutableLiveData<String>()
+
+/**
  * Marker class for GeoLocation Extensions
  * */
 @DslMarker
@@ -36,354 +41,268 @@ internal val isRequestingPermission = AtomicBoolean().apply {
 internal annotation class GeoLocationMarker
 
 /**
- * A helper class for location extension which provides dsl extensions for getting location
- * */
+ * A helper class for location extension which provides
+ * dsl extensions for getting location.
+ *
+ * The problem with the FusedLocationProviderClient is that when we provide
+ * a LocationCallback instance to receive location updates, it stops receiving
+ * updates after some time when app goes in background. This use case prevents
+ * from getting location updates in services and while the app is in background.
+ *
+ * The preferable workaround is to use PendingIntent instead of using LocationCallback
+ * to receive location updates. This way works perfectly even when the app is in background.
+ * Therefore, We are not using LocationCallback approach to avoid any uncertain behaviour.
+ *
+ * @property config Holds the configuration of for the library
+ * @property locationProvider Used to retrieve location
+ *
+ */
 @GeoLocationMarker
-class GeoLocation(func: Configuration.() -> Unit = {}) {
-    private var options = Configuration()
-    private lateinit var locationprovider: LocationProvider
-    private val permissionBroadcastReceiver = PermissionBroadcastReceiver()
-    private var runnable: Runnable? = null
+object GeoLocation {
 
-    init {
-        configure(func)
-    }
+    private var config = Configuration()
+    private lateinit var locationProvider: LocationProvider
 
     /**
      * creates Configuration object from user configuration
-     * @param func is a lambda receiver for Configuration which is used to build Configuration object
+     *
+     * @param func Lambda receiver for Configuration which is used to build Configuration object
      * */
     fun configure(func: Configuration.() -> Unit) {
-        func(options)
-    }
-
-    fun startBackgroundLocationUpdates(
-        service: Service,
-        func: Location.() -> Unit
-    ): BlockExecution {
-        initLocationProvider(service)
-        val blockExecution = BlockExecution()
-        runnable = Runnable {
-            backgroundLocationLiveData.observeForever { result ->
-                when (result) {
-                    is GeoLocationResult.Success -> {
-                        func(result.location)
-                    }
-                    is GeoLocationResult.Failure -> {
-                        blockExecution(result.error)
-                    }
-                }
-            }
-        }
-        checkAndStartBackgroundUpdates(service)
-        return blockExecution
+        func(config)
     }
 
     /**
-     * Initiates location retrieval process to receive only one location result.
+     * Starts location updates by verifying permissions and location settings.
+     * This method can be used anywhere but it is intended to be used where you don't have access to [Context] reference which implements [LifecycleOwner]. e.g. Service, IntentService, BroadcastReceiver. It also can be used for Fragments.
+     * It returns [LiveData] instance which can be used to observe for location updates. Also, any errors will be passed to this [LiveData] instance.
      *
-     * This method internally handles runtime location permission which is needed for Android M and above.
-     * It also handles rationale dialogs and permission blocked dialogs also.
-     * These dialogs can be configured using [configure] method.
+     * This method internally handles runtime location permission which is needed
+     * for Android M and above. It also handles rationale dialogs and permission
+     * blocked dialogs also. These dialogs can be configured using [configure] method.
      * It also handles location resolution process for requested location settings.
-     * It shows setting resolution dialog if needed and ask for user's permission to change location settings.
-     * Please note that these success and failure callbacks are lifecycle aware so no updates will be dispatched if the Activity is not in right state.
+     * It shows setting resolution dialog if needed and ask for user's permission to
+     * change location settings.
      *
-     * @param activity FragmentActivity is the Activity instance from where the location request is triggered
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
+     * @param context Context is the Android context
+     * @return LiveData<GeoLocationResult> which can be used to observe location updates
      */
-    fun getCurrentLocation(activity: FragmentActivity, func: Location.() -> Unit): BlockExecution {
-        initLocationProvider(activity)
-        val blockExecution = observeOneTimeUpdates(activity, func)
-
-        checkAndStartUpdates(activity)
-        return blockExecution
+    @Throws(IllegalStateException::class)
+    fun startLocationUpdates(context: Context): LiveData<GeoLocationResult> {
+        assertMainThread("startLocationUpdates")
+        checkAndStartLocationUpdates(context.applicationContext)
+        return locationLiveData
     }
 
     /**
-     * Initiates location retrieval process to receive only one location result.
+     * Starts location updates by verifying permissions and location settings.
+     * This overloaded method is intended to be called from fragments and they have access to [Context] and they are [LifecycleOwner].
+     * Instead of returning a [LiveData] instance, it takes in a lambda block which will be invoked on [LiveData] events.
      *
-     * This method internally handles runtime location permission which is needed for Android M and above.
-     * It also handles rationale dialogs and permission blocked dialogs also.
-     * These dialogs can be configured using [configure] method.
+     * This method internally handles runtime location permission which is needed
+     * for Android M and above. It also handles rationale dialogs and permission
+     * blocked dialogs also. These dialogs can be configured using [configure] method.
      * It also handles location resolution process for requested location settings.
-     * It shows setting resolution dialog if needed and ask for user's permission to change location settings.
-     * Please note that these success and failure callbacks are lifecycle aware so no updates will be dispatched if the Fragment is not in right state.
+     * It shows setting resolution dialog if needed and ask for user's permission to
+     * change location settings.
      *
-     * @param fragment Fragment is the Fragment from which the location request is initiated
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
+     * @param fragment Fragment from which this method is called
+     * @param onResult Lambda block which is called upon receiving updates on [LiveData]
      */
-    fun getCurrentLocation(fragment: Fragment, func: Location.() -> Unit): BlockExecution {
-        if (!fragment.isAdded || fragment.activity == null) {
-            Log.e("GeoLocation", "Cannot start location updates, Fragment is not attached yet.")
-            return BlockExecution()
-        }
-        initLocationProvider(fragment.requireContext())
-        val blockExecution = observeOneTimeUpdates(fragment, func)
-
-        checkAndStartUpdates(fragment.requireContext())
-        return blockExecution
+    @Throws(IllegalStateException::class)
+    fun startLocationUpdates(
+        fragment: Fragment,
+        onResult: (GeoLocationResult) -> Unit
+    ) {
+        assertMainThread("startLocationUpdates")
+        locationLiveData.observe(fragment, Observer(onResult))
+        startLocationUpdates(fragment.requireContext().applicationContext)
     }
 
     /**
-     * Initiates location retrieval process to receive continuous location updates.
+     * Starts location updates by verifying permissions and location settings.
+     * This overloaded method is intended to be called from the components which is ContextWrapper and also implements [LifecycleOwner] interface. e.g. Activities, LifecycleService, Application
+     * Instead of returning a [LiveData] instance, it takes in a lambda block which will be invoked on [LiveData] events.
      *
-     * This method internally handles runtime location permission which is needed for Android M and above.
-     * It also handles rationale dialogs and permission blocked dialogs also.
-     * These dialogs can be configured using [configure] method.
+     * This method internally handles runtime location permission which is needed
+     * for Android M and above. It also handles rationale dialogs and permission
+     * blocked dialogs also. These dialogs can be configured using [configure] method.
      * It also handles location resolution process for requested location settings.
-     * It shows setting resolution dialog if needed and ask for user's permission to change location settings.
-     * Please note that these success and failure callbacks are lifecycle aware so no updates will be dispatched if the Activity is not in right state.
+     * It shows setting resolution dialog if needed and ask for user's permission to
+     * change location settings.
      *
-     * @param activity FragmentActivity is the Activity instance from where the location request is triggered
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
+     * @param lifecycleOwnerContext Instance of a class which itself is [Context] and implements [LifecycleOwner]
+     * @param onResult Lambda block which is called upon receiving updates on [LiveData]
      */
-    fun listenForLocation(activity: FragmentActivity, func: Location.() -> Unit): BlockExecution {
-        initLocationProvider(activity)
-        val blockExecution = observeForContinuesUpdates(activity, func)
-
-        checkAndStartUpdates(activity)
-        return blockExecution
+    @Throws(IllegalStateException::class)
+    fun <T> startLocationUpdates(
+        lifecycleOwnerContext: T,
+        onResult: (GeoLocationResult) -> Unit
+    ) where T : Context, T : LifecycleOwner {
+        assertMainThread("startLocationUpdates")
+        locationLiveData.observe(lifecycleOwnerContext, Observer(onResult))
+        startLocationUpdates(lifecycleOwnerContext.applicationContext)
     }
 
     /**
-     * Initiates location retrieval process to receive continuous location updates.
-     *
-     * This method internally handles runtime location permission which is needed for Android M and above.
-     * It also handles rationale dialogs and permission blocked dialogs also.
-     * These dialogs can be configured using [configure] method.
-     * It also handles location resolution process for requested location settings.
-     * It shows setting resolution dialog if needed and ask for user's permission to change location settings.
-     * Please note that these success and failure callbacks are lifecycle aware so no updates will be dispatched if the Fragment is not in right state.
-     *
-     * @param fragment Fragment is the Fragment from which the location request is initiated
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
+     * Checks if the method call is performed on main thread or not. throws exception if not on main thread
+     * @param methodName Name of the method for which this check will be performed
      */
-    fun listenForLocation(fragment: Fragment, func: Location.() -> Unit): BlockExecution {
-        if (!fragment.isAdded || fragment.activity == null) {
-            Log.e("GeoLocation", "Cannot start location updates, Fragment is not attached yet.")
-            return BlockExecution()
+    private fun assertMainThread(methodName: String) {
+        check(Looper.getMainLooper() == Looper.myLooper()) {
+            "Cannot invoke $methodName on a background thread"
         }
-        initLocationProvider(fragment.requireContext())
-        val blockExecution = observeForContinuesUpdates(fragment, func)
-
-        checkAndStartUpdates(fragment.requireContext())
-        return blockExecution
     }
 
-    /**
-     * Initiates location retrieval process to receive one time location update without executing permission model.
-     *
-     * This method can be used to receive one time location update from services or from background.
-     * It doesn't handle location permission model so before calling this method, ensure that the location permission is granted.
-     *
-     * @param context context used to initialize FusedLocationProviderClient
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
-     */
-    @RequiresPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-    fun fetchCurrentLocation(context: Context, func: Location.() -> Unit): BlockExecution {
-        initLocationProvider(context)
-        val blockExecution = BlockExecution()
-        runnable = Runnable {
-            locationprovider.locationLiveData.observeOnce { result ->
-                when (result) {
-                    is GeoLocationResult.Success -> {
-                        func(result.location)
-                        locationprovider.stopContinuousLocation()
-                    }
-                    is GeoLocationResult.Failure -> {
-                        blockExecution(result.error)
+    private fun checkAndStartLocationUpdates(
+        context: Context,
+        singleUpdate: ((GeoLocationResult) -> Unit)? = null
+    ) {
+        val observer = PermissionObserver {
+            it?.let { error ->
+                singleUpdate?.let {
+                    it(GeoLocationResult.error(error))
+                } ?: locationLiveData.postValue(GeoLocationResult.error(it))
+            } ?: startUpdates(context, singleUpdate)
+        }
+        when {
+            !getAllPermissions(config.enableBackgroundUpdates).all(context::hasPermission) ->
+                // Doesn't have permission, start permission resolution
+                startPermissionAndResolutionProcess(context, observer, singleUpdate != null)
+            config.shouldResolveRequest ->
+                // has permissions, need to check for location settings
+                checkLocationSettings(context) { isSatisfied ->
+                    if (isSatisfied) {
+                        startUpdates(context, singleUpdate)
+                    } else {
+                        startPermissionAndResolutionProcess(context, observer, singleUpdate != null)
                     }
                 }
-                locationprovider.stopContinuousLocation()
-            }
+            else ->
+                // has permission but location settings resolution is disabled so start updates directly
+                startUpdates(context, singleUpdate)
         }
-        checkAndStartUpdatesWithoutPermissionRequest(context)
-        return blockExecution
     }
 
     /**
-     * Initiates location retrieval process to receive continuous location updates without executing permission model.
-     *
-     * This method can be used to receive location updates from services or from background.
-     * It doesn't handle location permission model so before calling this method, ensure that the location permission is granted.
-     * Also, it doesn't observe location updates in lifecycle aware way. So don't forget to stop updates manually when needed to be stopped.
-     *
-     * @param context context is the Fragment from which the location request is initiated
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> provides a success block which will grant access to retrieved location
-     * @return BlockExecution that can be used to handle exceptions and failures during location retrieval process
+     * Determines whether the requested location settings are satisfied or not
+     * @param context Context
+     * @param onResult Function1<Boolean, Unit>
      */
-    @RequiresPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-    fun observeLocationUpdates(context: Context, func: Location.() -> Unit): BlockExecution {
-        initLocationProvider(context)
-        val blockExecution = BlockExecution()
-        runnable = Runnable {
-            locationprovider.locationLiveData.observeForever { result ->
-                when (result) {
-                    is GeoLocationResult.Success -> {
-                        func(result.location)
-                    }
-                    is GeoLocationResult.Failure -> {
-                        blockExecution(result.error)
-                    }
-                }
-            }
+    private fun checkLocationSettings(context: Context, onResult: (Boolean) -> Unit) {
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(config.locationRequest)
+        builder.setAlwaysShow(true)
+        val client = LocationServices.getSettingsClient(context)
+        val locationSettingsResponseTask = client.checkLocationSettings(builder.build())
+        locationSettingsResponseTask.addOnSuccessListener {
+            onResult(true)
+        }.addOnFailureListener { exception ->
+            onResult(false)
         }
-        checkAndStartUpdatesWithoutPermissionRequest(context)
-        return blockExecution
     }
 
     /**
-     * Registers an observer on location results that observes continuously. This observation is done in lifecycle aware way.
-     * That means that no updates will be dispatched if if it is not the right lifecycle state.
-     * @param owner LifecycleOwner is the owner of the lifecycle that will be used to observe on location results
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> will called when a new result is available
-     * @return BlockExecution provides a way to handle errors and exceptions occurred during this process
+     * Responsible for starting location updates. Called after performing all the necessary checks and requests.
+     * @param context Android Context
+     * @param singleUpdate Callback to be invoked if this request is for single update only
      */
-    private fun observeForContinuesUpdates(
-        owner: LifecycleOwner,
-        func: Location.() -> Unit
-    ): BlockExecution {
-        val blockExecution = BlockExecution()
-        runnable = Runnable {
-            locationprovider.locationLiveData.removeObservers(owner)
-            locationprovider.locationLiveData.watch(owner) { result ->
-                when (result) {
-                    is GeoLocationResult.Success -> {
-                        func(result.location)
-                    }
-                    is GeoLocationResult.Failure -> {
-                        blockExecution(result.error)
-                    }
-                }
-            }
-        }
-        return blockExecution
-    }
-
-    /**
-     * Checks for location permission and then initiates permission model if the location permission is not granted already.
-     * @param context Context is the Android Context
-     */
-    private fun checkAndStartUpdatesWithoutPermissionRequest(context: Context) {
-        if (hasLocationPermission(context) && isSettingsEnabled(context)) {
-            locationprovider.startContinuousLocation(options.locationRequest)
-            runnable?.run()
-            runnable = null
+    private fun startUpdates(context: Context, singleUpdate: ((GeoLocationResult) -> Unit)? = null) {
+        initLocationProvider(context.applicationContext)
+        if (singleUpdate == null) {
+            locationProvider.startUpdates(config.locationRequest)
         } else {
-            locationprovider.locationLiveData.postValue(GeoLocationResult.Failure(Throwable("Cannot continue without location permission")))
+            locationProvider.getSingleUpdate(config.locationRequest, singleUpdate)
         }
     }
 
     /**
-     * Checks for location permission and then initiates permission model if the location permission is not granted already.
-     * @param context Context is the Android Context
+     * Responsible to handle initialization and execution of location permission retrieval process
+     * @param context Android Context
+     * @param receiver Broadcast receiver instance that receives location permission results
+     * @param isOneTime Determines whether this request is for single location updates or continuous updates
      */
-    private fun checkAndStartUpdates(context: Context) {
-        if (hasLocationPermission(context) && isSettingsEnabled(context)) {
-            locationprovider.startContinuousLocation(options.locationRequest)
-            runnable?.run()
-            runnable = null
-        } else {
-            LocalBroadcastManager
-                .getInstance(context)
-                .registerReceiver(permissionBroadcastReceiver, IntentFilter(context.packageName))
-            initPermissionRequest(context)
-        }
-    }
-
-    /**
-     * Checks for location permission and then initiates permission model
-     * if the location permission is not granted already.
-     * @param context Context is the Android Context
-     */
-    private fun checkAndStartBackgroundUpdates(context: Context) {
-        if (hasLocationPermission(context) && isSettingsEnabled(context)) {
-            locationprovider.startBackgroundLocationUpdates(context, options.locationRequest)
-            runnable?.run()
-            runnable = null
-        } else {
-            LocalBroadcastManager
-                .getInstance(context)
-                .registerReceiver(permissionBroadcastReceiver, IntentFilter(context.packageName))
-            initPermissionRequestForBackgroundUpdates(context)
-        }
-    }
-
-    /**
-     * Registers an observer on location results that observes only for one time. This observation is done in lifecycle aware way.
-     * That means that no updates will be dispatched if if it is not the right lifecycle state.
-     * @param owner LifecycleOwner is the owner of the lifecycle that will be used to observe on location results
-     * @param func [@kotlin.ExtensionFunctionType] Function1<Location, Unit> will called when a new result is available
-     * @return BlockExecution provides a way to handle errors and exceptions occurred during this process
-     */
-    private fun observeOneTimeUpdates(
-        owner: LifecycleOwner,
-        func: Location.() -> Unit
-    ): BlockExecution {
-        val blockExecution = BlockExecution()
-
-        runnable = Runnable {
-            locationprovider.locationLiveData.removeObservers(owner)
-            locationprovider.locationLiveData.observeOnce(owner) { result ->
-                when (result) {
-                    is GeoLocationResult.Success -> {
-                        func(result.location)
-                    }
-                    is GeoLocationResult.Failure -> {
-                        blockExecution(result.error)
-                    }
-                }
-                locationprovider.stopContinuousLocation()
-            }
-        }
-        return blockExecution
-    }
-
-    /**
-     * Initiates permission request by starting [GeoLocationActivity] which is responsible to handle permission model and location settings resolution
-     * @param context Context is the Android Context used to start the [GeoLocationActivity]
-     */
-    private fun initPermissionRequest(context: Context) {
-        if (!isRequestingPermission.getAndSet(true)) {
-            context.startActivity(Intent(context, GeoLocationActivity::class.java).apply {
-                if (options.shouldResolveRequest) {
-                    putExtra(Constants.INTENT_EXTRA_CONFIGURATION, options)
-                }
-            })
-        } else {
+    private fun startPermissionAndResolutionProcess(
+        context: Context,
+        permissionObserver: Observer<String>,
+        isOneTime: Boolean = false
+    ) {
+        if (isRequestingPermission.getAndSet(true)) {
             logs("A request is already ongoing")
+            return
         }
-    }
-
-    /**
-     * Initiates permission request by starting [GeoLocationActivity] which is responsible to handle permission model and location settings resolution
-     * @param context Context is the Android Context used to start the [GeoLocationActivity]
-     */
-    private fun initPermissionRequestForBackgroundUpdates(context: Context) {
-        if (!isRequestingPermission.getAndSet(true)) {
-            val intent = Intent(context, GeoLocationActivity::class.java).apply {
-                if (options.shouldResolveRequest) {
-                    putExtra(Constants.INTENT_EXTRA_CONFIGURATION, options)
-                    putExtra(Constants.INTENT_EXTRA_IS_BACKGROUND, true)
-                }
-            }
+        val intent = getLocationActivityIntent(context, isOneTime)
+        permissionLiveData.observeForever(permissionObserver)
+        if (appIsInForeground(context)) {
+            context.applicationContext.startActivity(intent)
+        } else {
             val pendingIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             showPermissionNotification(context, pendingIntent)
-        } else {
-            logs("A request is already ongoing")
         }
     }
 
+    /**
+     * Provides intent configured to open location activity
+     * @param context Android Context used to create Intent
+     * @param isOneTime Boolean
+     * @return Intent
+     */
+    private fun getLocationActivityIntent(context: Context, isOneTime: Boolean) =
+        Intent(context, GeoLocationActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            if (config.shouldResolveRequest) {
+                putExtra(Constants.INTENT_EXTRA_CONFIGURATION, config)
+                putExtra(Constants.INTENT_EXTRA_IS_SINGLE_UPDATE, isOneTime)
+            }
+        }
+
+    /**
+     * Utility function to check whether the app is in foreground or not
+     * @param context Android Context used to get system services
+     * @return Boolean True if the app is in foreground, false otherwise
+     */
+    private fun appIsInForeground(context: Context): Boolean {
+        return (context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager)?.runningAppProcesses?.filter {
+            it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+        }?.any {
+            it.pkgList.any { pkg -> pkg == context.packageName }
+        } ?: false
+    }
+
+    /**
+     * Initiates location retrieval process to receive only one location update.
+     *
+     * This method internally handles runtime location permission which is needed
+     * for Android M and above. It also handles rationale dialogs and permission
+     * blocked dialogs also. These dialogs can be configured using [configure] method.
+     * It also handles location resolution process for requested location settings.
+     * It shows setting resolution dialog if needed and ask for user's permission to
+     * change location settings.
+     *
+     * Note that this method doesn't handle any lifecycle events which means that the [onResult] lambda block will be called being unaware of the component lifecycle. This method is also able to deliver result while the app is in background so all the requirements of the user's current location can be satisfied with this method call
+     *
+     * @param context Android context object
+     * @param onResult provides a success block which will grant access to retrieved location
+     */
+    fun getCurrentLocation(
+        context: Context,
+        onResult: (GeoLocationResult) -> Unit
+    ) {
+        initLocationProvider(context.applicationContext)
+        checkAndStartLocationUpdates(context.applicationContext, onResult)
+    }
+
+    /**
+     * Displays location permission notification when location permission is not granted and
+     * background location updates is requested.
+     * @param context The Android context
+     * @param pendingIntent Used to open permission activity
+     */
     private fun showPermissionNotification(context: Context, pendingIntent: PendingIntent) {
         val manager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+                ?: return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
@@ -398,115 +317,40 @@ class GeoLocation(func: Configuration.() -> Unit = {}) {
             setContentText("This feature requires location permission to access device location. Please allow to access device location")
             setSmallIcon(R.drawable.ic_location_on)
             addAction(NotificationCompat.Action.Builder(0, "Grant", pendingIntent).build())
-            priority = NotificationManager.IMPORTANCE_HIGH
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                priority = NotificationManager.IMPORTANCE_HIGH
+            }
             setAutoCancel(true)
-            manager.notify(865, build())
+            manager.notify(Constants.PERMISSION_NOTIFICATION_ID, build())
         }
-    }
-
-    /**
-     * Checks whether the app has location permission or not
-     * @param context Context is the Android Context used to request a check for location permission
-     * @return Boolean true if the location permission is already granted, false otherwise
-     */
-    private fun hasLocationPermission(context: Context) = ContextCompat.checkSelfPermission(
-        context,
-        android.Manifest.permission.ACCESS_COARSE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
-
-    /**
-     * Checks whether the device location settings match with what the user requested
-     * @return true is the current location settings satisfies the requirement, false otherwise.
-     * */
-    private fun isSettingsEnabled(context: Context): Boolean {
-        if (!options.shouldResolveRequest) return true
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
     }
 
     /**
      * Initializes [LocationProvider] which is responsible to start and stop location updates
-     * @param context Context is the Android Context used to initialize [LocationProvider]
+     * @param context The Android Context used to initialize [LocationProvider]
      */
     private fun initLocationProvider(context: Context) {
-        if (!::locationprovider.isInitialized) {
-            locationprovider = LocationProvider(context)
+        if (!::locationProvider.isInitialized) {
+            locationProvider = LocationProvider(context, config.fusedLocationApiUse)
         }
     }
 
     /**
      * Stops the ongoing location retrieval process.
-     *
-     * Note that this only stops location updates, it cannot stop ongoing permission request.
-     *
-     * @param owner LifecycleOwner is the same  Lifecycle owner that is used to start these location updates
-     */
-    fun stopTrackingLocation(owner: LifecycleOwner) {
-        locationprovider.locationLiveData.removeObservers(owner)
-        locationprovider.stopContinuousLocation()
-    }
-
-    /**
-     * Stops the ongoing location retrieval process.
      * Note that this only stops location updates, it cannot stop ongoing permission request.
      */
-    fun stopObservingLocation() {
-        locationprovider.stopContinuousLocation()
-    }
-
-    /**
-     * Stops the ongoing location retrieval process.
-     * Note that this only stops location updates, it cannot stop ongoing permission request.
-     */
-    fun stopBackgroundLocation() {
-        locationprovider.stopContinuousLocation()
+    fun stopLocationUpdates() {
+        if (::locationProvider.isInitialized) {
+            locationProvider.stopUpdates()
+        }
     }
 
     /**
      * Resets location configs to default
      */
     fun setDefaultConfig() {
-        options = Configuration()
-    }
-
-    /**
-     * Receives local broadcasts related to permission model
-     */
-    inner class PermissionBroadcastReceiver : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent?) {
-            val status = intent?.getStringExtra(Constants.INTENT_EXTRA_PERMISSION_RESULT) ?: return
-            val isBackground = intent.getBooleanExtra(Constants.INTENT_EXTRA_IS_BACKGROUND, false)
-            isRequestingPermission.set(false)
-            runnable?.run()
-            runnable = null
-            when (status) {
-                Constants.GRANTED -> {
-                    initLocationProvider(context)
-                    if (isBackground) {
-                        locationprovider.startBackgroundLocationUpdates(
-                            context.applicationContext,
-                            options.locationRequest
-                        )
-                    } else {
-                        locationprovider.startContinuousLocation(options.locationRequest)
-                    }
-                }
-                else -> {
-                    locationprovider.locationLiveData.postValue(
-                        GeoLocationResult.Failure(
-                            Throwable(
-                                status
-                            )
-                        )
-                    )
-                }
-            }
-            LocalBroadcastManager.getInstance(context)
-                .unregisterReceiver(permissionBroadcastReceiver)
-        }
+        config = Configuration()
     }
 }
+
 

@@ -80,7 +80,7 @@ class SnackAnimBarBuilder(context: Context) : BaseSnackAnimBuilder(context) {
         // Slide from left/right animation is not specified, default top/bottom
         // animation is applied
         if (direction == null) {
-            translationAnim.propertyName = "translationY"
+            translationAnim.setPropertyName("translationY")
 
             when (type!!) {
                 ENTER -> when (gravity!!) {
@@ -93,7 +93,7 @@ class SnackAnimBarBuilder(context: Context) : BaseSnackAnimBuilder(context) {
                 }
             }
         } else {
-            translationAnim.propertyName = "translationX"
+            translationAnim.setPropertyName("translationX")
 
             when (type!!) {
                 ENTER -> when (direction!!) {
@@ -112,7 +112,7 @@ class SnackAnimBarBuilder(context: Context) : BaseSnackAnimBuilder(context) {
 
         if (alpha) {
             val alphaAnim = ObjectAnimator()
-            alphaAnim.propertyName = "alpha"
+            alphaAnim.setPropertyName("alpha")
             alphaAnim.target = view
 
             when (type!!) {

@@ -58,5 +58,7 @@ val Throwable.isSettingsResolutionFailed get() = this.message == Constants.RESOL
 // Extension property to check if the error caused because the user denied to enable location or not
 val Throwable.isSettingsDenied get() = this.message == Constants.LOCATION_SETTINGS_DENIED
 
+val Throwable.isLocationManagerDisable get() = this.message == Constants.LOCATION_MANAGER_DISABLE
+
 // Extension property to check if the error caused because of some Fatal Exception or not
-val Throwable.isFatal get() = !isDenied && !isPermanentlyDenied && !isSettingsDenied && !isSettingsResolutionFailed
+val Throwable.isFatal get() = !isDenied && !isPermanentlyDenied && !isSettingsDenied && !isSettingsResolutionFailed && !isLocationManagerDisable

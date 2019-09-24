@@ -510,7 +510,7 @@ class SbProgress : View {
         var linearProgress: Boolean = false
         var fillRadius: Boolean = false
 
-        constructor(superState: Parcelable) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
             this.mProgress = parcel.readFloat()

@@ -231,7 +231,7 @@ private object StringPreference : Preference<String> {
     }
 
     override fun get(preferences: SharedPreferences, name: String): String {
-        return preferences.getString(name, "")
+        return preferences.getString(name, "") ?: ""
     }
 }
 
