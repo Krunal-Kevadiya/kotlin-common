@@ -17,6 +17,8 @@ class MultiTypedAdapterConfiguration {
 
     internal var isDiffUtils: Boolean = true
 
+    internal var windowDuration: Long = 300
+
     internal var contentComparator: ((Any, Any) -> Boolean)? = null
 
     internal var itemsComparator: ((Any, Any) -> Boolean)? = null
@@ -68,6 +70,11 @@ class MultiTypedAdapterConfiguration {
     @ConfigurationDsl
     fun withDiffUtils(block: () -> Boolean) {
         isDiffUtils = block()
+    }
+
+    @ConfigurationDsl
+    fun withWindowDiration(block: () -> Long) {
+        windowDuration = block()
     }
 
     /**

@@ -9,12 +9,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.recycleradapter.base.*
 import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
+import com.kotlinlibrary.utils.ktx.runSafeOnMain
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 open class SingleBindingAdapter<T> (
     private val configuration: SingleAdapterConfiguration<T>
 ) : DataBindingBaseAdapter<T, DataBindingBaseViewHolder<T>>(configuration.items) {
+    private var clickActionsEvent: PublishSubject<Pair<View, Int>> = PublishSubject.create()
+
     init {
         configuration.validate()
+        compositeDisposable.add(
+            clickActionsEvent.throttleFirst(configuration.windowDuration, TimeUnit.MILLISECONDS)
+                .runSafeOnMain()
+                .subscribe { pair ->
+                    configuration.clickListener.invoke(pair.first, pair.second, itemList[pair.second])
+                }
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingBaseViewHolder<T> {
@@ -40,7 +52,7 @@ open class SingleBindingAdapter<T> (
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                    clickActionsEvent.onNext(Pair(view, adapterPosition))
                 }
             }
         } else {
@@ -48,7 +60,7 @@ open class SingleBindingAdapter<T> (
                 itemView.rootView.findViewById<View>(id).setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                        clickActionsEvent.onNext(Pair(view, adapterPosition))
                     }
                 }
             }

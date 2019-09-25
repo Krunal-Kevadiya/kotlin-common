@@ -8,12 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.recycleradapter.base.BaseAdapter
 import com.kotlinlibrary.recycleradapter.base.BaseViewHolder
 import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
+import com.kotlinlibrary.utils.ktx.runSafeOnMain
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 open class MultiTypedAdapter(
     private val multiTypedAdapterConfiguration: MultiTypedAdapterConfiguration
 ) : BaseAdapter<Any, BaseViewHolder<Any>>(multiTypedAdapterConfiguration.items) {
+    var clickActionsEvent: PublishSubject<Triple<AdapterViewType<Any>, View, Int>> = PublishSubject.create()
+
     init {
         multiTypedAdapterConfiguration.validate()
+        compositeDisposable.add(
+            clickActionsEvent.throttleFirst(multiTypedAdapterConfiguration.windowDuration, TimeUnit.MILLISECONDS)
+                .runSafeOnMain()
+                .subscribe { pair ->
+                    pair.first.configuration.clickListener.invoke(pair.second, pair.third, itemList[ pair.third])
+                }
+        )
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -40,7 +52,7 @@ open class MultiTypedAdapter(
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    adapterViewType.configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                    clickActionsEvent.onNext(Triple(adapterViewType, view, adapterPosition))
                 }
             }
         } else {
@@ -48,7 +60,7 @@ open class MultiTypedAdapter(
                 itemView.findViewById<View>(id)?.setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        adapterViewType.configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                        clickActionsEvent.onNext(Triple(adapterViewType, view, adapterPosition))
                     }
                 }
             }

@@ -27,11 +27,6 @@ class LocationActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.textView)
     }
 
-    init {
-        GeoLocation.configure {
-            fusedLocationApiUse = true
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)

@@ -89,6 +89,10 @@ dependencies {
     // GSON
     implementation depend.thirdParty.gson
 
+    // Reactive
+    implementation depend.javaxAndRx.android2
+    implementation depend.javaxAndRx.java2
+
     // Location
     implementation depend.google.location
 

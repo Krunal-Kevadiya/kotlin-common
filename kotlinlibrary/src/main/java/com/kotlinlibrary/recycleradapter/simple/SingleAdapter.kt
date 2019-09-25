@@ -8,12 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.recycleradapter.base.BaseAdapter
 import com.kotlinlibrary.recycleradapter.base.BaseViewHolder
 import com.kotlinlibrary.recycleradapter.base.DiffUtilCallback
+import com.kotlinlibrary.utils.ktx.runSafeOnMain
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 open class SingleAdapter<T> (
     private val configuration: SingleAdapterConfiguration<T>
 ) : BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
+    private var clickActionsEvent: PublishSubject<Pair<View, Int>> = PublishSubject.create()
+
     init {
         configuration.validate()
+        compositeDisposable.add(
+            clickActionsEvent.throttleFirst(configuration.windowDuration, TimeUnit.MILLISECONDS)
+            .runSafeOnMain()
+            .subscribe { pair ->
+                configuration.clickListener.invoke(pair.first, pair.second, itemList[pair.second])
+            }
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
@@ -33,7 +45,7 @@ open class SingleAdapter<T> (
             itemView.setOnClickListener { view ->
                 val adapterPosition = holder.adapterPosition
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                    clickActionsEvent.onNext(Pair(view, adapterPosition))
                 }
             }
         } else {
@@ -41,7 +53,7 @@ open class SingleAdapter<T> (
                 itemView.findViewById<View>(id)?.setOnClickListener { view ->
                     val adapterPosition = holder.adapterPosition
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        configuration.clickListener.invoke(view, adapterPosition, itemList[adapterPosition])
+                        clickActionsEvent.onNext(Pair(view, adapterPosition))
                     }
                 }
             }

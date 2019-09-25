@@ -36,6 +36,8 @@ class SingleAdapterConfiguration<T> {
 
     internal var isDiffUtils: Boolean = true
 
+    internal var windowDuration: Long = 300
+
     internal var contentComparator: ((T, T) -> Boolean)? = null
 
     internal var itemsComparator: ((T, T) -> Boolean)? = null
@@ -93,6 +95,11 @@ class SingleAdapterConfiguration<T> {
     @ConfigurationDsl
     fun withDiffUtils(block: () -> Boolean) {
         isDiffUtils = block()
+    }
+
+    @ConfigurationDsl
+    fun withWindowDiration(block: () -> Long) {
+        windowDuration = block()
     }
 
     /**

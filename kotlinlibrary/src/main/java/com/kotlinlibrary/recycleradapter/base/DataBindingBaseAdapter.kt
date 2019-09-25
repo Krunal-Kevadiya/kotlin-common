@@ -1,12 +1,26 @@
 package com.kotlinlibrary.recycleradapter.base
 
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
 abstract class DataBindingBaseAdapter<T, H : DataBindingBaseViewHolder<T>>(protected var itemList: AdapterList<T>) : RecyclerView.Adapter<H>() {
+    var compositeDisposable = CompositeDisposable()
+
     constructor(itemList: MutableList<T>) : this(AdapterList(itemList))
 
     override fun getItemCount() = itemList.size
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        compositeDisposable = CompositeDisposable()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        if(!compositeDisposable.isDisposed)
+            compositeDisposable.dispose()
+    }
 
     final override fun onBindViewHolder(holder: H, position: Int) {
         holder.bindView(position, itemList[position])
