@@ -164,8 +164,8 @@ fun <R: Any?, E: Any?> Response<R>.toSealedApiResult(responseType: Type, errorTy
 
 private val Response<*>.code: Int
     get() = code()
-private val <R> Response<R>.body: R
-    get() = body()!!
+private val <R> Response<R>.body: R?
+    get() = body()
 private val Response<*>.headers: Headers
     get() = headers()
 
