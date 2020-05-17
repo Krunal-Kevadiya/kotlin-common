@@ -147,11 +147,11 @@ class OptionalPreferencesVar<T : Any, V : Any, P : Any>(
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
 private fun onGetPropertyFromClass(clazz: Class<*>): Preference<Any> {
     return when (clazz) {
-        kotlin.Boolean::class.java -> BooleanPreference
-        kotlin.Float::class.java -> FloatPreference
-        kotlin.Int::class.java -> IntPreference
-        kotlin.Long::class.java -> LongPreference
-        kotlin.String::class.java -> StringPreference
+        Boolean::class.java -> BooleanPreference
+        Float::class.java -> FloatPreference
+        Int::class.java -> IntPreference
+        Long::class.java -> LongPreference
+        String::class.java -> StringPreference
 
         java.lang.Boolean::class.java -> BooleanPreference
         java.lang.Float::class.java -> FloatPreference

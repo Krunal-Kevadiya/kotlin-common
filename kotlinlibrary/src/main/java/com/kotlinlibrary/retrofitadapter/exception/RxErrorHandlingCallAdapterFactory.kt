@@ -66,7 +66,7 @@ class RxErrorHandlingCallAdapterFactory(val context: Context) : CallAdapter.Fact
                 is MalformedJsonException -> RetrofitException.malformedJsonError(throwable)
                 is HttpException -> {
                     val response = throwable.response()
-                    RetrofitException.httpError(response.raw().request().url().toString(), response, retrofit)
+                    RetrofitException.httpError(response?.raw()?.request?.url?.toString(), response, retrofit)
                 }
                 is IOException -> RetrofitException.networkError(throwable)
                 else -> RetrofitException.unexpectedError(throwable)

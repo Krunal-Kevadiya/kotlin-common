@@ -8,6 +8,8 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlinlibrary.R
 import com.kotlinlibrary.loadmore.callback.OnRepeatListener
+import com.kotlinlibrary.utils.ktx.fromApi
+import com.kotlinlibrary.utils.ktx.toApi
 
 interface ErrorItem {
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
@@ -23,9 +25,10 @@ interface ErrorItem {
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, onRepeatListener: OnRepeatListener?) {
                 val btnRepeat = holder.itemView.findViewById<View>(R.id.btnRepeat) as Button
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                fromApi(Build.VERSION_CODES.LOLLIPOP, true) {
                     btnRepeat.setBackgroundResource(R.drawable.loadmore_button_ripple)
-                } else {
+                }
+                toApi(Build.VERSION_CODES.LOLLIPOP) {
                     btnRepeat.setBackgroundResource(R.drawable.loadmore_button_selector)
                 }
 

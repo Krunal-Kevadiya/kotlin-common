@@ -1,7 +1,6 @@
 package com.kotlinlibrary.retrofitadapter.livedata
 
 import androidx.lifecycle.LiveData
-import com.google.gson.Gson
 import com.kotlinlibrary.retrofitadapter.SealedApiResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type

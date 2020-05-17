@@ -43,13 +43,10 @@ class NoPaginate constructor(option: NoPaginateBuilder.()-> Unit) : OnAdapterCha
 
     private fun setupDirection() {
         if(builder.direction == Direction.UP) {
-            when {
-                builder.recyclerView.layoutManager is LinearLayoutManager ->
-                    (builder.recyclerView.layoutManager as LinearLayoutManager).reverseLayout = true
-                builder.recyclerView.layoutManager is GridLayoutManager ->
-                    (builder.recyclerView.layoutManager as GridLayoutManager).reverseLayout = true
-                builder.recyclerView.layoutManager is StaggeredGridLayoutManager ->
-                    (builder.recyclerView.layoutManager as StaggeredGridLayoutManager).reverseLayout = true
+            when (builder.recyclerView.layoutManager) {
+                is LinearLayoutManager -> (builder.recyclerView.layoutManager as LinearLayoutManager).reverseLayout = true
+                is GridLayoutManager -> (builder.recyclerView.layoutManager as GridLayoutManager).reverseLayout = true
+                is StaggeredGridLayoutManager -> (builder.recyclerView.layoutManager as StaggeredGridLayoutManager).reverseLayout = true
                 else -> { }
             }
         }
@@ -162,13 +159,13 @@ class NoPaginate constructor(option: NoPaginateBuilder.()-> Unit) : OnAdapterCha
      */
     fun unbind() {
         builder.recyclerView.removeOnScrollListener(scrollListener)
-        when {
-            builder.recyclerView.layoutManager is LinearLayoutManager -> {
+        when (builder.recyclerView.layoutManager) {
+            is LinearLayoutManager -> {
                 wrapperAdapter?.unbind()
                 userAdapter.unregisterAdapterDataObserver(wrapperAdapterObserver!!)
                 builder.recyclerView.adapter = userAdapter
             }
-            builder.recyclerView.layoutManager is GridLayoutManager -> {
+            is GridLayoutManager -> {
                 if(wrapperSpanSizeLookup != null) {
                     val spanSizeLookup = wrapperSpanSizeLookup!!.wrappedSpanSizeLookup
                     (builder.recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = spanSizeLookup

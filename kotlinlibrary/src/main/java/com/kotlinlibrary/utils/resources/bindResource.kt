@@ -61,36 +61,36 @@ interface ResourcesAware {
     return when {
       typed("drawable", Drawable::class.java) -> resources.getDrawable(id)
 
-      typed("bool", kotlin.Boolean::class.java) -> resources.getBoolean(id)
+      typed("bool", Boolean::class.java) -> resources.getBoolean(id)
       typed("bool", java.lang.Boolean::class.java) -> resources.getBoolean(id)
 
-      typed("integer", kotlin.Int::class.java) -> resources.getInteger(id)
+      typed("integer", Int::class.java) -> resources.getInteger(id)
       typed("integer", java.lang.Integer::class.java) -> resources.getInteger(id)
 
-      typed("color", kotlin.Int::class.java) -> resources.getColor(id)
+      typed("color", Int::class.java) -> resources.getColor(id)
       typed("color", java.lang.Integer::class.java) -> resources.getColor(id)
       typed("color", ColorStateList::class.java) -> resources.getColorStateList(id)
 
-      typed("dimen", kotlin.Float::class.java) -> resources.getDimension(id)
+      typed("dimen", Float::class.java) -> resources.getDimension(id)
       typed("dimen", java.lang.Float::class.java) -> resources.getDimension(id)
 
-      typed("dimen", kotlin.Int::class.java) -> resources.getDimension(id)
+      typed("dimen", Int::class.java) -> resources.getDimension(id)
       typed("dimen", java.lang.Integer::class.java) -> resources.getDimension(id)
 
-      typed("string", kotlin.String::class.java) -> resources.getString(id)
+      typed("string", String::class.java) -> resources.getString(id)
       typed("string", java.lang.String::class.java) -> resources.getString(id)
 
-      typed("string", kotlin.CharSequence::class.java) -> resources.getText(id)
+      typed("string", CharSequence::class.java) -> resources.getText(id)
       typed("string", java.lang.CharSequence::class.java) -> resources.getText(id)
 
       typed("array", IntArray::class.java) -> resources.getIntArray(id)
-      typed("array", Array<kotlin.Int>::class.java) -> resources.getIntArray(id)
-      typed("array", Array<java.lang.Integer>::class.java) -> resources.getIntArray(id)
+      typed("array", Array<Int>::class.java) -> resources.getIntArray(id)
+      typed("array", Array<Integer>::class.java) -> resources.getIntArray(id)
 
-      typed("array", Array<kotlin.String>::class.java) -> resources.getStringArray(id)
+      typed("array", Array<String>::class.java) -> resources.getStringArray(id)
       typed("array", Array<java.lang.String>::class.java) -> resources.getStringArray(id)
 
-      typed("array", Array<kotlin.CharSequence>::class.java) -> resources.getTextArray(id)
+      typed("array", Array<CharSequence>::class.java) -> resources.getTextArray(id)
       typed("array", Array<java.lang.CharSequence>::class.java) -> resources.getTextArray(id)
 
       else -> throw UnsupportedOperationException("Unsupported resource (name = \"${resources.getResourceName(id)}\", type = \"${clazz.canonicalName}\")")

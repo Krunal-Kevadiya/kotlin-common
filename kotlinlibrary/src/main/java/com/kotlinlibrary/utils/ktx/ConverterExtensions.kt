@@ -1,5 +1,7 @@
 package com.kotlinlibrary.utils.ktx
 
+import java.util.*
+
 /**
  * Takes a number, a length unit, and a new unit and converts the number to the new unit.
  * Accepted units: inches, feet, yards, miles, millimeters, centimeters, meters, kilometers
@@ -15,8 +17,8 @@ fun Double?.lengthConvert(originalUnit: String, desiredUnit: String): Double {
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
     //  Also convert them to lower case
-    val original = originalUnit.toLowerCase()
-    val newU = desiredUnit.toLowerCase()
+    val original = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = desiredUnit.toLowerCase(Locale.ROOT)
     //  Now there is a series of if statements to check which units are being converted from/to and
     //  to do the proper operation
     when (original) {
@@ -198,8 +200,8 @@ fun Double?.tempConvert(originalUnit: String, desiredUnit: String): Double { // 
     val num3: Double
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
     //  Also convert them to lower case
-    val original = originalUnit.toLowerCase()
-    val newU = desiredUnit.toLowerCase()
+    val original = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = desiredUnit.toLowerCase(Locale.ROOT)
 
     when (original) {
         //  Begin conversion table
@@ -247,8 +249,8 @@ fun Double?.volumeConvert(originalUnit: String, desiredUnit: String): Double { /
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
     //  Also convert them to lower case
-    val original = originalUnit.toLowerCase()
-    val newU = desiredUnit.toLowerCase()
+    val original = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = desiredUnit.toLowerCase(Locale.ROOT)
 
     when (original) {
         //  Begin conversion table
@@ -335,8 +337,8 @@ fun Double?.massConvert(originalUnit: String, desiredUnit: String): Double { // 
     var num2 = 0.0
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
     //  Also convert them to lower case
-    val original = originalUnit.toLowerCase()
-    val newU = desiredUnit.toLowerCase()
+    val original = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = desiredUnit.toLowerCase(Locale.ROOT)
 
     when (original) {
         //  Begin conversion table
@@ -384,8 +386,8 @@ fun Double?.pressureConvert(originalUnit: String, desiredUnit: String): Double {
     val num2: Double
     //  Store the units into new strings. I find this to be safer, as I can't override the originals this way.
     //  Also convert them to lower case
-    val original = originalUnit.toLowerCase()
-    val newU = desiredUnit.toLowerCase()
+    val original = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = desiredUnit.toLowerCase(Locale.ROOT)
 
     when (original) {
         "torr" -> num2 = when (newU) {
@@ -430,8 +432,8 @@ fun Double?.timeConvert(originalUnit: String, newUnit: String): Double { //  Beg
     //  Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     //  Make two strings, capturing the units fed to the method
-    val originalU = originalUnit.toLowerCase()
-    val newU = newUnit.toLowerCase()
+    val originalU = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = newUnit.toLowerCase(Locale.ROOT)
     //  The series of if statements below figures out what unit to convert from/to, and does so.
     //  Convert from seconds
     when {
@@ -530,8 +532,8 @@ fun Double?.forceConvert(originalUnit: String, newUnit: String): Double { // Beg
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
-    val originalU = originalUnit.toLowerCase()
-    val newU = newUnit.toLowerCase()
+    val originalU = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = newUnit.toLowerCase(Locale.ROOT)
     // The series of switch statements below figures out what unit to convert from/to, and does so.
     when (originalU) {
         "pound force" -> when (newU) {
@@ -561,8 +563,8 @@ fun Double?.speedConvert(originalUnit: String, newUnit: String): Double { // Beg
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
-    val originalU = originalUnit.toLowerCase()
-    val newU = newUnit.toLowerCase()
+    val originalU = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = newUnit.toLowerCase(Locale.ROOT)
     // The series of if statements below figures out what unit to convert from/to, and does so.
     when (originalU) {
         // Begin conversion table
@@ -625,8 +627,8 @@ fun Double?.areaConvert(originalUnit: String, newUnit: String): Double { // Begi
     // Make two doubles, one that holds the original and one that will be redefined where needed
     var num2 = 0.0
     // Make two strings, capturing the units fed to the method
-    val originalU = originalUnit.toLowerCase()
-    val newU = newUnit.toLowerCase()
+    val originalU = originalUnit.toLowerCase(Locale.ROOT)
+    val newU = newUnit.toLowerCase(Locale.ROOT)
 
     when (originalU) {
         // Begin unit conversions
@@ -729,8 +731,8 @@ fun Double?.metricConvert(originalUnit: String, newUnit: String): Double { // Be
     var finalNum = 0.0
     var tenP: Double
     // I like to grab the two strings to prevent accidental editing/deletion. I also send them to lower case.
-    val originalUn = originalUnit.toLowerCase()
-    val newUn = newUnit.toLowerCase()
+    val originalUn = originalUnit.toLowerCase(Locale.ROOT)
+    val newUn = newUnit.toLowerCase(Locale.ROOT)
     val originalU: String
     originalU = if (originalUn.contains(" ")) {
         originalUn.substring(0, originalUn.indexOf(" "))

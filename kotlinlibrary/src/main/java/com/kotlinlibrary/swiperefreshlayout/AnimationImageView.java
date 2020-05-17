@@ -2,9 +2,9 @@ package com.kotlinlibrary.swiperefreshlayout;
 
 import android.content.Context;
 import android.view.animation.Animation;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 
-class AnimationImageView extends ImageView {
+class AnimationImageView extends AppCompatImageView {
 
     private Animation.AnimationListener mListener;
 
