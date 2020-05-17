@@ -11,7 +11,7 @@ class WrapperAdapter internal constructor(
     private val loadingItem: LoadingItem,
     private val errorItem: ErrorItem
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var paginateStatus = PaginateStatus.LOADING
+    private var paginateStatus = PaginateStatus.NO_SET
     private var repeatListener: OnRepeatListener? = null
 
     private val errorOrLoadingItemPosition: Int
