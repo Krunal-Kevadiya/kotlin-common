@@ -9,7 +9,6 @@ import android.content.ContextWrapper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.Fragment as SupportFragment
 
 @Suppress("DEPRECATION")
 fun getContextFromSource(source: Any): Context {

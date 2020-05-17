@@ -29,14 +29,14 @@ fun buildTextDrawable(text: String, width: Int = 500, height: Int = 500, argColo
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
         // draw text
-        val fontSize = Math.min(width, height) / 2
+        val fontSize = width.coerceAtMost(height) / 2
         textSize = fontSize.toFloat()
     }
 
     val mText = if (text.length > 2) {
-        text.toUpperCase().substring(IntRange(0, 1)).trim()
+        text.toUpperCase(Locale.ROOT).substring(IntRange(0, 1)).trim()
     } else {
-        text.toUpperCase().trim()
+        text.toUpperCase(Locale.ROOT).trim()
     }
     canvas.drawText(
         mText,

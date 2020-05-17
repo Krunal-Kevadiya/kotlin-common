@@ -17,7 +17,7 @@ fun String.asDateDate(format :String? = "yyyy-MM-dd HH:mm:ss") :Date? = try {
 }
 
 fun String.asDateLong(format :String? = "yyyy-MM-dd HH:mm:ss") :Long? = try {
-    SimpleDateFormat(format, Locale.getDefault()).parse(this).time
+    SimpleDateFormat(format, Locale.getDefault()).parse(this)?.time
 } catch(e :Exception) {
     logs(e)
     null
@@ -103,7 +103,7 @@ fun Date.month(): Int {
     return this.toCalendar().get(Calendar.MONTH) + 1
 }
 
-fun Date.monthName(locale: Locale? = Locale.getDefault()): String {
+fun Date.monthName(locale: Locale = Locale.getDefault()): String? {
     return this.toCalendar().getDisplayName(Calendar.MONTH, Calendar.LONG, locale)
 }
 
@@ -119,7 +119,7 @@ fun Date.dayOfWeek(): Int {
     return this.toCalendar().get(Calendar.DAY_OF_WEEK)
 }
 
-fun Date.dayOfWeekName(locale: Locale? = Locale.getDefault()): String {
+fun Date.dayOfWeekName(locale: Locale = Locale.getDefault()): String? {
     return this.toCalendar().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale)
 }
 

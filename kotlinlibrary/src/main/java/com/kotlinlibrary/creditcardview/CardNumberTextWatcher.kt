@@ -6,6 +6,7 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import androidx.core.content.ContextCompat
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.fromApi
 import com.kotlinlibrary.utils.ktx.logs
 
 abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextInputLayout) : TextWatcher {
@@ -25,7 +26,7 @@ abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextI
         if (source.toString() != currentText) {
             source = source.toString().replace(CardValidator.CARD_SEPARATORS, "")
             val result = StringBuilder()
-            for (i in 0 until source.length) {
+            for (i in source.indices) {
                 if (i % 4 == 0 && i != 0) {
                     result.append(CardValidator.CARD_SEPARATORS)
                 }
@@ -65,7 +66,7 @@ abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextI
         if (card != null) {
             val maxLength = Integer.parseInt(card.maxLength.toString())
             filterArray[0] = InputFilter.LengthFilter(getSpacedPanLength(maxLength))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            fromApi(Build.VERSION_CODES.JELLY_BEAN_MR1, true) {
                 mCardTextInputLayout.editText!!.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     null,
                     null,
@@ -75,7 +76,7 @@ abstract class CardNumberTextWatcher(private val mCardTextInputLayout: CardTextI
             }
         } else {
             filterArray[0] = InputFilter.LengthFilter(getSpacedPanLength(19))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            fromApi(Build.VERSION_CODES.JELLY_BEAN_MR1, true) {
                 mCardTextInputLayout.editText!!.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     null,
                     null,

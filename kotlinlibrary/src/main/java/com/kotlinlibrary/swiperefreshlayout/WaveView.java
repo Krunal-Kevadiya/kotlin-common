@@ -151,8 +151,9 @@ public class WaveView extends View implements ViewTreeObserver.OnPreDrawListener
         double c =
                 Math.pow(q - circleCenterY, 2) + Math.pow(circleCenterX, 2) - Math.pow(mDropCircleRadius,
                         2);
-        double p1 = (-b + Math.sqrt(b * b - 4 * c)) / 2;
-        double p2 = (-b - Math.sqrt(b * b - 4 * c)) / 2;
+        double sqrt = Math.sqrt(b * b - 4 * c);
+        double p1 = (-b + sqrt) / 2;
+        double p2 = (-b - sqrt) / 2;
         mDropTangentPath.lineTo((float) p1, (float) q);
         mDropTangentPath.lineTo((float) p2, (float) q);
         mDropTangentPath.close();

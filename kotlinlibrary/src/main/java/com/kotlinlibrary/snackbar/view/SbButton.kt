@@ -2,10 +2,10 @@ package com.kotlinlibrary.snackbar.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.TextView
 import com.kotlinlibrary.R
+import androidx.appcompat.widget.AppCompatTextView;
 
-internal class SbButton : TextView {
+internal class SbButton : AppCompatTextView {
 
     constructor(context: Context) : this(context, null)
 

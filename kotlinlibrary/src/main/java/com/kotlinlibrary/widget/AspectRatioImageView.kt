@@ -1,14 +1,13 @@
 package com.kotlinlibrary.widget
 
-import android.annotation.TargetApi
+import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.kotlinlibrary.R
 
 @Suppress("unused")
-class AspectRatioImageView : ImageView {
+class AspectRatioImageView : AppCompatImageView {
     private var widthRatio: Int = 0
     private var heightRatio: Int = 0
 
@@ -24,11 +23,7 @@ class AspectRatioImageView : ImageView {
         init(context, attrs, defStyleAttr, 0)
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        init(context, attrs, defStyleAttr, defStyleRes)
-    }
-
+    @SuppressLint("CustomViewStyleable")
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         if (attrs == null) {
             return
