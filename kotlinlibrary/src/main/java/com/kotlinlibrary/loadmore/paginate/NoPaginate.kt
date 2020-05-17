@@ -87,7 +87,7 @@ class NoPaginate constructor(option: NoPaginateBuilder.()-> Unit) : OnAdapterCha
 
     override fun onAdapterChange() {
         builder.recyclerView.post {
-            val status = PaginateStatus.getStatus(isLoadedAllItems, isError)
+            val status = PaginateStatus.getStatus(isLoadedAllItems, isError, isLoading)
             wrapperAdapter?.stateChanged(status)
             checkScroll()
         }
