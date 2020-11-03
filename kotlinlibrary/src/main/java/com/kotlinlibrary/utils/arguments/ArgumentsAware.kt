@@ -140,14 +140,14 @@ private fun <T> createTypeAdapterFor(clazz: Class<T>): Adapter<T> {
     }
 
     return when {
-        typed(kotlin.Boolean::class.java) -> BooleanAdapter
-        typed(kotlin.Double::class.java) -> DoubleAdapter
-        typed(kotlin.Int::class.java) -> IntAdapter
-        typed(kotlin.Long::class.java) -> LongAdapter
-        typed(kotlin.String::class.java) -> StringAdapter
-        typed(kotlin.CharSequence::class.java) -> CharSequenceAdapter
-        typed(kotlin.Float::class.java) -> FloatAdapter
-        typed(kotlin.Enum::class.java) -> EnumAdapter(clazz as Class<Enum<*>>)
+        typed(Boolean::class.java) -> BooleanAdapter
+        typed(Double::class.java) -> DoubleAdapter
+        typed(Int::class.java) -> IntAdapter
+        typed(Long::class.java) -> LongAdapter
+        typed(String::class.java) -> StringAdapter
+        typed(CharSequence::class.java) -> CharSequenceAdapter
+        typed(Float::class.java) -> FloatAdapter
+        typed(Enum::class.java) -> EnumAdapter(clazz as Class<Enum<*>>)
 
         typed(java.lang.Boolean::class.java) -> BooleanAdapter
         typed(java.lang.Double::class.java) -> DoubleAdapter

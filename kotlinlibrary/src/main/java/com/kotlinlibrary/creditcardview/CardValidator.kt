@@ -1,6 +1,5 @@
 package com.kotlinlibrary.creditcardview
 
-import java.util.Arrays
 import kotlin.collections.ArrayList
 import kotlin.collections.dropLastWhile
 import kotlin.collections.forEach
@@ -34,7 +33,7 @@ class CardValidator(cardNo: String) {
     }
 
     private fun addAllNumber(): Int {
-        return (0 until cardNumber!!.length).sumBy {
+        return (cardNumber!!.indices).sumBy {
             if (cardNumber!!.length % 2 != 0)
                 multiplyOddByTwo(it + 1, Integer.parseInt(cardNumber!![it].toString()))
             else
@@ -54,7 +53,7 @@ class CardValidator(cardNo: String) {
     fun guessCard(): Card? {
         for (cardEnum in CardEnum.values()) {
             val startWiths =
-                ArrayList(Arrays.asList(*cardEnum.startWith.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                ArrayList(listOf(*cardEnum.startWith.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
             startWiths
                 .map { cardStartIndex -> cardStartIndex.trim { it <= ' ' } }
                 .forEach { cardStartIndex ->
@@ -94,7 +93,7 @@ class CardValidator(cardNo: String) {
 
     private fun fetchPossibleLength(cardEnum: CardEnum): ArrayList<Int> {
         val lengths =
-            ArrayList(Arrays.asList(*cardEnum.length.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            ArrayList(listOf(*cardEnum.length.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
         val possibleLengths = ArrayList<Int>()
         for (length in lengths) {
             if (length.contains("-")) {

@@ -17,8 +17,8 @@ class RetrofitException(
 ) : RuntimeException(message, exception) {
 
     companion object {
-        fun httpError(url: String, response: Response<*>, retrofit: Retrofit): RetrofitException {
-            val message = response.code().toString() + " " + response.message()
+        fun httpError(url: String?, response: Response<*>?, retrofit: Retrofit): RetrofitException {
+            val message = response?.code()?.toString() + " " + response?.message()
             return RetrofitException(message, url, response, Kind.HTTP, null, retrofit)
         }
 

@@ -117,9 +117,9 @@ class ProgressButton : AppCompatButton {
                 }
             }
             if (typedArray.hasValue(R.styleable.ProgressButton_pb_gradient_positions)) {
-                typedArray.getResourceId(R.styleable.ProgressButton_pb_gradient_positions, -1).let {
-                    if (it != -1) {
-                        pbGradientPositions = context.resources.getStringArray(it).map { it.toFloat() }.toFloatArray()
+                typedArray.getResourceId(R.styleable.ProgressButton_pb_gradient_positions, -1).let { positions ->
+                    if (positions != -1) {
+                        pbGradientPositions = context.resources.getStringArray(positions).map { it.toFloat() }.toFloatArray()
                     }
                 }
             }

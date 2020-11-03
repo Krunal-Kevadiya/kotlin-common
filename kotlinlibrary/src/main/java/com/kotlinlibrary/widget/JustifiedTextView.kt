@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import java.util.ArrayList
 import java.util.Random
 
-class JustifiedTextView : TextView {
+class JustifiedTextView : AppCompatTextView {
     // Object that helps us to measure the words and characters like spaces.
     private lateinit var mPaint: Paint
     // Thin space character that will fill the spaces

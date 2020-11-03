@@ -15,7 +15,6 @@ buildscript {
     dependencies {
         classpath depend.buildPlugins.androidPlugin
         classpath depend.buildPlugins.kotlinPlugin
-        
         //classpath depend.buildPlugins.jacocoPlugin
         //classpath depend.buildPlugins.sonarqubePlugin
         //classpath depend.buildPlugins.detektPlugin

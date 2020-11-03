@@ -40,16 +40,16 @@ ext {
 
     versions = [
             android     : [
-                    buildToolsVersion: "28.0.2",
-                    compileSdkVersion: 29,
+                    buildToolsVersion: "30.0.2",
+                    compileSdkVersion: 30,
                     minSdkVersion    : 21,
-                    targetSdkVersion : 29,
+                    targetSdkVersion : 30,
                     appVersionCode   : 1,
                     appVersionName   : "1.0"
             ],
             gradlePlugin: [
-                    android  : '3.2.1',
-                    kotlin   : "1.3.31",
+                    android  : '4.1.0',
+                    kotlin   : "1.4.10",
                     jacoco   : "0.1.4",
                     sonarqube: "2.7.1",
                     detekt   : "1.0.0-RC14",
@@ -67,7 +67,7 @@ ext {
                     commonJava8    : "2.2.0-alpha01",
                     compiler       : "2.2.0-alpha01",
                     extensions     : "2.2.0-alpha01",
-                    livedata       : "2.2.0-alpha01",
+                    livedata       : '2.3.0-beta01',
                     livedataCode   : "2.2.0-alpha01",
                     reactiveStreams: "2.2.0-alpha01",
                     runtime        : "2.2.0-alpha01",
@@ -91,7 +91,7 @@ ext {
                     sqliteFramework: "2.0.0-rc01"
             ],
             constraint  : [
-                    lib   : "2.0.0-beta1",
+                    lib   : '2.0.4',
                     solver: "1.1.2"
             ],
             espresso    : [
@@ -116,7 +116,7 @@ ext {
             ],
             androidX    : [
                     vectorDrawableAnimated : "1.0.0",
-                    appcompat              : "1.0.0",
+                    appcompat              : '1.2.0',
                     asynClayoutInflater    : "1.0.0",
                     car                    : "1.0.0-alpha5",
                     cardview               : "1.0.0",
@@ -125,10 +125,10 @@ ext {
                     cursorAdapter          : "1.0.0",
                     browser                : "1.0.0",
                     customview             : "1.0.0",
-                    material               : "1.0.0-rc01",
+                    material               : '1.3.0-alpha03',
                     documentFile           : "1.0.0",
                     drawerlayout           : "1.0.0",
-                    exifInterface          : "1.0.0",
+                    exifInterface          : '1.3.1',
                     gridlayout             : "1.0.0",
                     heifWriter             : "1.0.0",
                     interpolator           : "1.0.0",
@@ -148,7 +148,7 @@ ext {
                     print                  : "1.0.0",
                     recommendation         : "1.0.0",
                     recyclerviewSelection  : "1.0.0",
-                    recyclerview           : "1.0.0",
+                    recyclerview           : '1.1.0',
                     sliceBuilders          : "1.0.0",
                     sliceCore              : "1.0.0",
                     sliceView              : "1.0.0",
@@ -168,7 +168,7 @@ ext {
                     v13                    : "1.0.0",
                     v4                     : "1.0.0",
                     vectorDrawable         : "1.0.0",
-                    swipereFreshlayout     : "1.0.0",
+                    swipereFreshlayout     : '1.1.0',
                     textClassifier         : "1.0.0",
                     transition             : "1.0.0",
                     versionedParcelable    : "1.0.0",
@@ -192,9 +192,9 @@ ext {
                     work              : "1.0.0-alpha10"
             ],
             retrofit    : [
-                    lib              : "2.4.0",
-                    adapterRx2       : "2.4.0",
-                    gson             : "2.4.0",
+                    lib              : '2.9.0',
+                    adapterRx2       : '2.9.0',
+                    gson             : '2.9.0',
                     liveAdapterRx2   : "1.0.0",
                     coroutinesAdapter: "0.9.2"
             ],
@@ -206,7 +206,7 @@ ext {
                     androidSupportCompiler: "2.16"
             ],
             kotlin      : [
-                    stdlib            : "1.3.10",
+                    stdlib            : '1.4.10',
                     extensions        : "1.3.10",
                     testing           : "1.3.10",
                     testJunit         : "1.3.10",
@@ -218,14 +218,14 @@ ext {
                     annotations       : "1.3.10",
                     annotationsAndroid: "1.3.10",
                     coroutinesAndroid : "1.0.1",
-                    coroutinesCore    : "1.0.1"
+                    coroutinesCore    : '1.4.0'
             ],
             google      : [
                     services : "4.1.0",
                     auth     : "16.0.1",
                     ads      : "16.0.0",
                     identity : "16.0.0",
-                    location : "17.0.0",
+                    location : '17.1.0',
                     base     : "16.0.1",
                     analytics: "16.0.4",
                     gcm      : "16.0.0",
@@ -254,12 +254,12 @@ ext {
                     transformations: "3.1.0"
             ],
             okHttp      : [
-                    lib    : "3.11.0",
-                    logging: "3.11.0"
+                    lib    : '4.9.0',
+                    logging: '4.9.0'
             ],
             javaxAndRx  : [
-                    android2    : "2.1.0",
-                    java2       : "2.2.2",
+                    android2    : '2.1.1',
+                    java2       : '2.2.20',
                     annotations : "1.2",
                     rxkotlin    : "2.3.0",
                     rxMath      : "1.0.0",
@@ -271,7 +271,7 @@ ext {
                     lib   : "2.9.8@aar"
             ],
             amazon      : [
-                    s3     : "2.7.5",
+                    s3     : '2.19.1',
                     core   : "2.7.5",
                     cognito: "2.7.5"
             ],
@@ -312,7 +312,7 @@ ext {
             thirdParty  : [
                     pleaseAnimate : "1.0.4",
                     eventbus      : "3.1.1",
-                    gson          : "2.8.5",
+                    gson          : '2.8.6',
                     timeago       : "3.0.1",
                     socketIo      : "1.0.0",
                     commonsLogging: "1.2",

@@ -13,7 +13,6 @@ import android.os.Build.VERSION_CODES.M
 import android.text.Spanned
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
@@ -36,6 +35,8 @@ import com.kotlinlibrary.snackbar.util.getStatusBarHeightInPx
 import com.kotlinlibrary.snackbar.view.SbButton
 import com.kotlinlibrary.snackbar.view.SbProgress
 import com.kotlinlibrary.snackbar.view.ShadowView
+import com.kotlinlibrary.utils.ktx.fromApi
+import com.kotlinlibrary.utils.ktx.toApi
 
 internal class SnackbarView(context: Context) : LinearLayout(context) {
 
@@ -89,8 +90,8 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
         val snackbarViewLp = RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         val statusBarHeight = activity.getStatusBarHeightInPx()
 
-        val snackbarViewContentLp =
-            findViewById<LinearLayout>(R.id.fbContent).layoutParams as LayoutParams
+        val fbContent: LinearLayout = findViewById(R.id.fbContent)
+        val snackbarViewContentLp = fbContent.layoutParams as LayoutParams
 
         when (gravity) {
             TOP -> {
@@ -102,7 +103,7 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
                 snackbarViewLp.addRule(ALIGN_PARENT_BOTTOM)
             }
         }
-        findViewById<LinearLayout>(R.id.fbContent).layoutParams = snackbarViewContentLp
+        fbContent.layoutParams = snackbarViewContentLp
         layoutParams = snackbarViewLp
     }
 
@@ -115,10 +116,12 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setBarBackgroundDrawable(drawable: Drawable?) {
         if (drawable == null) return
 
-        if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            findViewById<LinearLayout>(R.id.fbContent).background = drawable
-        } else {
-            findViewById<LinearLayout>(R.id.fbContent).setBackgroundDrawable(drawable)
+        val fbContent: LinearLayout = findViewById(R.id.fbContent)
+        fromApi(Build.VERSION_CODES.JELLY_BEAN, true) {
+            fbContent.background = drawable
+        }
+        toApi(Build.VERSION_CODES.JELLY_BEAN) {
+            fbContent.setBackgroundDrawable(drawable)
         }
     }
 
@@ -138,15 +141,17 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setTitle(title: String?) {
         if (TextUtils.isEmpty(title)) return
 
-        findViewById<TextView>(R.id.fbTitle).text = title
-        findViewById<TextView>(R.id.fbTitle).visibility = VISIBLE
+        val fbTitle: TextView = findViewById(R.id.fbTitle)
+        fbTitle.text = title
+        fbTitle.visibility = VISIBLE
     }
 
     internal fun setTitleSpanned(title: Spanned?) {
         if (title == null) return
 
-        findViewById<TextView>(R.id.fbTitle).text = title
-        findViewById<TextView>(R.id.fbTitle).visibility = VISIBLE
+        val fbTitle: TextView = findViewById(R.id.fbTitle)
+        fbTitle.text = title
+        fbTitle.visibility = VISIBLE
     }
 
     internal fun setTitleTypeface(typeface: Typeface?) {
@@ -183,15 +188,17 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setMessage(message: String?) {
         if (TextUtils.isEmpty(message)) return
 
-        findViewById<TextView>(R.id.fbMessage).text = message
-        findViewById<TextView>(R.id.fbMessage).visibility = VISIBLE
+        val fbMessage: TextView = findViewById(R.id.fbMessage)
+        fbMessage.text = message
+        fbMessage.visibility = VISIBLE
     }
 
     internal fun setMessageSpanned(message: Spanned?) {
         if (message == null) return
 
-        findViewById<TextView>(R.id.fbMessage).text = message
-        findViewById<TextView>(R.id.fbMessage).visibility = VISIBLE
+        val fbMessage: TextView = findViewById(R.id.fbMessage)
+        fbMessage.text = message
+        fbMessage.visibility = VISIBLE
     }
 
     internal fun setMessageTypeface(typeface: Typeface?) {
@@ -228,15 +235,17 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setPrimaryActionText(text: String?) {
         if (TextUtils.isEmpty(text)) return
 
-        findViewById<SbButton>(R.id.fbPrimaryAction).text = text
-        findViewById<SbButton>(R.id.fbPrimaryAction).visibility = VISIBLE
+        val fbPrimaryAction: SbButton = findViewById(R.id.fbPrimaryAction)
+        fbPrimaryAction.text = text
+        fbPrimaryAction.visibility = VISIBLE
     }
 
     internal fun setPrimaryActionTextSpanned(text: Spanned?) {
         if (text == null) return
 
-        findViewById<SbButton>(R.id.fbPrimaryAction).text = text
-        findViewById<SbButton>(R.id.fbPrimaryAction).visibility = VISIBLE
+        val fbPrimaryAction: SbButton = findViewById(R.id.fbPrimaryAction)
+        fbPrimaryAction.text = text
+        fbPrimaryAction.visibility = VISIBLE
     }
 
     internal fun setPrimaryActionTextTypeface(typeface: Typeface?) {
@@ -281,17 +290,19 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setPositiveActionText(text: String?) {
         if (TextUtils.isEmpty(text)) return
 
+        val fbPositiveAction: SbButton = findViewById(R.id.fbPositiveAction)
         findViewById<LinearLayout>(R.id.fbSecondaryActionContainer).visibility = VISIBLE
-        findViewById<SbButton>(R.id.fbPositiveAction).text = text
-        findViewById<SbButton>(R.id.fbPositiveAction).visibility = VISIBLE
+        fbPositiveAction.text = text
+        fbPositiveAction.visibility = VISIBLE
     }
 
     internal fun setPositiveActionTextSpanned(text: Spanned?) {
         if (text == null) return
 
+        val fbPositiveAction: SbButton = findViewById(R.id.fbPositiveAction)
         findViewById<LinearLayout>(R.id.fbSecondaryActionContainer).visibility = VISIBLE
-        findViewById<SbButton>(R.id.fbPositiveAction).text = text
-        findViewById<SbButton>(R.id.fbPositiveAction).visibility = VISIBLE
+        fbPositiveAction.text = text
+        fbPositiveAction.visibility = VISIBLE
     }
 
     internal fun setPositiveActionTextTypeface(typeface: Typeface?) {
@@ -336,17 +347,19 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     internal fun setNegativeActionText(text: String?) {
         if (TextUtils.isEmpty(text)) return
 
+        val fbNegativeAction: SbButton = findViewById(R.id.fbNegativeAction)
         findViewById<LinearLayout>(R.id.fbSecondaryActionContainer).visibility = VISIBLE
-        findViewById<SbButton>(R.id.fbNegativeAction).text = text
-        findViewById<SbButton>(R.id.fbNegativeAction).visibility = VISIBLE
+        fbNegativeAction.text = text
+        fbNegativeAction.visibility = VISIBLE
     }
 
     internal fun setNegativeActionTextSpanned(text: Spanned?) {
         if (text == null) return
 
+        val fbNegativeAction: SbButton = findViewById(R.id.fbNegativeAction)
         findViewById<LinearLayout>(R.id.fbSecondaryActionContainer).visibility = VISIBLE
-        findViewById<SbButton>(R.id.fbNegativeAction).text = text
-        findViewById<SbButton>(R.id.fbNegativeAction).visibility = VISIBLE
+        fbNegativeAction.text = text
+        fbNegativeAction.visibility = VISIBLE
     }
 
     internal fun setNegativeActionTextTypeface(typeface: Typeface?) {
@@ -393,9 +406,10 @@ internal class SnackbarView(context: Context) : LinearLayout(context) {
     }
 
     internal fun showIconScale(scale: Float, scaleType: ImageView.ScaleType?) {
-        findViewById<ImageView>(R.id.fbIcon).scaleX = scale
-        findViewById<ImageView>(R.id.fbIcon).scaleY = scale
-        findViewById<ImageView>(R.id.fbIcon).scaleType = scaleType
+        val fbIcon: ImageView = findViewById(R.id.fbIcon)
+        fbIcon.scaleX = scale
+        fbIcon.scaleY = scale
+        fbIcon.scaleType = scaleType
     }
 
     internal fun setIconDrawable(icon: Drawable?) {

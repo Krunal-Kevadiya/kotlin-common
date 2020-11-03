@@ -104,20 +104,16 @@ internal class LocationProvider(
                 val locationManager = context.locationManager
                 if(locationManager != null) {
                     val callback = object : LocationListener {
-                        override fun onLocationChanged(result: Location?) {
-                            result?.let { location ->
+                        override fun onLocationChanged(result: Location) {
+                            result.let { location ->
                                 onUpdate(GeoLocationResult.success(location))
                                 locationManager.removeUpdates(this)
                             }
                         }
+
                         override fun onStatusChanged(result: String?, status: Int, extras: Bundle?) {
                             logs("$result - $status - $extras")
                         }
-                        override fun onProviderEnabled(result: String?) {
-                            logs("$result")
-                        }
-                        override fun onProviderDisabled(result: String?) {
-                            logs("$result")}
                     }
                     if(locationManager.allProviders.contains(LocationManager.GPS_PROVIDER) &&
                         locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

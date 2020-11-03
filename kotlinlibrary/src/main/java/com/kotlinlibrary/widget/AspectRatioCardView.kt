@@ -1,5 +1,6 @@
 package com.kotlinlibrary.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
@@ -21,6 +22,7 @@ class AspectRatioCardView : CardView {
         init(context, attrs, defStyleAttr, 0)
     }
 
+    @SuppressLint("CustomViewStyleable")
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         if (attrs == null) {
             return

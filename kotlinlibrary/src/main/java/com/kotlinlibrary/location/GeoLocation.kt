@@ -1,5 +1,6 @@
 package com.kotlinlibrary.location
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -16,6 +17,7 @@ import com.kotlinlibrary.location.GeoLocation.locationProvider
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.kotlinlibrary.R
+import com.kotlinlibrary.utils.ktx.fromApi
 import com.kotlinlibrary.utils.ktx.logs
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -299,11 +301,12 @@ object GeoLocation {
      * @param context The Android context
      * @param pendingIntent Used to open permission activity
      */
+    @SuppressLint("NewApi")
     private fun showPermissionNotification(context: Context, pendingIntent: PendingIntent) {
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
                 ?: return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        fromApi(Build.VERSION_CODES.O, true) {
             val channel =
                 NotificationChannel(
                     "permission_channel",
@@ -317,7 +320,7 @@ object GeoLocation {
             setContentText("This feature requires location permission to access device location. Please allow to access device location")
             setSmallIcon(R.drawable.ic_location_on)
             addAction(NotificationCompat.Action.Builder(0, "Grant", pendingIntent).build())
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            fromApi(Build.VERSION_CODES.N) {
                 priority = NotificationManager.IMPORTANCE_HIGH
             }
             setAutoCancel(true)

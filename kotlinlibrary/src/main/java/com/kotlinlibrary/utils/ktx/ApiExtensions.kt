@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.IntRange
 
 inline fun toApi(
-    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.P.toLong()) toVersion: Int,
+    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.R.toLong()) toVersion: Int,
     inclusive: Boolean = false,
     action: () -> Unit
 ) {
@@ -12,7 +12,7 @@ inline fun toApi(
 }
 
 inline fun fromApi(
-    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.P.toLong()) fromVersion: Int,
+    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.R.toLong()) fromVersion: Int,
     inclusive: Boolean = false,
     action: () -> Unit
 ) {
@@ -20,7 +20,7 @@ inline fun fromApi(
 }
 
 inline fun doApi(
-    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.P.toLong()) version: Int,
+    @IntRange(from=Build.VERSION_CODES.BASE.toLong(), to=Build.VERSION_CODES.R.toLong()) version: Int,
     action: () -> Unit) {
     if (Build.VERSION.SDK_INT == version) action()
 }

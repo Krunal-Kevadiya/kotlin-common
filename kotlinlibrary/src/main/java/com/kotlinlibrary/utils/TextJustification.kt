@@ -35,7 +35,7 @@ object TextJustification {
                     val spaceCount = (trimSpaceText.length - removeSpaceText.length).toFloat()
                     val eachSpaceWidth = (textViewWidth - removeSpaceWidth) / spaceCount
                     val endsSpace = spacePositionInEnds(lineString)
-                    for(j in 0 until lineString.length) {
+                    for(j in lineString.indices) {
                         val c = lineString[j]
                         val drawable = ColorDrawable(0x00ffffff)
 
@@ -59,7 +59,7 @@ object TextJustification {
 
     private fun spacePositionInEnds(string :String) :Set<Int> {
         val result = HashSet<Int>()
-        for(i in 0 until string.length) {
+        for(i in string.indices) {
             val c = string[i]
             if(c == ' ') {
                 result.add(i)

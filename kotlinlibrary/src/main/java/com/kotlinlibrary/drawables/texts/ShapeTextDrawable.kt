@@ -12,33 +12,23 @@ import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
 
-class ShapeTextDrawable : ShapeDrawable {
-    val text: String
-    val textSize: Int
-    private val borderThickness: Int
-    private val radius: Float
+class ShapeTextDrawable(
+    shapeForm: ShapeForm,
+    pColor: Int = Color.GRAY,
+    private val radius: Float = 0f,
+    val text: String = "",
+    textColor: Int = Color.WHITE,
+    textBold: Boolean = false,
+    textFont: Typeface = Typeface.create("sans-serif-light", Typeface.NORMAL),
+    val textSize: Int = -1,
+    borderColor: Int = Color.TRANSPARENT,
+    private val borderThickness: Int = 0
+) : ShapeDrawable() {
     private val textPaint: Paint
     private val borderPaint: Paint
 
-    constructor(
-        shapeForm: ShapeForm,
-        pColor: Int = Color.GRAY,
-        radius: Float = 0f,
-        text: String = "",
-        textColor: Int = Color.WHITE,
-        textBold: Boolean = false,
-        textFont: Typeface = Typeface.create("sans-serif-light", Typeface.NORMAL),
-        textSize: Int = -1,
-        borderColor: Int = Color.TRANSPARENT,
-        borderThickness: Int = 0
-    ) {
-        this.text = text
-        this.textSize = textSize
-        this.borderThickness = borderThickness
-        this.radius = radius
-
+    init {
         paint.color = pColor
-        // text paint settings
         textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.FILL
             color = textColor
@@ -47,13 +37,11 @@ class ShapeTextDrawable : ShapeDrawable {
             textAlign = Paint.Align.CENTER
             strokeWidth = borderThickness.toFloat()
         }
-        // border paint settings
         borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
             color = borderColor
             strokeWidth = borderThickness.toFloat()
         }
-        // paint shape
         when (shapeForm) {
             ShapeForm.ROUND -> this.shape = OvalShape()
             ShapeForm.SQUARE -> if (radius > 0) {
@@ -75,7 +63,7 @@ class ShapeTextDrawable : ShapeDrawable {
         val count = canvas.save()
         canvas.translate(r.left.toFloat(), r.top.toFloat())
         // draw text
-        val fontSize = if (textSize < 0) Math.min(r.width(), r.height()) / 2 else textSize
+        val fontSize = if (textSize < 0) r.width().coerceAtMost(r.height()) / 2 else textSize
         textPaint.textSize = fontSize.toFloat()
 
         canvas.drawText(text, (r.width() / 2).toFloat(), r.height() / 2 - (textPaint.descent() + textPaint.ascent()) / 2, textPaint)
