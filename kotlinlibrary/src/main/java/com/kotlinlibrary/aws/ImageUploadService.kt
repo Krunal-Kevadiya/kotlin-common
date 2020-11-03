@@ -10,11 +10,11 @@ import java.io.File
 class ImageUploadService : JobIntentService() {
     companion object {
         const val INTENT_FILTER_IMAGE_UPLOAD = "file_upload_percentage"
-        const val EXTRA_PERCENTAGE = "${BuildConfig.APPLICATION_ID}.EXTRA_PERCENTAGE"
-        const val EXTRA_STATUS = "${BuildConfig.APPLICATION_ID}.EXTRA_STATUS"
-        const val EXTRA_URL = "${BuildConfig.APPLICATION_ID}.EXTRA_URL"
-        const val EXTRA_BUCKET = "${BuildConfig.APPLICATION_ID}.EXTRA_BUCKET"
-        const val EXTRA_OPTION = "${BuildConfig.APPLICATION_ID}.EXTRA_OPTION"
+        const val EXTRA_PERCENTAGE = "${BuildConfig.LIBRARY_PACKAGE_NAME}.EXTRA_PERCENTAGE"
+        const val EXTRA_STATUS = "${BuildConfig.LIBRARY_PACKAGE_NAME}.EXTRA_STATUS"
+        const val EXTRA_URL = "${BuildConfig.LIBRARY_PACKAGE_NAME}.EXTRA_URL"
+        const val EXTRA_BUCKET = "${BuildConfig.LIBRARY_PACKAGE_NAME}.EXTRA_BUCKET"
+        const val EXTRA_OPTION = "${BuildConfig.LIBRARY_PACKAGE_NAME}.EXTRA_OPTION"
     }
 
     override fun onHandleWork(intent: Intent) {
@@ -25,8 +25,8 @@ class ImageUploadService : JobIntentService() {
             if (!TextUtils.isEmpty(path)) {
                 val file = File(path)
                 if (file.length() > 0) {
-                    val amazonManager = AmazonManager.getInstance(applicationContext, option)
-                    amazonManager.uploadImage(file, bucket, object : ImageUploadListener {
+                    val amazonManager = AmazonManager.getInstance(applicationContext, option!!)
+                    amazonManager.uploadImage(file, bucket!!, object : ImageUploadListener {
                         override fun imageUploadProgress(percentage: Int) {
                             setTotalPercentage(percentage, null)
                         }
